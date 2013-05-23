@@ -61,5 +61,6 @@ grails.project.dependency.resolution = {
         //mine plugins
         compile ":twitter-bootstrap:2.3.0"
         runtime ":email-confirmation:2.0.8"
+        //compile ":monogodb:1.0.0.GA"
     }
 }

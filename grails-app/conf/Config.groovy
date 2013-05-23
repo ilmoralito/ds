@@ -89,3 +89,7 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+ni.edu.uccleon.schools = ["FIA", "FCA", "FCCEE", "FCCEEJJ", "DERECHO", "TURISMO"]
+ni.edu.uccleon.classrooms = ["C101", "C102", "C103", "D101", "D102", "D103"]
+ni.edu.uccleon.datashows = 5

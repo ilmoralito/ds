@@ -1,7 +1,7 @@
 @artifact.package@class @artifact.name@ {
 
 	static defaultAction = "list"
-	static allowedMethods = [list:"GET", create:["GET", "POST"]]
+	static allowedMethods = [list:"GET", create:["GET", "POST"], show:["GET", "POST"], delete:"GET"]
 
     def list() {
     	def domainClassInstance = DomainClass.list()
