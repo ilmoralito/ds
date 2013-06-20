@@ -19,6 +19,7 @@ class User {
         password blank:false
         role inList:['admin', 'user'], maxSize:255
         fullName blank:false
+        schools nullable:false
     }
 
     static namedQueries = {
@@ -37,11 +38,8 @@ class User {
 
         search { criteria ->
             or {
-                    ilike "fullName", "%${criteria}%"
-                    ilike "email",  "%${criteria}%"
-                    schools {
-                        ilike "name", "%${criteria}%"
-                    }
+                ilike "fullName", "%${criteria}%"
+                ilike "email",  "%${criteria}%"
             }
         }
     }

@@ -10,12 +10,14 @@
 	<h4>Registrate</h4>
 
 	<g:hasErrors bean="${cmd}">
-		<small><g:renderErrors bean="${cmd}"/></small>
+		<small>
+			<g:renderErrors bean="${cmd}"/>
+		</small>
 	</g:hasErrors>
 
 	<g:form action="register">
 		<g:render template="form"/>
-		<hr>
+		<br>
 		<g:submitButton name="send" value="Confirmar registro" class="btn"/>
 		<g:link action="login" class="btn">Ir a Login</g:link>
 	</g:form>

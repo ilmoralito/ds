@@ -2,6 +2,8 @@ package ni.edu.uccleon
 
 class RequestController {
 
+    def requestService
+
 	static defaultAction = "list"
 	static allowedMethods = [
         list:"GET",
@@ -9,11 +11,12 @@ class RequestController {
         edit:"GET",
         show:"GET",
         updte:"POST",
-        delete:"GET",
+        delete:["GET", "POST"],
         enabled:"GET",
         requestsBySchools:["GET", "POST"],
         requestsByClassrooms:["GET", "POST"],
-        requestsByUsers:["GET", "POST"]
+        requestsByUsers:["GET", "POST"],
+        disponability:"POST"
     ]
 
     def list() {
@@ -23,10 +26,11 @@ class RequestController {
 
         if (role == "admin") {
             //TODO:display today requests
-            requests = Request.list()
+            requests = Request.todayRequest().list()
+            //requests = Request.list(params)
         } else {
             //TODO:requests must be sorted by dateOfApplication
-            requests = Request.listByUser(user).list()
+            requests = Request.listByUser(user).list(params)
         }
 
     	[requests:requests]
@@ -39,16 +43,30 @@ class RequestController {
             def user = User.findByEmail(session?.user?.email)
 
             //TODO:find a better way to get this
-            params.dateOfApplication = (params.dateOfApplication) ? new Date().parse("yyyy-MM-dd", params?.dateOfApplication) : new Date()
-            params.user = user
+            def dateApp = params?.dateOfApplication
 
-            def req = new Request(params)
+            def req = new Request(
+                dateOfApplication:parseDate(params?.dateOfApplication),
+                classroom:params?.classroom,
+                school:params?.school,
+                description:params?.description,
+                type:params?.type,
+                audio:params?.audio,
+                screen:params?.screen,
+                internet:params?.internet,
+                user:session?.user
+            )
 
-            if (!req.validate()) {
+            if (!req.save()) {
                 return [req:req]
             }
 
-            user.addToRequests(req)
+            redirect controller:"hour", action:"create", params:[
+                dateOfApplication:dateApp,
+                requestId:req.id,
+                requestType:req.type,
+                dayOfApplication:parseDate(params?.dateOfApplication)[Calendar.DAY_OF_WEEK]
+            ]
 
     		flash.message = "data.saved"
     	}
@@ -66,13 +84,10 @@ class RequestController {
         def today = new Date().parse("yyyy-MM", d)
 
         //print today
-
         def criteria = Request.createCriteria()
         def res = criteria.list {
             ge "dateOfApplication", today
         }
-
-        print res
 
         [req:req]
     }
@@ -93,12 +108,10 @@ class RequestController {
 
         if (!req) {
             response.sendError 404
-            return false
         }
 
         if (req.enabled) {
             response.sendError 403
-            return false
         }
 
         //TODO:find a better way to get this
@@ -154,29 +167,83 @@ class RequestController {
         redirect action:"list"
     }
 
-    //REPORTS
-    def requestsBySchools() {
-        def results
+    def disponability(String q) {
+        def requests
 
-        if (request.get) {
-            results = Request.requestsBySchools().list()
+        if (!q) {
+            response.sendError 404
         } else {
-            //results = Request.requestsBySchools().findAllByDateOfApplicationAnd.
+            requests = Request.requestFromTo(q, q).findAllByEnabled(false)
         }
 
-        [results:results]
+        [requests:requests]
     }
 
-    def requestsByClassrooms() {
-        def results = Request.requestsByClassrooms().list()
+    //REPORTS
+    def requestsBy(String from, String to, String type) {
+        def f = parseDate(from)
+        def t = parseDate(to)
+        List results
 
-        [results:results]
+        switch(type) {
+            case "schools":
+                results = (request.get) ? Request.requestsBy("school").list() : Request.requestsBy("school").requestFromTo(f, t).list()
+                break
+            case "classrooms":
+                results = (request.get) ? Request.requestsBy("classroom").list() : Request.requestsBy("classroom").requestFromTo(f, t).list()
+                break
+            case "users":
+                results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(f, t).list()
+                break
+            case "blocks":
+                results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(f, t).list()
+                break
+            case "datashows":
+                results = (request.get) ? Request.requestsBy("datashow").list() : Request.requestsBy("datashow").requestFromTo(f, t).list()
+                break
+        }
+
+        [results:results, total:getTotal(results), type:type]
     }
 
-    def requestsByUsers() {
-        def results = Request.requestsByUsers().list()
+    //LIST BY
+    def listBy(String type) {
+        def requests
 
-        [results:results]
+        switch(type) {
+            case "user":
+                requests = Request.listByUser(session?.user).list(params)
+                break
+        }
+
+        [requests:requests]
+    }
+
+    private parseDate(String date) {
+        Date d
+
+        if (!date) {
+            return null
+        }
+
+        try {
+            d = new Date().parse("yyyy-MM-dd", date)
+        }
+        catch(Exception e) {
+            return null
+        }
+
+        d
+    }
+
+    private getTotal(List results) {
+        def total = 0
+
+        results.each {result ->
+            total += result.count
+        }
+
+        total
     }
 
 }

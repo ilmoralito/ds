@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Mostar solicitud</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<g:hasErrors bean="${req}">
@@ -16,5 +16,12 @@
 		<g:render template="form"/>
 		<g:submitButton name="send" value="Actualizar" class="btn"/>
 	</g:form>
+
+	<h4>Hora(s)</h4>
+	<ul>
+		<g:each in="${req?.hours}" var="hour">
+			<li>Bloque ${hour.block}</li>
+		</g:each>
+	</ul>
 </body>
 </html>

@@ -4,14 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Usuarios</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<g:if test="${users}">
 		<div class="row">
 			<div class="span10">
 				<g:form action="list" class="form-inline pull-right">
-					<g:textField name="q" value="${params?.q}" placeholder="Por Nombre o Correo o Facultad"/>
+					<g:textField name="q" value="${params?.q}" class="span2" placeholder="Por Nombre o Correo"/>
 					<button type="submit" class="btn"><i class="icon-search"></i></button>
 
 					<g:link action="list" params="[confirmed:true]" class="btn">Confirmados</g:link>
@@ -39,6 +39,7 @@
 				</g:each>
 			</tbody>
 		</table>
+
 	</g:if>
 	<g:else>
 		<strong>nothing.to.show</strong>

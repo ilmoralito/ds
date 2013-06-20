@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Mostrar Usuario</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<div class="row">
@@ -21,13 +21,29 @@
 				${user?.email}
 			</p>
 
+			<p>
+				<label for="">Estado</label>
+				<ds:isTrue enabled="${user?.enabled}"><i class="icon-ok"></i></ds:isTrue>
+			</p>
 
-			<label for="">Facultades</label>
-			<ul>
-				<g:each in="${user?.schools}" var="school">
-					<li>${school.name}</li>
-				</g:each>
-			</ul>
+			<g:if test="${user.schools}">
+				<label for="">Facultades</label>
+				<ul>
+					<g:each in="${user?.schools}" var="school">
+						<li>${school.name}</li>
+					</g:each>
+				</ul>
+			</g:if>
+
+			<g:if test="${user.userClassrooms}">
+				<label for="">Aulas</label>
+				<ul>
+					<g:each in="${user.userClassrooms}" var="classroom">
+						<li>${classroom.classroom}</li>
+					</g:each>
+				</ul>
+			</g:if>
+
 		</div>
 		<div class="span5">
 			<h4>Actualizar clave</h4>

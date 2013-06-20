@@ -13,7 +13,7 @@
 <label for="schools">Facultades</label>
 <g:each in="${grailsApplication.config.ni.edu.uccleon.schools}" var="school" status="i">
 	<label class="checkbox">
-		<g:checkBox name="schools[${school}].name" value="${user?.school}"/>
+		<g:checkBox name="${school}" value="${user?.school}"/>
 		${school}
 	</label>
 </g:each>

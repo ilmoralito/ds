@@ -1,5 +1,5 @@
 .main {
-	margin-top: 50px;
+	margin-top: 30px;
 }
 
 .well form {
@@ -8,4 +8,14 @@
 
 .td-mini {
 	width:1px;
+}
+
+.errors {
+	background: red;
+}
+
+.td-detail {
+	border-right:1px solid #DDD;
+	border-left:1px solid #DDD;
+	text-align: center;
 }

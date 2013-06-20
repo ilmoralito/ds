@@ -26,6 +26,8 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
 
+        mavenRepo "http://maven.springframework.org/milestone/"
+
         mavenLocal()
         mavenCentral()
 
@@ -37,6 +39,10 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
+        runtime "hsqldb:hsqldb:1.8.0.10",
+                "postgresql:postgresql:9.1-901-1.jdbc4",
+                "mysql:mysql-connector-java:5.1.25"
+        compile "org.cloudfoundry:cloudfoundry-runtime:0.8.4"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         // runtime 'mysql:mysql-connector-java:5.1.22'
@@ -61,6 +67,8 @@ grails.project.dependency.resolution = {
         //mine plugins
         compile ":twitter-bootstrap:2.3.0"
         runtime ":email-confirmation:2.0.8"
-        //compile ":monogodb:1.0.0.GA"
+        compile ":webxml:1.4.1"
+
+        compile ":jquery-ui:1.8.24"
     }
 }

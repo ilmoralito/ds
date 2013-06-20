@@ -11,8 +11,8 @@
 			<div class="span2">
 				<!--orden de reparacion-->
 				<div class="well well-small">
-					<g:form controller="user" action="actionName" class="form-inline">
-						<g:textField name="q" value="" class="input-small" placeholder="Disponibilidad"/>
+					<g:form controller="request" action="disponability" class="form-inline">
+						<g:textField name="q" value="${params?.q}" class="input-small" placeholder="Disponibilidad"/>
 						<button type="submit" class="btn"><i class="icon-search"></i></button>
 					</g:form>
 				</div>
@@ -20,7 +20,7 @@
 				<ds:isAdmin>
 					<ul class="nav nav-tabs nav-stacked">
 						<li><g:link controller="user" action="list">Usuarios</g:link></li>
-						<li><g:link controller="request" action="requestsBySchools">Reportes</g:link></li>
+						<li><g:link controller="request" action="requestsBy" params="[type:'schools']">Reportes</g:link></li>
 					</ul>
 				</ds:isAdmin>
 
@@ -38,6 +38,7 @@
 			</div>
 			<div class="span10">
 				<g:layoutBody/>
+				<ds:flashMessage><div class="alert alert-info">${flash.message}</div></ds:flashMessage>
 			</div>
 		</div>
 	</div>

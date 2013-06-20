@@ -4,10 +4,19 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer
 
 class Request {
 
+    //def grailsApplication
+
     Date dateOfApplication
     String classroom
     String school
     String description
+    Integer datashow
+    String type
+
+    Boolean audio
+    Boolean screen
+    Boolean internet
+
     Boolean enabled = false
 
 	Date dateCreated
@@ -15,13 +24,23 @@ class Request {
 
     static constraints = {
         dateOfApplication blank:false, validator: {val, obj ->
-            def minimalDate = new Date() + 3
+            def today = new Date()
+            def minDate = today + 2
 
-            return val >= minimalDate
+            if (obj.type == "common") {
+                return val >= minDate.clearTime()
+            } else {
+                return val >= today.clearTime()
+            }
         }
         classroom blank:false
         school blank:false
         description nullable:true, maxSize:10000
+        datashow nullable:true//, range:0..grailsApplication.config.ni.edu.uccleon.datashows
+        type inList:["common", "express"], maxSize:255
+        audio nullable:true
+        screen nullable:true
+        internet nullable:true
     }
 
     static namedQueries = {
@@ -29,39 +48,43 @@ class Request {
             eq "user", user
         }
 
-        //TODO:create request by today
+        listByRole {role ->
+            user {
+                eq "role", role
+            }
+        }
 
-        betweenDates {
+        todayRequest {
+            def today = new Date()
 
+            ge "dateOfApplication", today.clearTime()
+            le "dateOfApplication", today.clearTime()
+        }
+
+        requestFromTo { from, to ->
+            def f = new Date().parse("yyyy-MM-dd", from)
+            def t = new Date().parse("yyyy-MM-dd", to)
+
+            ge "dateOfApplication", f.clearTime()
+            le "dateOfApplication", t.clearTime()
         }
 
         //reports
-        requestsBySchools {
+        requestsBy { property ->
             projections {
-                groupProperty "school", "school"
-                count "school", "count"
+                groupProperty property, "property"
+                count property, "count"
             }
 
             resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
         }
 
-        requestsByClassrooms {
+        requestsByBlocks {
             projections {
-                groupProperty "classroom", "classroom"
-                count "classroom", "count"
-            }
-
-            resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-        }
-
-        requestsByUsers {
-            user {
-                eq "role", "user"
-            }
-
-            projections {
-                groupProperty "user", "users"
-                count "user", "count"
+                hours {
+                    groupProperty "block", "property"
+                    count "block", "count"
+                }
             }
 
             resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
@@ -70,6 +93,7 @@ class Request {
     }
 
     static belongsTo = [user:User]
+    static hasMany = [hours:Hour]
 
     static mapping = {
     	version false

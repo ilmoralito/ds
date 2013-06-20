@@ -39,4 +39,30 @@ class CommonTagLib {
 		}
 	}
 
+	def renderTitle = { attrs ->
+		switch(attrs.title) {
+			case "schools":
+				out << "Facultades"
+			break
+			case "classrooms":
+				out << "Aulas"
+			break
+			case "users":
+				out << "Usuarios"
+			break
+			case "datashows":
+				out << "Datashows"
+			break
+			case "blocks":
+				out << "Bloques"
+			break
+		}
+	}
+
+	def isAnExpressRequest = {attrs, body ->
+		if (attrs.type == "express") {
+			out << body()
+		}
+	}
+
 }

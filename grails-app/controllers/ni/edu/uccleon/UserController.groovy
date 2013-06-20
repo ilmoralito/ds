@@ -3,6 +3,7 @@ package ni.edu.uccleon
 class UserController {
 
     def userService
+    def emailConfirmationService
 
 	static defaultAction = "login"
     static allowedMethods = [
@@ -19,6 +20,8 @@ class UserController {
 
     def list() {
     	def users
+        def max = Math.min(params.int('max') ?: 3, 100)
+        def offset = params.int('offset') ?: 0
 
     	if (!params.confirmed) {
     		users = User.listByRole("user").list()
@@ -27,7 +30,7 @@ class UserController {
     	}
 
     	if (request.post) {
-    		users = User.listByRole("user").search(params.q).list()
+    		users = User.listByRole("user").search("%${params?.q}%").list()
     	}
 
         [users:users]
@@ -86,7 +89,8 @@ class UserController {
         def user = User.findByEmail(session?.user?.email)
 
         if (request.post) {
-            user.properties["email", "fullName"] = params
+            //user.properties["email", "fullName"] = params
+            user.properties = params
             //update session.user email property
             session?.user?.email = params.email
 
@@ -117,7 +121,6 @@ class UserController {
         redirect action:(params.path) ?: "password", params:[id:cmd.id]
     }
 
-
     def login(String email, String password) {
         if (request.post) {
             def user = User.login(email, password).get()
@@ -134,18 +137,34 @@ class UserController {
 
     def register(userRegisterCommand cmd) {
         if (request.post) {
-
-            if (!cmd.validate()) {
-                return [cmd:cmd]
+            def schools = params.findAll {
+                it.value == "on"
             }
 
-            def user = cmd.createUser()
-            user.save()
+            if (schools) {
+                if (!cmd.validate()) {
+                    return [cmd:cmd]
+                }
 
-            //TODO:create confirmation email
-            //*/
+                def user = cmd.createUser()
+                user.save()
 
-            //render params
+                schools.each {key, value ->
+                    user.addToSchools(new School(name:key))
+                }
+
+                //TODO:create confirmation email
+                // Send the email confirmation
+                emailConfirmationService.sendConfirmation([
+                    to: cmd.email,
+                    from: 'noreply@uccleon.edu.ni',
+                    subject: 'Confirma el proceso de registro!'
+                ])
+
+                redirect uri:"/register"
+            } else {
+                flash.message = "please.fill.schools"
+            }
         }
     }
 
@@ -174,6 +193,9 @@ class UserController {
         redirect action:"login"
     }
 
+    def welcome() { }
+    def oops() { }
+    def invalid() { }
 }
 
 class userRegisterCommand {
@@ -191,12 +213,7 @@ class userRegisterCommand {
 
     User createUser() {
         def user = new User(email:email, password:password, fullName:fullName)
-        //add schools to user
-        /*
-        schools.each {school ->
-            user.addToSchools(name:school)
-        }
-        */
+
         user
     }
 

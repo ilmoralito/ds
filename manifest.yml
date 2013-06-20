@@ -1,0 +1,7 @@
+---
+applications:
+- name: ds
+  memory: 512M
+  instances: 1
+  url: none
+  path: target/ds-0.1.war

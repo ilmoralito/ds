@@ -4,25 +4,35 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Solicitudes</title>
-	<r:require modules = "bootstrap-css, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<div class="row">
-		<div class="span10">
-			<g:link action="create" class="btn pull-right">Crea una solicitud</g:link>
-		</div>
+		<ds:isUser>
+			<div class="span10">
+				<div class="pull-right">
+					<g:link action="create" params="[type:'express']" class="btn">Crea una solicitud expreso</g:link>
+					<g:link action="create" class="btn">Crea una solicitud</g:link>
+				</div>
+				<br><br>
+			</div>
+		</ds:isUser>
 	</div>
-	<br>
 	<g:if test="${requests}">
 		<table class="table table-hover">
 			<thead>
 				<tr>
 					<ds:isAdmin>
 						<th><i class="icon-comment"></i></th>
-						<th>Solicitado por</th>
+						<g:sortableColumn property="user" title="Solicitado por" />
+						<g:sortableColumn property="type" title="Tipo" />
 					</ds:isAdmin>
-					<th>Fecha</th>
+					<ds:isUser>
+						<th>Fecha</th>
+					</ds:isUser>
 					<th>Aula</th>
+					<th>Data</th>
+					<th>Bloque</th>
 					<ds:isAdmin>
 						<th></th>
 					</ds:isAdmin>
@@ -37,14 +47,35 @@
 					<tr>
 						<ds:isAdmin>
 							<td class="td-mini">
-								<ds:isTrue enabled="${request.description}">
+								<ds:isTrue enabled="${request.description || request.internet || request.audio || request.screen}">
 									<g:link action="show" id="${request.id}"><i class="icon-comment"></i></g:link>
 								</ds:isTrue>
 							</td>
 							<td>${request.user.fullName}</td>
+							<td>${request.type}</td>
 						</ds:isAdmin>
-						<td>${request.dateOfApplication}</td>
+						<ds:isUser>
+							<td><g:formatDate format="yyyy-MM-dd" date="${request.dateOfApplication}"/></td>
+						</ds:isUser>
 						<td>${request.classroom}</td>
+						<td>${request.datashow}</td>
+						<td>
+							<!--TODO:create a tag lib for this script-->
+							<g:if test="${request.hours.size() == 1}">
+								${request.hours.block[0] + 1}
+							</g:if>
+							<g:else>
+								<g:each in="${request.hours.block}" var="hour" status="i">
+									<g:if test="${i != request.hours.size() - 1}">
+										${hour + 1},
+									</g:if>
+									<g:else>
+										${hour + 1}
+									</g:else>
+								</g:each>
+							</g:else>
+						</td>
+						<td></td>
 						<ds:isAdmin>
 							<td class="td-mini">
 								<g:link action="enable" id="${request.id}">
@@ -62,10 +93,14 @@
 		</table>
 	</g:if>
 	<g:else>
-		<p>
-			<br>
-			<strong>nothing.to.show</strong>
-		</p>
+		<div class="alert alert-info">
+			<ds:isAdmin>
+				<strong>nothing.to.show</strong>
+			</ds:isAdmin>
+			<ds:isUser>
+				No hay solictudes que mostrar, crea una solictud <g:link action="create">aqui</g:link>
+			</ds:isUser>
+		</div>
 	</g:else>
 </body>
 </html>

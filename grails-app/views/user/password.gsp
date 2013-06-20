@@ -4,12 +4,12 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Actualizar clave</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<ul class="nav nav-tabs">
     	<li><g:link action="profile">Perfil</g:link></li>
-    	<li class="active"><g:link action="password">Clave</g:link></li>
+    	<li class="active"><g:link action="password">Cambiar clave</g:link></li>
     </ul>
 
 	<g:hasErrors bean="${cmd}">
@@ -19,7 +19,7 @@
 	<g:form action="updatePassword">
 		<g:render template="updatePasswordForm"/>
 		<br>
-		<g:submitButton name="send" value="Actualizar" class="btn"/>
+		<g:submitButton name="send" value="Confirmar nueva clave" class="btn"/>
 	</g:form>
 </body>
 </html>
