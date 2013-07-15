@@ -62,15 +62,15 @@
 						<td>
 							<!--TODO:create a tag lib for this script-->
 							<g:if test="${request.hours.size() == 1}">
-								${request.hours.block[0] + 1}
+								${request.hours.block[0]}
 							</g:if>
 							<g:else>
 								<g:each in="${request.hours.block}" var="hour" status="i">
 									<g:if test="${i != request.hours.size() - 1}">
-										${hour + 1},
+										${hour},
 									</g:if>
 									<g:else>
-										${hour + 1}
+										${hour}
 									</g:else>
 								</g:each>
 							</g:else>
@@ -93,14 +93,20 @@
 		</table>
 	</g:if>
 	<g:else>
-		<div class="alert alert-info">
-			<ds:isAdmin>
+		<ds:isAdmin>
+			<div class="alert alert-info">
 				<strong>nothing.to.show</strong>
-			</ds:isAdmin>
-			<ds:isUser>
-				No hay solictudes que mostrar, crea una solictud <g:link action="create">aqui</g:link>
-			</ds:isUser>
-		</div>
+			</div>
+		</ds:isAdmin>
+		<ds:isUser>
+			<div class="well">
+				<h4>Bienvendio al sistema de solitudes de datashow</h4>
+				<p>
+					Recuerda porfavor leer la seccion <g:link uri="/faqs">preguntas comunes</g:link>
+					para conocer las condiciones del servicio.
+				</p>
+			</div>
+		</ds:isUser>
 	</g:else>
 </body>
 </html>

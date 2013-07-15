@@ -13,16 +13,14 @@
 			<thead>
 				<tr>
 					<th>Solicitdado por</th>
-					<th>Aula</th>
-					<th>Facultad</th>
+					<th>Aula y bloque</th>
 				</tr>
 			</thead>
 			<tbody>
 				<g:each in="${requests}" var="request">
 					<tr>
-						<td>${request.user.fullName}</td>
-						<td>${request.classroom}</td>
-						<td>${request.school}</td>
+						<td>${request.user.fullName} (<small>${request.school}</small>)</td>
+						<td>${request.classroom} en el bloque ${request.hours.block}</td>
 					</tr>
 				</g:each>
 			</tbody>

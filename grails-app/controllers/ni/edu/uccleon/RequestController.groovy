@@ -77,16 +77,6 @@ class RequestController {
 
         if (!req) {
             response.sendError 404
-            return false
-        }
-
-        def d = "2013-05"
-        def today = new Date().parse("yyyy-MM", d)
-
-        //print today
-        def criteria = Request.createCriteria()
-        def res = criteria.list {
-            ge "dateOfApplication", today
         }
 
         [req:req]
@@ -97,8 +87,7 @@ class RequestController {
 
     	if (!req) {
     		response.sendError 404
-    		return false
-    	}
+        }
 
     	return [req:req]
     }
@@ -114,8 +103,8 @@ class RequestController {
             response.sendError 403
         }
 
-        //TODO:find a better way to get this
-        params.dateOfApplication = (params.dateOfApplication) ? new Date().parse("yyyy-MM-dd", params?.dateOfApplication) : new Date()
+        def dateApp = params?.dateOfApplication
+        params.dateOfApplication = parseDate(params?.dateOfApplication)
         req.properties = params
 
         if (!req.save()) {
@@ -123,8 +112,18 @@ class RequestController {
             return false
         }
 
-        flash.message = "data.saved"
-        redirect action:"edit", params:[id:id]
+        if (req.isDirty("dateOfApplication")) {
+            redirect controller:"hour", action:"create", params:[
+                dateOfApplication:dateApp,
+                requestId:req.id,
+                requestType:req.type,
+                dayOfApplication:params?.dateOfApplication[Calendar.DAY_OF_WEEK],
+                flag:"editing"
+            ]
+        } else {
+            redirect action:"edit", id:id
+        }
+
     }
 
     def delete(Integer id) {

@@ -30,6 +30,21 @@ class HourController {
                     }
                 }
 
+                //if im editing i first delete blocks added to current request and then just then i
+                //add new blocks this this request
+
+                if (params?.flag == "editing") {
+                    def l = []
+
+                    l += request.hours.block
+
+                    l.each { block ->
+                        def b = request.hours.find { it.block == block }
+
+                        request.removeFromHours(b)
+                    }
+                }
+
                 blocks.keySet().each {
                     def hour = new Hour(
                         datashow:datashow,
