@@ -45,6 +45,23 @@ class RequestController {
             //TODO:find a better way to get this
             def dateApp = params?.dateOfApplication
 
+            //validate speakers and screens availability
+            if (params?.audio) {
+                if ( !requestService.getTotal(parseDate(params?.dateOfApplication), "audio") ) {
+                    flash.message = "no.more.speakers"
+                    redirect action:"create", params:[type:params?.type]
+                    return false
+                }
+            }
+
+            if (params?.screen) {
+                if ( !requestService.getTotal(parseDate(params?.dateOfApplication), "screen") ) {
+                    flash.message = "no.more.screens"
+                    redirect action:"create", params:[type:params?.type]
+                    return false
+                }
+            }
+
             def req = new Request(
                 dateOfApplication:parseDate(params?.dateOfApplication),
                 classroom:params?.classroom,
