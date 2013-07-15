@@ -1,4 +1,4 @@
-<!doctype html>
+	<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -24,8 +24,8 @@
 				<tr>
 					<ds:isAdmin>
 						<th><i class="icon-comment"></i></th>
-						<g:sortableColumn property="user" title="Solicitado por" />
-						<g:sortableColumn property="type" title="Tipo" />
+						<th>Solicitado</th>
+						<th>Tipo</th>
 					</ds:isAdmin>
 					<ds:isUser>
 						<th>Fecha</th>
@@ -51,7 +51,7 @@
 									<g:link action="show" id="${request.id}"><i class="icon-comment"></i></g:link>
 								</ds:isTrue>
 							</td>
-							<td>${request.user.fullName}</td>
+							<td>Por <strong>${request.user.fullName}</strong> en <strong>${request.classroom}</strong></td>
 							<td>${request.type}</td>
 						</ds:isAdmin>
 						<ds:isUser>
