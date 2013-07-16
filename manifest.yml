@@ -3,5 +3,11 @@ applications:
 - name: ds
   memory: 512M
   instances: 1
-  url: none
+  url: ds.cfapps.io
   path: target/ds-0.1.war
+  services:
+    myapp-mysql:
+      label: cleardb
+      provider: cleardb
+      version: n/a
+      plan: spark
