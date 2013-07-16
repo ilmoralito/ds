@@ -47,7 +47,7 @@ class RequestController {
 
             //validate speakers and screens availability
             if (params?.audio) {
-                if ( !requestService.getTotal(parseDate(params?.dateOfApplication), "audio") ) {
+                if ( requestService.getTotal(parseDate(params?.dateOfApplication), "audio") ) {
                     flash.message = "no.more.speakers"
                     redirect action:"create", params:[type:params?.type]
                     return false
@@ -55,7 +55,7 @@ class RequestController {
             }
 
             if (params?.screen) {
-                if ( !requestService.getTotal(parseDate(params?.dateOfApplication), "screen") ) {
+                if ( requestService.getTotal(parseDate(params?.dateOfApplication), "screen") ) {
                     flash.message = "no.more.screens"
                     redirect action:"create", params:[type:params?.type]
                     return false
