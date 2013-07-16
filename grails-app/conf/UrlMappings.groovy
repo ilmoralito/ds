@@ -13,7 +13,6 @@ class UrlMappings {
 		"/"(controller:"user", action:"login")
 		"/faqs"(view:"/faqs")
 		"/register"(view:"/register")
-		"500"(view:'/error')
 
 		"/request/create/$type?"(controller:"request", action:"create") {
 			constraints {
@@ -43,5 +42,9 @@ class UrlMappings {
 			}
 		}
 
+		//mapping to response code
+		"500"(view:'/errors/500')
+		"404"(view:"/errors/404")
+		"403"(view:"/errors/403")
 	}
 }
