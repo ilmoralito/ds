@@ -34,10 +34,9 @@
 		<g:each in="${1..datashows}" var="datashow" status="i">
 			<div class="${(params?.requestType != 'common') ? 'span2' : 'span5'} ">
 				<g:form action="create">
-					<g:set var="inc" value="${1 + i}"/>
-					<legend>Datashow ${inc}</legend>
+					<legend>Datashow ${i}</legend>
 
-					<g:hiddenField name="datashow" value="${inc}"/>
+					<g:hiddenField name="datashow" value="${i}"/>
 					<g:hiddenField name="requestId" value="${params?.requestId}"/>
 					<g:hiddenField name="dateOfApplication" value="${params?.dateOfApplication}"/>
 					<g:hiddenField name="flag" value="${params?.flag}"/><!--when editing-->
@@ -45,7 +44,7 @@
 					<g:each in="${1..blocks}" var="block" status="j">
 						<label class="checkbox">
 
-							<g:set var="incrementer" value="${1 + j}"/>
+							<g:set var="incrementer" value="${j}"/>
 							<g:checkBox name="${incrementer}" value="${false}"/> Bloque ${incrementer}
 
 							<g:each in="${requests}" var="request">
