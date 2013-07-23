@@ -30,7 +30,7 @@ class UserController {
     	}
 
     	if (request.post) {
-    		users = User.listByRole("user").search("%${params?.q}%").list()
+    		users = User.listByRole("user").search("%${params?.query}%").list()
     	}
 
         [users:users]
