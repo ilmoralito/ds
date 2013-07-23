@@ -7,7 +7,7 @@
 	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
-	<g:if test="${users}">
+
 		<div class="row">
 			<div class="span10">
 				<g:form action="list" class="form-inline pull-right">
@@ -21,29 +21,29 @@
 			</div>
 		</div>
 
-		<small>${users.size()} usuarios listados</small>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th class="td-mini"></th>
-					<th>Nombre</th>
-					<th class="td-mini"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<g:each in="${users}" var="user">
+		<g:if test="${users}">
+			<small>${users.size()} usuarios listados</small>
+			<table class="table table-hover">
+				<thead>
 					<tr>
-						<td><ds:isTrue enabled="${user.enabled}"><i class="icon-ok"></i></ds:isTrue></td>
-						<td><g:link action="show" id="${user.id}">${user.fullName}</g:link></td>
-						<td><g:link action="delete" id="${user.id}"><i class="icon-trash"></i></g:link></td>
+						<th class="td-mini"></th>
+						<th>Nombre</th>
+						<th class="td-mini"></th>
 					</tr>
-				</g:each>
-			</tbody>
-		</table>
-
-	</g:if>
-	<g:else>
-		<strong>nothing.to.show</strong>
-	</g:else>
+				</thead>
+				<tbody>
+					<g:each in="${users}" var="user">
+						<tr>
+							<td><ds:isTrue enabled="${user.enabled}"><i class="icon-ok"></i></ds:isTrue></td>
+							<td><g:link action="show" id="${user.id}">${user.fullName}</g:link></td>
+							<td><g:link action="delete" id="${user.id}"><i class="icon-trash"></i></g:link></td>
+						</tr>
+					</g:each>
+				</tbody>
+			</table>
+		</g:if>
+		<g:else>
+			<div class="alert alert-info"><strong>nothing.to.show</strong></div>
+		</g:else>
 </body>
 </html>
