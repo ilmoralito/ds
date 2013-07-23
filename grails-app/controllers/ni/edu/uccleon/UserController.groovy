@@ -42,6 +42,8 @@ class UserController {
         } else {
 
             if (params?.schools) {
+                def schools = params.schools
+
                 def user = new User(
                     email:params?.email,
                     password:params?.password,
@@ -49,12 +51,16 @@ class UserController {
                     enabled:true
                 )
 
-                params.schools.each { school ->
-                    user.addToSchools(new School(name:school))
-                }
-
                 if (!user.save()) {
                     return [user:user]
+                }
+
+                if ( schools instanceof String ) {
+                    user.addToSchools(new School(name:schools))
+                } else {
+                    schools.each { school ->
+                        user.addToSchools(new School(name:school))
+                    }
                 }
 
                 flash.message = "data.saved"
