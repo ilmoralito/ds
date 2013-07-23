@@ -36,15 +36,17 @@ class BootStrap {
                 ).save()
             break
             case Environment.PRODUCTION:
-                def admin = new User(
-                    email:"mario.martinez@ucc.edu.ni",
-                    password:"ucc2013",
-                    role:"admin",
-                    fullName:"Mario Roger Daniel Martinez Morales",
-                    enabled:true
-                )
+                def user = User.findByEmail("mario.martinez@ucc.edu.ni")
 
-                admin.save()
+                if (!user) {
+                    new User(
+                        email:"mario.martinez@ucc.edu.ni",
+                        password:"ucc2013",
+                        role:"admin",
+                        fullName:"Mario Roger Daniel Martinez Morales",
+                        enabled:true
+                    ).save()
+                }
             break
         }
     }
