@@ -8,7 +8,7 @@ class User {
     String fullName
     Boolean enabled = false
 
-    List schools = []
+    List<String> schools = []
     List userClassrooms = []
 
 	Date dateCreated

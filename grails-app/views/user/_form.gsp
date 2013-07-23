@@ -1,3 +1,5 @@
+<g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
+
 <label for="email">Email</label>
 <g:textField name="email" value="${user?.email}" autofocus="true" class="span4"/>
 
@@ -11,7 +13,7 @@
 <g:textField name="fullName" value="${user?.fullName}" class="input6" class="span4"/>
 
 <label for="schools">Facultades</label>
-<g:each in="${grailsApplication.config.ni.edu.uccleon.schools}" var="school" status="i">
+<g:each in="${schools}" var="school" status="i">
 	<label class="checkbox">
 		<g:checkBox name="${school}" value="${user?.school}"/>
 		${school}

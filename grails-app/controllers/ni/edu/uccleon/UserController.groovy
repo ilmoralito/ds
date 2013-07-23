@@ -38,15 +38,29 @@ class UserController {
 
     def create() {
         if (request.get) {
-            [user:new User(params)]
+            //[user:new User(params)]
         } else {
-            def user = new User(params)
 
-            if (!user.save()) {
-                return [user:user]
+            if (params?.schools) {
+                def user = new User(
+                    email:params?.email,
+                    password:params?.password,
+                    fullName:params?.fullName,
+                    enabled:true
+                )
+
+                params.schools.each { school ->
+                    user.addToSchools(new School(name:school))
+                }
+
+                if (!user.save()) {
+                    return [user:user]
+                }
+
+                flash.message = "data.saved"
+            } else {
+                flash.message = "you.need.to.add.at.least.one.school"
             }
-
-            flash.message = "data.saved"
         }
     }
 

@@ -16,6 +16,7 @@
 
 					<g:link action="list" params="[confirmed:true]" class="btn">Confirmados</g:link>
 					<g:link action="list" params="[confirmed:false]" class="btn">No confirmados</g:link>
+					<g:link action="create" class="btn">Crear usuario</g:link>
 				</g:form>
 			</div>
 		</div>
