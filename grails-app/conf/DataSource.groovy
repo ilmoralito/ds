@@ -32,17 +32,14 @@ environments {
         dataSource {
             dbCreate = "update"
             pooled = true
-            //url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-            driverClassName = 'com.mysql.jdbc.Driver'
             if (cloudEnv.isCloudFoundry()) {
+                driverClassName = 'com.mysql.jdbc.Driver'
                 def dbInfo = cloudEnv.getServiceInfo('myapp-mysql', RdbmsServiceInfo.class)
                 url = dbInfo.url
                 username = dbInfo.userName
                 password = dbInfo.password
             } else {
-                url = 'jdbc:mysql://localhost:5432/myapp'
-                username = 'sa'
-                password = ''
+                url = "jdbc:h2:file:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             }
 
             properties {
