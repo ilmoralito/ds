@@ -38,7 +38,7 @@ class CommonFilters {
             }
         }
 
-        userOnlyAdmin(controller:"user", action:"(list|resetPassword|delete|show)") {
+        userOnlyAdmin(controller:"user", action:"(list|resetPassword|delete|show|create)") {
             before = {
                 if (session?.user?.role != "admin") {
                     response.sendError 403
