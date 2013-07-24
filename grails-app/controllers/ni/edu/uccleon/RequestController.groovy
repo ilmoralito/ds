@@ -196,7 +196,7 @@ class RequestController {
         if (!q) {
             response.sendError 404
         } else {
-            requests = Request.requestFromTo(q, q).findAllByEnabled(false)
+            requests = Request.requestFromTo(q, q).findAllByStatus("pending")
         }
 
         [requests:requests]
