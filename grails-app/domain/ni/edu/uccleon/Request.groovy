@@ -17,7 +17,7 @@ class Request {
     Boolean screen
     Boolean internet
 
-    Boolean enabled = false
+    String status = "pending"
 
 	Date dateCreated
 	Date lastUpdated
@@ -41,6 +41,7 @@ class Request {
         audio nullable:true
         screen nullable:true
         internet nullable:true
+        status inList:["pending", "attended", "absent"]
     }
 
     static namedQueries = {

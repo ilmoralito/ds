@@ -8,8 +8,8 @@
 </head>
 <body>
 
-	<g:link action="enable" params="[id:req.id, path:'show']" class="btn pull-right">
-		<ds:isRequestEnabled enabled="${req.enabled}"/>
+	<g:link action="updateStatus" params="[id:req.id, path:'show']" class="btn pull-right">
+		<ds:requestStatus status="${req.status}"/>
 	</g:link>
 
 	<br><br>

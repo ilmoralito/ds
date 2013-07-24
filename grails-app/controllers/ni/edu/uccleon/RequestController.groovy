@@ -12,7 +12,7 @@ class RequestController {
         show:"GET",
         updte:"POST",
         delete:["GET", "POST"],
-        enabled:"GET",
+        updateStatus:"GET",
         requestsBySchools:["GET", "POST"],
         requestsByClassrooms:["GET", "POST"],
         requestsByUsers:["GET", "POST"],
@@ -162,7 +162,7 @@ class RequestController {
     	redirect action:"list"
     }
 
-    def enable(Integer id) {
+    def updateStatus(Integer id) {
         def req = Request.get(id)
 
         if (!req) {
@@ -170,10 +170,17 @@ class RequestController {
             return false
         }
 
-        req.properties["enabled"] = (req.enabled) ? false : true
+        if (req.status == "pending") {
+            req.status = "attended"
+        } else if (req.status == "attended") {
+            req.status = "absent"
+        } else {
+            req.status = "pending"
+        }
+
         req.save()
 
-        flash.message = "data.saved"
+        flash.message = "data.request.updated"
 
         if (params.path) {
             redirect action:"show", params:[id:id]

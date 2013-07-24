@@ -78,8 +78,8 @@
 						<td></td>
 						<ds:isAdmin>
 							<td class="td-mini">
-								<g:link action="enable" id="${request.id}">
-									<ds:isRequestEnabled enabled="${request.enabled}"/>
+								<g:link action="updateStatus" id="${request.id}">
+									<ds:requestStatus status="${request.status}"/>
 								</g:link>
 							</td>
 						</ds:isAdmin>

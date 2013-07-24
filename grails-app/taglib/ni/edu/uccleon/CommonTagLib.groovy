@@ -29,13 +29,15 @@ class CommonTagLib {
 		}
 	}
 
-	def isRequestEnabled = {attrs, body ->
-		def enable = attrs.enabled
+	def requestStatus = {attrs, body ->
+		def status = attrs.status
 
-		if (enable) {
+		if (status == "pending") {
+			out << "Pendiente"
+		} else if (status == "attended") {
 			out << "Atendido"
 		} else {
-			out << "Confirmar"
+			out << "Ausente"
 		}
 	}
 
