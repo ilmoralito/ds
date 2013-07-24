@@ -122,15 +122,15 @@ class CommonTagLib {
 			}
 
 			if (block == 4) {
-				out << "01:15 - todo"
+				out << "01:15 - 02:25"
 			}
 
 			if (block == 5) {
-				out << "todo - todo"
+				out << "02:25 - 03:35"
 			}
 
 			if (block == 6) {
-				out << "todo - todo"
+				out << "03:40 - 05:00"
 			}
 		}
 
