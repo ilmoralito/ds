@@ -65,4 +65,76 @@ class CommonTagLib {
 		}
 	}
 
+	def blockToHour = { attrs, body ->
+		def block = attrs.int("block")
+		def doapp = attrs.int("doapp") //day of Application
+
+		//sunday
+		if (doapp == 1) {
+			if (block == 0) {
+				out << "08:00 - 09:10"
+			}
+
+			if (block == 1) {
+				out << "09:10 - 10:40"
+			}
+
+			if (block == 2) {
+				out << "10:40 - 12:00"
+			}
+		}
+
+		//saturday
+		if (doapp == 7) {
+			if (block == 0) {
+				out << "08:00 - 10:00"
+			}
+
+			if (block == 1) {
+				out << "10:00 - 12:00"
+			}
+
+			if (block == 2) {
+				out << "01:40 - 02:15"
+			}
+
+			if (block == 3) {
+				out << "02:15 - 03:30"
+			}
+		}
+
+		//weekday
+		if (doapp > 2 && doapp < 7) {
+			if (block == 0) {
+				out << "08:00 - 09:10"
+			}
+
+			if (block == 1) {
+				out << "09:10 - 10:20"
+			}
+
+			if (block == 2) {
+				out << "10:40 - 11:45"
+			}
+
+			if (block == 3) {
+				out << "12:00 - 01:15"
+			}
+
+			if (block == 4) {
+				out << "01:15 - todo"
+			}
+
+			if (block == 5) {
+				out << "todo - todo"
+			}
+
+			if (block == 6) {
+				out << "todo - todo"
+			}
+		}
+
+
+	}
+
 }

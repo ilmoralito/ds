@@ -26,7 +26,7 @@
 			<div class="pull-right">
 				<g:form controller="request" action="delete">
 					<g:hiddenField name="id" value="${params?.requestId}"/>
-					<button type="submit" class="btn btn-small"><i class="icon-trash"></i></button>
+					<button type="submit" class="btn">Eliminar solicitud <i class="icon-trash"></i></button>
 				</g:form>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 		<g:each in="${1..datashows}" var="datashow" status="i">
 			<div class="${(params?.requestType != 'common') ? 'span2' : 'span5'} ">
 				<g:form action="create">
-					<legend>Datashow ${i}</legend>
+					<h4>Datashow ${i}</h4>
 
 					<g:hiddenField name="datashow" value="${i}"/>
 					<g:hiddenField name="requestId" value="${params?.requestId}"/>
@@ -45,7 +45,7 @@
 						<label class="checkbox">
 
 							<g:set var="incrementer" value="${j}"/>
-							<g:checkBox name="${incrementer}" value="${false}"/> Bloque ${incrementer}
+							<g:checkBox name="${incrementer}" value="${false}"/> <ds:blockToHour block="${incrementer}" doapp="${params?.dayOfApplication}"/>
 
 							<g:each in="${requests}" var="request">
 								<g:if test="${request.datashow == i && request.hours.block.contains(incrementer)}">
