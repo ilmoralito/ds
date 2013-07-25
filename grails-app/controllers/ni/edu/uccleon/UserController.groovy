@@ -109,8 +109,8 @@ class UserController {
         def user = User.findByEmail(session?.user?.email)
 
         if (request.post) {
-            //user.properties["email", "fullName"] = params
-            user.properties = params
+            user.properties["email", "fullName"] = params
+
             //update session.user email property
             session?.user?.email = params.email
 
@@ -118,7 +118,7 @@ class UserController {
                 return [user:user]
             }
 
-            userService.addSchoolsAndUserClassrooms(params, user)
+            userService.addSchoolsAndUserClassrooms(params.schools, params.classrooms, user)
         }
 
         [user:user]
