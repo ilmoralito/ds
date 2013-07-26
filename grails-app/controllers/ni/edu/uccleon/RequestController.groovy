@@ -82,6 +82,7 @@ class RequestController {
                 dateOfApplication:dateApp,
                 requestId:req.id,
                 requestType:req.type,
+                currentClassroom:params?.classroom,
                 dayOfApplication:parseDate(params?.dateOfApplication)[Calendar.DAY_OF_WEEK]
             ]
 

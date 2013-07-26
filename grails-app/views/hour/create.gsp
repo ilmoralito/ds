@@ -22,7 +22,10 @@
 	</g:else>
 
 	<div class="row">
-		<div class="span10">
+		<div class="span5">
+			<h4>Solicitud del ${params?.dateOfApplication} en ${params?.currentClassroom}</h4>
+		</div>
+		<div class="span5">
 			<div class="pull-right">
 				<g:form controller="request" action="delete">
 					<g:hiddenField name="id" value="${params?.requestId}"/>
@@ -39,6 +42,7 @@
 					<g:hiddenField name="datashow" value="${i}"/>
 					<g:hiddenField name="requestId" value="${params?.requestId}"/>
 					<g:hiddenField name="dateOfApplication" value="${params?.dateOfApplication}"/>
+					<g:hiddenField name="currentClassroom" value="${params?.currentClassroom}"/>
 					<g:hiddenField name="flag" value="${params?.flag}"/><!--when editing-->
 
 					<g:each in="${1..blocks}" var="block" status="j">
