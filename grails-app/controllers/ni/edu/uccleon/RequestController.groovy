@@ -151,7 +151,7 @@ class RequestController {
     		return false
     	}
 
-        if (req.enabled) {
+        if (req.status != "pending") {
             response.sendError 403
             return false
         }
