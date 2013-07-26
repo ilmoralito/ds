@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="layout" content="main">
+	<meta name="layout" content="${(session?.user) ? 'main' : 'faqs'}">
 	<title>Faqs</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css"/>
+	<r:require modules="${(!session?.user) ? faqsStyle : mainStyle}"/>
+
 </head>
 <body>
 	<h1>Preguntas comunes</h1>
-	<h4>Cuanto tiempo tengo para realizar una solicitud?</h4>
+	<h4>1. ¿Cuanto tiempo tengo para realizar una solicitud?</h4>
 	<p>
 		Las solicitudes <strong>comunes</strong> se deben realizar con tres dias de anticipacion,
 		esta tarea sera realizada por los responsables de datashow.
@@ -22,5 +25,9 @@
 			<li>El solicitante sera responsable del equipo.</li>
 		</ol>
 	</p>
+
+	<g:if test="${!session?.user}">
+		<g:link uri="/" class="btn">Iniciar sesion</g:link>
+	</g:if>
 </body>
 </html>
