@@ -63,7 +63,13 @@ class HourController {
                 redirect controller:"request"
             } else {
                 flash.message = "please.add.an.hour"
-                redirect action:"create", params:[dateOfApplication:dateApp, currentClassroom:params?.currentClassroom, requestId:requestId]
+                redirect action:"create", params:[
+                    dateOfApplication:dateApp,
+                    currentClassroom:params?.currentClassroom,
+                    dayOfApplication:params?.dayOfApplication,
+                    requestType:params?.requestType,
+                    requestId:requestId
+                ]
             }
 
         }

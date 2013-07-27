@@ -43,6 +43,8 @@
 					<g:hiddenField name="requestId" value="${params?.requestId}"/>
 					<g:hiddenField name="dateOfApplication" value="${params?.dateOfApplication}"/>
 					<g:hiddenField name="currentClassroom" value="${params?.currentClassroom}"/>
+					<g:hiddenField name="dayOfApplication" value="${params?.dayOfApplication}"/>
+					<g:hiddenField name="requestType" value="${params?.requestType}"/>
 					<g:hiddenField name="flag" value="${params?.flag}"/><!--when editing-->
 
 					<g:each in="${1..blocks}" var="block" status="j">
