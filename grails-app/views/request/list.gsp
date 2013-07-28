@@ -8,15 +8,30 @@
 </head>
 <body>
 	<div class="row">
-		<ds:isUser>
-			<div class="span10">
-				<div class="pull-right">
-					<g:link action="create" params="[type:'express']" class="btn">Crea una solicitud expreso</g:link>
-					<g:link action="create" class="btn">Crea una solicitud</g:link>
+		<div class="span10">
+			<div class="row">
+				<ds:isAdmin>
+					<div class="span10">
+				</ds:isAdmin>
+				<ds:isUser>
+					<div class="span5">
+				</ds:isUser>
+					<g:form action="list" class="form-inline">
+						<g:textField name="requestFromDate" value="${params?.requestFromDate}" class="input-small" placeholder="Desde..."/>
+						<g:textField name="requestToDate" value="${params?.requestToDate}" class="input-small" placeholder="Hasta..."/>
+						<button type="submit" class="btn"><i class="icon-search"></i></button>
+					</g:form>
 				</div>
-				<br><br>
+				<ds:isUser>
+				<div class="span5">
+					<div class="pull-right">
+						<g:link action="create" params="[type:'express']" class="btn">Crea una solicitud expreso</g:link>
+						<g:link action="create" class="btn">Crea una solicitud</g:link>
+					</div>
+				</div>
+				</ds:isUser>
 			</div>
-		</ds:isUser>
+		</div>
 	</div>
 	<g:if test="${requests}">
 		<table class="table table-hover">
@@ -78,7 +93,7 @@
 						<td></td>
 						<ds:isAdmin>
 							<td class="td-mini">
-								<g:link action="updateStatus" id="${request.id}">
+								<g:link action="updateStatus" params="[id:request.id, requestFromDate:params?.requestFromDate, requestToDate:params?.requestToDate]">
 									<ds:requestStatus status="${request.status}"/>
 								</g:link>
 							</td>
@@ -99,13 +114,20 @@
 			</div>
 		</ds:isAdmin>
 		<ds:isUser>
-			<div class="well">
-				<h4>Bienvendio al sistema de solitudes de datashow</h4>
-				<p>
-					Recuerda porfavor leer la seccion <g:link uri="/faqs">preguntas comunes</g:link>
-					para conocer las condiciones del servicio.
-				</p>
-			</div>
+			<g:if test="${!ni.edu.uccleon.Request.list().size()}">
+				<div class="well">
+					<h4>Bienvendio al sistema de solitudes de datashow</h4>
+					<p>
+						Recuerda porfavor leer la seccion <g:link uri="/faqs">preguntas comunes</g:link>
+						para conocer las condiciones del servicio.
+					</p>
+				</div>
+			</g:if>
+			<g:else>
+				<div class="alert alert-info">
+					<strong>nothing.to.show</strong>
+				</div>
+			</g:else>
 		</ds:isUser>
 	</g:else>
 </body>

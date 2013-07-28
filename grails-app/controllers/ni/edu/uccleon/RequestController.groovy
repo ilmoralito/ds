@@ -6,7 +6,7 @@ class RequestController {
 
 	static defaultAction = "list"
 	static allowedMethods = [
-        list:"GET",
+        list:["GET", "POST"],
         create:["GET", "POST"],
         edit:"GET",
         show:"GET",
@@ -24,13 +24,19 @@ class RequestController {
         def user = session?.user
         def role = user?.role
 
-        if (role == "admin") {
-            //TODO:display today requests
-            requests = Request.todayRequest().list()
-            //requests = Request.list(params)
+        if (params.requestFromDate && params.requestToDate) {
+            def today = new Date().format("yyyy-MM-dd")
+
+            requests = Request.requestFromTo((params?.requestFromDate) ?: today , (params?.requestToDate) ?: today).list()
         } else {
-            //TODO:requests must be sorted by dateOfApplication
-            requests = Request.listByUser(user).list(params)
+            if (role == "admin") {
+                //TODO:display today requests
+                requests = Request.todayRequest().list()
+                //requests = Request.list(params)
+            } else {
+                //TODO:requests must be sorted by dateOfApplication
+                requests = Request.listByUser(user).list(params)
+            }
         }
 
     	[requests:requests]
@@ -188,7 +194,7 @@ class RequestController {
             return false
         }
 
-        redirect action:"list"
+        redirect action:"list", params:params
     }
 
     def disponability(String q) {
