@@ -106,7 +106,7 @@ class CommonTagLib {
 		}
 
 		//weekday
-		if (doapp > 2 && doapp < 7) {
+		if (doapp >= 2 && doapp < 7) {
 			if (block == 0) {
 				out << "08:00 - 09:10"
 			}
