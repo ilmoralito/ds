@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Solicitudes</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<div class="row">
@@ -25,8 +25,16 @@
 				<ds:isUser>
 				<div class="span5">
 					<div class="pull-right">
-						<g:link action="create" params="[type:'express']" class="btn">Crea una solicitud expreso</g:link>
-						<g:link action="create" class="btn">Crea una solicitud</g:link>
+						<div class="btn-group">
+						    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						    	Tipo de solicitud
+						    	<span class="caret"></span>
+						    </a>
+						    <ul class="dropdown-menu">
+								<li><g:link action="create" params="[type:'express']">Solicitud expreso</g:link></li>
+								<li><g:link action="create">Solicitud</g:link></li>
+						    </ul>
+					    </div>
 					</div>
 				</div>
 				</ds:isUser>
