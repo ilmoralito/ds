@@ -5,7 +5,7 @@ class CommonFilters {
     def filters = {
         security(controller:'*', action:'*') {
             before = {
-                def publicActions = ["login", "register", "welcome", "oops", "invalid", "confirm"]
+                def publicActions = ["login"]
 
                 /*
                 if (!session?.user && controllerName != "user" && !publicActions.contains(actionName)) {

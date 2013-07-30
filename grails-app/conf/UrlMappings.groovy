@@ -7,12 +7,8 @@ class UrlMappings {
 			}
 		}
 
-		//user
-		"/signin"(controller:"user", action:"register")
-
 		"/"(controller:"user", action:"login")
 		"/faqs"(view:"/faqs")
-		"/register"(view:"/register")
 
 		"/request/create/$type?"(controller:"request", action:"create") {
 			constraints {

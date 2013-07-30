@@ -12,7 +12,6 @@ class UserController {
     	show:["GET", "POST"],
     	delete:"GET",
     	login:["GET", "POST"],
-    	register:["GET", "POST"],
     	updatePassword:"POST",
     	resetPassword:"GET",
         profile:["GET", "POST"]
@@ -155,39 +154,6 @@ class UserController {
         }
     }
 
-    def register(userRegisterCommand cmd) {
-        if (request.post) {
-            def schools = params.findAll {
-                it.value == "on"
-            }
-
-            if (schools) {
-                if (!cmd.validate()) {
-                    return [cmd:cmd]
-                }
-
-                def user = cmd.createUser()
-                user.save()
-
-                schools.each {key, value ->
-                    user.addToSchools(new School(name:key))
-                }
-
-                //TODO:create confirmation email
-                // Send the email confirmation
-                emailConfirmationService.sendConfirmation([
-                    to: cmd.email,
-                    from: 'noreply@uccleon.edu.ni',
-                    subject: 'Confirma el proceso de registro!'
-                ])
-
-                redirect uri:"/register"
-            } else {
-                flash.message = "please.fill.schools"
-            }
-        }
-    }
-
     def resetPassword(Integer id) {
     	def user = User.get(id)
 
@@ -216,27 +182,6 @@ class UserController {
     def welcome() { }
     def oops() { }
     def invalid() { }
-}
-
-class userRegisterCommand {
-    String email
-    String password
-    String rpassword
-    String fullName
-
-    static constraints = {
-        importFrom User
-        rpassword blank:false, validator:{val, obj ->
-            return val == obj.password
-        }
-    }
-
-    User createUser() {
-        def user = new User(email:email, password:password, fullName:fullName)
-
-        user
-    }
-
 }
 
 class updatePasswordCommand {

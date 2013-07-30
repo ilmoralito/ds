@@ -63,7 +63,6 @@ grails.project.dependency.resolution = {
 
         //mine plugins
         compile ":twitter-bootstrap:2.3.0"
-        runtime ":email-confirmation:2.0.8"
         compile ":webxml:1.4.1"
 
         compile ":jquery-ui:1.8.24"

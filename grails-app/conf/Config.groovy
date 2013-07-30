@@ -102,23 +102,3 @@ ni.edu.uccleon.datashows = 5
 
 ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3
-
-//email
-grails {
-   mail {
-     host = "smtp.gmail.com"
-     port = 465
-     username = "amakenadog@gmail.com"
-     password = "221bbakerstreet"
-     props = ["mail.smtp.auth":"true",
-              "mail.smtp.socketFactory.port":"465",
-              "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-              "mail.smtp.socketFactory.fallback":"false"]
-
-  }
-}
-
-//email-confirmation
-plugin.platformCore.site.name = 'UCC LEON'
-plugin.platformCore.organization.name = 'Universidad de Ciencias Comerciales campus Leon'
-plugin.emailConfirmation.from = '"Do not reply" <noreply@uccleon.edu.ni>'
