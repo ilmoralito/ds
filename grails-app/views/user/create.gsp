@@ -24,9 +24,6 @@
 		<label for="fullName">Nombre completo</label>
 		<g:textField name="fullName" value="${user?.email}" class="span6"/>
 
-		<label for="password">Clave de paso</label>
-		<g:passwordField name="password"/>
-
 		<label for="schools">Facultade(s)</label>
 		<g:each in="${schools}" var="school">
 			<label class="checkbox">

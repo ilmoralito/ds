@@ -45,8 +45,8 @@ class UserController {
 
                 def user = new User(
                     email:params?.email,
-                    password:params?.password,
-                    fullName:params?.fullName,
+                    password:"123",
+                    fullName:params.fullName ?: params?.email,
                     enabled:true
                 )
 
