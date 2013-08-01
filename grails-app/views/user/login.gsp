@@ -6,9 +6,9 @@
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
-	<g:form action="login" autocomplete="off">
+	<g:form action="login">
 		<label for="email">Email</label>
-		<g:textField name="email" class="span4" autofocus="true"/>
+		<g:textField name="email" value="${params?.email}" class="span4" autofocus="true"/>
 
 		<label for="password">Clave</label>
 		<g:passwordField name="password" class="span4"/>
