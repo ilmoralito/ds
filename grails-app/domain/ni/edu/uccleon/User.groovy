@@ -40,6 +40,9 @@ class User {
             or {
                 ilike "fullName", "%${criteria}%"
                 ilike "email",  "%${criteria}%"
+                schools {
+                    ilike "name", "%${criteria}%"
+                }
             }
         }
     }
