@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Usuarios</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
 
@@ -13,20 +13,6 @@
 				<g:form action="list" class="form-inline pull-right">
 					<g:textField name="query" value="${params?.query}" class="span2" placeholder="Por Nombre o Correo"/>
 					<button type="submit" class="btn"><i class="icon-search"></i></button>
-
-					<div class="btn-group">
-						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-							Mostar por
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><g:link action="list" params="[confirmed:true]">Confirmados</g:link></li>
-							<li><g:link action="list" params="[confirmed:false]">No confirmados</g:link></li>
-							<li class="divider"></li>
-							<li><g:link action="list">Todos</g:link></li>
-						</ul>
-					</div>
-
 					<g:link action="create" class="btn">Crear usuario</g:link>
 				</g:form>
 			</div>
