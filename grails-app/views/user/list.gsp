@@ -37,7 +37,6 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th class="td-mini"></th>
 						<th>Nombre</th>
 						<th class="td-mini"></th>
 					</tr>
@@ -45,7 +44,6 @@
 				<tbody>
 					<g:each in="${users}" var="user">
 						<tr>
-							<td><ds:isTrue enabled="${user.enabled}"><i class="icon-ok"></i></ds:isTrue></td>
 							<td><g:link action="show" id="${user.id}">${user.fullName}</g:link></td>
 							<td><g:link action="delete" id="${user.id}"><i class="icon-trash"></i></g:link></td>
 						</tr>
