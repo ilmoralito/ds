@@ -19,16 +19,16 @@ class UserController {
 
     def list() {
     	def users
-        def max = Math.min(params.int('max') ?: 3, 100)
-        def offset = params.int('offset') ?: 0
+
+        params.max = Math.min(params.int('max') ?: 3, 100)
 
     	if (request.post) {
-    		users = User.listByRole("user").search("%${params?.query}%").list()
+    		users = User.listByRole("user").search("%${params?.query}%").list(params)
     	} else {
-            users = User.listByRole("user").list()
+            users = User.listByRole("user").list(params)
         }
 
-        [users:users]
+        [users:users, usersCount:User.count()]
     }
 
     def create() {

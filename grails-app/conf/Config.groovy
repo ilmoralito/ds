@@ -102,3 +102,5 @@ ni.edu.uccleon.datashows = 5
 
 ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3
+
+grails.plugins.twitterbootstrap.fixtaglib = true

@@ -19,7 +19,7 @@
 		</div>
 
 		<g:if test="${users}">
-			<small>${users.size()} usuarios listados</small>
+			<small>${users.size()} de ${usersCount - 1} usuarios registrados</small>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -36,6 +36,10 @@
 					</g:each>
 				</tbody>
 			</table>
+
+			<div class="paginate">
+				<g:paginate controller="user" action="list" total="${usersCount - 1}" prev="Anterior" next="Siguiente"/>
+			</div>
 		</g:if>
 		<g:else>
 			<div class="alert alert-info"><strong>nothing.to.show</strong></div>
