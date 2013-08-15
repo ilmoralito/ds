@@ -20,7 +20,7 @@
 	<h4>Hora(s)</h4>
 	<ul>
 		<g:each in="${req?.hours}" var="hour">
-			<li>Bloque ${hour.block}</li>
+			<li>Bloque ${hour.block + 1}</li>
 		</g:each>
 	</ul>
 </body>

@@ -118,16 +118,16 @@ class RequestController {
 
     def update(Integer id) {
         def req = Request.findByIdAndUser(id, session?.user)
+        def dateApp = params?.dateOfApplication
 
         if (!req) {
             response.sendError 404
         }
 
-        if (req.enabled) {
+        if (req.status != "pending") {
             response.sendError 403
         }
 
-        def dateApp = params?.dateOfApplication
         params.dateOfApplication = parseDate(params?.dateOfApplication)
         req.properties = params
 
