@@ -45,60 +45,41 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
+					<th></th>
 					<ds:isAdmin>
-						<th><i class="icon-comment"></i></th>
 						<th>Solicitado</th>
-						<th>Tipo</th>
-					</ds:isAdmin>
-					<ds:isUser>
-						<th>Fecha</th>
-					</ds:isUser>
-					<th>Aula</th>
-					<th>Data</th>
-					<th>Bloque</th>
-					<ds:isAdmin>
-						<th></th>
 					</ds:isAdmin>
 					<ds:isUser>
 						<th></th>
-						<th></th>
 					</ds:isUser>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<g:each in="${requests}" var="request">
+					<g:set var="blocks" value="${request.hours.block.collect{it + 1}}"/>
 					<tr>
+						<td class="td-mini">
+							<g:if test="${request.type == 'common'}"></g:if>
+							<g:else><i class="icon-user"></i></g:else>
+						</td>
 						<ds:isAdmin>
-							<td class="td-mini">
-								<ds:isTrue enabled="${request.description || request.internet || request.audio || request.screen}">
-									<g:link action="show" id="${request.id}"><i class="icon-comment"></i></g:link>
-								</ds:isTrue>
+							<td>
+								<g:if test="${request.description || request.internet || request.audio || request.screen}">
+									<g:link action="show" id="${request.id}"><ds:message request="${request}" blocks="${blocks}"/></g:link>
+								</g:if>
+								<g:else>
+									<ds:message request="${request}" blocks="${blocks}"/>
+								</g:else>
 							</td>
-							<td>Por <strong>${request.user.fullName}</strong> en <strong>${request.classroom}</strong></td>
-							<td>${request.type}</td>
 						</ds:isAdmin>
 						<ds:isUser>
-							<td><g:formatDate format="yyyy-MM-dd" date="${request.dateOfApplication}"/></td>
+							<td>
+								<g:link action="edit" id="${request.id}">
+									<ds:message request="${request}" blocks="${blocks}"/>
+								</g:link>
+							</td>
 						</ds:isUser>
-						<td>${request.classroom}</td>
-						<td>${request.datashow}</td>
-						<td>
-							<!--TODO:create a tag lib for this script-->
-							<g:if test="${request.hours.size() == 1}">
-								${request.hours.block[0]}
-							</g:if>
-							<g:else>
-								<g:each in="${request.hours.block}" var="hour" status="i">
-									<g:if test="${i != request.hours.size() - 1}">
-										${hour},
-									</g:if>
-									<g:else>
-										${hour}
-									</g:else>
-								</g:each>
-							</g:else>
-						</td>
-						<td></td>
 						<ds:isAdmin>
 							<td class="td-mini">
 								<g:link action="updateStatus" params="[id:request.id, requestFromDate:params?.requestFromDate, requestToDate:params?.requestToDate]">
@@ -107,7 +88,6 @@
 							</td>
 						</ds:isAdmin>
 						<ds:isUser>
-							<td class="td-mini"><g:link action="edit" id="${request.id}"><i class="icon-pencil"></i></g:link></td>
 							<td class="td-mini"><g:link action="delete" id="${request.id}"><i class="icon-trash"></i></g:link></td>
 						</ds:isUser>
 					</tr>
