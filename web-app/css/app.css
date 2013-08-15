@@ -19,20 +19,3 @@
 	border-left:1px solid #DDD;
 	text-align: center;
 }
-
-/*style placeholder*/
-::-webkit-input-placeholder {
-   font-size: 9px;
-}
-
-:-moz-placeholder { /* Firefox 18- */
-   font-size: 9px;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-   font-size: 9px;
-}
-
-:-ms-input-placeholder {
-   font-size: 9px;
-}
