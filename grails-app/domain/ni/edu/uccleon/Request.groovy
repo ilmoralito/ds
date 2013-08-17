@@ -2,7 +2,7 @@ package ni.edu.uccleon
 
 import org.hibernate.transform.AliasToEntityMapResultTransformer
 
-class Request {
+class Request implements Serializable {
 
     //def grailsApplication
 

@@ -25,7 +25,7 @@
 				</ds:isAdmin>
 
 				<ul class="nav nav-tabs nav-stacked">
-					<li><g:link controller="request">Solicitudes</g:link></li>
+					<li><g:link controller="request" action="list">Solicitudes</g:link></li>
 					<li><g:link controller="user" action="profile">Perfil</g:link></li>
 					<ds:isUser>
 						<li><g:link uri="/faqs">Preguntas frecuentes</g:link></li>

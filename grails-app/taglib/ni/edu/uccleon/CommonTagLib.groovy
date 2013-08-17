@@ -73,65 +73,65 @@ class CommonTagLib {
 
 		//sunday
 		if (doapp == 1) {
-			if (block == 0) {
+			if (block == 1) {
 				out << "08:00 - 09:10"
 			}
 
-			if (block == 1) {
+			if (block == 2) {
 				out << "09:10 - 10:40"
 			}
 
-			if (block == 2) {
+			if (block == 3) {
 				out << "10:40 - 12:00"
 			}
 		}
 
 		//saturday
 		if (doapp == 7) {
-			if (block == 0) {
+			if (block == 1) {
 				out << "08:00 - 10:00"
 			}
 
-			if (block == 1) {
+			if (block == 2) {
 				out << "10:00 - 12:00"
 			}
 
-			if (block == 2) {
+			if (block == 3) {
 				out << "01:40 - 02:15"
 			}
 
-			if (block == 3) {
+			if (block == 4) {
 				out << "02:15 - 03:30"
 			}
 		}
 
 		//weekday
 		if (doapp >= 2 && doapp < 7) {
-			if (block == 0) {
+			if (block == 1) {
 				out << "08:00 - 09:10"
 			}
 
-			if (block == 1) {
+			if (block == 2) {
 				out << "09:10 - 10:20"
 			}
 
-			if (block == 2) {
+			if (block == 3) {
 				out << "10:40 - 11:45"
 			}
 
-			if (block == 3) {
+			if (block == 4) {
 				out << "12:00 - 01:15"
 			}
 
-			if (block == 4) {
+			if (block == 5) {
 				out << "01:15 - 02:25"
 			}
 
-			if (block == 5) {
+			if (block == 6) {
 				out << "02:25 - 03:35"
 			}
 
-			if (block == 6) {
+			if (block == 7) {
 				out << "03:40 - 05:00"
 			}
 		}

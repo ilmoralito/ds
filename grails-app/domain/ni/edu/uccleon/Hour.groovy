@@ -1,6 +1,6 @@
 package ni.edu.uccleon
 
-class Hour {
+class Hour implements Serializable {
 
     Integer block
 

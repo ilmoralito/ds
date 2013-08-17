@@ -11,7 +11,7 @@ class RequestController {
         edit:"GET",
         show:"GET",
         updte:"POST",
-        delete:["GET", "POST"],
+        delete:["GET"],
         updateStatus:"GET",
         requestsBySchools:["GET", "POST"],
         requestsByClassrooms:["GET", "POST"],
@@ -42,58 +42,68 @@ class RequestController {
     	[requests:requests]
     }
 
-    def create() {
-    	if (request.get) {
-    		[req:new Request(params)]
-    	} else {
-            def user = User.findByEmail(session?.user?.email)
+    def createRequestFlow = {
+        getRequestType {
+            action {
+                flow.type = (params.type) ?: "common"
+            }
 
-            //TODO:find a better way to get this
-            def dateApp = params?.dateOfApplication
+            on("success").to "buildRequest"
+        }
 
-            //validate speakers and screens availability
-            if (params?.audio) {
-                if ( requestService.getTotal(parseDate(params?.dateOfApplication), "audio") ) {
-                    flash.message = "no.more.speakers"
-                    redirect action:"create", params:[type:params?.type]
-                    return false
+        buildRequest {
+            on("create") {
+                def req = new Request(
+                    dateOfApplication:parseDate(params?.dateOfApplication),
+                    classroom:params?.classroom,
+                    school:params?.school,
+                    description:params?.description,
+                    type:flow.type,
+                    audio:params?.audio,
+                    screen:params?.screen,
+                    internet:params?.internet,
+                    user:session?.user
+                )
+
+                if (!req.save()) {
+                    flow.req = req
+                    return error()
                 }
-            }
 
-            if (params?.screen) {
-                if ( requestService.getTotal(parseDate(params?.dateOfApplication), "screen") ) {
-                    flash.message = "no.more.screens"
-                    redirect action:"create", params:[type:params?.type]
-                    return false
+                [req:req, requests:Request.requestFromTo(params.dateOfApplication, params.dateOfApplication).list()]
+            }.to "hours"
+        }
+
+        hours {
+            on("confirm") {
+                //add to current request datashow selected
+                flow.req.datashow = params.int("datashow")
+                flow.req.save()
+
+                //add hours to request
+                def blocks = params.blocks
+
+                if (blocks) {
+                    blocks.each { block ->
+                        flow.req.addToHours(new Hour(block:block))
+                    }
+
+                    flash.message = "request.saved"
+                } else {
+                    return error()
                 }
-            }
 
-            def req = new Request(
-                dateOfApplication:parseDate(params?.dateOfApplication),
-                classroom:params?.classroom,
-                school:params?.school,
-                description:params?.description,
-                type:params?.type,
-                audio:params?.audio,
-                screen:params?.screen,
-                internet:params?.internet,
-                user:session?.user
-            )
 
-            if (!req.save()) {
-                return [req:req]
-            }
+            }.to "done"
 
-            redirect controller:"hour", action:"create", params:[
-                dateOfApplication:dateApp,
-                requestId:req.id,
-                requestType:req.type,
-                currentClassroom:params?.classroom,
-                dayOfApplication:parseDate(params?.dateOfApplication)[Calendar.DAY_OF_WEEK]
-            ]
+            on("delete") {
+                flow.req.delete()
+            }.to "done"
+        }
 
-    		flash.message = "data.saved"
-    	}
+        done {
+            redirect controller:"request", action:"list"
+        }
     }
 
     def show(Integer id) {
@@ -165,7 +175,7 @@ class RequestController {
 
     	req.delete()
 
-    	flash.message = "data.deleted"
+    	flash.message = "data.request.deleted"
     	redirect action:"list"
     }
 

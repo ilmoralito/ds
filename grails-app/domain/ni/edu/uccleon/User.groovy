@@ -1,6 +1,6 @@
 package ni.edu.uccleon
 
-class User {
+class User implements Serializable {
 
     String email
     String password

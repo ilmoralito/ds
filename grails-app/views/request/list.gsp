@@ -31,8 +31,8 @@
 						    	<span class="caret"></span>
 						    </a>
 						    <ul class="dropdown-menu">
-								<li><g:link action="create" params="[type:'express']">Solicitud expreso</g:link></li>
-								<li><g:link action="create">Solicitud</g:link></li>
+								<li><g:link event="createRequest" params="[type:'express']">Solicitud expreso</g:link></li>
+								<li><g:link event="createRequest">Solicitud</g:link></li>
 						    </ul>
 					    </div>
 					</div>

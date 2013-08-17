@@ -144,7 +144,7 @@ class UserController {
                 flash.message = "user.not.found"
             } else {
             	session.user = user
-                redirect controller:"request"
+                redirect controller:"request", action:"list"
                 return false
             }
         }
