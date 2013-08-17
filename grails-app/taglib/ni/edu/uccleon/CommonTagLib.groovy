@@ -61,12 +61,6 @@ class CommonTagLib {
 		}
 	}
 
-	def isAnExpressRequest = {attrs, body ->
-		if (attrs.type == "express") {
-			out << body()
-		}
-	}
-
 	def blockToHour = { attrs, body ->
 		def block = attrs.int("block")
 		def doapp = attrs.int("doapp") //day of Application

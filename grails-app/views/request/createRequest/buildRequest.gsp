@@ -7,13 +7,6 @@
 	<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
-	<ds:isAnExpressRequest type="${flow?.type}">
-		<div class="alert alert-info">
-			Por cada solicitud expreso, el solicitante se compromete a cumplir las condiciones listadas en la seccion
-			<g:link uri="/faqs">preguntas comunes</g:link> de este sitio.
-		</div>
-	</ds:isAnExpressRequest>
-
 	<g:hasErrors bean="${req}">
 		<g:renderErrors bean="${req}"/>
 	</g:hasErrors>
