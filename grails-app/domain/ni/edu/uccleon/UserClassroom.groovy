@@ -1,6 +1,6 @@
 package ni.edu.uccleon
 
-class UserClassroom {
+class UserClassroom implements Serializable {
 
     String classroom
 

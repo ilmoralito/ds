@@ -1,6 +1,6 @@
 package ni.edu.uccleon
 
-class School {
+class School implements Serializable {
 
     String name
 
