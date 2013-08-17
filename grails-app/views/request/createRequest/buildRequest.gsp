@@ -15,5 +15,7 @@
 		<g:render template="form"/>
 		<g:submitButton name="create" value="Crear solicitud" class="btn"/>
 	</g:form>
+
+	<strong>${message}</strong>
 </body>
 </html>

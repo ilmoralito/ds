@@ -53,6 +53,22 @@ class RequestController {
 
         buildRequest {
             on("create") {
+                //check for screens, speakers, internet availablity
+                def screensAvailable = grailsApplication.config.ni.edu.uccleon.screens
+                def speakersAvailable = grailsApplication.config.ni.edu.uccleon.speakers
+
+                def screensResult = Request.countByDateOfApplicationAndScreen(parseDate(params?.dateOfApplication), true)
+                if (params.screen && screensResult == screensAvailable) {
+                    flash.message = "Todas las pantallas estan ya solicitadas para esta fecha"
+                    return error()
+                }
+
+                def speakersResult = Request.countByDateOfApplicationAndAudio(parseDate(params?.dateOfApplication), true)
+                if (params.audio && speakersResult == speakersAvailable) {
+                    flash.message = "Todas las parlantes estan ya solicitadas para esta fecha"
+                    return error()
+                }
+
                 def req = new Request(
                     dateOfApplication:parseDate(params?.dateOfApplication),
                     classroom:params?.classroom,
