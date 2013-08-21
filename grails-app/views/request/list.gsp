@@ -66,7 +66,9 @@
 						<ds:isAdmin>
 							<td>
 								<g:if test="${request.description || request.internet || request.audio || request.screen}">
-									<g:link action="show" id="${request.id}"><ds:message request="${request}" blocks="${blocks}"/></g:link>
+									<g:link action="show" id="${request.id}">
+										<ds:message request="${request}" blocks="${blocks}"/>
+									</g:link>
 								</g:if>
 								<g:else>
 									<ds:message request="${request}" blocks="${blocks}"/>
