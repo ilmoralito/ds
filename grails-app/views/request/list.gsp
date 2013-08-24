@@ -31,8 +31,8 @@
 						    	<span class="caret"></span>
 						    </a>
 						    <ul class="dropdown-menu">
-								<li><g:link event="createRequest" params="[type:'express']">Solicitud expreso</g:link></li>
-								<li><g:link event="createRequest">Solicitud</g:link></li>
+								<li><g:link action="createRequest" params="[type:'express']">Solicitud expreso</g:link></li>
+								<li><g:link action="createRequest">Solicitud</g:link></li>
 						    </ul>
 					    </div>
 					</div>
@@ -75,7 +75,7 @@
 						</ds:isAdmin>
 						<ds:isUser>
 							<td>
-								<g:link action="edit" id="${request.id}">
+								<g:link action="editRequest" id="${request.id}">
 									<ds:message request="${request}" blocks="${blocks}"/>
 								</g:link>
 							</td>

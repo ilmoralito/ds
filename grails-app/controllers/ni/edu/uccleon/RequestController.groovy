@@ -122,58 +122,74 @@ class RequestController {
         }
     }
 
-    def show(Integer id) {
-        def req = Request.get(id)
+    def editRequestFlow = {
+        init {
+            action {
+                def req = Request.findByIdAndUser(params.int("id"), session?.user)
 
-        if (!req) {
-            response.sendError 404
+                if (!req) {
+                    response.sendError 404
+                }
+
+                [req:req]
+            }
+
+            on("success").to "edit"
         }
 
-        [req:req]
-    }
+        edit {
+            on("confirm") {
+                flow.req.dateOfApplication = parseDate(params?.dateOfApplication)
+                flow.req.classroom = params?.classroom
+                flow.req.school = params?.school
+                flow.req.description = params?.description
+                flow.req.audio = params?.audio
+                flow.req.screen = params?.screen
+                flow.req.internet = params?.internet
 
-    def edit(Integer id) {
-    	def req = Request.findByIdAndUser(id, session?.user)
+                if (!flow.req.save()) {
+                    flow.req = flow.req
+                    return error()
+                }
 
-    	if (!req) {
-    		response.sendError 404
+                [req:flow.req, requests:Request.requestFromTo(params.dateOfApplication, params.dateOfApplication).list()]
+
+            }.to("hours")
         }
 
-    	return [req:req]
-    }
+        hours {
+            on("confirm") {
+                def blocks = params.list("blocks")
 
-    def update(Integer id) {
-        def req = Request.findByIdAndUser(id, session?.user)
-        def dateApp = params?.dateOfApplication
+                if (blocks) {
+                    //before add new block or blocks delete block linked to this request
+                    def query = Hour.where {
+                        request == flow.req
+                    }
 
-        if (!req) {
-            response.sendError 404
+                    query.deleteAll()
+
+                    //update datashow
+                    if (params.int("datashow") != flow.req.datashow) {
+                        flow.req.datashow = params.int("datashow")
+                        flow.req.save()
+                    }
+
+                    //add new blocks
+                    blocks.each { block ->
+                        flow.req.addToHours(new Hour(block:block))
+                    }
+                } else {
+                    return error()
+                }
+            }.to "done"
+
+            on("cancel").to "done"
         }
 
-        if (req.status != "pending") {
-            response.sendError 403
+        done {
+            redirect controller:"request", action:"list"
         }
-
-        params.dateOfApplication = parseDate(params?.dateOfApplication)
-        req.properties = params
-
-        if (!req.save()) {
-            chain action:"edit", model:[req:req], params:[id:id]
-            return false
-        }
-
-        if (req.isDirty("dateOfApplication")) {
-            redirect controller:"hour", action:"create", params:[
-                dateOfApplication:dateApp,
-                requestId:req.id,
-                requestType:req.type,
-                dayOfApplication:params?.dateOfApplication[Calendar.DAY_OF_WEEK],
-                flag:"editing"
-            ]
-        } else {
-            redirect action:"edit", id:id
-        }
-
     }
 
     def delete(Integer id) {
