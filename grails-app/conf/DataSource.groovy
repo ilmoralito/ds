@@ -32,6 +32,7 @@ environments {
         dataSource {
             dbCreate = "update"
             pooled = true
+
             if (cloudEnv.isCloudFoundry()) {
                 driverClassName = 'com.mysql.jdbc.Driver'
                 def dbInfo = cloudEnv.getServiceInfo('myapp-mysql', RdbmsServiceInfo.class)
