@@ -90,7 +90,11 @@
 							</td>
 						</ds:isAdmin>
 						<ds:isUser>
-							<td class="td-mini"><g:link action="delete" id="${request.id}"><i class="icon-trash"></i></g:link></td>
+							<td class="td-mini">
+								<g:if test="${request.status == 'pending'}">
+									<g:link action="delete" id="${request.id}"><i class="icon-trash"></i></g:link>
+								</g:if>
+							</td>
 						</ds:isUser>
 					</tr>
 				</g:each>

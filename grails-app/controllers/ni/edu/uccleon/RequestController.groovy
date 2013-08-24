@@ -3,9 +3,10 @@ package ni.edu.uccleon
 class RequestController {
 
     def requestService
+    def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
 
-	static defaultAction = "list"
-	static allowedMethods = [
+    static defaultAction = "list"
+    static allowedMethods = [
         list:["GET", "POST"],
         create:["GET", "POST"],
         edit:"GET",
@@ -18,6 +19,18 @@ class RequestController {
         requestsByUsers:["GET", "POST"],
         disponability:"POST"
     ]
+
+    private checkRequestStatus() {
+        def req = Request.get(params?.id)
+
+        if (!req) {
+            response.sendError 404
+        }
+
+        if (req.status != "pending") {
+            response.sendError 403
+        }
+    }
 
     def list() {
     	def requests
@@ -131,10 +144,16 @@ class RequestController {
                     response.sendError 404
                 }
 
+                if (req.status != "pending") {
+                    flash.message = "access.denied.request.already.attended"
+                    return done()
+                }
+
                 [req:req]
             }
 
             on("success").to "edit"
+            on("done").to "done"
         }
 
         edit {
@@ -193,17 +212,13 @@ class RequestController {
     }
 
     def delete(Integer id) {
+        return false
     	def req = Request.findByIdAndUser(id, session?.user)
 
     	if (!req) {
     		response.sendError 404
     		return false
     	}
-
-        if (req.status != "pending") {
-            response.sendError 403
-            return false
-        }
 
     	req.delete()
 
