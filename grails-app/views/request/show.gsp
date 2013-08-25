@@ -16,11 +16,11 @@
 
 	<table class="table">
 		<tr>
-			<td>Solictado por</td>
+			<td>Por</td>
 			<td>${req?.user?.fullName}</td>
 		</tr>
 		<tr>
-			<td>Fecha de solicitud</td>
+			<td>Fecha</td>
 			<td><g:formatDate format="yyyy-MM-dd" date="${req?.dateOfApplication}"/></td>
 		</tr>
 		<tr>
@@ -47,13 +47,10 @@
 			<td>Observacion</td>
 			<td>${req?.description}</td>
 		</tr>
+		<tr>
+			<td>Bloque(s)</td>
+			<td>${req?.hours.block.collect { it + 1 }}</td>
+		</tr>
 	</table>
-
-	<h4>Hora(s)</h4>
-	<ul>
-		<g:each in="${req?.hours}" var="hour">
-			<li>Bloque ${hour.block}</li>
-		</g:each>
-	</ul>
 </body>
 </html>

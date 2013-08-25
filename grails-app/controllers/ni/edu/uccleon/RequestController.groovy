@@ -211,12 +211,21 @@ class RequestController {
         }
     }
 
+    def show(Integer id) {
+        def req = Request.get(id)
+
+        if (!req) {
+            response.sendError 404
+        }
+
+        [req:req]
+    }
+
     def delete(Integer id) {
     	def req = Request.findByIdAndUser(id, session?.user)
 
     	if (!req) {
     		response.sendError 404
-    		return false
     	}
 
     	req.delete()
