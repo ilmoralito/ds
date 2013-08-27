@@ -4,8 +4,6 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer
 
 class Request implements Serializable {
 
-    //def grailsApplication
-
     Date dateOfApplication
     String classroom
     String school
@@ -77,6 +75,7 @@ class Request implements Serializable {
                 count property, "count"
             }
 
+            order("count", "desc")
             resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
         }
 
@@ -88,6 +87,7 @@ class Request implements Serializable {
                 }
             }
 
+            order("count", "desc")
             resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
         }
 
