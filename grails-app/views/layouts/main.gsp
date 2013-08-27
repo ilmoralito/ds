@@ -25,10 +25,10 @@
 				</ds:isAdmin>
 
 				<ul class="nav nav-tabs nav-stacked">
-					<li><g:link controller="request" action="list">Solicitudes</g:link></li>
-					<li><g:link controller="user" action="profile">Perfil</g:link></li>
+					<li class="${(controllerName == 'request') ? 'active' : 'no-active'}"><g:link controller="request" action="list">Solicitudes</g:link></li>
+					<li class="${(controllerName == 'user') ? 'active' : 'no-active'}"><g:link controller="user" action="profile">Perfil</g:link></li>
 					<ds:isUser>
-						<li><g:link uri="/faqs">Preguntas frecuentes</g:link></li>
+						<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/faqs">Preguntas frecuentes</g:link></li>
 					</ds:isUser>
     			</ul>
 
