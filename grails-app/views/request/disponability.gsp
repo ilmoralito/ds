@@ -7,7 +7,7 @@
 	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
-	<h4>${requests.size()} solicitud(es) en la fecha: ${params.q}</h4>
+	<h4>${requests.size()} solicitud(es) en la fecha: ${(params.q) ?: new Date().format("yyyy-MM-dd")}</h4>
 	<g:if test="${requests}">
 		<table class="table table-hover">
 			<thead>

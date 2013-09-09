@@ -272,13 +272,8 @@ class RequestController {
     }
 
     def disponability(String q) {
-        def requests
-
-        if (!q) {
-            response.sendError 404
-        } else {
-            requests = Request.requestFromTo(q, q).findAllByStatus("pending")
-        }
+        def today = new Date().format("yyyy-MM-dd").toString()
+        def requests = Request.requestFromTo((q) ?: today, (q) ?: today).findAllByStatus("pending")
 
         [requests:requests]
     }
