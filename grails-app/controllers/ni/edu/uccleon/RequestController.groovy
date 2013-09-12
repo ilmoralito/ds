@@ -274,8 +274,21 @@ class RequestController {
     def disponability(String q) {
         def today = new Date().format("yyyy-MM-dd").toString()
         def requests = Request.requestFromTo((q) ?: today, (q) ?: today).findAllByStatus("pending")
+        def day = (q) ? new Date().parse("yyyy-MM-dd", q)[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
+        def blocks
 
-        [requests:requests]
+        switch(day) {
+            case 7:
+                blocks = grailsApplication.config.ni.edu.uccleon.saturday.blocks
+                break
+            case 1:
+                blocks = grailsApplication.config.ni.edu.uccleon.sunday.blocks
+                break
+            default:
+                blocks = grailsApplication.config.ni.edu.uccleon.blocks
+        }
+
+        [requests:requests, blocks:blocks, day:day]
     }
 
     //REPORTS
