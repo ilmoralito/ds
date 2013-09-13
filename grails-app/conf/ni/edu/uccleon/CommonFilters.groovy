@@ -7,15 +7,7 @@ class CommonFilters {
             before = {
                 def publicActions = ["login"]
 
-                /*
-                if (!session?.user && controllerName != "user" && !publicActions.contains(actionName)) {
-                    flash.message = "acceso.denegado"
-                    redirect controller:"user"
-                    return false
-                }
-                */
-
-                if (!session?.user && controllerName != "user") {
+                if (!session?.user && controllerName != "user" && actionName != "activity") {
                     flash.message = "acceso.denegado"
                     redirect controller:"user"
                     return false

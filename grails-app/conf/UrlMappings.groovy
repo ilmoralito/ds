@@ -38,6 +38,8 @@ class UrlMappings {
 			}
 		}
 
+		"/activity/$q?" (controller:"request", action:"activity")
+
 		//mapping to response code
 		"500"(view:'/errors/500')
 		"404"(view:"/errors/404")

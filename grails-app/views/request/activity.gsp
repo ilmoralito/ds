@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="layout" content="main">
+	<meta name="layout" content="${(!session?.user) ? 'activity' : 'main'}">
 	<title>Actividad</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css"/>
+	<r:require modules = "${(!session?.user) ? activityStyle : mainStyle}"/>
 </head>
 <body>
 	<g:set var="datashows" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
 
-	<h4>${requests?.size()} solicitudes el ${(params.q) ?: new Date().format("yyyy-MM-dd")}</h4>
+	<g:if test="${requests}">
+		<h4>${requests?.size()} solicitudes el ${(params.q) ?: new Date().format("yyyy-MM-dd")}</h4>
+	</g:if>
+	<g:else>
+		<h4>No hay actividad programada hoy!</h4>
+	</g:else>
+
 	<g:if test="${requests}">
 		<div class="row">
 			<g:each in="${1..datashows}" var="datashow">
@@ -38,6 +46,10 @@
 				</div>
 			</g:each>
 		</div>
+	</g:if>
+
+	<g:if test="${!session?.user}">
+		<g:link uri="/" class="btn">Iniciar sesion</g:link>
 	</g:if>
 </body>
 </html>
