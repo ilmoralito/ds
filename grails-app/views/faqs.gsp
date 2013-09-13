@@ -7,7 +7,6 @@
 	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css"/>
 	<r:require modules="${(!session?.user) ? faqsStyle : mainStyle}"/>
-
 </head>
 <body>
 	<h1>Preguntas comunes</h1>

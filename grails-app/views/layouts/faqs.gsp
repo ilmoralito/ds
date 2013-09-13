@@ -8,7 +8,7 @@
 <body>
 	<div class="container main">
 		<div class="row">
-			<div class="span8 offset3"><g:layoutBody/></div>
+			<div class="span8 offset2"><g:layoutBody/></div>
 		</div>
 	</div>
 	<r:layoutResources/>

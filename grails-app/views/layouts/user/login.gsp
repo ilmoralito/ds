@@ -11,7 +11,10 @@
 			<div class="span4 offset4">
 				<div class="row">
 					<div class="span4">
-					<g:link uri="/faqs" class="pull-right">Preguntas comunes</g:link>
+						<div class="btn-group pull-right">
+					    	<g:link uri="/activity" class="btn btn-link">Actividad de hoy</g:link>
+					    	<g:link uri="/faqs" class="btn btn-link">Faqs</g:link>
+					    </div>
 					</div>
 				</div>
 				<g:layoutBody/>
