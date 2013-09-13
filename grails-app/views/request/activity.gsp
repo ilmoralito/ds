@@ -19,9 +19,13 @@
 						<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(block - 1)}}">
 							<g:findAll in="${requests}" expr="it.datashow == datashow && it?.hours?.block?.contains(block - 1)">
 								<div class="well well-small">
-									<strong>Por: ${it.user.fullName}</strong>
-									<br>
-									<small><ds:blockToHour block="${block}" doapp="${day}"/></small>
+									<small>
+										<strong>Por: ${it.user.fullName}</strong>
+										<br>
+										<strong>${it.classroom}</strong>
+										<br>
+										<ds:blockToHour block="${block}" doapp="${day}"/>
+									</small>
 								</div>
 							</g:findAll>
 						</g:if>
