@@ -271,7 +271,7 @@ class RequestController {
         redirect action:"list", params:params
     }
 
-    def disponability(String q) {
+    def activity(String q) {
         def today = new Date().format("yyyy-MM-dd").toString()
         def requests = Request.requestFromTo((q) ?: today, (q) ?: today).findAllByStatus("pending")
         def day = (q) ? new Date().parse("yyyy-MM-dd", q)[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
