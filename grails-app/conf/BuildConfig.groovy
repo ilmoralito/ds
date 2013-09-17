@@ -25,11 +25,10 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-
-        mavenRepo "http://maven.springframework.org/milestone/"
-
         mavenLocal()
         mavenCentral()
+
+        mavenRepo "http://maven.springframework.org/milestone/"
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
@@ -43,7 +42,7 @@ grails.project.dependency.resolution = {
         compile "org.grails:grails-webflow:$grailsVersion"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
-        // runtime 'mysql:mysql-connector-java:5.1.22'
+        runtime 'mysql:mysql-connector-java:5.1.22'
     }
 
     plugins {
@@ -65,9 +64,8 @@ grails.project.dependency.resolution = {
         //mine plugins
         compile ":twitter-bootstrap:2.3.0"
         compile ":webxml:1.4.1"
-
         compile ":jquery-ui:1.8.24"
-
         compile ':webflow:2.0.8.1'
+        compile ':cloud-foundry:1.2.3'
     }
 }

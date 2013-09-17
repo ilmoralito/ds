@@ -1,8 +1,3 @@
-import org.cloudfoundry.runtime.env.CloudEnvironment
-import org.cloudfoundry.runtime.env.RdbmsServiceInfo
-
-def cloudEnv = new CloudEnvironment()
-
 dataSource {
     pooled = true
     driverClassName = "org.h2.Driver"
@@ -30,18 +25,11 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
-            pooled = true
-
-            if (cloudEnv.isCloudFoundry()) {
-                driverClassName = 'com.mysql.jdbc.Driver'
-                def dbInfo = cloudEnv.getServiceInfo('myapp-mysql', RdbmsServiceInfo.class)
-                url = dbInfo.url
-                username = dbInfo.userName
-                password = dbInfo.password
-            } else {
-                url = "jdbc:h2:file:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-            }
+            url = 'jdbc:mysql://localhost/db?useUnicode=true&characterEncoding=utf8'
+            dialect = org.hibernate.dialect.MySQLInnoDBDialect
+            driverClassName = 'com.mysql.jdbc.Driver'
+            username = 'user'
+            password = "password"
 
             properties {
                maxActive = -1
