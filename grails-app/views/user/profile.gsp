@@ -25,36 +25,39 @@
    		<div class="row">
             <div class="span10">
                 <div class="row">
-                    <div class="span10">
+                    <div class="span5">
+                        <h4>Datos personales</h4>
+                        <label for="email">Correo</label>
+                        <g:textField name="email" value="${user?.email}" class="span4" autofocus="true"/>
+
+                        <label for="fullName">Nombre completo</label>
+                        <g:textField name="fullName" value="${user?.fullName}" class="span4"/>
+                    </div>
+
+                    <div class="span5">
                         <g:submitButton name="send" value="Confirmar cambios" class="btn pull-right"/>
                     </div>
                 </div>
-                <h4>Datos personales</h4>
-                <label for="email">Correo</label>
-                <g:textField name="email" value="${user?.email}" class="span4" autofocus="true"/>
-
-                <label for="fullName">Nombre completo</label>
-                <g:textField name="fullName" value="${user?.fullName}" class="span4"/>
 
                 <div class="row">
                     <div class="span5">
-                        <h4>Agregar facultades</h4>
+                        <h4>Facultades</h4>
                         <g:each in="${schools}" var="school">
                             <label class="checkbox">
-                                <g:checkBox name="schools" value="${school}" checked="${userSchools?.contains(ni.edu.uccleon.School.findByName(school))}"/> ${school}
+                                <g:checkBox name="schools" value="${school}" checked="${userSchools.contains(ni.edu.uccleon.School.findByName(school))}"/> ${school}
                             </label>
                         </g:each>
                     </div>
 
                     <div class="span5">
-                        <h4>Agregar aulas</h4>
+                        <h4>Aulas</h4>
                         <g:each in="${classrooms}" var="classroom">
                             <label class="checkbox">
                                 <g:checkBox name="classrooms" value="${classroom}" checked="${userClassrooms?.contains(ni.edu.uccleon.UserClassroom.findByClassroom(classroom))}"/> ${classroom}
                             </label>
                         </g:each>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </g:form>
