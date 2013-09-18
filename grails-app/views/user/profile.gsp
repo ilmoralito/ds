@@ -41,7 +41,7 @@
                         <h4>Agregar facultades</h4>
                         <g:each in="${schools}" var="school">
                             <label class="checkbox">
-                                <g:checkBox name="schools" value="${school}" checked="${userSchools.contains(ni.edu.uccleon.School.findByName(school))}"/> ${school}
+                                <g:checkBox name="schools" value="${school}" checked="${userSchools?.contains(ni.edu.uccleon.School.findByName(school))}"/> ${school}
                             </label>
                         </g:each>
                     </div>
@@ -50,7 +50,7 @@
                         <h4>Agregar aulas</h4>
                         <g:each in="${classrooms}" var="classroom">
                             <label class="checkbox">
-                                <g:checkBox name="classrooms" value="${classroom}" checked="${userClassrooms.contains(ni.edu.uccleon.UserClassroom.findByClassroom(classroom))}"/> ${classroom}
+                                <g:checkBox name="classrooms" value="${classroom}" checked="${userClassrooms?.contains(ni.edu.uccleon.UserClassroom.findByClassroom(classroom))}"/> ${classroom}
                             </label>
                         </g:each>
                     </div>
