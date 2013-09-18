@@ -40,6 +40,10 @@ class UrlMappings {
 
 		"/activity/$q?" (controller:"request", action:"activity")
 
+		"/profile" (controller:"user", action:"profile")
+
+		"/password" (controller:"user", action:"password")
+
 		//mapping to response code
 		"500"(view:'/errors/500')
 		"404"(view:"/errors/404")
