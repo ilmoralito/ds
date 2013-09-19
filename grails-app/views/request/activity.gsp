@@ -29,11 +29,27 @@
 								<g:findAll in="${requests}" expr="it.datashow == datashow && it?.hours?.block?.contains(block - 1)">
 									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'}">
 										<small>
-											<strong>Por: ${it.user.fullName}</strong>
-											<br>
-											<strong>${it.classroom}</strong>
-											<br>
-											<ds:blockToHour block="${block}" doapp="${day}"/>
+											<g:if test="${session?.user?.role == 'admin'}">
+												<div style="padding-bottom:2px;">
+													<div class="button-group pull-right">
+														<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent']">
+															<i class="icon-hand-down"></i>
+														</g:link>
+														<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended']">
+															<i class="icon-ok"></i>
+														</g:link>
+													</div>
+												</div>
+											</g:if>
+											<div class="row">
+												<div class="span2">
+													<strong>${it.user.fullName}</strong>
+													<br>
+													<strong>${it.classroom}</strong>
+													<br>
+													<ds:blockToHour block="${block}" doapp="${day}"/>
+												</div>
+											</div>
 										</small>
 									</div>
 								</g:findAll>

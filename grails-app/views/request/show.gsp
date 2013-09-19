@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<g:link action="updateStatus" params="[id:req.id, path:'show']" class="btn pull-right">
+	<g:link action="updateStatus" params="[id:req.id, path:actionName]" class="btn pull-right">
 		<ds:requestStatus status="${req.status}"/>
 	</g:link>
 

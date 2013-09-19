@@ -239,16 +239,19 @@ class RequestController {
 
         if (!req) {
             response.sendError 404
-            return false
         }
 
         //TODO:find a better solution for this scenario
-        if (req.status == "pending") {
-            req.status = "attended"
-        } else if (req.status == "attended") {
-            req.status = "absent"
+        if (params?.status) {
+            req.status = params.status
         } else {
-            req.status = "pending"
+            if (req.status == "pending") {
+                req.status = "attended"
+            } else if (req.status == "attended") {
+                req.status = "absent"
+            } else {
+                req.status = "pending"
+            }
         }
 
         //TODO:find a better solution for this scenario
@@ -264,7 +267,7 @@ class RequestController {
         flash.message = "request.successfuly.updated"
 
         if (params.path) {
-            redirect action:"show", params:[id:id]
+            redirect action:params.path, params:[id:id]
             return false
         }
 
