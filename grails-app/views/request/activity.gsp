@@ -27,7 +27,7 @@
 						<p>
 							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(block - 1)}}">
 								<g:findAll in="${requests}" expr="it.datashow == datashow && it?.hours?.block?.contains(block - 1)">
-									<div class="well well-small">
+									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'}">
 										<small>
 											<strong>Por: ${it.user.fullName}</strong>
 											<br>

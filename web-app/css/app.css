@@ -19,3 +19,7 @@
 	border-left:1px solid #DDD;
 	text-align: center;
 }
+
+.owner {
+	border: 1px solid #5BC0DE;
+}
