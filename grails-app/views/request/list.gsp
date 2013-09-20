@@ -47,7 +47,7 @@
 				<tr>
 					<th></th>
 					<ds:isAdmin>
-						<th>Solicitado</th>
+						<th>${requests.size()} solicitud${(requests.size() > 1 ? 'es' : '') }</th>
 					</ds:isAdmin>
 					<ds:isUser>
 						<th></th>
