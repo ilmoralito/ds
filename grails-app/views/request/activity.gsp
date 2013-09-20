@@ -27,20 +27,20 @@
 						<p>
 							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(block - 1)}}">
 								<g:findAll in="${requests}" expr="it.datashow == datashow && it?.hours?.block?.contains(block - 1)">
+									<g:if test="${session?.user?.role == 'admin'}">
+										<div class="pull-right" style="margin-bottom:-10px;">
+											<div class="button-group">
+												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent']">
+													<i class="icon-hand-down"></i>
+												</g:link>
+												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended']">
+													<i class="icon-ok"></i>
+												</g:link>
+											</div>
+										</div>
+									</g:if>
 									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'}">
 										<small>
-											<g:if test="${session?.user?.role == 'admin'}">
-												<div style="padding-bottom:2px;">
-													<div class="button-group pull-right">
-														<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent']">
-															<i class="icon-hand-down"></i>
-														</g:link>
-														<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended']">
-															<i class="icon-ok"></i>
-														</g:link>
-													</div>
-												</div>
-											</g:if>
 											<div class="row">
 												<div class="span2">
 													<strong>${it.user.fullName}</strong>
