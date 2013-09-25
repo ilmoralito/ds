@@ -36,8 +36,10 @@ class CommonTagLib {
 			out << "Pendiente"
 		} else if (status == "attended") {
 			out << "Atendido"
-		} else {
+		} else if (status == "absent") {
 			out << "Ausente"
+		} else {
+			out << "Cancelado"
 		}
 	}
 

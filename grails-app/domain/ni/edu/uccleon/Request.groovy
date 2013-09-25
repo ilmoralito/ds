@@ -39,7 +39,7 @@ class Request implements Serializable {
         audio nullable:true
         screen nullable:true
         internet nullable:true
-        status inList:["pending", "attended", "absent"]
+        status inList:["pending", "attended", "absent", "canceled"]
     }
 
     static namedQueries = {

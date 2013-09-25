@@ -249,6 +249,8 @@ class RequestController {
                 req.status = "attended"
             } else if (req.status == "attended") {
                 req.status = "absent"
+            } else if (req.status == "absent") {
+                req.status = "canceled"
             } else {
                 req.status = "pending"
             }
