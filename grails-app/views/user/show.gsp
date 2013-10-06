@@ -26,20 +26,20 @@
 				<ds:isTrue enabled="${user?.enabled}"><i class="icon-ok"></i></ds:isTrue>
 			</p>
 
-			<g:if test="${user.schools}">
+			<g:if test="${user?.schools}">
 				<label for="">Facultades</label>
 				<ul>
 					<g:each in="${user?.schools}" var="school">
-						<li>${school.name}</li>
+						<li>${school}</li>
 					</g:each>
 				</ul>
 			</g:if>
 
-			<g:if test="${user.userClassrooms}">
+			<g:if test="${user?.classrooms}">
 				<label for="">Aulas</label>
 				<ul>
-					<g:each in="${user.userClassrooms}" var="classroom">
-						<li>${classroom.classroom}</li>
+					<g:each in="${user.classrooms}" var="classroom">
+						<li>${classroom}</li>
 					</g:each>
 				</ul>
 			</g:if>

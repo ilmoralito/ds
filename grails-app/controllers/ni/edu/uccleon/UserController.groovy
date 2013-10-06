@@ -35,9 +35,8 @@ class UserController {
         if (request.get) {
             //[user:new User(params)]
         } else {
-
             if (params?.schools) {
-                def schools = params.schools
+                def schools = params.list("schools")
 
                 def user = new User(
                     email:params?.email,
@@ -46,16 +45,12 @@ class UserController {
                     enabled:true
                 )
 
-                if (!user.save()) {
-                    return [user:user]
+                schools.each { school ->
+                    user.addToSchools(school)
                 }
 
-                if ( schools instanceof String ) {
-                    user.addToSchools(new School(name:schools))
-                } else {
-                    schools.each { school ->
-                        user.addToSchools(new School(name:school))
-                    }
+                if (!user.save()) {
+                    return [user:user]
                 }
 
                 flash.message = "data.saved"
@@ -113,7 +108,12 @@ class UserController {
                 return [user:user]
             }
 
-            userService.addSchoolsAndUserClassrooms(params.schools, params.classrooms, user)
+            def schools = params.list("schools")
+            def classrooms = params.list("classrooms")
+
+            userService.addSchoolsAndUserClassrooms(schools, classrooms, user)
+
+            return [user:user]
         }
 
         [user:user]

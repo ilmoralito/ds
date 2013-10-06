@@ -1,4 +1,4 @@
-<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).userClassrooms.classroom}"/>
+<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).classrooms}"/>
 <g:set var="userSchools" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).schools}"/>
 <g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
 <g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="span8">
 		<label for="dateOfApplication">Fecha de solicitud</label>
-		<g:textField name="dateOfApplication" value="${g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
+		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 
 		<!--classrooms-->
 		<g:if test="${userClassrooms}">

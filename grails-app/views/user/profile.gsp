@@ -10,7 +10,7 @@
     <g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
     <g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms.sort()}"/>
     <g:set var="userSchools" value="${user?.schools}"/>
-    <g:set var="userClassrooms" value="${user?.userClassrooms}"/>
+    <g:set var="userClassrooms" value="${user?.classrooms}"/>
 
 	<ul class="nav nav-tabs">
     	<li class="active"><g:link action="profile">Perfil</g:link></li>
@@ -44,7 +44,7 @@
                         <h4>Facultades</h4>
                         <g:each in="${schools}" var="school">
                             <label class="checkbox">
-                                <g:checkBox name="schools" value="${school}" checked="${userSchools.contains(ni.edu.uccleon.School.findByName(school))}"/> ${school}
+                                <g:checkBox name="schools" value="${school}" checked="${userSchools.contains(school)}"/> ${school}
                             </label>
                         </g:each>
                     </div>
@@ -53,7 +53,7 @@
                         <h4>Aulas</h4>
                         <g:each in="${classrooms}" var="classroom">
                             <label class="checkbox">
-                                <g:checkBox name="classrooms" value="${classroom}" checked="${userClassrooms?.contains(ni.edu.uccleon.UserClassroom.findByClassroom(classroom))}"/> ${classroom}
+                                <g:checkBox name="classrooms" value="${classroom}" checked="${userClassrooms?.contains(classroom)}"/> ${classroom}
                             </label>
                         </g:each>
                     </div>
