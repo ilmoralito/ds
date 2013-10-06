@@ -113,7 +113,12 @@ class UserController {
                 return [user:user]
             }
 
-            userService.addSchoolsAndUserClassrooms(params.schools, params.classrooms, user)
+            def schools = params.list("schools")
+            def classrooms = params.list("classrooms")
+
+            userService.addSchoolsAndUserClassrooms(schools, classrooms, user)
+
+            return [user:user]
         }
 
         [user:user]

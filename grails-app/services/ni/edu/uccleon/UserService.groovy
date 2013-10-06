@@ -11,13 +11,8 @@ class UserService {
 
         query.deleteAll()
 
-        //add new schools to current user
-        if (schools instanceof String) {
-            user.addToSchools(new School(name:schools))
-        } else {
-            schools.each { school ->
-                user.addToSchools(new School(name:school))
-            }
+        schools.each { school ->
+            user.addToSchools(new School(name:school))
         }
 
         //classrooms
@@ -28,13 +23,8 @@ class UserService {
 
         q.deleteAll()
 
-        //add selected classrooms to current user classrooms set
-        if (classrooms instanceof String) {
-            user.addToUserClassrooms(new UserClassroom(classroom:classrooms))
-        } else {
-            classrooms.each { classroom ->
-                user.addToUserClassrooms(new UserClassroom(classroom:classroom))
-            }
+        classrooms.each { classroom ->
+            user.addToUserClassrooms(new UserClassroom(classroom:classroom))
         }
     }
 
