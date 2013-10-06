@@ -36,9 +36,8 @@ class User implements Serializable {
 
         search { criteria ->
             or {
-                ilike "fullName", "%${criteria}%"
-                ilike "email",  "%${criteria}%"
-                ilike "schools", "%${criteria}%"
+                ilike "fullName", criteria
+                ilike "email",  criteria
             }
         }
     }

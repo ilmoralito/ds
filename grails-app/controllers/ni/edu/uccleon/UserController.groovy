@@ -23,7 +23,9 @@ class UserController {
         params.max = Math.min(params.int('max') ?: 10, 100)
 
     	if (request.method == "POST") {
-    		users = User.listByRole("user").search("%${params?.query}%").list(params)
+            def query = "%${params?.query}%"
+
+    		users = User.listByRole("user").search(query).list(params)
     	} else {
             users = User.listByRole("user").list(params)
         }
