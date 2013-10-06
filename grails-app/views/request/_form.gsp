@@ -15,7 +15,7 @@
 				<g:select from="${userClassrooms}" name="classroom" value="${req?.classroom}"/>
 			</g:if>
 			<g:else>
-				<g:hiddenField name="classroom" value="${userClassrooms[0]}"/>
+				<g:hiddenField name="classroom" value="${userClassrooms}"/>
 			</g:else>
 		</g:if>
 		<g:else>
@@ -30,7 +30,7 @@
 				<g:select from="${userSchools}" name="school" value="${req?.school}"/>
 			</g:if>
 			<g:else>
-				<g:hiddenField name="school" value="${userSchools[0]}"/>
+				<g:hiddenField name="school" value="${userSchools}"/>
 			</g:else>
 		</g:if>
 		<g:else>
