@@ -23,7 +23,9 @@ class UserController {
         params.max = Math.min(params.int('max') ?: 10, 100)
 
     	if (request.method == "POST") {
-    		users = User.listByRole("user").search("%${params?.query}%").list(params)
+            def query = "%${params?.query}%"
+
+    		users = User.listByRole("user").search(query).list(params)
     	} else {
             users = User.listByRole("user").list(params)
         }
@@ -35,9 +37,8 @@ class UserController {
         if (request.get) {
             //[user:new User(params)]
         } else {
-
             if (params?.schools) {
-                def schools = params.schools
+                def schools = params.list("schools")
 
                 def user = new User(
                     email:params?.email,
@@ -46,16 +47,12 @@ class UserController {
                     enabled:true
                 )
 
-                if (!user.save()) {
-                    return [user:user]
+                schools.each { school ->
+                    user.addToSchools(school)
                 }
 
-                if ( schools instanceof String ) {
-                    user.addToSchools(new School(name:schools))
-                } else {
-                    schools.each { school ->
-                        user.addToSchools(new School(name:school))
-                    }
+                if (!user.save()) {
+                    return [user:user]
                 }
 
                 flash.message = "data.saved"

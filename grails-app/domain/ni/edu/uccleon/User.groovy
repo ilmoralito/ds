@@ -8,9 +8,6 @@ class User implements Serializable {
     String fullName
     Boolean enabled = false
 
-    List<String> schools = []
-    List userClassrooms = []
-
 	Date dateCreated
 	Date lastUpdated
 
@@ -20,6 +17,7 @@ class User implements Serializable {
         role inList:['admin', 'user'], maxSize:255
         fullName blank:false
         schools nullable:false
+        classrooms nullable:true
     }
 
     static namedQueries = {
@@ -38,16 +36,13 @@ class User implements Serializable {
 
         search { criteria ->
             or {
-                ilike "fullName", "%${criteria}%"
-                ilike "email",  "%${criteria}%"
-                schools {
-                    ilike "name", "%${criteria}%"
-                }
+                ilike "fullName", criteria
+                ilike "email",  criteria
             }
         }
     }
 
-    static hasMany = [schools:School, requests:Request, userClassrooms:UserClassroom]
+    static hasMany = [schools:String, requests:Request, classrooms:String]
 
     static mapping = {
         sort "dateCreated"

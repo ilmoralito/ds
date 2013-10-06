@@ -1,4 +1,4 @@
-<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).userClassrooms.classroom}"/>
+<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).classrooms}"/>
 <g:set var="userSchools" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).schools}"/>
 <g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
 <g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
