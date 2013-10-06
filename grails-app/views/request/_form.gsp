@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="span8">
 		<label for="dateOfApplication">Fecha de solicitud</label>
-		<g:textField name="dateOfApplication" value="${g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
+		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 
 		<!--classrooms-->
 		<g:if test="${userClassrooms}">
