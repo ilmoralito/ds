@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="layout" content="${(!session?.user) ? 'activity' : 'main'}">
+	<meta name="layout" content="public">
 	<title>Actividad</title>
 	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css"/>
@@ -59,10 +59,6 @@
 				</div>
 			</g:each>
 		</div>
-	</g:if>
-
-	<g:if test="${!session?.user}">
-		<g:link uri="/" class="btn">Iniciar sesion</g:link>
 	</g:if>
 </body>
 </html>

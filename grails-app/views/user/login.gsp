@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="layout" content="public">
 	<title>Login</title>
 	<r:require modules="bootstrap-css, app"/>
 </head>
@@ -12,7 +13,7 @@
 
 		<label for="password">Clave</label>
 		<g:passwordField name="password" class="span4"/>
-
+		<br>
 		<g:submitButton name="send" value="Iniciar sesion" class="btn"/>
 	</g:form>
 </body>

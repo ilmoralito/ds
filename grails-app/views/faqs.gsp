@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="layout" content="${(session?.user) ? 'main' : 'faqs'}">
+	<meta name="layout" content="public">
 	<title>Faqs</title>
 	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css"/>
@@ -24,9 +24,5 @@
 			<li>El solicitante sera responsable del equipo.</li>
 		</ol>
 	</p>
-
-	<g:if test="${!session?.user}">
-		<g:link uri="/" class="btn">Iniciar sesion</g:link>
-	</g:if>
 </body>
 </html>
