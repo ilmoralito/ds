@@ -10,7 +10,12 @@
 	<br><br><br>
 	<div class="container">
 		<div class="row">
-			<div class="span10 offset2">
+			<g:if test="${actionName == 'login'}">
+				<div class="span4 offset4">
+			</g:if>
+			<g:else>
+				<div class="span10 offset1">
+			</g:else>
 				<g:layoutBody/>
 			</div>
 		</div>
