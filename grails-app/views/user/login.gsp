@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="public">
 	<title>Login</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules="bootstrap-css, bootstrap-responsive-css"/>
 </head>
 <body>
 	<g:form action="login">
