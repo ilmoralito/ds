@@ -48,11 +48,15 @@ class RequestController {
                 //requests = Request.list(params)
             } else {
                 //TODO:requests must be sorted by dateOfApplication
-                requests = Request.listByUser(user).list(params)
+                requests = Request.listByUser(user).findAllByStatus("pending")
             }
         }
 
     	[requests:requests]
+    }
+
+    def others() {
+        [requests:Request.listByUser(session?.user).findAllByStatusNotEqual("pending")]
     }
 
     def createRequestFlow = {
