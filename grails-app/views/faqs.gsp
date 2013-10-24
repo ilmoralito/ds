@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="layout" content="public">
+	<meta name="layout" content="${(!session?.user) ? 'public' : 'main'}">
 	<title>Faqs</title>
 	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css"/>
