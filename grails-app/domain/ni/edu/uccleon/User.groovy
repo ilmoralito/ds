@@ -48,6 +48,8 @@ class User implements Serializable {
         sort "dateCreated"
         requests sort: 'dateOfApplication', order: 'desc'
     	version false
+        schools joinTable: [name: "user_schools"]
+        classrooms joinTable: [name: "user_classrooms"]
     }
 
     def beforeInsert() {
