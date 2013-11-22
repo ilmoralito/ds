@@ -21,7 +21,7 @@ class CommonFilters {
             }
         }
 
-        requestOnlyAdmin(controller:"request", action:"(requestsBy|listBy|show|updateStatus)") {
+        requestOnlyAdmin(controller:"request", action:"(requestsBy|listBy|show|updateStatus|updStatus)") {
             before = {
                 if (session?.user?.role != "admin") {
                     response.sendError 403

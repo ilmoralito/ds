@@ -9,64 +9,77 @@
 <body>
 	<g:render template="toolbar"/>
 	<g:if test="${requests}">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th></th>
-					<ds:isAdmin>
-						<th>${requests.size()} solicitud${(requests.size() > 1 ? 'es' : '') }</th>
-					</ds:isAdmin>
-					<ds:isUser>
-						<th></th>
-					</ds:isUser>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<g:each in="${requests}" var="request">
-					<g:set var="blocks" value="${request.hours.block.collect{it + 1}}"/>
+		<g:form>
+			<table class="table table-hover">
+				<thead>
 					<tr>
-						<td class="td-mini">
-							<g:if test="${request.type == 'common'}"></g:if>
-							<g:else><i class="icon-user"></i></g:else>
-						</td>
 						<ds:isAdmin>
-							<td>
-								<g:if test="${request.description || request.internet || request.audio || request.screen}">
-									<g:link action="show" id="${request.id}">
+							<th></th>
+						</ds:isAdmin>
+						<th></th>
+						<ds:isAdmin>
+							<th>${requests.size()} solicitud${(requests.size() > 1 ? 'es' : '') }</th>
+						</ds:isAdmin>
+						<ds:isUser>
+							<th></th>
+						</ds:isUser>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<g:each in="${requests}" var="request">
+						<g:set var="blocks" value="${request.hours.block.collect{it + 1}}"/>
+						<tr>
+							<ds:isAdmin>
+								<td class="td-mini"><g:checkBox name="requests" value="${request.id}" checked="false"/></td>
+							</ds:isAdmin>
+							<td class="td-mini">
+								<g:if test="${request.type == 'common'}"></g:if>
+								<g:else><i class="icon-user"></i></g:else>
+							</td>
+							<ds:isAdmin>
+								<td>
+									<g:if test="${request.description || request.internet || request.audio || request.screen}">
+										<g:link action="show" id="${request.id}">
+											<ds:message request="${request}" blocks="${blocks}"/>
+										</g:link>
+									</g:if>
+									<g:else>
+										<ds:message request="${request}" blocks="${blocks}"/>
+									</g:else>
+								</td>
+							</ds:isAdmin>
+							<ds:isUser>
+								<td>
+									<g:link action="editRequest" id="${request.id}">
 										<ds:message request="${request}" blocks="${blocks}"/>
 									</g:link>
-								</g:if>
-								<g:else>
-									<ds:message request="${request}" blocks="${blocks}"/>
-								</g:else>
-							</td>
-						</ds:isAdmin>
-						<ds:isUser>
-							<td>
-								<g:link action="editRequest" id="${request.id}">
-									<ds:message request="${request}" blocks="${blocks}"/>
-								</g:link>
-							</td>
-						</ds:isUser>
-						<ds:isAdmin>
-							<td class="td-mini">
-								<g:link action="updateStatus" params="[id:request.id, requestFromDate:params?.requestFromDate, requestToDate:params?.requestToDate]">
-									<ds:requestStatus status="${request.status}"/>
-								</g:link>
-							</td>
-						</ds:isAdmin>
-						<ds:isUser>
-							<td class="td-mini">
-								<g:if test="${request.status == 'pending'}">
-									<g:link action="delete" id="${request.id}"><i class="icon-trash"></i></g:link>
-								</g:if>
-							</td>
-						</ds:isUser>
-					</tr>
-				</g:each>
-			</tbody>
-		</table>
+								</td>
+							</ds:isUser>
+							<ds:isAdmin>
+								<td class="td-mini">
+									<g:link action="updateStatus" params="[id:request.id, requestFromDate:params?.requestFromDate, requestToDate:params?.requestToDate]">
+										<ds:requestStatus status="${request.status}"/>
+									</g:link>
+								</td>
+							</ds:isAdmin>
+							<ds:isUser>
+								<td class="td-mini">
+									<g:if test="${request.status == 'pending'}">
+										<g:link action="delete" id="${request.id}"><i class="icon-trash"></i></g:link>
+									</g:if>
+								</td>
+							</ds:isUser>
+						</tr>
+					</g:each>
+				</tbody>
+			</table>
+			<ds:isAdmin>
+				<g:actionSubmit value="Attended" action="updStatus" class="btn"/>
+				<g:actionSubmit value="Absent" action="updStatus" class="btn"/>
+				<g:actionSubmit value="Canceled" action="updStatus" class="btn"/>
+			</ds:isAdmin>
+		</g:form>
 	</g:if>
 	<g:else>
 		<ds:isAdmin>

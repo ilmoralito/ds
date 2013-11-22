@@ -17,7 +17,8 @@ class RequestController {
         requestsBySchools:["GET", "POST"],
         requestsByClassrooms:["GET", "POST"],
         requestsByUsers:["GET", "POST"],
-        disponability:"POST"
+        disponability:"POST",
+        updStatus:"POST"
     ]
 
     private checkRequestStatus() {
@@ -325,6 +326,34 @@ class RequestController {
         }
 
         [results:results, total:getTotal(results), type:type]
+    }
+
+    def updStatus() {
+
+        if (params.requests) {
+            def status = params?._action_updStatus
+            def requests = params.requests
+
+            requests.each { request ->
+                def r = Request.get(request)
+
+                if (r) {
+                    r.properties["status"] = status?.toLowerCase()
+
+                    if (!r.save()) {
+                        r.errors.allErrors.each {
+                            print it
+                        }
+                    }
+
+                    flash.message = "Estado actualizado"
+                }
+            }
+        } else {
+           flash.message = "Seleciona al menos una solicitud para poder continuar"
+        }
+
+        redirect action:"list"
     }
 
     //LIST BY
