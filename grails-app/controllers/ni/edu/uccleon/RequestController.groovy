@@ -332,7 +332,7 @@ class RequestController {
 
         if (params.requests) {
             def status = params?._action_updStatus
-            def requests = params.requests
+            def requests = params.list("requests")
 
             requests.each { request ->
                 def r = Request.get(request)
