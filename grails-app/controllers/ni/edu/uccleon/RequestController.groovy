@@ -44,9 +44,7 @@ class RequestController {
             requests = Request.requestFromTo((params?.requestFromDate) ?: today , (params?.requestToDate) ?: today).list()
         } else {
             if (role == "admin") {
-                //TODO:display today requests
                 requests = Request.todayRequest().list()
-                //requests = Request.list(params)
             } else {
                 //TODO:requests must be sorted by dateOfApplication
                 requests = Request.listByUser(user).findAllByStatus("pending")
