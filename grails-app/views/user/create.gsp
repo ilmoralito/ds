@@ -15,25 +15,23 @@
 		<g:renderErrors bean="${user}"/>
 	</g:hasErrors>
 
-	<g:form action="create">
-		<g:hiddenField name="enabled" value="true"/>
+	<div class="row">
+		<g:form action="create" autocomplete="off">
+			<div class="span5">
+				<g:hiddenField name="enabled" value="true"/>
 
-		<label for="email">Email</label>
-		<g:textField name="email" value="${user?.email}" class="span6" autofocus="true"/>
+				<label for="email">Email</label>
+				<g:textField name="email" value="${user?.email}" class="span5" autofocus="true"/>
 
-		<label for="fullName">Nombre completo</label>
-		<g:textField name="fullName" value="${user?.email}" class="span6"/>
+				<label for="fullName">Nombre completo</label>
+				<g:textField name="fullName" value="${user?.email}" class="span5"/>
+				<g:submitButton name="send" value="Guardar" class="btn"/>
+			</div>
 
-		<label for="schools">Facultade(s)</label>
-		<g:each in="${schools}" var="school">
-			<label class="checkbox">
-					<g:checkBox name="schools" value="${school}" checked="false"/> ${school}
-			</label>
-		</g:each>
-
-		<br>
-
-		<g:submitButton name="send" value="Guardar" class="btn"/>
-	</g:form>
+			<div class="span5">
+				<g:render template="schoolsAndDepartments"/>
+			</div>
+		</g:form>
+	</div>
 </body>
 </html>

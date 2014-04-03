@@ -102,8 +102,6 @@ class UserController {
 
         if (request.post) {
             user.properties["email", "fullName"] = params
-
-            //update session.user email property
             session?.user?.email = params.email
 
             if (!user.save()) {
