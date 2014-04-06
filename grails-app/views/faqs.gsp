@@ -19,6 +19,7 @@
 
 		<ol>
 			<li>Retirar el equipo que incluira solamente datashow, extencion y regleta.</li>
+			<li>El profesor o solicitante es el unico que puede retirar el equipo</li>
 			<li>Debera instalar el equipo, en caso de algun inconveniente procurara Soporte Tecnico brindar ayuda.</li>
 			<li>Debera regresar el equipo al concluir el bloque para el que se realizo la solicitud.</li>
 			<li>El solicitante sera responsable del equipo.</li>
