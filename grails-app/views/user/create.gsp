@@ -7,8 +7,6 @@
 	<r:require modules = "bootstrap-css, bootstrap-responsive-css, app"/>
 </head>
 <body>
-	<g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
-
 	<h4>Crear usuario</h4>
 
 	<g:hasErrors bean="${user}">

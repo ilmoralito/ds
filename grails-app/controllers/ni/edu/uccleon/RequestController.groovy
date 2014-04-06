@@ -301,8 +301,8 @@ class RequestController {
 
     //REPORTS
     def requestsBy(String from, String to, String type) {
-        def f = parseDate(from)
-        def t = parseDate(to)
+        def f = parseDatex(from)
+        def t = parseDatex(to)
         List results
 
         switch(type) {

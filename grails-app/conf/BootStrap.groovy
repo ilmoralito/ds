@@ -7,7 +7,9 @@ class BootStrap {
     def init = { servletContext ->
         switch(Environment.current) {
             case Environment.DEVELOPMENT:
-                def schools = grailsApplication.config.ni.edu.uccleon.schools
+                def theSchools = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.schools
+                def theDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
+                def schools = theSchools + theDepartments
                 def classrooms = grailsApplication.config.ni.edu.uccleon.classrooms
 
                 //users

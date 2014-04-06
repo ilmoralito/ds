@@ -7,7 +7,6 @@
 	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
-    <g:set var="schools" value="${grailsApplication.config.ni.edu.uccleon.schools}"/>
     <g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms.sort()}"/>
     <g:set var="userSchools" value="${user?.schools}"/>
     <g:set var="userClassrooms" value="${user?.classrooms}"/>

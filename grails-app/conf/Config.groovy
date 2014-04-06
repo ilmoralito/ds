@@ -93,7 +93,6 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-ni.edu.uccleon.schools = ['Ciencias Economicas Empresariales','Administracion Turistica y Hotelera','Ciencias Juridicas Empresariales','Ciencias Agragrias','Ingenieria e Informatica','Estudios por encuentro superior','Especializacion','Administracion', 'Protocolo', 'Promotoria', 'Direccion Academica', 'Vice Rectoria General', 'Registro', 'Vida Estudiantil', 'Desarrollo Proyeccion']
 ni.edu.uccleon.schoolsAndDepartments = [
   schools:["Ciencias Economicas Empresariales", "Administracion Turistica y Hotelera", "Ciencias Juridicas Empresariales", "Ciencias Agragrias", "Ingenieria e Informatica", "Estudios por encuentro superior"],
   departments:["Especializacion", "Administracion", "Protocolo", "Promotoria", "Direccion Academica", "Vice Rectoria General", "Registro", "Vida Estudiantil", "Desarrollo Proyeccion"]
