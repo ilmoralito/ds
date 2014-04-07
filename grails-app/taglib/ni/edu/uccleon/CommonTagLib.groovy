@@ -38,7 +38,7 @@ class CommonTagLib {
 			out << "Atendido"
 		} else if (status == "absent") {
 			out << "Ausente"
-		} else {
+		} else if (status == "canceled") {
 			out << "Cancelado"
 		}
 	}
@@ -131,8 +131,6 @@ class CommonTagLib {
 				out << "03:40 - 05:00"
 			}
 		}
-
-
 	}
 
 	def message = { attrs, body ->

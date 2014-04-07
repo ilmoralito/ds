@@ -102,6 +102,9 @@ ni.edu.uccleon.blocks = 7
 ni.edu.uccleon.saturday.blocks = 4
 ni.edu.uccleon.sunday.blocks = 3
 ni.edu.uccleon.datashows = 5
+ni.edu.uccleon.week.datashows = 5
+ni.edu.uccleon.saturday.datashows = 8
+ni.edu.uccleon.sunday.datashows = 8
 
 ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3

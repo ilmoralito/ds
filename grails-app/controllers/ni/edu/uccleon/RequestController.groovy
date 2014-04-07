@@ -55,7 +55,10 @@ class RequestController {
     }
 
     def others() {
-        [requests:Request.listByUser(session?.user).findAllByStatusNotEqual("pending")]
+        def results = Request.listByUser(session?.user).findAllByStatusNotEqual("pending")
+        def requests = results.groupBy { request -> request.status }
+
+        [requests:requests]
     }
 
     def createRequestFlow = {
