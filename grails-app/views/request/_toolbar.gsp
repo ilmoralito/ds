@@ -11,10 +11,8 @@
 		</ds:isAdmin>
 		<ds:isUser>
 			<div class="pull-right">
-				<div class="btn-group">
-					<g:link action="list" class="btn ${(actionName == 'list') ? 'active' : ''}">Pendientes</g:link>
-					<g:link action="others" class="btn ${(actionName == 'others') ? 'active' : ''}">Historial</g:link>
-				</div>
+				<g:link action="list" class="btn ${(actionName == 'list') ? 'active' : ''}">Pendientes</g:link>
+				<g:link action="others" class="btn ${(actionName == 'others') ? 'active' : ''}">Historial</g:link>
 				<div class="btn-group">
 				  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Crear solicitud <span class="caret"></span></a>
 				  <ul class="dropdown-menu">
