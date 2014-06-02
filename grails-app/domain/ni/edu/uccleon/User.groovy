@@ -46,6 +46,8 @@ class User implements Serializable {
 
     static mapping = {
         sort "dateCreated"
+        role column: "user_role"
+        enabled column: "user_status"
         requests sort: 'dateOfApplication', order: 'desc'
     	version false
         schools joinTable: [name: "user_schools"]
