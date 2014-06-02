@@ -84,22 +84,21 @@
 	<g:else>
 		<ds:isAdmin>
 			<div class="alert alert-info">
-				<strong>nothing.to.show</strong>
+				<strong>Nada que mostrar</strong>
 			</div>
 		</ds:isAdmin>
 		<ds:isUser>
-			<g:if test="${!ni.edu.uccleon.Request.list().size()}">
-				<div class="well">
-					<h4>Bienvendio al sistema de solitudes de datashow</h4>
-					<p>
-						Recuerda porfavor leer la seccion <g:link uri="/faqs">preguntas comunes</g:link>
-						para conocer las condiciones del servicio.
-					</p>
-				</div>
+			<g:if test="${!ni.edu.uccleon.Request.findByUser(session?.user)}">
+				<br>
+				<h5>Bienvendio al sistema de solitudes de datashow</h5>
+				<p>
+					Porfavor lee la seccion <g:link uri="/faqs">preguntas comunes</g:link>
+					para conocer las condiciones del servicio.
+				</p>
 			</g:if>
 			<g:else>
 				<div class="alert alert-info">
-					<strong>nothing.to.show</strong>
+					<strong>Nada que mostrar</strong>
 				</div>
 			</g:else>
 		</ds:isUser>
