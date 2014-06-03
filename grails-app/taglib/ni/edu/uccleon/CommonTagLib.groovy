@@ -9,11 +9,11 @@ class CommonTagLib {
 		}
 	}
 
-	def isTrue = {attrs, body ->
-		def enabled = attrs.enabled
-
-		if (enabled) {
-			out << body()
+	def isEnabled = { attrs ->
+		if (attrs.status) {
+			out << "Habilitado"
+		} else {
+			out << "Deshabilitado"
 		}
 	}
 

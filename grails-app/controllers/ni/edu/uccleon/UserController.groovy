@@ -10,6 +10,7 @@ class UserController {
     	list:["GET", "POST"],
     	create:["GET", "POST"],
     	show:["GET", "POST"],
+        enableDisableUserAccount:"POST",
     	delete:"GET",
     	login:["GET", "POST"],
     	updatePassword:"POST",
@@ -65,10 +66,7 @@ class UserController {
     def show(Integer id) {
         def user = User.get(id)
 
-        if (!user) {
-            response.sendError 404
-            return false
-        }
+        if (!user) { response.sendError 404 }
 
         if (request.get) {
             return [user:user]
@@ -81,6 +79,18 @@ class UserController {
 
             flash.message = "data.saved"
         }
+    }
+
+    def enableDisableUserAccount(Integer id) {
+        def user = User.get(id)
+
+        if (!user) { response.sendError 404 }
+
+        user.properties["enabled"] = !user.enabled
+
+        flash.message = (!user.save()) ? "A ocurrido un error intentalo nuevamente" : "Estado de cuenta actualizado"
+
+        redirect action:"show", id:id
     }
 
     def delete(Integer id) {

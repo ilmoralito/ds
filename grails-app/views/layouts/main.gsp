@@ -38,7 +38,7 @@
 			</div>
 			<div class="span10">
 				<g:layoutBody/>
-				<ds:flashMessage><div class="alert alert-info">${flash.message}</div></ds:flashMessage>
+				<ds:flashMessage><br><div class="alert alert-info">${flash.message}</div></ds:flashMessage>
 			</div>
 		</div>
 	</div>

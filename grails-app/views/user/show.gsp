@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="row">
-		<div class="span5">
+		<div class="span3">
 			<h4>Perfil</h4>
 
 			<p>
@@ -20,12 +20,7 @@
 				<label for="">Correo</label>
 				${user?.email}
 			</p>
-
-			<p>
-				<label for="">Estado</label>
-				<ds:isTrue enabled="${user?.enabled}"><i class="icon-ok"></i></ds:isTrue>
-			</p>
-
+			
 			<g:if test="${user?.schools}">
 				<label for="">Facultades</label>
 				<ul>
@@ -61,6 +56,13 @@
 			<h4>Resetear clave</h4>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, in, rerum, accusamus incidunt minus similique quia consequatur modi aperiam earum aliquam minima culpa illum nam laudantium error vero ipsa totam!</p>
 			<g:link action="resetPassword" id="${params?.id}" class="btn btn-warning">Confirmar resetear clave</g:link>
+		</div>
+		<div class="span2">
+			<h4>Habilitar/deshabilitar cuenta</h4>
+			<g:form action="enableDisableUserAccount">
+				<g:hiddenField name="id" value="${user?.id}"/>
+				<button type="submit" class="btn btn-success btn-block"><ds:isEnabled status="${user.enabled}"/></button>
+			</g:form>
 		</div>
 	</div>
 </body>
