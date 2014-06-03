@@ -72,13 +72,17 @@ class BootStrap {
                 def user = User.findByEmail("mario.martinez@ucc.edu.ni")
 
                 if (!user) {
-                    new User(
+                    def us = new User(
                         email:"mario.martinez@ucc.edu.ni",
                         password:"ucc2013",
                         role:"admin",
                         fullName:"Mario Roger Daniel Martinez Morales",
                         enabled:true
-                    ).save()
+                    )
+
+                    if (!us.save()) {
+                        us.errors.allErrors.each { println it }
+                    }
                 }
             break
         }

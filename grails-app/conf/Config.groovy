@@ -67,7 +67,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = "http://ds.cfapps.io"
+        grails.serverURL = "http://uccds.herokuapp.com"
     }
 }
 
