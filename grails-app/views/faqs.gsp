@@ -24,9 +24,9 @@
 			<li>Debera instalar el equipo, en caso de algun inconveniente procurara Soporte Tecnico brindar ayuda.</li>
 			<li>Debera regresar el equipo al concluir el bloque para el que se realizo la solicitud.</li>
 		</ol>
-		
-		<p>Ademas</p>
-		<p>El equipo responsable de los medios audiovisuales no se hara responsable de objetos olvidados</p>
 	</p>
+	
+	<p>Ademas</p>
+	<p>El equipo responsable de los medios audiovisuales no se hara responsable de objetos olvidados</p>
 </body>
 </html>
