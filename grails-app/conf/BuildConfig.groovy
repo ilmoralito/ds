@@ -38,7 +38,6 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        compile "org.cloudfoundry:cloudfoundry-runtime:0.8.4"
         compile "org.grails:grails-webflow:$grailsVersion"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
@@ -65,7 +64,8 @@ grails.project.dependency.resolution = {
         compile ":twitter-bootstrap:2.3.0"
         compile ":webxml:1.4.1"
         compile ":jquery-ui:1.8.24"
-        compile ':webflow:2.0.8.1'
-        compile ':cloud-foundry:1.2.3'
+        compile ":webflow:2.0.8.1"
+        compile ":heroku:1.0.1"
+        compile ":cloud-support:1.0.8"
     }
 }
