@@ -41,7 +41,8 @@ grails.project.dependency.resolution = {
         compile "org.grails:grails-webflow:$grailsVersion"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
-        runtime 'mysql:mysql-connector-java:5.1.22'
+        //runtime 'mysql:mysql-connector-java:5.1.22'
+        runtime 'postgresql:postgresql:8.4-702.jdbc3'
     }
 
     plugins {
