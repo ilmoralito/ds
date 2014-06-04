@@ -31,7 +31,7 @@
     	<g:render template="reportsTable"/>
     </g:if>
     <g:else>
-    	<strong>nothing.to.show</strong>
+    	<strong>...</strong>
     </g:else>
 </body>
 </html>
