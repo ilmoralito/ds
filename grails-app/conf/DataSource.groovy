@@ -26,22 +26,31 @@ environments {
   production {
     dataSource {
       dbCreate = "update"
-      driverClassName = "org.postgresql.Driver"
-      dialect = org.hibernate.dialect.PostgreSQLDialect
-      uri = new URI(System.env.DATABASE_URL?:"postgres://pzygjfsyomadft:OIIe0IMCmxjzzNcSZ2mMxxNBu7@ec2-54-197-249-167.compute-1.amazonaws.com:5432/d4oirrea0rmu5b")
-      url = "jdbc:postgresql://"+uri.host+uri.path
+      driverClassName = "com.mysql.jdbc.Driver"
+      dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+      uri = new URI(System.env.CLEARDB_DATABASE_URL?:"//ba4b8d0a134035:88898334@us-cdbr-east-06.cleardb.net/heroku_b1e44ac57b51729?reconnect=true")
+      url = "jdbc:mysql://"+uri.host+uri.path
       username = uri.userInfo.split(":")[0]
       password = uri.userInfo.split(":")[1]
-      pooled = true
       properties {
-        maxActive = -1
-        minEvictableIdleTimeMillis=1800000
-        timeBetweenEvictionRunsMillis=1800000
-        numTestsPerEvictionRun=3
-        testOnBorrow=true
-        testWhileIdle=true
-        testOnReturn=true
-        validationQuery="SELECT 1"
+        // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
+        jmxEnabled = true
+        initialSize = 5
+        maxActive = 50
+        minIdle = 5
+        maxIdle = 25
+        maxWait = 10000
+        maxAge = 10 * 60000
+        timeBetweenEvictionRunsMillis = 5000
+        minEvictableIdleTimeMillis = 60000
+        validationQuery = "SELECT 1"
+        validationQueryTimeout = 3
+        validationInterval = 15000
+        testOnBorrow = true
+        testWhileIdle = true
+        testOnReturn = false
+        jdbcInterceptors = "ConnectionState"
+        defaultTransactionIsolation = java.sql.Connection.TRANSACTION_READ_COMMITTED
       }
     }
   }
