@@ -41,7 +41,7 @@ grails.project.dependency.resolution = {
         compile "org.grails:grails-webflow:$grailsVersion"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
-        runtime 'mysql:mysql-connector-java:5.1.22'
+        runtime 'mysql:mysql-connector-java:5.1.27'
         //runtime 'postgresql:postgresql:8.4-702.jdbc3'
     }
 
@@ -66,7 +66,6 @@ grails.project.dependency.resolution = {
         compile ":webxml:1.4.1"
         compile ":jquery-ui:1.8.24"
         compile ":webflow:2.0.8.1"
-        compile ":heroku:1.0.1"
-        compile ":cloud-support:1.0.8"
+        compile ":database-session:1.2.1"
     }
 }
