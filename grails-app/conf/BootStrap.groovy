@@ -69,6 +69,7 @@ class BootStrap {
                 }
             break
             case Environment.PRODUCTION:
+            /*
                 def user = User.findByEmail("mario.martinez@ucc.edu.ni")
 
                 if (!user) {
@@ -84,6 +85,7 @@ class BootStrap {
                         us.errors.allErrors.each { println it }
                     }
                 }
+                */
             break
         }
     }
