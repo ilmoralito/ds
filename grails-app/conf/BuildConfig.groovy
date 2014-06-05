@@ -66,6 +66,6 @@ grails.project.dependency.resolution = {
         compile ":webxml:1.4.1"
         compile ":jquery-ui:1.8.24"
         compile ":webflow:2.0.8.1"
-        compile ":database-session:1.2.1"
+        //compile ":database-session:1.2.1"
     }
 }
