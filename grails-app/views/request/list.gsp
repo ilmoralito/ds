@@ -83,6 +83,7 @@
 	</g:if>
 	<g:else>
 		<ds:isAdmin>
+			<br>
 			<div class="alert alert-info">
 				<strong>Nada que mostrar</strong>
 			</div>
@@ -97,6 +98,7 @@
 				</p>
 			</g:if>
 			<g:else>
+				<br>
 				<div class="alert alert-info">
 					<strong>Nada que mostrar</strong>
 				</div>
