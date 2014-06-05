@@ -10,12 +10,12 @@
 		<div class="row">
 			<div class="span2">
 				<!--orden de reparacion-->
-				<div class="well well-small">
-					<g:form controller="request" action="activity" class="form-inline">
+				<g:form controller="request" action="activity" autocomplete="off">
+					<div class="input-append">
 						<g:textField name="q" value="${params?.q}" class="input-small" placeholder="Disponibilidad"/>
-						<button type="submit" class="btn"><i class="icon-search"></i></button>
-					</g:form>
-				</div>
+						<button type="submit" class="btn">Listar</button>
+					</div>
+				</g:form>
 
 				<ds:isAdmin>
 					<ul class="nav nav-tabs nav-stacked">
