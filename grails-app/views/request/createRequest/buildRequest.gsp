@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Crear solicitud</title>
-	<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 </head>
 <body>
 	<g:if test="${type == 'express'}">
