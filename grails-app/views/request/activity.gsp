@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="${(!session?.user) ? 'public' : 'main'}">
 	<title>Actividad</title>
-	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css"/>
 	<r:require modules = "${(!session?.user) ? activityStyle : mainStyle}"/>
 </head>

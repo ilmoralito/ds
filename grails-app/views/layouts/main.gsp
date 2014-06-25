@@ -9,13 +9,25 @@
 	<div class="container main">
 		<div class="row">
 			<div class="span2">
-				<!--orden de reparacion-->
-				<g:form controller="request" action="activity" autocomplete="off">
+				<g:form controller="request" action="activity" autocomplete="off" style="margin:0;">
 					<div class="input-append">
 						<g:textField name="q" value="${params?.q}" class="input-small" placeholder="Disponibilidad"/>
 						<button type="submit" class="btn">Listar</button>
 					</div>
 				</g:form>
+
+				<ds:isUser>
+					<div class="btn-group" style="margin:0 0 10px 0;">
+					  <button class="btn btn-default">Solicitar datashows</button>
+					  <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+					  <ul class="dropdown-menu">
+							<li><g:link controller="request" action="createRequest" params="[type:'express']">Expreso</g:link></li>
+							<li><g:link controller="request" action="createRequest">General</g:link></li>
+					   </ul>
+					</div>
+				</ds:isUser>
 
 				<ds:isAdmin>
 					<ul class="nav nav-tabs nav-stacked">
