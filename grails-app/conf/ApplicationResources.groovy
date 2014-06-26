@@ -7,6 +7,10 @@ modules = {
     	resource url:"css/app.css"
     }
 
+    appPublicStyle {
+        resource url:"css/public.css"
+    }
+
     overrides {
 		'jquery-theme' {
 			resource id:'theme', url:'/css/custom-theme/jquery-ui-1.10.3.custom.min.css'
