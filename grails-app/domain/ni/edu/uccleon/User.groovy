@@ -16,8 +16,8 @@ class User implements Serializable {
         password blank:false
         role inList:['admin', 'user'], maxSize:255
         fullName blank:false
-        schools nullable:true
-        classrooms nullable:true
+        schools nullable:false
+        classrooms nullable:false
     }
 
     static namedQueries = {

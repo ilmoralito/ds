@@ -35,31 +35,26 @@ class UserController {
     }
 
     def create() {
-        if (request.get) {
-            //[user:new User(params)]
-        } else {
-            if (params?.schools) {
-                def schools = params.list("schools")
+        if (request.post) {
+            def schools = params.list "schools"
+            def classrooms = params.list "classrooms"
 
-                def user = new User(
-                    email:params?.email,
-                    password:"123",
-                    fullName:params.fullName ?: params?.email,
-                    enabled:true
-                )
+            def user = new User(
+                email:params?.email,
+                password:"123",
+                fullName:params?.fullName,
+                enabled:true
+            )
 
-                schools.each { school ->
-                    user.addToSchools(school)
-                }
+            schools.each { school -> user.addToSchools school }
 
-                if (!user.save()) {
-                    return [user:user]
-                }
+            classrooms.each { classroom -> user.addToClassrooms classroom }
 
-                flash.message = "data.saved"
-            } else {
-                flash.message = "you.need.to.add.at.least.one.school"
+            if (!user.save()) {
+                return [user:user]
             }
+
+            flash.message = "Usuario creado"
         }
     }
 
@@ -201,5 +196,4 @@ class updatePasswordCommand {
 			return rpassword == obj.npassword
 		}
 	}
-
 }
