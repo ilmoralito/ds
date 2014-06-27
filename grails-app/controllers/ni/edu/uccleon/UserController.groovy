@@ -54,7 +54,14 @@ class UserController {
                 return [user:user]
             }
 
-            flash.message = "Usuario creado"
+            //notify new user
+            sendMail {
+                to params.email
+                subject "Datashow"
+                html g.render(template:"email", model:[user:user])
+            }
+
+            flash.message = "Usuario creado y notificacion enviada"
         }
     }
 

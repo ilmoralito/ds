@@ -110,3 +110,20 @@ ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3
 
 grails.plugins.twitterbootstrap.fixtaglib = true
+
+grails.mail.default.from="mario.martinez@ucc.edu.ni"
+
+grails {
+  mail {
+    host = "smtp.gmail.com"
+    port = 465
+    username = System.env.GMAIL_USERNAME
+    password = System.env.GMAIL_PASSWORD
+    props = [
+      "mail.smtp.auth":"true",             
+      "mail.smtp.socketFactory.port":"465",
+      "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+      "mail.smtp.socketFactory.fallback":"false"
+    ]
+  } 
+}

@@ -61,5 +61,6 @@ stacktrace.log
 
 # other
 *.iws
+.env
 
 >>>>>>> f2f03c3cf9d90a24c7d84bb493ecf0728beebea2
