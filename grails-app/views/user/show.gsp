@@ -63,6 +63,12 @@
 				<g:hiddenField name="id" value="${user?.id}"/>
 				<button type="submit" class="btn btn-success btn-block"><ds:isEnabled status="${user.enabled}"/></button>
 			</g:form>
+
+			<h4>Notificar</h4>
+			<g:form action="notification">
+				<g:hiddenField name="id" value="${user?.id}"/>
+				<button type="submit" class="btn btn-info btn-block">Notificar</button>
+			</g:form>
 		</div>
 	</div>
 </body>

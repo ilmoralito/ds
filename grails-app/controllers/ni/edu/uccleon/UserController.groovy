@@ -11,6 +11,7 @@ class UserController {
     	create:["GET", "POST"],
     	show:["GET", "POST"],
         enableDisableUserAccount:"POST",
+        notification:"POST",
     	delete:"GET",
     	login:["GET", "POST"],
     	updatePassword:"POST",
@@ -91,6 +92,22 @@ class UserController {
         user.properties["enabled"] = !user.enabled
 
         flash.message = (!user.save()) ? "A ocurrido un error intentalo nuevamente" : "Estado de cuenta actualizado"
+
+        redirect action:"show", id:id
+    }
+
+    def notification(Integer id) {
+        def user = User.get id
+
+        if (!user) {
+            response.sendError 404
+        }
+
+        sendMail {
+            to user.email
+            subject "Datashow"
+            html g.render(template:"email", model:[user:user])
+        }
 
         redirect action:"show", id:id
     }
