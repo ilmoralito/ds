@@ -1,5 +1,7 @@
 package ni.edu.uccleon
 
+import grails.util.Holders
+
 class RequestController {
 
     def requestService
@@ -413,5 +415,37 @@ class updateStatusCommand {
         req.status = status
 
         //req.save()
+    }
+}
+
+class BuildRequestCommand {
+    Date dateOfApplication
+    String classroom
+    String school
+    String description
+    String type
+    Boolean audio = false
+    Boolean screen = false
+    Boolean internet = false
+
+    static constraints = {
+        dateOfApplication nullable:false, validator: {val, obj ->
+            def today = new Date()
+            def minCommonRequestDate = today - 2
+            
+            if (obj.type == "express") {
+                val >= today
+            } else {
+                val >= minCommonRequestDate
+            }
+        }
+
+        classroom blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
+        school blank:false, inList:Holders.config.ni.edu.uccleon.classrooms
+        description nullable:true
+        type blank:false, inList:["common", "express"]
+        audio nullable:false
+        screen nullable:false
+        internet nullable:false
     }
 }
