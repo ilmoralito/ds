@@ -52,23 +52,22 @@
 				<br>
 				<g:submitButton name="send" value="Actualizar" class="btn"/>
 			</g:form>
-
-			<h4>Resetear clave</h4>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, in, rerum, accusamus incidunt minus similique quia consequatur modi aperiam earum aliquam minima culpa illum nam laudantium error vero ipsa totam!</p>
-			<g:link action="resetPassword" id="${params?.id}" class="btn btn-warning">Confirmar resetear clave</g:link>
 		</div>
 		<div class="span2">
 			<h4>Habilitar/deshabilitar cuenta</h4>
 			<g:form action="enableDisableUserAccount">
 				<g:hiddenField name="id" value="${user?.id}"/>
-				<button type="submit" class="btn btn-success btn-block"><ds:isEnabled status="${user.enabled}"/></button>
+				<button type="submit" class="btn btn-default btn-block"><ds:isEnabled status="${user.enabled}"/></button>
 			</g:form>
 
 			<h4>Notificar</h4>
 			<g:form action="notification">
 				<g:hiddenField name="id" value="${user?.id}"/>
-				<button type="submit" class="btn btn-info btn-block">Notificar</button>
+				<button type="submit" class="btn btn-default btn-block">Notificar</button>
 			</g:form>
+
+			<h4>Resetear clave</h4>
+			<g:link action="resetPassword" id="${params?.id}" class="btn btn-default btn-block">Confirmar resetear clave</g:link>
 		</div>
 	</div>
 </body>
