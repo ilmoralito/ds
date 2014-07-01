@@ -91,6 +91,7 @@ class Request implements Serializable {
     }
 
     static belongsTo = [user:User]
+    List hours
     static hasMany = [hours:Hour]
 
     static mapping = {
