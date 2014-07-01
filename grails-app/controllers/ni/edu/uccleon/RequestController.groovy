@@ -127,69 +127,61 @@ class RequestController {
     def editRequestFlow = {
         init {
             action {
-                def req = Request.findByIdAndUser(params.int("id"), session?.user)
+                Integer id = params.int("id")
+                def req = Request.findByIdAndUser(id, session?.user)
 
-                if (!req) {
-                    response.sendError 404
-                }
-
-                if (req.status != "pending") {
-                    flash.message = "access.denied.request.already.attended"
-                    return done()
-                }
+                if (!req || req.status != "pending") { response.sendError 404 }
 
                 [req:req]
             }
 
             on("success").to "edit"
-            on("done").to "done"
         }
 
         edit {
-            on("confirm") {
-                flow.req.dateOfApplication = parseDate(params?.dateOfApplication)
-                flow.req.classroom = params?.classroom
-                flow.req.school = params?.school
-                flow.req.description = params?.description
-                flow.req.audio = params?.audio
-                flow.req.screen = params?.screen
-                flow.req.internet = params?.internet
-
-                if (!flow.req.save()) {
-                    flow.req = flow.req
+            on("confirm") { BuildRequestCommand cmd ->
+                if (!cmd.validate()) {
+                    cmd.errors.allErrors.each { println it }
                     return error()
                 }
 
-                [req:flow.req, requests:Request.requestFromTo(params.date("dateOfApplication"), params.date("dateOfApplication")).list()]
+                flow.req.dateOfApplication = cmd.dateOfApplication
+                flow.req.classroom = cmd.classroom
+                flow.req.school = cmd.school
+                flow.req.description = cmd.description
+                flow.req.audio = cmd.audio
+                flow.req.screen = cmd.screen
+                flow.req.internet = cmd.internet
 
+                [req:flow.req, requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()]
             }.to("hours")
         }
 
         hours {
-            on("confirm") {
-                def blocks = params.list("blocks")
-
-                if (blocks) {
-                    //before add new block or blocks delete block linked to this request
-                    def query = Hour.where {
-                        request == flow.req
-                    }
-
-                    query.deleteAll()
-
-                    //update datashow
-                    if (params.int("datashow") != flow.req.datashow) {
-                        flow.req.datashow = params.int("datashow")
-                        flow.req.save()
-                    }
-
-                    //add new blocks
-                    blocks.each { block ->
-                        flow.req.addToHours(new Hour(block:block))
-                    }
-                } else {
+            on("confirm") { PersistHourCommand cmd ->
+                if (!cmd.validate()) {
+                    cmd.errors.allErrors.each { println it }
                     return error()
                 }
+
+                //delete all previous hours in request
+                def query = Hour.where {
+                    request == flow.req
+                }
+
+                query.deleteAll()
+
+                //update datashow
+                if (cmd.datashow != flow.req.datashow) {
+                    flow.req.datashow = cmd.datashow
+                }
+
+                //add new blocks
+                cmd.blocks.each { block ->
+                    flow.req.addToHours(new Hour(block:block))
+                }
+
+                flow.req.save()
             }.to "done"
 
             on("cancel").to "done"

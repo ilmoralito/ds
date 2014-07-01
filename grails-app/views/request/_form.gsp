@@ -6,7 +6,7 @@
 
 <div class="row">
 	<div class="span8">
-		<g:hiddenField name="type" value="${type}"/>
+		<g:hiddenField name="type" value="${req?.type ?: type}"/>
 
 		<label for="dateOfApplication">Fecha de solicitud</label>
 		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
