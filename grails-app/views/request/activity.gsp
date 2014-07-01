@@ -40,7 +40,7 @@
 										<small>
 											<div class="row">
 												<div class="span2">
-													<strong>${it.user.fullName}</strong>
+													<strong>${it.user.fullName.toLowerCase().tokenize(" ")*.capitalize().join(" ")}</strong>
 													<br>
 													<strong>${it.classroom}</strong>
 													<br>
