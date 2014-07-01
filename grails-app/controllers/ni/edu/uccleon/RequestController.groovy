@@ -43,7 +43,7 @@ class RequestController {
         if (params.requestFromDate && params.requestToDate) {
             def today = new Date().format("yyyy-MM-dd")
 
-            requests = Request.requestFromTo((params?.requestFromDate) ?: today , (params?.requestToDate) ?: today).list()
+            requests = Request.requestFromTo((params.date("requestFromDate")) ?: today , (params.date("requestToDate")) ?: today).list()
         } else {
             if (role == "admin") {
                 requests = Request.todayRequest().list()
@@ -64,78 +64,59 @@ class RequestController {
     }
 
     def createRequestFlow = {
-        getRequestType {
+        init {
             action {
-                flow.type = (params.type) ?: "common"
+                flow.type = params?.type ?: "common"
             }
 
             on("success").to "buildRequest"
         }
 
         buildRequest {
-            on("create") {
-                //check for screens, speakers, internet availablity
-                def screensAvailable = grailsApplication.config.ni.edu.uccleon.screens
-                def speakersAvailable = grailsApplication.config.ni.edu.uccleon.speakers
-
-                def screensResult = Request.countByDateOfApplicationAndScreen(parseDate(params?.dateOfApplication), true)
-                if (params.screen && screensResult == screensAvailable) {
-                    flash.message = "Todas las pantallas estan ya solicitadas para esta fecha"
+            on("create") { BuildRequestCommand cmd ->
+                if (!cmd.validate()) {
+                    cmd.errors.allErrors.each { println it.defaultMessage }
                     return error()
                 }
 
-                def speakersResult = Request.countByDateOfApplicationAndAudio(parseDate(params?.dateOfApplication), true)
-                if (params.audio && speakersResult == speakersAvailable) {
-                    flash.message = "Todas las parlantes estan ya solicitadas para esta fecha"
-                    return error()
-                }
-
-                def req = new Request(
-                    dateOfApplication:parseDate(params?.dateOfApplication),
-                    classroom:params?.classroom,
-                    school:params?.school,
-                    description:params?.description,
-                    type:flow.type,
-                    audio:params?.audio,
-                    screen:params?.screen,
-                    internet:params?.internet,
-                    user:session?.user
+                Request req = new Request(
+                    dateOfApplication:cmd.dateOfApplication,
+                    classroom:cmd.classroom,
+                    school:cmd.school,
+                    description:cmd.description,
+                    type:cmd.type,
+                    audio:cmd.audio,
+                    screen:cmd.screen,
+                    internet:cmd.internet
                 )
 
-                if (!req.save()) {
-                    flow.req = req
-                    return error()
-                }
-
-                [req:req, requests:Request.requestFromTo(params.dateOfApplication, params.dateOfApplication).list()]
+                [req:req, requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()]
             }.to "hours"
         }
 
         hours {
-            on("confirm") {
-                //add to current request datashow selected
-                flow.req.datashow = params.int("datashow")
-                flow.req.save()
-
-                //add hours to request
-                def blocks = params.blocks
-
-                if (blocks) {
-                    blocks.each { block ->
-                        flow.req.addToHours(new Hour(block:block))
-                    }
-
-                    flash.message = "request.saved"
-                } else {
+            on("confirm") { PersistHourCommand cmd -> 
+                if (!cmd.validate()) {
+                    cmd.errors.allErrors.each { println it.defaultMessage }
                     return error()
                 }
 
+                //add to current request datashow selected
+                def user = User.get(session?.user?.id)
+                user.addToRequests flow.req
 
+                //add datashow number selected to current request
+                flow.req.datashow = cmd.datashow
+
+                //add hours to request
+                cmd.blocks.each { block ->
+                    flow.req.addToHours(new Hour(block:block))
+                }
+
+                flash.message = "Solicitud guardada"
             }.to "done"
 
-            on("delete") {
-                flow.req.delete()
-            }.to "done"
+            on("delete").to "done"
         }
 
         done {
@@ -179,7 +160,7 @@ class RequestController {
                     return error()
                 }
 
-                [req:flow.req, requests:Request.requestFromTo(params.dateOfApplication, params.dateOfApplication).list()]
+                [req:flow.req, requests:Request.requestFromTo(params.date("dateOfApplication"), params.date("dateOfApplication")).list()]
 
             }.to("hours")
         }
@@ -284,47 +265,42 @@ class RequestController {
         redirect action:"list", params:params
     }
 
-    def activity(String q) {
-        def today = new Date().format("yyyy-MM-dd").toString()
+    def activity(Date q) {
+        def today = new Date()
         def requests = Request.requestFromTo((q) ?: today, (q) ?: today).findAllByStatus("pending")
-        def day = (q) ? new Date().parse("yyyy-MM-dd", q)[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
-        def blocks
-
-        switch(day) {
-            case 7:
-                blocks = grailsApplication.config.ni.edu.uccleon.saturday.blocks
-                break
-            case 1:
-                blocks = grailsApplication.config.ni.edu.uccleon.sunday.blocks
-                break
-            default:
-                blocks = grailsApplication.config.ni.edu.uccleon.blocks
+        def day = q ? q[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
+        def blocks = {
+            if (day == 7) {
+                grailsApplication.config.ni.edu.uccleon.saturday.blocks
+            } else if (day == 1) {
+                grailsApplication.config.ni.edu.uccleon.sunday.blocks
+            } else {
+                grailsApplication.config.ni.edu.uccleon.blocks
+            }
         }
 
         [requests:requests, blocks:blocks, day:day]
     }
 
     //REPORTS
-    def requestsBy(String from, String to, String type) {
-        def f = params.date(from, "yyyy-MM-dd")
-        def t = params.date(to, "yyyy-MM-dd")
+    def requestsBy(Date from, Date to, String type) {
         List results
 
         switch(type) {
             case "schools":
-                results = (request.get) ? Request.requestsBy("school").list() : Request.requestsBy("school").requestFromTo(f, t).list()
+                results = (request.get) ? Request.requestsBy("school").list() : Request.requestsBy("school").requestFromTo(from, to).list()
                 break
             case "classrooms":
-                results = (request.get) ? Request.requestsBy("classroom").list() : Request.requestsBy("classroom").requestFromTo(f, t).list()
+                results = (request.get) ? Request.requestsBy("classroom").list() : Request.requestsBy("classroom").requestFromTo(from, to).list()
                 break
             case "users":
-                results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(f, t).list()
+                results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(from, to).list()
                 break
             case "datashows":
-                results = (request.get) ? Request.requestsBy("datashow").list() : Request.requestsBy("datashow").requestFromTo(f, t).list()
+                results = (request.get) ? Request.requestsBy("datashow").list() : Request.requestsBy("datashow").requestFromTo(from, to).list()
                 break
             case "blocks":
-                results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(f, t).list()
+                results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
                 break
         }
 
@@ -431,21 +407,31 @@ class BuildRequestCommand {
     static constraints = {
         dateOfApplication nullable:false, validator: {val, obj ->
             def today = new Date()
-            def minCommonRequestDate = today - 2
+            def minCommonRequestDate = today + 2
             
             if (obj.type == "express") {
-                val >= today
+                val >= today.clearTime()
             } else {
                 val >= minCommonRequestDate
             }
         }
 
-        classroom blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
-        school blank:false, inList:Holders.config.ni.edu.uccleon.classrooms
+        classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms as List
+        school blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
         description nullable:true
         type blank:false, inList:["common", "express"]
         audio nullable:false
         screen nullable:false
         internet nullable:false
+    }
+}
+
+class PersistHourCommand {
+    Integer datashow
+    List blocks
+
+    static constraints = {
+        datashow nullable:false, min:1
+        blocks nullable:false
     }
 }

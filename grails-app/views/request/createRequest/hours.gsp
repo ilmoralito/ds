@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- avaliables datashows -->
-	<g:set var="datashows" value="${(req.type == 'express') ? grailsApplication.config.ni.edu.uccleon.datashows : 2}"/>
+	<g:set var="datashows" value="${req.type == 'express' ? grailsApplication.config.ni.edu.uccleon.datashows : 2}"/>
 
 	<!-- request day -->
 	<g:set var="day" value="${req.dateOfApplication[Calendar.DAY_OF_WEEK]}"/>
@@ -26,10 +26,10 @@
 
 	<div class="row">
 		<div class="span5">
-			<h4>Solicitud del ${req.dateOfApplication.format("yyyy-MM-dd")} en ${req.classroom}</h4>
+			<h4>Solicitud ${req.dateOfApplication.format("yyyy-MM-dd")} en ${req.classroom}</h4>
 		</div>
 		<div class="span5">
-			<g:link event="delete" class="btn pull-right">Eliminar solicitud</g:link>
+			<g:link event="delete" class="btn btn-small pull-right">Cancelar solicitud</g:link>
 		</div>
 	</div>
 	<div class="row">

@@ -61,11 +61,8 @@ class Request implements Serializable {
         }
 
         requestFromTo { from, to ->
-            def f = new Date().parse("yyyy-MM-dd", from)
-            def t = new Date().parse("yyyy-MM-dd", to)
-
-            ge "dateOfApplication", f.clearTime()
-            le "dateOfApplication", t.clearTime()
+            ge "dateOfApplication", from.clearTime()
+            le "dateOfApplication", to.clearTime()
         }
 
         //reports
