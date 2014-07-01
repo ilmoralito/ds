@@ -258,9 +258,9 @@ class RequestController {
     }
 
     def activity(Date q) {
-        def today = new Date()
-        def requests = Request.requestFromTo((q) ?: today, (q) ?: today).findAllByStatus("pending")
-        def day = q ? q[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
+        Date date = q ?: new Date()
+        def requests = Request.requestFromTo(date, date).findAllByStatus("pending")
+        def day = date[Calendar.DAY_OF_WEEK]
         def blocks = {
             if (day == 7) {
                 grailsApplication.config.ni.edu.uccleon.saturday.blocks
@@ -271,7 +271,7 @@ class RequestController {
             }
         }
 
-        [requests:requests, blocks:blocks, day:day]
+        [requests:requests, blocks:blocks.call(), day:day]
     }
 
     //REPORTS

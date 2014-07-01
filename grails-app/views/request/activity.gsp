@@ -6,7 +6,7 @@
 	<title>Actividad</title>
 	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css, appPublicStyle"/>
-	<r:require modules = "${(!session?.user) ? activityStyle : mainStyle}"/>
+	<r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
 </head>
 <body>
 	<g:set var="datashows" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
