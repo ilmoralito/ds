@@ -236,7 +236,11 @@ class RequestController {
             }
         }
 
-        flash.message = req.save() ? "Confirmado..." : "Ocurrio un error. Intentalo otravez. Si el error perciste porfavor notificalo a ST"
+        if (!req.save(validate:false)) {
+            req.errors.allErrors.each { println it }
+        }
+
+        flash.message = req.save() ? "Confirmado" : "Ocurrio un error. Intentalo otravez. Si el error perciste porfavor notificalo a ST"
         redirect action:params?.path ?: "list", params:params
     }
 
