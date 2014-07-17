@@ -11,7 +11,7 @@
 			<div class="span2">
 				<g:form controller="request" action="activity" autocomplete="off" style="margin:0;">
 					<div class="input-append">
-						<g:textField name="q" value="${params?.q}" class="input-small" placeholder="Disponibilidad"/>
+						<g:textField name="dateSelected" value="${params?.dateSelected}" class="input-small" placeholder="Disponibilidad"/>
 						<button type="submit" class="btn">Listar</button>
 					</div>
 				</g:form>

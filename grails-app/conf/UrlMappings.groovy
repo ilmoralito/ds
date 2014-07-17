@@ -38,7 +38,7 @@ class UrlMappings {
 			}
 		}
 
-		"/activity/$q?" (controller:"request", action:"activity")
+		"/activity/$dateSeleted?" (controller:"request", action:"activity")
 
 		"/profile" (controller:"user", action:"profile")
 

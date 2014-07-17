@@ -5,7 +5,7 @@ $('#dateOfApplication').datepicker({
 });
 
 //request disponabilty
-$('#q').datepicker({
+$('#dateSelected').datepicker({
 	dateFormat: "yy-mm-dd"
 });
 

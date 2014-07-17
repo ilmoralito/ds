@@ -20,7 +20,8 @@ class RequestController {
         requestsByClassrooms:["GET", "POST"],
         requestsByUsers:["GET", "POST"],
         disponability:"POST",
-        updStatus:"POST"
+        updStatus:"POST",
+        activity:"POST"
     ]
 
     private checkRequestStatus() {
@@ -257,8 +258,8 @@ class RequestController {
         redirect action:"list", params:params
     }
 
-    def activity(Date q) {
-        Date date = q ?: new Date()
+    def activity(String dateSelected) {
+        Date date = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
         def requests = Request.requestFromTo(date, date).findAllByStatus("pending")
         def day = date[Calendar.DAY_OF_WEEK]
         def blocks = {
@@ -338,23 +339,6 @@ class RequestController {
         }
 
         [requests:requests]
-    }
-
-    private parseDate(String date) {
-        Date d
-
-        if (!date) {
-            return null
-        }
-
-        try {
-            d = new Date().parse("yyyy-MM-dd", date)
-        }
-        catch(Exception e) {
-            return null
-        }
-
-        d
     }
 
     private getTotal(List results) {

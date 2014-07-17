@@ -10,15 +10,11 @@
 </head>
 <body>
 	<g:set var="datashows" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
+	<g:set var="dateSelected" value="${params.dateSelected}"/>
 
 	<g:if test="${requests}">
-		<h4>${requests?.size()} solicitudes el ${(params.q) ?: new Date().format("yyyy-MM-dd")}</h4>
-	</g:if>
-	<g:else>
-		<h4>No hay actividad programada hoy!</h4>
-	</g:else>
+		<h4>${requests.size()} solicitudes el ${dateSelected}</h4>
 
-	<g:if test="${requests}">
 		<div class="row">
 			<g:each in="${1..datashows}" var="datashow">
 				<div class="span2">
@@ -60,5 +56,8 @@
 			</g:each>
 		</div>
 	</g:if>
+	<g:else>
+		<h4>No hay actividad programada ${dateSelected}!</h4>
+	</g:else>
 </body>
 </html>
