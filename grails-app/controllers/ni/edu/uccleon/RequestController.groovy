@@ -21,7 +21,7 @@ class RequestController {
         requestsByUsers:["GET", "POST"],
         disponability:"POST",
         updStatus:"POST",
-        activity:"POST"
+        activity:["GET", "POST"]
     ]
 
     private checkRequestStatus() {
