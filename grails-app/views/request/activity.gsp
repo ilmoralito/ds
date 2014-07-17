@@ -26,9 +26,9 @@
 									<g:if test="${session?.user?.role == 'admin'}">
 										<div class="pull-right" style="margin-bottom:-6px;">
 											<div class="button-group">
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'canceled']"><i class="icon-remove"></i></g:link>
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent']"><i class="icon-hand-down"></i></g:link>
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended']"><i class="icon-ok"></i></g:link>
+												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'canceled', dateSelected:dateSelected]"><i class="icon-remove"></i></g:link>
+												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent', dateSelected:dateSelected]"><i class="icon-hand-down"></i></g:link>
+												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended', dateSelected:dateSelected]"><i class="icon-ok"></i></g:link>
 											</div>
 										</div>
 									</g:if>

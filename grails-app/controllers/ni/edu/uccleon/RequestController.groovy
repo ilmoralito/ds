@@ -219,9 +219,7 @@ class RequestController {
     def updateStatus(Integer id) {
         def req = Request.get(id)
 
-        if (!req) {
-            response.sendError 404
-        }
+        if (!req) { response.sendError 404 }
 
         //TODO:find a better solution for this scenario
         if (params?.status) {
@@ -238,24 +236,8 @@ class RequestController {
             }
         }
 
-        //TODO:find a better solution for this scenario
-        if (!req.save(validate:false)) {
-            req.errors.allErrors.each {
-                print it
-            }
-            flash.message = "something.when.wrong.please.try.again"
-            redirect action:"list"
-            return false
-        }
-
-        flash.message = "request.successfuly.updated"
-
-        if (params.path) {
-            redirect action:params.path, params:[id:id]
-            return false
-        }
-
-        redirect action:"list", params:params
+        flash.message = req.save() ? "Confirmado..." : "Ocurrio un error. Intentalo otravez. Si el error perciste porfavor notificalo a ST"
+        redirect action:params?.path ?: "list", params:params
     }
 
     def activity(String dateSelected) {
