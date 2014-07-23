@@ -208,12 +208,11 @@ class RequestController {
     	redirect action:"list"
     }
 
-    def updateStatus(Integer id) {
+    def updateStatus(Long id) {
       def req = Request.get(id)
 
       if (!req) { response.sendError 404 }
 
-      //TODO:find a better solution for this scenario
       if (params?.status) {
         req.status = params.status
       } else {
@@ -228,7 +227,7 @@ class RequestController {
         }
       }
 
-      flash.message = req.save() ? "Confirmado..." : "Ocurrio un error. Intentalo otravez. Si el error perciste porfavor notificalo a ST"
+      flash.message = req.save() ? "Confirmado..." : req.errors.allErrors.each { println it }
       redirect action:params?.path ?: "list", params:params
     }
 
@@ -324,23 +323,6 @@ class RequestController {
       total
     }
 
-}
-
-class updateStatusCommand {
-    Integer id
-    String status
-
-    static constraints = {
-      status inList:["pending", "attended", "absent"]
-    }
-
-    Request updateRequestStatus() {
-      def req = Request.get(id)
-
-      req.status = status
-
-      //req.save()
-    }
 }
 
 class BuildRequestCommand {
