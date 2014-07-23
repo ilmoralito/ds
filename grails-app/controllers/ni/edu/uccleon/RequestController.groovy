@@ -217,17 +217,17 @@ class RequestController {
         req.status = params.status
       } else {
         if (req.status == "pending") {
-            req.status = "attended"
+          req.status = "attended"
         } else if (req.status == "attended") {
-            req.status = "absent"
+          req.status = "absent"
         } else if (req.status == "absent") {
-            req.status = "canceled"
+          req.status = "canceled"
         } else {
-            req.status = "pending"
+          req.status = "pending"
         }
       }
 
-      flash.message = req.save() ? "Confirmado..." : req.errors.allErrors.each { println it }
+      flash.message = req.save(validate: false) ? "Confirmado..." : req.errors.allErrors.each { println it }
       redirect action:params?.path ?: "list", params:params
     }
 
