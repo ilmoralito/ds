@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 import org.hibernate.transform.AliasToEntityMapResultTransformer
+import grails.util.Holders
 
 class Request implements Serializable {
   Date dateOfApplication
@@ -30,7 +31,7 @@ class Request implements Serializable {
         return val >= today.clearTime()
       }
     }
-    classroom blank:false
+    classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms, maxSize:255
     school blank:false
     description nullable:true, maxSize:10000
     datashow nullable:true//, range:0..grailsApplication.config.ni.edu.uccleon.datashows
