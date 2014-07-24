@@ -8,9 +8,12 @@
 </head>
 <body>
 	<g:if test="${type == 'express'}">
-		<div class="alert alert-info">
-			Por cada solicitud expreso, el solicitante se compromete a cumplir las condiciones listadas en la seccion
-			<g:link uri="/faqs">preguntas comunes</g:link> de este sitio.
+		<div class="row">
+			<div class="span10">
+				<a href="#" id="popover" data-content="Por cada solicitud expreso, el solicitante se compromete a cumplir las condiciones listadas en la seccion Preguntas frecuentes de la aplicacion" data-toggle="popover" data-original-title="Sobre solicitudes express" data-placement="bottom">
+					<i class="icon-info-sign"></i>
+				</a>
+			</div>
 		</div>
 	</g:if>
 
