@@ -24,8 +24,8 @@
 		<g:else>
 			<label for="classroom">Aula</label>
 			<g:select from="${classrooms}" name="classroom" value="${req?.classroom}"/>
-			<span class="help-block">Podes administrar las aulas desde este <g:link controller="user" action="profile">enlace</g:link></span>
 		</g:else>
+		<span class="help-block">Podes administrar las aulas desde tu <g:link controller="user" action="profile">perfil</g:link></span>
 
 		<!--schools-->
 		<g:if test="${userSchools}">

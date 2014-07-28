@@ -18,4 +18,4 @@ $('#requestToDate').datepicker({
 	dateFormat: "yy-mm-dd"
 });
 
-$('#popover').popover()
+$('#popover').popover({html:true})
