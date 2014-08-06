@@ -17,14 +17,14 @@
 		</div>
 	</g:if>
 
-	<g:hasErrors bean="${req}">
-		<g:renderErrors bean="${req}"/>
-	</g:hasErrors>
-
 	<g:form>
 		<g:render template="form"/>
 		<g:submitButton name="create" value="Crear solicitud" class="btn"/>
 	</g:form>
+
+	<g:hasErrors bean="${requestErrors}">
+		<g:renderErrors bean="${requestErrors}"/>
+	</g:hasErrors>
 
 	<strong>${message}</strong>
 </body>

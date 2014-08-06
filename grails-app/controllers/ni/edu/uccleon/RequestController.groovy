@@ -68,7 +68,12 @@ class RequestController {
       buildRequest {
         on("create") { BuildRequestCommand cmd ->
           if (!cmd.validate()) {
-              cmd.errors.allErrors.each { println it.defaultMessage }
+              flash.message = "Error de validacion"
+              cmd.errors.allErrors.each { error ->
+                log.error "[$error.field: $error.defaultMessage]"
+              }
+              flow.requestErrors = cmd
+
               return error()
           }
 
@@ -322,10 +327,10 @@ class RequestController {
 
       total
     }
-
 }
 
-class BuildRequestCommand {
+@grails.validation.Validateable
+class BuildRequestCommand implements Serializable {
   Date dateOfApplication
   String classroom
   String school
@@ -336,24 +341,7 @@ class BuildRequestCommand {
   Boolean internet = false
 
   static constraints = {
-    dateOfApplication nullable:false, validator: {val, obj ->
-      def today = new Date()
-      def minCommonRequestDate = today + 2
-      
-      if (obj.type == "express") {
-        val >= today.clearTime()
-      } else {
-        val >= minCommonRequestDate
-      }
-    }
-
-    classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms as List
-    school blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
-    description nullable:true
-    type blank:false, inList:["common", "express"]
-    audio nullable:false
-    screen nullable:false
-    internet nullable:false
+    importFrom Request
   }
 }
 

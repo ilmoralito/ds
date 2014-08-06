@@ -21,7 +21,7 @@ class Request implements Serializable {
 	Date lastUpdated
 
   static constraints = {
-    dateOfApplication blank:false, validator: {val, obj ->
+    dateOfApplication nullable:false, validator: {val, obj ->
       def today = new Date()
       def minDate = today + 2
 
