@@ -249,7 +249,7 @@ class RequestController {
         }
       }
 
-      [requests:requests, blocks:blocks.call(), day:day]
+      [requests:requests, blocks:blocks.call(), day:day, dateSelected: date]
     }
 
     //REPORTS
