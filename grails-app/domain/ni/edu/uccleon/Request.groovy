@@ -26,9 +26,9 @@ class Request implements Serializable {
       def minDate = today + 2
 
       if (obj.type == "common") {
-        return val >= minDate.clearTime()
+        val >= minDate.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       } else {
-        return val >= today.clearTime()
+        val >= today.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       }
     }
     classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms, maxSize:255

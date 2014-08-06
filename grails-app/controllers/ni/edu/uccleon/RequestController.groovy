@@ -68,7 +68,6 @@ class RequestController {
       buildRequest {
         on("create") { BuildRequestCommand cmd ->
           if (!cmd.validate()) {
-              flash.message = "Error de validacion"
               cmd.errors.allErrors.each { error ->
                 log.error "[$error.field: $error.defaultMessage]"
               }
