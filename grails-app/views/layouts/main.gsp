@@ -25,6 +25,8 @@
 					  <ul class="dropdown-menu">
 							<li><g:link controller="request" action="createRequest" params="[type:'express']">Expreso</g:link></li>
 							<li><g:link controller="request" action="createRequest">General</g:link></li>
+							<li class=divider></li>
+							<li><g:link controller="request" action="buildRequestByInterval">Intervalo</g:link></li>
 					   </ul>
 					</div>
 				</ds:isUser>

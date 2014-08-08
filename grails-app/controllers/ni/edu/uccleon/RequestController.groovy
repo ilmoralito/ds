@@ -185,6 +185,61 @@ class RequestController {
       }
     }
 
+    def buildRequestByIntervalFlow = {
+      init {
+        action {
+          flow.datesByDateInterval = []
+          flow.datesInterval = []
+        }
+
+        on("success").to "interval"
+      }
+
+      interval {
+        //date by date
+        on("addDate") { AddDateCommand cmd ->
+          if (cmd.hasErrors() || flow.datesByDateInterval.contains(cmd.date)) {
+            return error()
+          }
+
+          flow.datesByDateInterval << cmd.date
+        }.to "interval"
+
+        on("deleteDate") {
+          def index = params.int("index")
+
+          flow.datesByDateInterval.remove index
+        }.to "interval"
+
+        on("confirmAddByDateInterval") {
+
+        }.to "hours"
+
+        //dates by interval
+        on("addDatesInterval") { AddDateByIntervalCommand cmd ->
+          if (cmd.hasErrors()) {
+            cmd.errors.allErrors.each { error ->
+              log.error "[$error.field:$error.defaultMessage]"
+            }
+            return error()
+          }
+
+          flow.datesInterval = []
+          flow.datesInterval.addAll (cmd.fromDate..cmd.toDate)
+        }.to "interval"
+
+        on("deleteDateInterval") {
+          def index = params.int("index")
+
+          flow.datesInterval.remove index
+        }.to "interval"
+
+        on("confirmAddInterval") {
+
+        }.to "hours"
+      }
+    }
+
     def show(Integer id) {
       def req = Request.get(id)
 
@@ -364,5 +419,34 @@ class PersistHourCommand {
   static constraints = {
     datashow nullable:false, min:1
     blocks nullable:false
+  }
+}
+
+class AddDateCommand {
+  Date date
+
+  static constraints = {
+    date nullable:false, validator:{ date ->
+      def today = new Date().clearTime()
+
+      date >= today ? true : "AddDateCommand.date.validator"
+    }
+  }
+}
+
+@grails.validation.Validateable
+class AddDateByIntervalCommand implements Serializable {
+  Date fromDate
+  Date toDate
+
+  static constraints = {
+    fromDate nullable:false, validator:{ date ->
+      def today = new Date().clearTime()
+
+      date >= today ? true : "AddDateByIntervalCommand.fromDate.validator"
+    }
+    toDate nullable:false, validator:{ toDate, obj ->
+      toDate > obj.fromDate ? true : "AddDateByIntervalCommand.toDate.validator"
+    }
   }
 }
