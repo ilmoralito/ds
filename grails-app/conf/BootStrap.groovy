@@ -66,7 +66,7 @@ class BootStrap {
 
         //hotch
         def hotchRequestInstance = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:1, type:"express")
-        def hourInstance = new Hour(block:1)
+        def hourInstance = new Hour(block:2)
 
         hotchRequestInstance.addToHours hourInstance
         hotch.addToRequests hotchRequestInstance
