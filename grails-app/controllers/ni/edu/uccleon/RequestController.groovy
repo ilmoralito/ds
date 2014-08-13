@@ -166,12 +166,12 @@ class RequestController {
 
           //update datashow
           if (cmd.datashow != flow.req.datashow) {
-              flow.req.datashow = cmd.datashow
+            flow.req.datashow = cmd.datashow
           }
 
           //add new blocks
           cmd.blocks.each { block ->
-              flow.req.addToHours(new Hour(block:block))
+            flow.req.addToHours(new Hour(block:block))
           }
 
           flow.req.save()
@@ -185,58 +185,140 @@ class RequestController {
       }
     }
 
-    def buildRequestByIntervalFlow = {
+    def multipleRequestsFlow = {
       init {
         action {
-          flow.datesByDateInterval = []
-          flow.datesInterval = []
+          flow.userClassrooms = User.findByEmail(session?.user?.email).classrooms as List
+          flow.userSchools = User.findByEmail(session?.user?.email).schools as List
+          flow.dates = []
+          flow.requestInstances = []
+          flow.type = params?.type ?: "interval"
         }
 
         on("success").to "interval"
       }
 
       interval {
-        //date by date
-        on("addDate") { AddDateCommand cmd ->
-          if (cmd.hasErrors() || flow.datesByDateInterval.contains(cmd.date)) {
+        on("addDate") { AddCommand cmd ->
+          if (cmd.hasErrors() || flow.dates.contains(cmd.date)) {
+            cmd.errors.allErrors.each { err ->
+              log.error "[$err.field: $err.defaultMessage]"
+            }
+
             return error()
           }
 
-          flow.datesByDateInterval << cmd.date
+          flow.dates << cmd.date
+        }.to "interval"
+
+        on("addInterval") { AddIntervalCommand cmd ->
+          if (cmd.hasErrors()) {
+            cmd.errors.allErrors.each { err ->
+              log.error "[$err.field: $err.defaultMessage]"
+            }
+            return error()
+          }
+
+          flow.dates = []
+          flow.dates.addAll cmd.fromDate..cmd.toDate
         }.to "interval"
 
         on("deleteDate") {
           def index = params.int("index")
 
-          flow.datesByDateInterval.remove index
+          flow.dates.remove index
         }.to "interval"
 
-        on("confirmAddByDateInterval") {
+        on("confirm") {
+          flow.position = 0
+          
+          def result = requestService.getInfoToAddHours(flow.dates[flow.position])
 
-        }.to "hours"
+          [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
+        }.to "create"
+      }
 
-        //dates by interval
-        on("addDatesInterval") { AddDateByIntervalCommand cmd ->
+      create {
+        on("add") { BuildRequestCommand cmd ->          
           if (cmd.hasErrors()) {
             cmd.errors.allErrors.each { error ->
-              log.error "[$error.field:$error.defaultMessage]"
+              log.error "[$error.field: $error.defaultMessage]"
             }
+
             return error()
           }
 
-          flow.datesInterval = []
-          flow.datesInterval.addAll (cmd.fromDate..cmd.toDate)
+          def requestInstance = new Request(
+            dateOfApplication:cmd.dateOfApplication,
+            classroom:cmd.classroom,
+            school:cmd.school,
+            datashow:cmd.datashow,
+            description:cmd.description
+          )
+
+          cmd.hours.each { block ->
+            requestInstance.addToHours(new Hour(block:block))
+          }
+
+          def userInstance = User.findByEmail(session?.user?.email)
+
+          userInstance.addToRequests requestInstance
+
+          flow.requestInstances << requestInstance
+        }.to "create"
+
+        on("next") {
+          if (params?.position) {
+            flow.position = params?.int("position")
+          } else if (flow.position < (flow.dates.size() - 1)) {
+            flow.position += 1
+          } else {
+            flow.position = 0
+          }
+          
+          def result = requestService.getInfoToAddHours(flow.dates[flow.position])
+
+          flow.blocks = 0 //restart blocks in flow scope
+          
+          [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
+        }.to "create"
+
+        on("cancel") {
+          flow.requestInstances = []
         }.to "interval"
 
-        on("deleteDateInterval") {
-          def index = params.int("index")
+        on("done") {
+          flow.requestInstances.each { req ->
+            if (!req.save()) {
+              req.errors.allErrors.each { error ->
+                log.error "[$error.field: $error.defaultMessage]"
+              }
+            }
+          }
+        }.to "end"
 
-          flow.datesInterval.remove index
-        }.to "interval"
+        on("summary"){
+          def results = flow.requestInstances.groupBy { it.dateOfApplication }
+          println results
 
-        on("confirmAddInterval") {
+          [results:results]
+        }.to "summary"
+      }
 
-        }.to "hours"
+      summary {
+        on("back").to "create"
+        
+        on("deleteRequestInstance") {
+          flow.requestInstances.remove params.int("index")
+
+          def results = flow.requestInstances.groupBy { it.dateOfApplication }
+
+          [results:results]
+        }.to "summary"
+      }
+
+      end() {
+        redirect action:"list"
       }
     }
 
@@ -385,10 +467,12 @@ class BuildRequestCommand {
   String classroom
   String school
   String description
-  String type
+  Integer datashow
+  String type = "express"
   Boolean audio = false
   Boolean screen = false
   Boolean internet = false
+  List hours
 
   static constraints = {
     dateOfApplication nullable:false, validator: {val, obj ->
@@ -405,10 +489,12 @@ class BuildRequestCommand {
     classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms as List
     school blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
     description nullable:true
+    datashow nullable:false
     type blank:false, inList:["common", "express"]
     audio nullable:false
     screen nullable:false
     internet nullable:false
+    hours nullable:false
   }
 }
 
@@ -422,7 +508,7 @@ class PersistHourCommand {
   }
 }
 
-class AddDateCommand {
+class AddCommand {
   Date date
 
   static constraints = {
@@ -435,7 +521,7 @@ class AddDateCommand {
 }
 
 @grails.validation.Validateable
-class AddDateByIntervalCommand implements Serializable {
+class AddIntervalCommand implements Serializable {
   Date fromDate
   Date toDate
 

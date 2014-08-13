@@ -23,3 +23,8 @@
 .owner {
 	border: 1px solid #5BC0DE;
 }
+
+.detail {
+	display: none;
+	padding: 5px 0;
+}

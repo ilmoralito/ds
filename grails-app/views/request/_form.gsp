@@ -12,35 +12,11 @@
 		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 
 		<!--classrooms-->
-		<g:if test="${userClassrooms}">
-			<g:if test="${userClassrooms.size() > 1}">
-				<label for="classroom">Aula</label>
-				<g:select from="${userClassrooms}" name="classroom" value="${req?.classroom}"/>
-			</g:if>
-			<g:else>
-				<g:hiddenField name="classroom" value="${userClassrooms[0]}"/>
-			</g:else>
-		</g:if>
-		<g:else>
-			<label for="classroom">Aula</label>
-			<g:select from="${classrooms}" name="classroom" value="${req?.classroom}"/>
-			<span class="help-block">Podes administrar las aulas desde este <g:link controller="user" action="profile">enlace</g:link></span>
-		</g:else>
+		<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:req]"/>
+		<span class="help-block">Administrar aulas desde <g:link controller="user" action="profile">perfil</g:link></span>
 
 		<!--schools-->
-		<g:if test="${userSchools}">
-			<g:if test="${userSchools.size() > 1}">
-				<label for="school">A nombre de</label>
-				<g:select from="${userSchools}" name="school" value="${req?.school}"/>
-			</g:if>
-			<g:else>
-				<g:hiddenField name="school" value="${userSchools[0]}"/>
-			</g:else>
-		</g:if>
-		<g:else>
-			<label for="school">A nombre de</label>
-			<g:select from="${allSchoolsAndDepartments}" name="school" value="${req?.school}"/>
-		</g:else>
+		<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
 
 		<label for="description">Observacion</label>
 		<g:textArea name="description" value="${req?.description}" class="input-block-level"/>
