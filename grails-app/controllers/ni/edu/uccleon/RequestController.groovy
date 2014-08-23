@@ -299,7 +299,6 @@ class RequestController {
 
         on("summary"){
           def results = flow.requestInstances.groupBy { it.dateOfApplication }
-          println results
 
           [results:results]
         }.to "summary"
@@ -309,7 +308,12 @@ class RequestController {
         on("back").to "create"
         
         on("deleteRequestInstance") {
-          flow.requestInstances.remove params.int("index")
+          def target = flow.results.find { key, value ->
+            key.clearTime() == key.clearTime() && value.indexOf(params.int("index"))
+          }
+
+          println target
+
 
           def results = flow.requestInstances.groupBy { it.dateOfApplication }
 
