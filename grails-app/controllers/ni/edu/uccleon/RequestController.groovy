@@ -289,7 +289,7 @@ class RequestController {
 
         on("done") {
           flow.requestInstances.each { req ->
-            if (!req.save()) {
+            if (!req.save(flush:true)) {
               req.errors.allErrors.each { error ->
                 log.error "[$error.field: $error.defaultMessage]"
               }
@@ -308,16 +308,17 @@ class RequestController {
         on("back").to "create"
         
         on("deleteRequestInstance") {
-          def target = flow.results.find { key, value ->
-            key.clearTime() == key.clearTime() && value.indexOf(params.int("index"))
-          }
+          def rDate = new Date().parse("yyyy-MM-dd", params?.rDate)
+          def index = params.int("index")
+          def instance = flow.results[rDate][index]
 
-          println target
+          //remove from requestInstances grouped
+          flow.results[rDate] -= flow.results[rDate][index]
 
+          //remove from all requestInstances
+          flow.requestInstances -= instance
 
-          def results = flow.requestInstances.groupBy { it.dateOfApplication }
-
-          [results:results]
+          [results:flow.results]
         }.to "summary"
       }
 
