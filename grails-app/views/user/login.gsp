@@ -7,7 +7,7 @@
 	<r:require modules="bootstrap-css, bootstrap-responsive-css, appPublicStyle"/>
 </head>
 <body>
-	<g:form action="login">
+	<g:form action="login" autocomplete="off">
 		<g:textField name="email" value="${params?.email}" class="span4" autofocus="true" placeholder="Email"/>
 		<g:passwordField name="password" class="span4" placeholder="Clave"/>
 		<br>
