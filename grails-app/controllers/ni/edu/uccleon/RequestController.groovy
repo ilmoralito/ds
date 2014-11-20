@@ -188,8 +188,10 @@ class RequestController {
     def multipleRequestsFlow = {
       init {
         action {
-          flow.userClassrooms = User.findByEmail(session?.user?.email).classrooms as List
-          flow.userSchools = User.findByEmail(session?.user?.email).schools as List
+          def currentUser = User.findByEmail(session?.user?.email)
+          
+          flow.userClassrooms = currentUser.classrooms as List
+          flow.userSchools = currentUser.schools as List
           flow.dates = []
           flow.requestInstances = []
           flow.type = params?.type ?: "interval"
