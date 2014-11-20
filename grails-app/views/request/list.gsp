@@ -34,8 +34,7 @@
 								<td class="td-mini"><g:checkBox name="requests" value="${request.id}" checked="false"/></td>
 							</ds:isAdmin>
 							<td class="td-mini">
-								<g:if test="${request.type == 'common'}"></g:if>
-								<g:else><i class="icon-user"></i></g:else>
+								${request.type == "common" ? "General" : "Express"}
 							</td>
 							<ds:isAdmin>
 								<td>
