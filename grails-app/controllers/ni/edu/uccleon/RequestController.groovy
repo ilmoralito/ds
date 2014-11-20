@@ -469,7 +469,6 @@ class RequestController {
     }
 }
 
-@grails.validation.Validateable
 class BuildRequestCommand implements Serializable {
   Date dateOfApplication
   String classroom

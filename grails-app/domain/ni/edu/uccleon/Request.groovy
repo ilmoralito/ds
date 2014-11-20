@@ -34,7 +34,7 @@ class Request implements Serializable {
     classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms, maxSize:255
     school blank:false
     description nullable:true, maxSize:10000
-    datashow nullable:false//, range:0..grailsApplication.config.ni.edu.uccleon.datashows
+    datashow nullable:true//, range:0..grailsApplication.config.ni.edu.uccleon.datashows
     type inList:["common", "express"], maxSize:255
     audio nullable:true
     screen nullable:true
