@@ -138,9 +138,9 @@ class CommonTagLib {
 		def blocks = attrs.blocks
 
 		if (session?.user?.role == "admin") {
-			out << "Por <strong>${req?.user?.fullName}</strong> en <strong>${req?.classroom}</strong>, bloques ${blocks}"
+			out << "${req.user.fullName}, ${req.classroom}, bloques ${blocks}"
 		} else {
-			out << "El <strong>${req?.dateOfApplication?.format('yyyy-MM-dd')}</strong> en <strong>${req?.classroom}</strong> Bloques ${blocks}"
+			out << "${req.dateOfApplication.format('yyyy-MM-dd')}, ${req.classroom}, ${blocks}"
 		}
 	}
 

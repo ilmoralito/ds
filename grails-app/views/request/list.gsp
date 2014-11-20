@@ -28,7 +28,7 @@
 				</thead>
 				<tbody>
 					<g:each in="${requests}" var="request">
-						<g:set var="blocks" value="${request.hours.block.collect{it + 1}}"/>
+						<g:set var="blocks" value="${request.hours.block.collect{it}}"/>
 						<tr>
 							<ds:isAdmin>
 								<td class="td-mini"><g:checkBox name="requests" value="${request.id}" checked="false"/></td>
