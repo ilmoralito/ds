@@ -483,30 +483,7 @@ class BuildRequestCommand implements Serializable {
   List hours
 
   static constraints = {
-<<<<<<< HEAD
-    dateOfApplication nullable:false, validator: {val, obj ->
-      def today = new Date()
-      def minCommonRequestDate = today + 2
-      
-      if (obj.type == "express") {
-        val >= today.clearTime()
-      } else {
-        val >= minCommonRequestDate
-      }
-    }
-
-    classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms as List
-    school blank:false, inList:Holders.config.ni.edu.uccleon.schoolsAndDepartments.schools + Holders.config.ni.edu.uccleon.schoolsAndDepartments.departments
-    description nullable:true
-    datashow nullable:false
-    type blank:false, inList:["common", "express"]
-    audio nullable:false
-    screen nullable:false
-    internet nullable:false
-    hours nullable:false
-=======
     importFrom Request
->>>>>>> f2fadc826c98ab36e755879121acb9904b49b849
   }
 }
 
