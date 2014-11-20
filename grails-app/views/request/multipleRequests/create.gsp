@@ -16,9 +16,9 @@
 						<span class="caret"></span>
 					</button>
 				  <ul class="dropdown-menu">
-				  	<g:each in="${dates}" var="date" status="position">
-				  		<li>
-				  			<g:link event="next" params="[position:position]">
+				  	<g:each in="${dates}" var="date" status="pos">
+				  		<li class="${position == pos ? 'active' : ''}">
+				  			<g:link event="next" params="[position:pos]">
 				  				${date.format("yyyy-MM-dd")} ${ requestInstances.findAll { it.dateOfApplication == date} ? "*" : "" }
 				  			</g:link>
 				  		</li>

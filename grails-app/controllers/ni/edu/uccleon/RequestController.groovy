@@ -189,7 +189,7 @@ class RequestController {
       init {
         action {
           def currentUser = User.findByEmail(session?.user?.email)
-          
+
           flow.userClassrooms = currentUser.classrooms as List
           flow.userSchools = currentUser.schools as List
           flow.dates = []
@@ -241,7 +241,7 @@ class RequestController {
       }
 
       create {
-        on("add") { BuildRequestCommand cmd ->          
+        on("add") { BuildRequestCommand cmd ->
           if (cmd.hasErrors()) {
             cmd.errors.allErrors.each { error ->
               log.error "[$error.field: $error.defaultMessage]"
