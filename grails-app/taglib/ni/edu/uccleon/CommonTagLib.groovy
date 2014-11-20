@@ -144,4 +144,12 @@ class CommonTagLib {
 		}
 	}
 
+	def countByStatus = { attrs ->
+		def result = Request.listByUser(session?.user).countByStatusNotEqual(attrs.status)
+
+		if (result) {
+			out << result
+		}
+	}
+
 }

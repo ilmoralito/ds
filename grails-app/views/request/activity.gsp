@@ -10,7 +10,7 @@
 </head>
 <body>
 	<g:set var="datashows" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
-	<g:set var="dateSelected" value="${params.dateSelected}"/>
+	<g:set var="dateSelected" value="${dateSelected.format('yyyy-MM-dd')}"/>
 
 	<g:if test="${requests}">
 		<h4>${requests.size()} solicitudes el ${dateSelected}</h4>

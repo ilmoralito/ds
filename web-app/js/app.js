@@ -1,7 +1,7 @@
 //create request
 $('#dateOfApplication').datepicker({
 	dateFormat: "yy-mm-dd",
-	minDate:0
+	minDate: ($("#type").val() == "common") ? +3 : 0
 });
 
 //request disponabilty
@@ -38,4 +38,4 @@ $('#requestToDate').datepicker({
 	dateFormat: "yy-mm-dd"
 });
 
-$('#popover').popover()
+$('#popover').popover({html:true})

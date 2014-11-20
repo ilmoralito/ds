@@ -21,14 +21,14 @@ class Request implements Serializable {
 	Date lastUpdated
 
   static constraints = {
-    dateOfApplication blank:false, validator: {val, obj ->
+    dateOfApplication nullable:false, validator: {val, obj ->
       def today = new Date()
       def minDate = today + 2
 
       if (obj.type == "common") {
-        return val >= minDate.clearTime()
+        val >= minDate.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       } else {
-        return val >= today.clearTime()
+        val >= today.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       }
     }
     classroom blank:false, inList:Holders.config.ni.edu.uccleon.classrooms, maxSize:255

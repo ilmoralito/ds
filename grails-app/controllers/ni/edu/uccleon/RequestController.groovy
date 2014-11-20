@@ -68,7 +68,11 @@ class RequestController {
       buildRequest {
         on("create") { BuildRequestCommand cmd ->
           if (!cmd.validate()) {
-              cmd.errors.allErrors.each { println it.defaultMessage }
+              cmd.errors.allErrors.each { error ->
+                log.error "[$error.field: $error.defaultMessage]"
+              }
+              flow.requestErrors = cmd
+
               return error()
           }
 
@@ -386,7 +390,7 @@ class RequestController {
         }
       }
 
-      [requests:requests, blocks:blocks.call(), day:day]
+      [requests:requests, blocks:blocks.call(), day:day, dateSelected: date]
     }
 
     //REPORTS
@@ -463,10 +467,10 @@ class RequestController {
 
       total
     }
-
 }
 
-class BuildRequestCommand {
+@grails.validation.Validateable
+class BuildRequestCommand implements Serializable {
   Date dateOfApplication
   String classroom
   String school
@@ -479,6 +483,7 @@ class BuildRequestCommand {
   List hours
 
   static constraints = {
+<<<<<<< HEAD
     dateOfApplication nullable:false, validator: {val, obj ->
       def today = new Date()
       def minCommonRequestDate = today + 2
@@ -499,6 +504,9 @@ class BuildRequestCommand {
     screen nullable:false
     internet nullable:false
     hours nullable:false
+=======
+    importFrom Request
+>>>>>>> f2fadc826c98ab36e755879121acb9904b49b849
   }
 }
 
