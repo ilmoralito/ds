@@ -9,15 +9,13 @@
 <body>
 	<div class="row">
 		<div class="span5 offset2">
-			<h4>Seleciona fechas</h4>
-			
 			<g:form autocomplete="off">
 				<g:if test="${type == 'dates'}">
-					<g:textField name="date" placeholder="Fecha" class="span5"/>
+					<g:textField name="date" placeholder="Selecciona fecha(s)" class="span5"/>
 				</g:if>
 				<g:else>
-					<g:textField name="fromDate" placeholder="Desde" class="span5"/>
-					<g:textField name="toDate" placeholder="Hasta" class="span5"/>
+					<g:textField name="fromDate" placeholder="Desde..." class="span5"/>
+					<g:textField name="toDate" placeholder="Hasta..." class="span5"/>
 				</g:else>
 
 				<g:submitButton name="${type == 'dates' ? 'addDate' : 'addInterval'}" value="Agregar" class="btn"/>
