@@ -52,7 +52,7 @@
 						<g:hiddenField name="datashow" value="${datashow}"/>
 						<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:null]"/>
 						<g:render template="userSchools" model="[userSchools:userSchools, req:null]"/>
-						<g:textArea name="description" value="${description}" class="input-block-level" placeholder="Descripcion"/>
+						<g:textArea name="description" value="${description}" class="input-block-level" style="resize:vertical; max-height:100px;" placeholder="Descripcion"/>
 					</div>
 
 					<g:each in="${1..blocks}" var="block">
