@@ -54,25 +54,38 @@ class BootStrap {
 
         requestInstance.addToHours hour
         peluso.addToRequests requestInstance
-        requestInstance.save()
+        requestInstance.save(failOnError:true)
 
-        //common
-        def pelusoRequestInstance = new Request(dateOfApplication:today + 5, classroom:peluso.classrooms.collect{ it }[0], school:peluso.schools.collect{ it }[0], datashow:1, type:"common")
-        def pelusoHour = new Hour(block:1)
+        def pelusoRequestInstance1 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[1], school:peluso.schools.collect{ it }[0], datashow:5, type:"express")
+        def pelusoHour1 = new Hour(block:1)
 
-        pelusoRequestInstance.addToHours pelusoHour
-        peluso.addToRequests pelusoRequestInstance
-        pelusoRequestInstance.save()
+        pelusoRequestInstance1.addToHours pelusoHour1
+        peluso.addToRequests pelusoRequestInstance1
+        pelusoRequestInstance1.save(failOnError:true)
+
+        def pelusoRequestInstance2 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[2], school:peluso.schools.collect{ it }[0], datashow:3, type:"express")
+        def pelusoHour2 = new Hour(block:1)
+
+        pelusoRequestInstance2.addToHours pelusoHour2
+        peluso.addToRequests pelusoRequestInstance2
+        pelusoRequestInstance2.save(failOnError:true)
 
         //hotch
-        def hotchRequestInstance = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:1, type:"express")
+        def hotchRequestInstance1 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:1, type:"express")
         def hourInstance = new Hour(block:2)
 
-        hotchRequestInstance.addToHours hourInstance
-        hotch.addToRequests hotchRequestInstance
-        hotchRequestInstance.save()
+        hotchRequestInstance1.addToHours hourInstance
+        hotch.addToRequests hotchRequestInstance1
+        hotchRequestInstance1.save(failOnError:true)
 
-        assert 3 == Request.count()
+        def hotchRequestInstance2 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
+        def hourInstance1 = new Hour(block:1)
+
+        hotchRequestInstance2.addToHours hourInstance1
+        hotch.addToRequests hotchRequestInstance2
+        hotchRequestInstance2.save(failOnError:true)
+
+        assert Request.count() == 5
       break
       case Environment.PRODUCTION:
         User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save()
