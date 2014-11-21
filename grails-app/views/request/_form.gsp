@@ -18,7 +18,7 @@
 		<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
 
 		<label for="description">Observacion</label>
-		<g:textArea name="description" value="${req?.description}" class="input-block-level"/>
+		<g:textArea name="description" value="${req?.description}" class="input-block-level" style="resize:vertical; max-height:200px;"/>
 	</div>
 	<div class="span2">
 		<div class="checkbox"><g:checkBox name="audio" value="${req?.audio}"/> Parlantes</div>
