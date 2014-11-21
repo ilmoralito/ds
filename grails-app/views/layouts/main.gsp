@@ -61,7 +61,7 @@
 			</div>
 			<div class="span10">
 				<g:layoutBody/>
-				<ds:flashMessage><br><div class="alert alert-info">${flash.message}</div></ds:flashMessage>
+				<ds:flashMessage>${flash.message}</ds:flashMessage>
 			</div>
 		</div>
 	</div>
