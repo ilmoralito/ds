@@ -38,8 +38,8 @@ class RequestController {
     def role = user?.role
 
     if (params?.requestFromDate && params?.requestToDate) {
-      Date from = params.date("requestFromDate") ?: new Date()
-      Date to = params.date("requestToDate") ?: new Date()
+      Date from = params.date("requestFromDate", "yyyy-MM-dd") ?: new Date()
+      Date to = params.date("requestToDate", "yyyy-MM-dd") ?: new Date()
 
       requests = Request.requestFromTo(from , to).list()
     } else {
