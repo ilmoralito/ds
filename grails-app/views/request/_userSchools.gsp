@@ -1,5 +1,6 @@
 <g:if test="${userSchools}">
 	<g:if test="${userSchools.size() > 1}">
+		<label for="schools">Facultades/Departamentos</label>
 		<g:select from="${userSchools}" name="school" noSelection="['':'Escoge facultad']" value="${req?.school}" class="span2"/>
 	</g:if>
 	<g:else>

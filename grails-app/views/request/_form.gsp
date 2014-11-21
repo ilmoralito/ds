@@ -12,12 +12,9 @@
 		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 
 		<!--classrooms-->
-		<label for="classrooms">Aula</label>
 		<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:req]"/>
-		<span class="help-block"><small>Administrar aulas desde <g:link controller="user" action="profile">perfil</g:link></small></span>
 
 		<!--schools-->
-		<label for="schools">Facultad</label>
 		<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
 
 		<label for="description">Observacion</label>
@@ -27,5 +24,8 @@
 		<div class="checkbox"><g:checkBox name="audio" value="${req?.audio}"/> Parlantes</div>
 		<div class="checkbox"><g:checkBox name="screen" value="${req?.screen}"/> Pantalla</div>
 		<div class="checkbox"><g:checkBox name="internet" value="${req?.internet}"/> Internet</div>
+
+		<br>
+		<small>Administrar aulas, facultades o departamentos desde <g:link controller="user" action="profile">perfil</g:link></small>
 	</div>
 </div>
