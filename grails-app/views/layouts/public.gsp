@@ -6,22 +6,26 @@
 	<r:layoutResources/>
 </head>
 <body>
+	<div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+    	<div class="container">
+    		<a class="brand" href="#">UCC-DS</a>
+    			<ul class="nav pull-right">
+    				<li class="${actionName == 'login' ? 'active' : ''}">
+		  	    	<g:link controller="user" action="login">INICIAR SESION</g:link>
+		  	    </li>
+		  	    <li class="${actionName == 'activity' ? 'active' : ''}">
+		  	    	<g:link controller="request" action="activity">ACTIVIDAD DE HOY</g:link>
+		  	    </li>
+		  	    <li class="${request.forwardURI == '/faqs' || request.forwardURI == '/ds/faqs' ? 'active' : ''}">
+		  	    	<g:link uri="/faqs">FAQ'S</g:link>
+		  	    </li>
+    			</ul>
+    	</div>
+  	</div>
+  </div>
+
 	<div class="container">
-		<div class="row">
-			<div class="span10 offset1">
-				<ul class="app-nav pull-right">
-	  	    <li class="${actionName == 'login' ? 'active' : ''}">
-	  	    	<g:link controller="user" action="login">Iniciar sesion</g:link>
-	  	    </li>
-	  	    <li class="${actionName == 'activity' ? 'active' : ''}">
-	  	    	<g:link controller="request" action="activity">Actividad de hoy</g:link>
-	  	    </li>
-	  	    <li class="${request.forwardURI == '/faqs' || request.forwardURI == '/ds/faqs' ? 'active' : ''}">
-	  	    	<g:link uri="/faqs">FAQ's</g:link>
-	  	    </li>
-	    	</ul>
-			</div>
-		</div>
 		<div class="row">
 			<g:if test="${actionName == 'login'}">
 				<div class="span4 offset4">
