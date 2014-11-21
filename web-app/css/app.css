@@ -2,6 +2,10 @@
 	margin-top: 30px;
 }
 
+.well {
+	background:#FFF;
+}
+
 .well form {
 	margin: 0;
 }

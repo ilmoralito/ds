@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="${(!session?.user) ? 'public' : 'main'}">
 	<title>Actividad</title>
-	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
-	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, activity"/>
+	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css, activity"/>
 	<r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
 </head>
 <body>
@@ -32,7 +32,7 @@
 											</div>
 										</div>
 									</g:if>
-									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'}">
+									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'} ${block - 1}" data-block="${block - 1}">
 										<small>
 											<div class="row">
 												<div class="span2">
