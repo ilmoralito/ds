@@ -395,7 +395,7 @@ class RequestController {
 
     //REPORTS
     def requestsBy(Date from, Date to, String type) {
-      List results
+      def results
 
       switch(type) {
         case "schools":
@@ -413,9 +413,16 @@ class RequestController {
         case "blocks":
           results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
           break
+        case "resumen":
+          results = Request.list().groupBy { it.dateCreated[Calendar.YEAR] } { it.dateCreated[Calendar.MONTH] + 1 }.collectEntries { o ->
+            [o.key, (1..12).collectEntries {
+              [it, o.value.get(it)?.size()]
+            }]
+          }
+          break
       }
 
-      [results:results, total:getTotal(results), type:type]
+      [results:results, total:type != 'resumen' ? results.count.sum() : 0, type:type]
     }
 
     def updStatus() {
@@ -456,16 +463,6 @@ class RequestController {
       }
 
       [requests:requests]
-    }
-
-    private getTotal(List results) {
-      def total = 0
-
-      results.each {result ->
-        total += result.count
-      }
-
-      total
     }
 }
 

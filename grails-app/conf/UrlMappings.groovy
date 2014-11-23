@@ -18,7 +18,7 @@ class UrlMappings {
 
 		"/requestsBy/$type" (controller:"request", action:"requestsBy") {
 			constraints {
-				type inList:["schools", "classrooms", "users", "datashows", "blocks"]
+				type inList:["schools", "classrooms", "users", "datashows", "blocks", "resumen"]
 			}
 		}
 
