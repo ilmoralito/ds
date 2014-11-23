@@ -43,7 +43,7 @@
 				<ds:isAdmin>
 					<ul class="nav nav-tabs nav-stacked">
 						<li><g:link controller="user" action="list">Usuarios</g:link></li>
-						<li><g:link controller="request" action="requestsBy" params="[type:'schools']">Reportes</g:link></li>
+						<li><g:link controller="request" action="requestsBy" params="[type:'resumen']">Reportes</g:link></li>
 					</ul>
 				</ds:isAdmin>
 
