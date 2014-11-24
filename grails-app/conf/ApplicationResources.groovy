@@ -23,4 +23,9 @@ modules = {
     dependsOn "jquery"
     resource url:"js/activity.js"
   }
+
+  requestList {
+    dependsOn "jquery"
+    resource url:"js/requestList.js"
+  }
 }

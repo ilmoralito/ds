@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="main">
 	<title>Solicitudes</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+	<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, requestList"/>
 </head>
 <body>
 	<g:render template="toolbar"/>
@@ -14,7 +14,9 @@
 				<thead>
 					<tr>
 						<ds:isAdmin>
-							<th></th>
+							<th width="1">
+								<input type="checkbox" name="trigger" id="trigger">
+							</th>
 						</ds:isAdmin>
 						<th></th>
 						<ds:isAdmin>
@@ -31,7 +33,7 @@
 						<g:set var="blocks" value="${request.hours.block.collect{it}}"/>
 						<tr>
 							<ds:isAdmin>
-								<td class="td-mini"><g:checkBox name="requests" value="${request.id}" checked="false"/></td>
+								<td><g:checkBox name="requests" value="${request.id}" checked="false" class="requests"/></td>
 							</ds:isAdmin>
 							<td class="td-mini">
 								${request.type == "common" ? "General" : "Express"}
