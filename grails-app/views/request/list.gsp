@@ -84,10 +84,7 @@
 	</g:if>
 	<g:else>
 		<ds:isAdmin>
-			<br>
-			<div class="alert alert-info">
-				<strong>Nada que mostrar</strong>
-			</div>
+			<p>Nada que mostrar</p>
 		</ds:isAdmin>
 		<ds:isUser>
 			<g:if test="${!ni.edu.uccleon.Request.findByUser(session?.user)}">
@@ -99,9 +96,7 @@
 				</p>
 			</g:if>
 			<g:else>
-				<br>
-				<div class="alert alert-info">
-					<strong>Nada que mostrar</strong>
+					<p>Nada que mostrar</p>
 				</div>
 			</g:else>
 		</ds:isUser>
