@@ -45,12 +45,16 @@
 						<li class="${controllerName == 'user' && !(actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
 							<g:link controller="user" action="list">Usuarios</g:link>
 						</li>
-						<li><g:link controller="request" action="requestsBy" params="[type:'resumen']">Reportes</g:link></li>
+						<li class="${controllerName == 'request' && actionName == 'requestsBy' ? 'active' : ''}">
+							<g:link controller="request" action="requestsBy" params="[type:'resumen']">Reportes</g:link>
+						</li>
 					</ul>
 				</ds:isAdmin>
 
 				<ul class="nav nav-tabs nav-stacked" style="width:98%;">
-					<li class="${(controllerName == 'request') ? 'active' : 'no-active'}"><g:link controller="request" action="list">Solicitudes</g:link></li>
+					<li class="${(controllerName == 'request' && actionName != 'requestsBy') ? 'active' : 'no-active'}">
+						<g:link controller="request" action="list">Solicitudes</g:link>
+					</li>
 					<li class="${(controllerName == 'user' && actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
 						<g:link controller="user" action="profile">Perfil</g:link>
 					</li>
