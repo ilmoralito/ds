@@ -32,7 +32,7 @@
 											</div>
 										</div>
 									</g:if>
-									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'} ${block - 1}" data-block="${block - 1}">
+									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'} ${block - 1}" data-block="${block - 1}" style="cursor:pointer;">
 										<small>
 											<div class="row">
 												<div class="span2">
