@@ -74,9 +74,9 @@
 				</tbody>
 			</table>
 			<ds:isAdmin>
-				<g:actionSubmit value="Attended" action="updStatus" class="btn"/>
-				<g:actionSubmit value="Absent" action="updStatus" class="btn"/>
-				<g:actionSubmit value="Canceled" action="updStatus" class="btn"/>
+				<g:actionSubmit value="Atendido" action="updStatus" class="btn"/>
+				<g:actionSubmit value="Ausente" action="updStatus" class="btn"/>
+				<g:actionSubmit value="Cancelado" action="updStatus" class="btn"/>
 			</ds:isAdmin>
 		</g:form>
 	</g:if>

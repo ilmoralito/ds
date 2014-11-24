@@ -427,14 +427,25 @@ class RequestController {
 
     def updStatus() {
       if (params.requests) {
-        def status = params?._action_updStatus
+        def status = {
+          def s = params?._action_updStatus
+
+          if (s == "Atendido") {
+            return "attended"
+          } else if (s == "Ausente") {
+            return "absent"
+          } else {
+            return "canceled"
+          }
+        }
+
         def requests = params.list("requests")
 
         requests.each { request ->
           def r = Request.get(request)
 
           if (r) {
-            r.properties["status"] = status?.toLowerCase()
+            r.properties["status"] = status.call()
 
             if (!r.save()) {
               r.errors.allErrors.each {
