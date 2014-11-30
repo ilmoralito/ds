@@ -1,8 +1,5 @@
 <g:if test="${type == 'resumen'}">
 	<table class="table table-hover">
-		<thead>
-			<th colspan="2">Año</th>
-		</thead>
 		<tbody>
 			<g:each in="${results.keySet()}" var="year">
 				<tr>
