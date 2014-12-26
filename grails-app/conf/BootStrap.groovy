@@ -13,36 +13,41 @@ class BootStrap {
         def classrooms = grailsApplication.config.ni.edu.uccleon.classrooms
 
         //users
-        def mario = new User(email:"mario@ucc.edu.ni", password:"123", role:"admin", fullName:"mario roger",enabled:true)
+        def mario = new User (
+          email:"mario@ucc.edu.ni",
+          password:"123",
+          role:"admin",
+          fullName:"mario roger",
+          enabled:true,
+          schools:[schools[4]],
+          classrooms:[classrooms[3], classrooms[5]]
+        )
 
-        mario.addToSchools(schools[4])
-        mario.addToClassrooms(classrooms[3])
-        mario.addToClassrooms(classrooms[5])
+        mario.save(failOnError:true)
 
-        if (!mario.save()) {
-          mario.errors.allErrors.each { println it }
-        }
+        def hotch = new User(
+          email:"hotch@ucc.edu.ni",
+          password:"123",
+          role:"user",
+          fullName:"hotch roger",
+          enabled:true,
+          schools:[schools[2]],
+          classrooms:[classrooms[7], classrooms[9]]
+        )
 
-        def hotch = new User( email:"hotch@ucc.edu.ni", password:"123", role:"user", fullName:"hotch roger", enabled:true)
+        hotch.save(failOnError:true)
 
-        hotch.addToSchools(schools[2])
-        hotch.addToClassrooms(classrooms[7])
-        hotch.addToClassrooms(classrooms[9])
+        def peluso = new User(
+          email:"peluso@ucc.edu.ni",
+          password:"123",
+          role:"user",
+          fullName:"peluso roger",
+          enabled:true,
+          schools:[schools[1]],
+          classrooms:[classrooms[1], classrooms[2], classrooms[3]]
+        )
 
-        if (!hotch.save()) {
-          hotch.errors.allErrors.each { println it }
-        }
-
-        def peluso = new User( email:"peluso@ucc.edu.ni", password:"123", role:"user", fullName:"peluso roger", enabled:true)
-
-        peluso.addToSchools(schools[1])
-        peluso.addToClassrooms(classrooms[1])
-        peluso.addToClassrooms(classrooms[2])
-        peluso.addToClassrooms(classrooms[3])
-
-        if (!peluso.save()) {
-          peluso.errors.allErrors.each { println it }
-        }
+        peluso.save(failOnError:true)
 
         //request
         //peluso

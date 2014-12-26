@@ -164,17 +164,17 @@ class UserController {
     }
 
     def login(String email, String password) {
-        if (request.post) {
-            def user = User.login(email, password).get()
+      if (request.post) {
+        def user = User.login(email, password).get()
 
-            if (!user) {
-                flash.message = "user.not.found"
-            } else {
-            	session.user = user
-                redirect controller:"request", action:"list"
-                return false
-            }
+        if (!user) {
+          flash.message = "user.not.found"
+        } else {
+          session.user = user
+          redirect controller:"request", action:"list"
+          return false
         }
+      }
     }
 
     def resetPassword(Integer id) {
