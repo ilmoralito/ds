@@ -18,9 +18,8 @@
 								<input type="checkbox" name="trigger" id="trigger">
 							</th>
 						</ds:isAdmin>
-						<th></th>
 						<ds:isAdmin>
-							<th>${requests.size()} solicitud${(requests.size() > 1 ? 'es' : '') }</th>
+							<th colspan="2">${requests.size()} solicitud${(requests.size() > 1 ? 'es' : '') }</th>
 						</ds:isAdmin>
 						<ds:isUser>
 							<th></th>
