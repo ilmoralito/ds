@@ -1,23 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="layout" content="main">
-	<title>Actualizar clave</title>
-	<r:require modules="bootstrap-css, app"/>
+  <meta charset="UTF-8">
+  <meta name="layout" content="main">
+  <title>Aulas</title>
+  <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 </head>
 <body>
-	<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
+  <g:set var="userClassrooms" value="${user?.classrooms}"/>
 
-	<ul class="nav nav-tabs">
-    	<li><g:link action="profile">Perfil</g:link></li>
-    	<li><g:link action="password">Cambiar clave</g:link></li>
-    	<li class="active"><g:link action="schools">Agregar aulas</g:link></li>
-    </ul>
+  <g:render template="navbar"/>
 
-	<g:form action="updatePassword">
+  <g:form action="classrooms">
+    <g:render template="classrooms"/>
 
-		<g:submitButton name="send" value="Confirmar nueva clave" class="btn"/>
-	</g:form>
+    <g:submitButton name="send" value="Confirmar cambios" class="btn"/>
+  </g:form>
 </body>
 </html>

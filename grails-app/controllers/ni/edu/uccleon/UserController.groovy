@@ -17,7 +17,8 @@ class UserController {
     	updatePassword:"POST",
     	resetPassword:"GET",
       profile:["GET", "POST"],
-      schoolsAndDepartments:["GET", "POST"]
+      schoolsAndDepartments:["GET", "POST"],
+      classrooms:["GET", "POST"]
     ]
 
     def list() {
@@ -146,7 +147,25 @@ class UserController {
     def user = User.findByEmail(session?.user?.email)
 
     if (request.method == "POST") {
-      userService.addSchoolsAndDepartments(params.list("schools"), user)
+      def schools = params.list("schools")
+
+      if (schools) {
+        userService.addSchoolsAndDepartments(schools, user)
+      }
+    }
+
+    [user:user]
+  }
+
+  def classrooms() {
+    def user = User.findByEmail(session?.user?.email)
+
+    if (request.method == "POST") {
+      def classrooms = params.list("classrooms")
+
+      if (classrooms) {
+        userService.addClassrooms(classrooms, user)
+      }
     }
 
     [user:user]
