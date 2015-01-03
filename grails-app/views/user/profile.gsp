@@ -29,10 +29,7 @@
         <br>
         <g:submitButton name="send" value="Confirmar cambios" class="btn"/>
       </div>
-      <div class="span3">
-        <g:render template="schoolsAndDepartments"/>
-      </div>
-      <div class="span3">
+      <div class="span6">
         <h4>Aulas</h4>
         <g:each in="${classrooms}" var="classroom">
           <label class="checkbox">

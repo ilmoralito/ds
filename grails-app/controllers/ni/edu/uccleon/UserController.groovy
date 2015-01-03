@@ -10,13 +10,14 @@ class UserController {
     	list:["GET", "POST"],
     	create:["GET", "POST"],
     	show:["GET", "POST"],
-        enableDisableUserAccount:"POST",
-        notification:"POST",
+      enableDisableUserAccount:"POST",
+      notification:"POST",
     	delete:"GET",
     	login:["GET", "POST"],
     	updatePassword:"POST",
     	resetPassword:"GET",
-        profile:["GET", "POST"]
+      profile:["GET", "POST"],
+      schoolsAndDepartments:["GET", "POST"]
     ]
 
     def list() {
@@ -136,32 +137,37 @@ class UserController {
       if (!user.save()) {
         return [user:user]
       }
-
-      def schools = params.list("schools")
-      def classrooms = params.list("classrooms")
-
-      userService.addSchoolsAndUserClassrooms(schools, classrooms, user)
     }
 
     [user:user]
   }
 
-    def password() { }
+  def schoolsAndDepartments() {
+    def user = User.findByEmail(session?.user?.email)
 
-    def updatePassword(updatePasswordCommand cmd) {
-        if (!cmd.validate()) {
-            chain action:(params.path) ?: "password", model:[cmd:cmd], params:[id:cmd.id]
-            return
-        }
-
-        def user = User.get(cmd.id)
-
-        user.properties["password"] = cmd.npassword
-        user.save()
-
-        flash.message = "dato.guardado"
-        redirect action:(params.path) ?: "password", params:[id:cmd.id]
+    if (request.method == "POST") {
+      userService.addSchoolsAndDepartments(params.list("schools"), user)
     }
+
+    [user:user]
+  }
+
+  def password() {}
+
+  def updatePassword(updatePasswordCommand cmd) {
+    if (!cmd.validate()) {
+      chain action:(params.path) ?: "password", model:[cmd:cmd], params:[id:cmd.id]
+      return
+    }
+
+    def user = User.get(cmd.id)
+
+    user.properties["password"] = cmd.npassword
+    user.save()
+
+    flash.message = "dato.guardado"
+    redirect action:(params.path) ?: "password", params:[id:cmd.id]
+  }
 
     def login(String email, String password) {
       if (request.post) {
