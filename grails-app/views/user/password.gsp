@@ -7,10 +7,7 @@
 	<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-    	<li><g:link action="profile">Perfil</g:link></li>
-    	<li class="active"><g:link action="password">Cambiar clave</g:link></li>
-    </ul>
+	<g:render template="navbar"/>
 
 	<g:hasErrors bean="${cmd}">
 		<small><g:renderErrors bean="${cmd}"/></small>

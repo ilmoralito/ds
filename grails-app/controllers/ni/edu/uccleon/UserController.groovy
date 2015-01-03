@@ -126,25 +126,25 @@ class UserController {
         redirect action:"list"
     }
 
-    def profile() {
-        def user = User.findByEmail(session?.user?.email)
+  def profile() {
+    def user = User.findByEmail(session?.user?.email)
 
-        if (request.post) {
-            user.properties["email", "fullName"] = params
-            session?.user?.email = params.email
+    if (request.post) {
+      user.properties["email", "fullName"] = params
+      session?.user?.email = params.email
 
-            if (!user.save()) {
-                return [user:user]
-            }
+      if (!user.save()) {
+        return [user:user]
+      }
 
-            def schools = params.list("schools")
-            def classrooms = params.list("classrooms")
+      def schools = params.list("schools")
+      def classrooms = params.list("classrooms")
 
-            userService.addSchoolsAndUserClassrooms(schools, classrooms, user)
-        }
-
-        [user:user]
+      userService.addSchoolsAndUserClassrooms(schools, classrooms, user)
     }
+
+    [user:user]
+  }
 
     def password() { }
 

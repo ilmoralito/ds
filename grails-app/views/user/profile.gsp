@@ -11,10 +11,7 @@
   <g:set var="userSchools" value="${user?.schools}"/>
   <g:set var="userClassrooms" value="${user?.classrooms}"/>
 
-	<ul class="nav nav-tabs">
-  	<li class="active"><g:link action="profile">Perfil</g:link></li>
-  	<li><g:link action="password">Cambiar clave</g:link></li>
-  </ul>
+  <g:render template="navbar"/>
 
   <g:hasErrors bean="${cmd}">
   	<small><g:renderErrors bean="${cmd}"/></small>
