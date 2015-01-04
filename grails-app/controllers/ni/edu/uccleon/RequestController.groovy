@@ -414,7 +414,7 @@ class RequestController {
           results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
           break
         case "resumen":
-          results = Request.list().groupBy { it.dateCreated[Calendar.YEAR] } { it.dateCreated[Calendar.MONTH] + 1 }.collectEntries { o ->
+          results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] + 1 }.collectEntries { o ->
             [o.key, (1..12).collectEntries {
               [it, o.value.get(it)?.size()]
             }]
