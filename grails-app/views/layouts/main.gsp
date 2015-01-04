@@ -55,7 +55,7 @@
 					<li class="${(controllerName == 'request' && actionName != 'requestsBy') ? 'active' : 'no-active'}">
 						<g:link controller="request" action="list">Solicitudes</g:link>
 					</li>
-					<li class="${(controllerName == 'user' && actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
+					<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
 						<g:link controller="user" action="profile">Perfil</g:link>
 					</li>
 					<ds:isUser>
