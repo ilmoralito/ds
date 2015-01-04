@@ -1,17 +1,15 @@
 <g:if test="${type == 'resumen'}">
 	<table class="table table-hover">
 		<tbody>
-			<g:each in="${results.keySet()}" var="year">
+			<g:each in="${results}" var="year">
 				<tr>
-					<td colspan="2"><strong>${year}</strong></td>
+					<td colspan="2"><strong>${year.key}</strong></td>
 				</tr>
-				<g:each in="${results[year].keySet()}" var="month">
-					<g:if test="${results[year][month]}">
-						<tr>
-							<td width="1">${month}</td>
-							<td>${results[year][month]}</td>
-						</tr>
-					</g:if>
+				<g:each in="${year.value}" var="month">
+					<tr>
+						<td width="1">${month.key}</td>
+						<td>${month.value}</td>
+					</tr>
 				</g:each>
 			</g:each>
 		</tbody>
