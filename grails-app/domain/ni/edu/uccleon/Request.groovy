@@ -97,8 +97,6 @@ class Request implements Serializable {
   	version false
   }
 
-  String toString() {
-    "the $dateOfApplication in $classroom from $user to $school"
-  }
+  String toString() { dateOfApplication }
 
 }
