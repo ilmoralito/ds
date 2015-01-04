@@ -98,6 +98,18 @@ ni.edu.uccleon.schoolsAndDepartments = [
   departments:["Especializacion", "Administracion", "Protocolo", "Promotoria", "Direccion Academica", "Vice Rectoria General", "Registro", "Recursos humanos", "Vida Estudiantil", "Desarrollo Proyeccion"]
 ]
 ni.edu.uccleon.classrooms = ["Afuera de UCC", "Auditorio mayor", "Auditorio menor", "C103", "C104", "C105", "C106", "C109A", "C109B", "Biblioteca", "C202", "C203", "C204", "C205", "Laboratorio 4", "Laboratorio 3", "Laboratorio 2", "Corredor registro", "D101", "D102", "D103", "D104", "D105", "D109", "D201", "D202", "D203", "D204", "D205", "D206", "D207", "Laboratorio 1", "Desarrollo y proyeccion", "E108", "E112", "Administracion", "E115", "E116", "E117", "E118", "Sala de reuniones", "E208", "E209", "E210", "E211", "E212", "E213", "E214", "E215", "E216", "E217", "E218", "E219", "Escuela de manejo", "K103", "K104", "K105", "K201", "K202", "Mesanini B201", "Mesanini B202"]
+ni.edu.uccleon.cls = [
+  B:[["B101":"Auditorio mayor"],["B201":"Mesanini"], ["B202":"Mesanini"]],
+  C:[
+      ["C101":"Auditorio menor"], ["C102":"Desarrollo y proyeccion"], 
+      "C103", "C104", "C105", "C106", "C109A", "C109B", ["C201":"Biblioteca"], "C202", "C203", "C204", "C205",
+      ["C206":"Lab 4"], ["C207":"Lab 3"], ["C208":"Lab 2"]
+  ],
+  D:["D101", "D102", "D103", "D104", "D105", "D109", "D201", "D202", "D203", "D204", "D205", "D206", "D207", ["D208":"Lab 1"]],
+  E:["E108", "E112", ["E113":"Finanzas"], ["E114":"Administracion"], ["E204":"Sala de reuniones"], "E208", "E209", "E210", "E211", "E212", "E213", "E214", "E215", "E216", "E217", "E218", ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]],
+  K:["K103", "K104", "K105", "K201", "K202"],
+  undefined:["Afuera de UCC", "Corredor registro"]
+]
 ni.edu.uccleon.blocks = 7
 ni.edu.uccleon.saturday.blocks = 4
 ni.edu.uccleon.sunday.blocks = 3

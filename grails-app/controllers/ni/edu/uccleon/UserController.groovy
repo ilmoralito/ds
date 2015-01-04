@@ -159,6 +159,21 @@ class UserController {
 
   def classrooms() {
     def user = User.findByEmail(session?.user?.email)
+    def cls = grailsApplication.config.ni.edu.uccleon.cls.subMap(["C", "D", "E", "K"])
+    def labs = [["C206":"Lab 4"], ["C207":"Lab 3"], ["C208":"Lab 2"], ["D208":"Lab 1"]]
+
+    cls["C"].removeAll([["C101":"Auditorio menor"], ["C102":"Desarrollo y proyeccion"], ["C201":"Biblioteca"]])
+    cls["E"].removeAll([["E113":"Finanzas"], ["E114":"Administracion"], ["E204":"Sala de reuniones"], ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]])
+
+    def allCls = cls.collectEntries { key, value ->
+      [key, value.collect {
+        if (it in Map) {
+          it.keySet().join()
+        } else {
+          it
+        }
+      }]
+    }
 
     if (request.method == "POST") {
       def classrooms = params.list("classrooms")
@@ -168,7 +183,7 @@ class UserController {
       }
     }
 
-    [user:user]
+    [user:user, allCls:allCls]
   }
 
   def password() {}
