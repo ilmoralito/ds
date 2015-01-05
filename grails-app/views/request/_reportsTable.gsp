@@ -11,6 +11,10 @@
 						<td>${month.value}</td>
 					</tr>
 				</g:each>
+				<tr>
+					<td>Total</td>
+					<td>${year.value.collect { it.value }.sum()}</td>
+				</tr>
 			</g:each>
 		</tbody>
 	</table>
