@@ -396,6 +396,7 @@ class RequestController {
     //REPORTS
     def requestsBy(Date from, Date to, String type) {
       def results
+      def totalRequestInYears
 
       switch(type) {
         case "schools":
@@ -419,10 +420,15 @@ class RequestController {
               [d.key, d.value.size()]
             }]
           }
+
+          totalRequestInYears = results.collectEntries { year ->
+            [year.key, year.value.collect { it.value }.sum()]
+          }
+
           break
       }
 
-      [results:results, total:type != 'resumen' ? results.count.sum() : 0, type:type]
+      [results:results, totalRequestInYears:totalRequestInYears, total:type != 'resumen' ? results.count.sum() : 0, type:type]
     }
 
     def updStatus() {

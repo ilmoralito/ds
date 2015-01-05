@@ -13,7 +13,13 @@
 				</g:each>
 				<tr>
 					<td>Total</td>
-					<td>${year.value.collect { it.value }.sum()}</td>
+					<td>${totalRequestInYears[year.key]}</td>
+				</tr>
+				<tr>
+					<td>Promedio</td>
+					<td>
+						<g:formatNumber number="${totalRequestInYears[year.key] / results[year.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
+					</td>
 				</tr>
 			</g:each>
 		</tbody>
