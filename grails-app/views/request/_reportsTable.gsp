@@ -1,29 +1,34 @@
 <g:if test="${type == 'resumen'}">
-	<table class="table table-hover">
-		<tbody>
-			<g:each in="${results}" var="year">
-				<tr>
-					<td colspan="2"><strong>${year.key}</strong></td>
-				</tr>
-				<g:each in="${year.value}" var="month">
+	<g:each in="${results}" var="result">
+		<h4>${result.key}</h4>
+		<table class="table">
+			<tbody>
+				<g:each in="${result.value}" var="data">
 					<tr>
-						<td width="1">${month.key}</td>
-						<td>${month.value}</td>
+						<td width="1" style="border:0; vertical-align:middle;">${data.key}</td>
+						<td style="border:0;">
+							<div style="width:${data.value}px; background:#444; padding:5px; text-align:right; color:#FFF;">${data.value}</div>
+						</td>
 					</tr>
 				</g:each>
+			</tbody>
+		</table>
+
+		<table class="table">
+			<tbody>
 				<tr>
-					<td>Total</td>
-					<td>${totalRequestInYears[year.key]}</td>
+					<td width="1">Total</td>
+					<td>${totalRequestInYears[result.key]}</td>
 				</tr>
 				<tr>
-					<td>Promedio</td>
+					<td width="1">Promedio</td>
 					<td>
-						<g:formatNumber number="${totalRequestInYears[year.key] / results[year.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
+						<g:formatNumber number="${totalRequestInYears[result.key] / results[result.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
 					</td>
 				</tr>
-			</g:each>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</g:each>
 </g:if>
 <g:else>
 	<table class="table table-hover">
