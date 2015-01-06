@@ -7,7 +7,7 @@
 					<tr>
 						<td width="1" style="border:0; vertical-align:middle;">${data.key}</td>
 						<td style="border:0;">
-							<div style="width:${data.value}px; background:#444; padding:5px; text-align:right; color:#FFF;">${data.value}</div>
+							<div style="width:${data.value}px;" class="bar-chart">${data.value}</div>
 						</td>
 					</tr>
 				</g:each>
