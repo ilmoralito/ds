@@ -403,7 +403,11 @@ class RequestController {
           results = (request.get) ? Request.requestsBy("school").list() : Request.requestsBy("school").requestFromTo(from, to).list()
           break
         case "classrooms":
-          results = (request.get) ? Request.requestsBy("classroom").list() : Request.requestsBy("classroom").requestFromTo(from, to).list()
+          results = Request.list().groupBy({ it.dateOfApplication[Calendar.YEAR]}, { it.classroom }).collectEntries { d ->
+            [d.key, d.value.collectEntries { o ->
+              [o.key, o.value.size()]
+            }]
+          }
           break
         case "users":
           results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(from, to).list()
@@ -428,7 +432,7 @@ class RequestController {
           break
       }
 
-      [results:results, totalRequestInYears:totalRequestInYears, total:type != 'resumen' ? results.count.sum() : 0, type:type]
+      [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms']) ? results.count.sum() : 0, type:type]
     }
 
     def updStatus() {

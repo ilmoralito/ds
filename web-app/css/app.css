@@ -32,3 +32,15 @@
 	display: none;
 	padding: 5px 0;
 }
+
+/*charts*/
+.bar-chart {
+	background:#444;
+	padding:5px;
+	text-align:right;
+	color:#FFF;
+}
+
+.borderless td {
+  border: none;
+}

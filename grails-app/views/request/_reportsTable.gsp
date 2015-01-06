@@ -19,8 +19,31 @@
 		</p>
 	</g:each>
 </g:if>
+
+<g:elseif test="${type == 'classrooms'}">
+  <g:each in="${results}" var="result">
+  	<h4>${result.key}</h4>
+  	<table class="table borderless">
+  		<colgroup>
+				<col span="1" style="width: 15%;">
+				<col span="1" style="width: 85%;">
+			</colgroup>
+  		<tbody>
+		  	<g:each in="${result.value.sort { -it.value }}" var="data">
+		  		<tr>
+		  			<td style="vertical-align:middle;">${data.key}</td>
+		  			<td>
+		  				<div style="width:${data.value}px;" class="bar-chart">${data.value}</div>
+		  			</td>
+		  		</tr>
+		  	</g:each>
+	  	</tbody>
+  	</table>
+  </g:each>
+</g:elseif>
+
 <g:else>
-	<table class="table table-hover">
+		<table class="table table-hover">
 		<thead>
 			<tr>
 				<th><ds:renderTitle title="${params.type}"/></th>
