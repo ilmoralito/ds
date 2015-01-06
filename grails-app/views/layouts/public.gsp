@@ -12,13 +12,13 @@
     		<a class="brand" href="#">UCC-DS</a>
     			<ul class="nav pull-right">
     				<li class="${actionName == 'login' ? 'active' : ''}">
-		  	    	<g:link controller="user" action="login">INICIAR SESION</g:link>
+		  	    	<g:link controller="user" action="login">Iniciar sesion</g:link>
 		  	    </li>
 		  	    <li class="${actionName == 'activity' ? 'active' : ''}">
-		  	    	<g:link controller="request" action="activity">ACTIVIDAD DE HOY</g:link>
+		  	    	<g:link controller="request" action="activity">Solicitudes del dia</g:link>
 		  	    </li>
 		  	    <li class="${request.forwardURI == '/faqs' || request.forwardURI == '/ds/faqs' ? 'active' : ''}">
-		  	    	<g:link uri="/faqs">FAQ'S</g:link>
+		  	    	<g:link uri="/normas">Normas de uso</g:link>
 		  	    </li>
     			</ul>
     	</div>

@@ -59,7 +59,7 @@
 						<g:link controller="user" action="profile">Perfil</g:link>
 					</li>
 					<ds:isUser>
-						<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/faqs">Preguntas frecuentes</g:link></li>
+						<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
 					</ds:isUser>
     			</ul>
 

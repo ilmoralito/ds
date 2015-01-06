@@ -8,7 +8,7 @@ class UrlMappings {
 		}
 
 		"/"(controller:"user", action:"login")
-		"/faqs"(view:"/faqs")
+		"/normas"(view:"/normas")
 
 		"/request/create/$type?"(controller:"request", action:"create") {
 			constraints {
