@@ -14,20 +14,9 @@
 			</tbody>
 		</table>
 
-		<table class="table">
-			<tbody>
-				<tr>
-					<td width="1">Total</td>
-					<td>${totalRequestInYears[result.key]}</td>
-				</tr>
-				<tr>
-					<td width="1">Promedio</td>
-					<td>
-						<g:formatNumber number="${totalRequestInYears[result.key] / results[result.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<p>
+			Total ${totalRequestInYears[result.key]} Promedio <g:formatNumber number="${totalRequestInYears[result.key] / results[result.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
+		</p>
 	</g:each>
 </g:if>
 <g:else>
