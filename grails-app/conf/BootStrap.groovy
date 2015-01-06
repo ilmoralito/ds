@@ -90,7 +90,14 @@ class BootStrap {
         hotch.addToRequests hotchRequestInstance2
         hotchRequestInstance2.save(failOnError:true)
 
-        assert Request.count() == 5
+        def hotchRequestInstance3 = new Request(dateOfApplication:today + 30, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
+        def hourInstance2 = new Hour(block:1)
+
+        hotchRequestInstance3.addToHours hourInstance2
+        hotch.addToRequests hotchRequestInstance3
+        hotchRequestInstance3.save(failOnError:true)
+
+        assert Request.count() == 6
       break
       case Environment.PRODUCTION:
         User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save()
