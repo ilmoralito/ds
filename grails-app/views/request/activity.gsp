@@ -59,30 +59,7 @@
 								<g:else>
 									<g:if test="${session?.user?.role == 'user'}">
 										<div class="well well-small">
-											<a href="#" class="btn btn-mini pull-right act">+</a>
-											<g:form action="todo" class="create-request-from-activity">
-												<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).classrooms as List}"/>
-												<g:set var="userSchools" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).schools as List}"/>
-												<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
-												<g:set var="schoolsAndDepartments" value="${grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments}"/>
-												<g:set var="allSchoolsAndDepartments" value="${schoolsAndDepartments.schools + schoolsAndDepartments.departments}"/>
-
-												<g:hiddenField name="datashow" value="${d}"/>
-												<g:hiddenField name="dateOfApplication" value="${dateSelected}"/>
-												<g:hiddenField name="block" value="${block}"/>
-
-												<!--classrooms-->
-												<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:req]"/>
-
-												<!--schools-->
-												<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
-
-												<label for="description">Observacion</label>
-												<g:textArea name="description" value="${req?.description}" style="resize:vertical; max-height:200px;"/>
-
-												<br>
-												<g:submitButton name="send" value="Confirmar" class="btn btn-primary btn-mini"/>
-											</g:form>
+											<g:link action="createRequestFromActivity" params="[dateOfApplication:dateSelected, datashow:d, block:block]" class="pull-right">+</g:link>
 										</div>
 									</g:if>
 								</g:else>

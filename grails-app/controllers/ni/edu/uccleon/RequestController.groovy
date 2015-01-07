@@ -399,6 +399,31 @@ class RequestController {
       ]
     }
 
+    def createRequestFromActivity() {
+      if (request.post) {
+        def r = new Request (
+          dateOfApplication:params.date("dateOfApplication", "yyyy-MM-dd"),
+          classroom:params?.classroom,
+          school:params?.school,
+          description:params?.description,
+          datashow:params.int("datashow"),
+          user:session?.user
+        )
+
+        r.addToHours(new Hour(block:params.int("block")))
+
+        if (!r.save(flush:true)) {
+          r.errors.allErrors.each { e ->
+            log.error "[$e.field: $e.defaultMessage]"
+          }
+
+          return
+        }
+
+        redirect action:"activity", params:[dateSelected:params?.dateOfApplication]
+      }
+    }
+
     //REPORTS
     def requestsBy(Date from, Date to, String type) {
       def results
