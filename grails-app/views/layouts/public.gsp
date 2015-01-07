@@ -25,6 +25,7 @@
   	</div>
   </div>
 
+	<br>
 	<div class="container">
 		<div class="row">
 			<g:if test="${actionName == 'login'}">

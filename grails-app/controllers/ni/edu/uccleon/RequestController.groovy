@@ -390,7 +390,13 @@ class RequestController {
         }
       }
 
-      [requests:requests, blocks:blocks.call(), day:day, dateSelected: date]
+      [
+        requests:requests,
+        blocks:blocks.call(),
+        day:day,
+        dateSelected:date,
+        datashows:grailsApplication.config.ni.edu.uccleon.datashows
+      ]
     }
 
     //REPORTS

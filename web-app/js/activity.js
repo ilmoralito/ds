@@ -1,11 +1,7 @@
 (function(){
-	var well = $(".well")
+	$(".act").on("click", function(e) {
+		e.preventDefault();
 
-	well.on("click", function(e) {
-		var block = $(this).data("block")
-
-		well.css({"border-color":"#E3E3E3"})
-
-		$("." + block).css({"border-color":"#f92c73"})
+		$(this).next(".create-request-from-activity").toggle();
 	})
 })();

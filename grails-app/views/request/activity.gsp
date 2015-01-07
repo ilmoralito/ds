@@ -9,55 +9,92 @@
 	<r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
 </head>
 <body>
-	<g:set var="datashows" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
 	<g:set var="dateSelected" value="${dateSelected.format('yyyy-MM-dd')}"/>
 
-	<g:if test="${requests}">
-		<h4>${requests.size()} solicitudes el ${dateSelected}</h4>
-
-		<div class="row">
-			<g:each in="${1..datashows}" var="datashow">
-				<div class="span2">
-					<h4>Datashow ${datashow}</h4>
-					<g:each in="${1..blocks}" var="block">
-						<p>
-							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(block - 1)}}">
-								<g:findAll in="${requests}" expr="it.datashow == datashow && it?.hours?.block?.contains(block - 1)">
-									<g:if test="${session?.user?.role == 'admin'}">
-										<div class="pull-right" style="margin-bottom:-6px;">
-											<div class="button-group">
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'canceled', dateSelected:dateSelected]"><i class="icon-remove"></i></g:link>
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'absent', dateSelected:dateSelected]"><i class="icon-hand-down"></i></g:link>
-												<g:link class="btn btn-mini" action="updateStatus" params="[id:it.id, path:actionName, status:'attended', dateSelected:dateSelected]"><i class="icon-ok"></i></g:link>
+	<g:if test="${requests || session?.user?.role == 'user'}">
+		<h4>Registro de actividades ${dateSelected}</h4>
+		<table class="table table-condensed borderless">
+			<thead>
+				<g:each in="${1..datashows}" var="datashow">
+					<th>Datashow ${datashow}</th>
+				</g:each>
+			</thead>
+			<tbody>
+				<g:each in="${1..blocks}" var="block">
+					<tr>
+						<g:each in="${1..datashows}" var="d">
+							<td>
+								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
+								<g:if test="${req}">
+									<div class="well well-small" style="position:relative;">
+										<g:if test="${session?.user?.role == 'admin'}">
+											<div class="btn-group" style="position:absolute; top:0; right:0;">
+									    	<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+													Aplicar
+									    		<span class="caret"></span>
+									    	</a>
+										    <ul class="dropdown-menu">
+										    	<li>
+										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
+										    			Atendido
+										    		</g:link>
+										    	</li>
+										    	<li>
+										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
+										    			Ausente
+										    		</g:link>
+										    	</li>
+										    	<li>
+										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
+										    			Cancelado
+										    		</g:link>
+										    	</li>
+										    </ul>
 											</div>
+										</g:if>
+										<p>${req.user.fullName}</p>
+										${req.classroom}
+									</div>
+								</g:if>
+								<g:else>
+									<g:if test="${session?.user?.role == 'user'}">
+										<div class="well well-small">
+											<a href="#" class="btn btn-mini pull-right act">+</a>
+											<g:form action="todo" class="create-request-from-activity">
+												<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).classrooms as List}"/>
+												<g:set var="userSchools" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).schools as List}"/>
+												<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
+												<g:set var="schoolsAndDepartments" value="${grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments}"/>
+												<g:set var="allSchoolsAndDepartments" value="${schoolsAndDepartments.schools + schoolsAndDepartments.departments}"/>
+
+												<g:hiddenField name="datashow" value="${d}"/>
+												<g:hiddenField name="dateOfApplication" value="${dateSelected}"/>
+												<g:hiddenField name="block" value="${block}"/>
+
+												<!--classrooms-->
+												<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:req]"/>
+
+												<!--schools-->
+												<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
+
+												<label for="description">Observacion</label>
+												<g:textArea name="description" value="${req?.description}" style="resize:vertical; max-height:200px;"/>
+
+												<br>
+												<g:submitButton name="send" value="Confirmar" class="btn btn-primary btn-mini"/>
+											</g:form>
 										</div>
 									</g:if>
-									<div class="well well-small ${(it.user.email == session?.user?.email) ? 'owner' : 'no-owner'} ${block - 1}" data-block="${block - 1}" style="cursor:pointer;">
-										<small>
-											<div class="row">
-												<div class="span2">
-													<strong>${it.user.fullName.toLowerCase().tokenize(" ")*.capitalize().join(" ")}</strong>
-													<br>
-													<strong>${it.classroom}</strong>
-													<br>
-													<ds:blockToHour block="${block}" doapp="${day}"/>
-												</div>
-											</div>
-										</small>
-									</div>
-								</g:findAll>
-							</g:if>
-							<g:else>
-								<ds:blockToHour block="${block}" doapp="${day}"/>
-							</g:else>
-						</p>
-					</g:each>
-				</div>
-			</g:each>
-		</div>
+								</g:else>
+							</td>
+						</g:each>
+					</tr>
+				</g:each>
+			</tbody>
+		</table>
 	</g:if>
 	<g:else>
-		<h4>No hay actividad programada ${dateSelected}!</h4>
+		<p>No hay actividades programadas ${dateSelected}!</p>
 	</g:else>
 </body>
 </html>
