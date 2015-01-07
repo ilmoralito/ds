@@ -29,27 +29,27 @@
 									<div class="well well-small" style="position:relative;">
 										<g:if test="${session?.user?.role == 'admin'}">
 											<div class="btn-group" style="position:absolute; top:0; right:0;">
-									    	<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+												<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
 													Aplicar
-									    		<span class="caret"></span>
-									    	</a>
-										    <ul class="dropdown-menu">
-										    	<li>
-										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
-										    			Atendido
-										    		</g:link>
-										    	</li>
-										    	<li>
-										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
-										    			Ausente
-										    		</g:link>
-										    	</li>
-										    	<li>
-										    		<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
-										    			Cancelado
-										    		</g:link>
-										    	</li>
-										    </ul>
+													<span class="caret"></span>
+												</a>
+												<ul class="dropdown-menu">
+													<li>
+														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
+															Atendido
+														</g:link>
+													</li>
+													<li>
+														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
+															Ausente
+														</g:link>
+													</li>
+													<li>
+														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
+															Cancelado
+														</g:link>
+													</li>
+												</ul>
 											</div>
 										</g:if>
 										<p>${req.user.fullName}</p>
