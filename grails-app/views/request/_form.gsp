@@ -1,9 +1,3 @@
-<g:set var="userClassrooms" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).classrooms as List}"/>
-<g:set var="userSchools" value="${ni.edu.uccleon.User.findByEmail(session?.user?.email).schools as List}"/>
-<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.classrooms}"/>
-<g:set var="schoolsAndDepartments" value="${grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments}"/>
-<g:set var="allSchoolsAndDepartments" value="${schoolsAndDepartments.schools + schoolsAndDepartments.departments}"/>
-
 <div class="row">
 	<div class="span8">
 		<g:hiddenField name="type" value="${req?.type ?: type}"/>
