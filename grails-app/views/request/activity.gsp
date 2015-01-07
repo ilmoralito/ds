@@ -13,7 +13,7 @@
 
 	<g:if test="${requests || session?.user?.role == 'user'}">
 		<h4>Registro de actividades ${dateSelected}</h4>
-		<table class="table table-condensed borderless">
+		<table class="table table-bordered" style="table-layout: fixed;">
 			<thead>
 				<g:each in="${1..datashows}" var="datashow">
 					<th>Datashow ${datashow}</th>
@@ -23,44 +23,18 @@
 				<g:each in="${1..blocks}" var="block">
 					<tr>
 						<g:each in="${1..datashows}" var="d">
-							<td>
+							<td style="overflow: hidden; width:20%; height:50px; position:relative;">
 								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
 								<g:if test="${req}">
-									<div class="well well-small" style="position:relative;">
-										<g:if test="${session?.user?.role == 'admin'}">
-											<div class="btn-group" style="position:absolute; top:0; right:0;">
-												<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-													Aplicar
-													<span class="caret"></span>
-												</a>
-												<ul class="dropdown-menu">
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
-															Atendido
-														</g:link>
-													</li>
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
-															Ausente
-														</g:link>
-													</li>
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
-															Cancelado
-														</g:link>
-													</li>
-												</ul>
-											</div>
-										</g:if>
-										<p>${req.user.fullName}</p>
-										${req.classroom}
-									</div>
+									<g:if test="${session?.user?.role == 'admin'}">
+										
+									</g:if>
+									<p>${req.user.fullName}</p>
+									${req.classroom}
 								</g:if>
 								<g:else>
 									<g:if test="${session?.user?.role == 'user'}">
-										<div class="well well-small">
 											<g:link action="createRequestFromActivity" params="[dateOfApplication:dateSelected, datashow:d, block:block]" class="pull-right">+</g:link>
-										</div>
 									</g:if>
 								</g:else>
 							</td>
