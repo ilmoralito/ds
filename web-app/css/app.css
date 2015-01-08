@@ -43,7 +43,11 @@
 }
 
 .borderless td {
-  border: none;
+	border: none;
+}
+
+.blocks {
+	text-align:center;
 }
 
 .activity {

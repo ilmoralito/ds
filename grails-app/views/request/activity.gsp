@@ -15,6 +15,7 @@
 		<h4>Registro de actividades ${dateSelected}</h4>
 		<table class="table table-bordered" style="table-layout: fixed;">
 			<thead>
+				<th width="10">B</th>
 				<g:each in="${1..datashows}" var="datashow">
 					<th>Datashow ${datashow}</th>
 				</g:each>
@@ -22,6 +23,7 @@
 			<tbody>
 				<g:each in="${1..blocks}" var="block">
 					<tr>
+						<td class="blocks" style="vertical-align:middle;">${block}</td>
 						<g:each in="${1..datashows}" var="d">
 							<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
 							<g:set var="justAdded" value="${d == params.int('datashow') && block == params.int('block') ? 'justAdded' : ''}"/>
