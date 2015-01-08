@@ -45,3 +45,19 @@
 .borderless td {
   border: none;
 }
+
+.activity {
+	width:20%;
+	height:50px;
+	position:relative;
+}
+
+.justAdded {
+	background:#FC4F49;
+	color:#FFF;
+}
+
+.currentUser {
+	background:#D64952;
+	color:#FFF;
+}

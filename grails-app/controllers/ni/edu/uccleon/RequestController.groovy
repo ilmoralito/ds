@@ -21,7 +21,8 @@ class RequestController {
     requestsByUsers:["GET", "POST"],
     disponability:"POST",
     updStatus:"POST",
-    activity:["GET", "POST"]
+    activity:["GET", "POST"],
+    createRequestFromActivity:["GET", "POST"]
   ]
 
   private checkRequestStatus() {
@@ -420,7 +421,7 @@ class RequestController {
           return
         }
 
-        redirect action:"activity", params:[dateSelected:params?.dateOfApplication]
+        redirect action:"activity", params:[dateSelected:params?.dateOfApplication, datashow:params.datashow, block:params.block]
       }
     }
 

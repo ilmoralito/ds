@@ -23,8 +23,11 @@
 				<g:each in="${1..blocks}" var="block">
 					<tr>
 						<g:each in="${1..datashows}" var="d">
-							<td style="width:20%; height:50px; position:relative;">
-								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
+							<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
+							<g:set var="justAdded" value="${d == params.int('datashow') && block == params.int('block') ? 'justAdded' : ''}"/>
+							<g:set var="currentUser" value="${session?.user && session?.user?.email == req?.user?.email && !justAdded ? 'currentUser' : ''}"/>
+
+							<td class="activity ${justAdded} ${currentUser}">
 								<g:if test="${req}">
 									<g:if test="${session?.user?.role == 'admin'}">
 										<div class="btn-group" style="position:absolute; top:1; right:3%;">
