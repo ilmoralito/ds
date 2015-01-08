@@ -20,6 +20,9 @@
 		<div class="checkbox"><g:checkBox name="internet" value="${req?.internet}"/> Internet</div>
 
 		<br>
-		<small>Administrar aulas, facultades o departamentos desde <g:link controller="user" action="profile">perfil</g:link></small>
+		<small>
+			Administra <g:link controller="user" action="classrooms">aulas</g:link>,
+			<g:link controller="user" action="schoolsAndDepartments">facultades o departamentos</g:link>
+		</small>
 	</div>
 </div>
