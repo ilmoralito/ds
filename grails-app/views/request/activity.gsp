@@ -23,11 +23,32 @@
 				<g:each in="${1..blocks}" var="block">
 					<tr>
 						<g:each in="${1..datashows}" var="d">
-							<td style="overflow: hidden; width:20%; height:50px; position:relative;">
+							<td style="width:20%; height:50px; position:relative;">
 								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
 								<g:if test="${req}">
 									<g:if test="${session?.user?.role == 'admin'}">
-										
+										<div class="btn-group" style="position:absolute; top:1; right:3%;">
+											<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+												<span class="caret"></span>
+											</a>
+											<ul class="dropdown-menu">
+												<li>
+													<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
+														Atendido
+													</g:link>
+												</li>
+												<li>
+													<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
+														Ausente
+													</g:link>
+												</li>
+												<li>
+													<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
+														Cancelado
+													</g:link>
+												</li>
+											</ul>
+										</div>
 									</g:if>
 									<p>${req.user.fullName}</p>
 									${req.classroom}
