@@ -9,15 +9,11 @@
 <body>
 	<div class="row">
 		<div class="span3 offset3">
-			<table class="table borderless">
+			<table class="table table-condensed borderless" style="margin-bottom:5px;">
 				<tbody>
 					<tr>
-						<td width="1">Solicitud</td>
+						<td width="1">Fecha</td>
 						<td>${params?.dateOfApplication}</td>
-					</tr>
-					<tr>
-						<td>Datashow</td>
-						<td>${params?.datashow}</td>
 					</tr>
 					<tr>
 						<td>Bloque</td>
