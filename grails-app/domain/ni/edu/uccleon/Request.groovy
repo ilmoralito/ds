@@ -95,6 +95,7 @@ class Request implements Serializable {
 
   static mapping = {
   	version false
+    hours cascade: "all-delete-orphan"
   }
 
   String toString() { dateOfApplication }
