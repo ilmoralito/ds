@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="${(!session?.user) ? 'public' : 'main'}">
 	<title>Actividad</title>
-	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, activity"/>
 	<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css, app"/>
 	<r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
 </head>
@@ -24,12 +24,14 @@
 				<g:each in="${1..blocks}" var="block">
 					<tr>
 						<td class="blocks" style="vertical-align:middle;">${block}</td>
+
 						<g:each in="${1..datashows}" var="d">
 							<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
 							<g:set var="justAdded" value="${d == params.int('datashow') && block == params.int('block') ? 'justAdded' : ''}"/>
 							<g:set var="currentUser" value="${session?.user && session?.user?.email == req?.user?.email && !justAdded ? 'currentUser' : ''}"/>
+							<g:set var="isDraggable" value="${req && req?.user?.email == session?.user?.email}"/>
 
-							<td class="activity ${justAdded} ${currentUser}">
+							<td id="${req?.id}" class="activity ${justAdded} ${currentUser}" draggable="${isDraggable}" ondragstart="${isDraggable ? 'drag(event)' : ''}" ondrop="${!isDraggable && !req ? 'drop(event)' : ''}" ondragover="${!isDraggable && !req ? 'allowDrop(event)' : ''}" ondragend="dragend(event)" data-datashow="${d}" data-block="${block}">
 								<g:if test="${req}">
 									<g:if test="${session?.user?.role == 'admin'}">
 										<div class="btn-group" style="position:absolute; top:1; right:3%;">

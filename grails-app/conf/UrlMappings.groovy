@@ -39,6 +39,7 @@ class UrlMappings {
 		}
 
 		"/activity/$dateSeleted?" (controller:"request", action:"activity")
+		"/todo/$id?/$datashow?/$block?" (controller:"request", action:"todo")
 
 		"/profile" (controller:"user", action:"profile")
 

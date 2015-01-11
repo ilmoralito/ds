@@ -22,6 +22,7 @@ class RequestController {
     disponability:"POST",
     updStatus:"POST",
     activity:["GET", "POST"],
+    todo:"POST",
     createRequestFromActivity:["GET", "POST"]
   ]
 
@@ -398,6 +399,25 @@ class RequestController {
         dateSelected:date,
         datashows:grailsApplication.config.ni.edu.uccleon.datashows
       ]
+    }
+
+    def todo(Integer id, Integer datashow, Integer block) {
+      def req = Request.get id
+
+      req.datashow = datashow
+      req.hours.clear()
+      req.addToHours new Hour(block:block)
+
+      if (!req.save(flush:true)) {
+        render(contentType:"application/json") {
+          status = false
+        }
+      } else {
+        render(contentType:"application/json") {
+          fullName = req.user.fullName
+          classroom = req.classroom
+        }
+      }
     }
 
     def createRequestFromActivity() {
