@@ -31,7 +31,7 @@
 							<g:set var="currentUser" value="${session?.user && session?.user?.email == req?.user?.email && !justAdded ? 'currentUser' : ''}"/>
 							<g:set var="isDraggable" value="${req && req?.user?.email == session?.user?.email}"/>
 
-							<td id="${req?.id}" class="activity ${justAdded} ${currentUser}" draggable="${isDraggable}" ondragstart="${isDraggable ? 'drag(event)' : ''}" ondrop="${!isDraggable && !req ? 'drop(event)' : ''}" ondragover="${!isDraggable && !req ? 'allowDrop(event)' : ''}" ondragend="dragend(event)" data-datashow="${d}" data-block="${block}">
+							<td id="${req?.id}" class="activity ${justAdded} ${currentUser}" draggable="${isDraggable}" ondragstart="${isDraggable ? 'drag(event)' : ''}" ondrop="${!isDraggable && !req ? 'drop(event)' : ''}" ondragover="${!isDraggable && !req ? 'allowDrop(event)' : ''}" ondragend="dragend(event)" data-datashow="${d}" data-block="${block}" data-doa="${dateSelected}">
 								<g:if test="${req}">
 									<g:if test="${session?.user?.role == 'admin'}">
 										<div class="btn-group" style="position:absolute; top:1; right:3%;">

@@ -12,9 +12,16 @@ var dragend = function(event) {
 
 	if (event.dataTransfer.dropEffect != "none") {
 		origin.innerHTML = "";
+
+		var a = document.createElement("a");
+		var aText = document.createTextNode("+");
+		a.appendChild(aText);
+		a.setAttribute("href", "/ds/request/createRequestFromActivity?dateOfApplication=" + origin.dataset.doa + "&datashow=" + origin.dataset.datashow + "&block=" + origin.dataset.block);
+		a.setAttribute("class", "pull-right");
+
+		origin.appendChild(a);
 		origin.classList.remove("currentUser");
 		origin.classList.remove("justAdded");
-
 		origin.setAttribute("id", "");
 		origin.setAttribute("draggable", false);
 		origin.setAttribute("ondragstart", "");
