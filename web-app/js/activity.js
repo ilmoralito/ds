@@ -13,6 +13,7 @@ var dragend = function(event) {
 	if (event.dataTransfer.dropEffect != "none") {
 		origin.innerHTML = "";
 		origin.classList.remove("currentUser");
+		origin.classList.remove("justAdded");
 
 		origin.setAttribute("id", "");
 		origin.setAttribute("draggable", false);
