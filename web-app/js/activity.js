@@ -10,14 +10,16 @@ var allowDrop = function(event) {
 var dragend = function(event) {
 	var origin = event.target;
 
-	origin.innerHTML = "";
-	origin.classList.remove("currentUser");
+	if (event.dataTransfer.dropEffect != "none") {
+		origin.innerHTML = "";
+		origin.classList.remove("currentUser");
 
-	origin.setAttribute("id", "");
-	origin.setAttribute("draggable", false);
-	origin.setAttribute("ondragstart", "");
-	origin.setAttribute("ondragover", "allowDrop(event)");
-	origin.setAttribute("ondrop", "drop(event)");
+		origin.setAttribute("id", "");
+		origin.setAttribute("draggable", false);
+		origin.setAttribute("ondragstart", "");
+		origin.setAttribute("ondragover", "allowDrop(event)");
+		origin.setAttribute("ondrop", "drop(event)");
+	}
 }
 
 var drop = function(event) {
