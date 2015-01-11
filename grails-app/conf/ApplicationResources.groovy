@@ -24,7 +24,6 @@ modules = {
   }
 
   activity {
-    dependsOn "jquery"
     resource url:"js/activity.js"
   }
 }
