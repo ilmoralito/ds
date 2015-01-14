@@ -23,18 +23,19 @@
     <li class="${params.type == 'blocks' ? 'active' : 'not-active'}">
       <g:link action="requestsBy" params="[type:'blocks']">Por bloque</g:link>
     </li>
+    <li class="${params.type == 'day' ? 'active' : 'not-active'}">
+      <g:link action="requestsBy" params="[type:'day']">Dia</g:link>
+    </li>
+    </li>
     <li class="${params.type == 'resumen' ? 'active' : 'not-active'}">
       <g:link action="requestsBy" params="[type:'resumen']">Resumen</g:link>
-    </li>
   </ul>
-
-	<g:render template="reportsForm" model="[results:results]"/>
 
   <g:if test="${results}">
   	<g:render template="reportsTable"/>
   </g:if>
   <g:else>
-  	<strong>...</strong>
+  	<h4>...</h4>
   </g:else>
 </body>
 </html>

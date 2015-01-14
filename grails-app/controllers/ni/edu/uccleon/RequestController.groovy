@@ -482,9 +482,18 @@ class RequestController {
           }
 
           break
+        case "day":
+          def total = Request.count()
+
+          results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.DAY_OF_WEEK] }.collectEntries {
+            [it.key, it.value.collectEntries { d ->
+              [d.key, ["size":d.value.size(), "percent":(d.value.size() / total) * 100]]
+            }]
+          }
+        break
       }
 
-      [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms']) ? results.count.sum() : 0, type:type]
+      [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms', 'day']) ? results.count.sum() : 0, type:type]
     }
 
     def updStatus() {

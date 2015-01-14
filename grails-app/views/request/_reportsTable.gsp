@@ -1,4 +1,4 @@
-<g:if test="${type == 'resumen'}">
+<g:if test="${type in ['resumen', 'classrooms']}">
 	<g:each in="${results}" var="result">
 		<h4>${result.key}</h4>
 		<table class="table">
@@ -14,32 +14,41 @@
 			</tbody>
 		</table>
 
-		<p>
-			Total ${totalRequestInYears[result.key]} Promedio <g:formatNumber number="${totalRequestInYears[result.key] / results[result.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
-		</p>
+		<g:if test="${type == 'resumen'}">
+			<p>
+				Total ${totalRequestInYears[result.key]} Promedio <g:formatNumber number="${totalRequestInYears[result.key] / results[result.key].size()}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN"/>
+			</p>
+		</g:if>
 	</g:each>
 </g:if>
 
-<g:elseif test="${type == 'classrooms'}">
-  <g:each in="${results}" var="result">
-  	<h4>${result.key}</h4>
-  	<table class="table borderless">
-  		<colgroup>
-				<col span="1" style="width: 15%;">
-				<col span="1" style="width: 85%;">
+<g:elseif test="${type == 'day'}">
+	<g:each in="${results}" var="result">
+		<h4>${result.key}</h4>
+		<table class="table">
+			<colgroup>
+				<col span="1" style="width: 10%;">
+				<col span="1" style="width: 10%;">
+				<col span="1" style="width: 80%;">
 			</colgroup>
-  		<tbody>
-		  	<g:each in="${result.value.sort { -it.value }}" var="data">
-		  		<tr>
-		  			<td style="vertical-align:middle;">${data.key}</td>
-		  			<td>
-		  				<div style="width:${data.value}px;" class="bar-chart">${data.value}</div>
-		  			</td>
-		  		</tr>
-		  	</g:each>
-	  	</tbody>
-  	</table>
-  </g:each>
+			<thead>
+				<th>Dia</th>
+				<th>Cantidad</th>
+				<th>Porcentaje</th>
+			</thead>
+			<tbody>
+				<g:each in="${result.value}" var="v">
+					<tr>
+						<td><ds:dayOfWeek index="${v.key}">${v.key}</ds:dayOfWeek></td>
+						<td>${v.value.size}</td>
+						<td>
+							<g:formatNumber number="${v.value.percent}" type="number"/>%
+						</td>
+					</tr>
+				</g:each>
+			</tbody>
+		</table>
+	</g:each>
 </g:elseif>
 
 <g:else>

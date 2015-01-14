@@ -152,4 +152,10 @@ class CommonTagLib {
 		}
 	}
 
+	def dayOfWeek = { attrs ->
+		def days = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"]
+
+		out << days[attrs.int("index") - 1]
+	}
+
 }
