@@ -37,7 +37,7 @@
 				<th>Porcentaje</th>
 			</thead>
 			<tbody>
-				<g:each in="${result.value}" var="v">
+				<g:each in="${result.value.sort { -it.value.size }}" var="v">
 					<tr>
 						<td><ds:dayOfWeek index="${v.key}">${v.key}</ds:dayOfWeek></td>
 						<td>${v.value.size}</td>
