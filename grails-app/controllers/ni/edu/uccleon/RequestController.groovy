@@ -483,11 +483,11 @@ class RequestController {
 
           break
         case "day":
-          def total = Request.count()
+          def quantityByYear = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] }.collectEntries { [it.key, it.value.size()] }
 
           results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.DAY_OF_WEEK] }.collectEntries {
             [it.key, it.value.collectEntries { d ->
-              [d.key, ["size":d.value.size(), "percent":(d.value.size() / total) * 100]]
+              [d.key, ["size":d.value.size(), "percent":(d.value.size() / quantityByYear[it.key]) * 100]]
             }]
           }
         break
