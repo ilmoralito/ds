@@ -1,10 +1,10 @@
-<g:hiddenField name="id" value="${(params?.id) ?: session?.user?.id}"/>
-<g:hiddenField name="path" value="${actionName}"/>
+<g:hiddenField name="id" value="${session?.user?.id}"/>
 
-<g:passwordField name="password" autofocus="true" class="span4" placeholder="Clave actual"/>
+<label for=""></label>
+<g:passwordField name="password" class="span4" placeholder="Clave actual"/>
 
-<br>
+<label for=""></label>
 <g:passwordField name="npassword" class="span4" placeholder="Nueva clavel"/>
 
-<br>
+<label for=""></label>
 <g:passwordField name="rpassword" class="span4" placeholder="Repetir nueva clave"/>

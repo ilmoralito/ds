@@ -190,7 +190,8 @@ class UserController {
 
   def updatePassword(updatePasswordCommand cmd) {
     if (!cmd.validate()) {
-      chain action:(params.path) ?: "password", model:[cmd:cmd], params:[id:cmd.id]
+      cmd.errors.allErrors.each { log.error "[$it.field:$it.defaultMessage]" }
+      redirect action:"password"
       return
     }
 
@@ -199,8 +200,8 @@ class UserController {
     user.properties["password"] = cmd.npassword
     user.save()
 
-    flash.message = "dato.guardado"
-    redirect action:(params.path) ?: "password", params:[id:cmd.id]
+    flash.message = "Clave actualizada"
+    redirect action:"password", params:[id:cmd.id]
   }
 
   def login(String email, String password) {
