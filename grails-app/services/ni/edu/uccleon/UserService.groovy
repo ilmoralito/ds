@@ -1,7 +1,6 @@
 package ni.edu.uccleon
 
 class UserService {
-
   def addSchoolsAndDepartments(schools, User user) {
     //delete all user schools
     def tmpSchools = []
