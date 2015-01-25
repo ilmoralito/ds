@@ -18,8 +18,8 @@
 
 				<ds:isUser>
 					<div class="btn-group" style="margin:0 0 10px 0;">
-					  <button class="btn btn-default">Solicitar datashow</button>
-					  <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					  <button class="btn">Crear solicitud</button>
+					  <button class="btn dropdown-toggle" data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>
 					  <ul class="dropdown-menu">
@@ -28,12 +28,12 @@
 							<li class=divider></li>
 							<li>
 								<g:link controller="request" action="multipleRequests" params="[type:'dates']">
-									Por fechas
+									por fechas
 								</g:link>
 							</li>
 							<li>
 								<g:link controller="request" action="multipleRequests" params="[type:'interval']">
-									Intervalo
+									por intervalo
 								</g:link>
 							</li>
 					   </ul>
