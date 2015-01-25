@@ -31,7 +31,7 @@ class BootStrap {
           role:"user",
           fullName:"hotch roger",
           enabled:true,
-          schools:[schools[2]],
+          schools:[schools[2], theDepartments[0]],
           classrooms:[classrooms[7], classrooms[9]]
         )
 
@@ -48,6 +48,18 @@ class BootStrap {
         )
 
         peluso.save(failOnError:true)
+
+        def nami = new User(
+          email:"nami@ucc.edu.ni",
+          password:"123",
+          role:"user",
+          fullName:"nami roger",
+          enabled:true,
+          schools:[theDepartments[1]],
+          classrooms:[classrooms[1], classrooms[2]]
+        )
+
+        nami.save(failOnError:true)
 
         //request
         //peluso

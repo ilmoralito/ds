@@ -159,20 +159,23 @@ class UserController {
 
   def classrooms() {
     def user = User.findByEmail(session?.user?.email)
-    def cls = grailsApplication.config.ni.edu.uccleon.cls.subMap(["C", "D", "E", "K"])
-    def labs = [["C206":"Lab 4"], ["C207":"Lab 3"], ["C208":"Lab 2"], ["D208":"Lab 1"]]
+    def departments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
+    def userSchoolsOrDepartments = user.schools as List
+    def cls = grailsApplication.config.ni.edu.uccleon.cls
+    def c = [["C101":"Auditorio menor"], ["C102":"Desarrollo y proyeccion"], ["C201":"Biblioteca"]]
+    def e = [["E113":"Finanzas"], ["E114":"Administracion"], ["E204":"Sala de reuniones"], ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]]
+    def allCls = []
 
-    cls["C"].removeAll([["C101":"Auditorio menor"], ["C102":"Desarrollo y proyeccion"], ["C201":"Biblioteca"]])
-    cls["E"].removeAll([["E113":"Finanzas"], ["E114":"Administracion"], ["E204":"Sala de reuniones"], ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]])
+    def isAdministrative = userSchoolsOrDepartments.findAll { it in departments }
 
-    def allCls = cls.collectEntries { key, value ->
-      [key, value.collect {
-        if (it in Map) {
-          it.keySet().join()
-        } else {
-          it
-        }
-      }]
+    if (!isAdministrative) {
+      allCls = cls.subMap(["C", "D", "E", "K"])
+
+      def validC = allCls["C"].findAll { !(it in c) }
+      def validE = allCls["E"].findAll { !(it in e) }
+
+      allCls["C"] = validC
+      allCls["E"] = validE
     }
 
     if (request.method == "POST") {
@@ -183,7 +186,7 @@ class UserController {
       }
     }
 
-    [user:user, allCls:allCls]
+    [user:user, allCls:allCls ?: cls, userSchoolsOrDepartments:userSchoolsOrDepartments]
   }
 
   def password() {}
