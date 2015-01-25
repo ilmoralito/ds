@@ -30,7 +30,7 @@
       </g:each>
     </div>
 
-    <g:submitButton name="send" value="Confirmar cambios" class="btn"/>
+    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
   </g:form>
 </body>
 </html>

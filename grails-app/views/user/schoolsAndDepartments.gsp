@@ -15,7 +15,7 @@
   <g:form action="schoolsAndDepartments">
     <g:render template="schoolsAndDepartments"/>
 
-    <g:submitButton name="send" value="Confirmar cambios" class="btn"/>
+    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
   </g:form>
 </body>
 </html>

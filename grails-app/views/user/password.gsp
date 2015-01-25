@@ -16,7 +16,7 @@
 	<g:form action="updatePassword">
 		<g:render template="updatePasswordForm"/>
 		<br>
-		<g:submitButton name="send" value="Confirmar cambios" class="btn"/>
+		<g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
 	</g:form>
 </body>
 </html>

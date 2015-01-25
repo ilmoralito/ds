@@ -21,7 +21,7 @@
     <label for="fullName">Nombre completo</label>
     <g:textField name="fullName" value="${user?.fullName}" class="span4"/>
     <br>
-    <g:submitButton name="send" value="Confirmar cambios" class="btn"/>
+    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
   </g:form>
 </body>
 </html>
