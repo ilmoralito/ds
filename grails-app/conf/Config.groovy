@@ -107,7 +107,7 @@ ni.edu.uccleon.cls = [
   ],
   D:["D101", "D102", "D103", "D104", "D105", "D109", "D201", "D202", "D203", "D204", "D205", "D206", "D207", ["D208":"Lab 1"]],
   E:["E108", "E112", ["E113":"Finanzas"], ["E114":"Administracion"], "E115", "E116", "E117", "E118", ["E204":"Sala de reuniones"], "E208", "E209", "E210", "E211", "E212", "E213", "E214", "E215", "E216", "E217", "E218", ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]],
-  K:["K103", "K104", "K105", "K201", "K202"],
+  K:["K103", "K104", "K105", "K201", "K202", "K203"],
   undefined:["Afuera de UCC", "Corredor registro"]
 ]
 ni.edu.uccleon.blocks = 7
