@@ -7,6 +7,8 @@
 	<r:require modules = "bootstrap-css, bootstrap-responsive-css, app"/>
 </head>
 <body>
+	<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.cls}"/>
+
 	<div class="row">
 		<g:form action="create" autocomplete="off">
 			<div class="span4">
@@ -30,7 +32,18 @@
 			</div>
 
 			<div class="span2">
-				<g:render template="classrooms"/>
+				<h4>Aulas</h4>
+
+				<g:each in="${classrooms}" var="classroom">
+					<details>
+						<summary><strong>${classroom.key}</strong></summary>
+						<g:each in="${classrooms[classroom.key]}" var="c">
+							<label class="checkbox">
+								<g:checkBox name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}"/> ${c.name ?: c.code}
+							</label>
+						</g:each>
+					</details>
+				</g:each>
 			</div>
 		</g:form>
 	</div>
