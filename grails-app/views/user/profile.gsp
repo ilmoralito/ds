@@ -14,12 +14,12 @@
   </g:hasErrors>
 
   <g:form action="profile">
-    <h4>Datos personales</h4>
-    <label for="email">Correo</label>
-    <g:textField name="email" value="${user?.email}" class="span4" autofocus="true"/>
+    <label for="email"></label>
+    <g:textField name="email" value="${user?.email}" class="span4" autofocus="true" placeholder="Email"/>
 
-    <label for="fullName">Nombre completo</label>
-    <g:textField name="fullName" value="${user?.fullName}" class="span4"/>
+    <label for="fullName"></label>
+    <g:textField name="fullName" value="${user?.fullName}" class="span4" placeholder="Nombre completo"/>
+
     <br>
     <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
   </g:form>
