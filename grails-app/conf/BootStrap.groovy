@@ -10,7 +10,7 @@ class BootStrap {
         def theSchools = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.schools
         def theDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
         def schools = theSchools + theDepartments
-        def classrooms = grailsApplication.config.ni.edu.uccleon.classrooms
+        def classrooms = grailsApplication.config.ni.edu.uccleon.cls
 
         //users
         def mario = new User (
@@ -20,7 +20,7 @@ class BootStrap {
           fullName:"mario roger",
           enabled:true,
           schools:[schools[4]],
-          classrooms:[classrooms[3], classrooms[5]]
+          classrooms:[classrooms["B"][0]["code"], classrooms["B"][1]["code"]] //B101 and B201
         )
 
         mario.save(failOnError:true)
@@ -32,7 +32,7 @@ class BootStrap {
           fullName:"hotch roger",
           enabled:true,
           schools:[schools[2], theDepartments[0]],
-          classrooms:[classrooms[7], classrooms[9]]
+          classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
         )
 
         hotch.save(failOnError:true)
@@ -44,7 +44,7 @@ class BootStrap {
           fullName:"peluso roger",
           enabled:true,
           schools:[schools[1]],
-          classrooms:[classrooms[1], classrooms[2], classrooms[3]]
+          classrooms:[classrooms["D"][0]["code"], classrooms["D"][1]["code"], classrooms["D"][2]["code"]] // D101, D102, D103
         )
 
         peluso.save(failOnError:true)
@@ -56,7 +56,7 @@ class BootStrap {
           fullName:"nami roger",
           enabled:true,
           schools:[theDepartments[1]],
-          classrooms:[classrooms[1], classrooms[2]]
+          classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
         )
 
         nami.save(failOnError:true)

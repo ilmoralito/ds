@@ -162,8 +162,8 @@ class UserController {
     def departments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
     def userSchoolsOrDepartments = user.schools as List
     def cls = grailsApplication.config.ni.edu.uccleon.cls
-    def c = [["C101":"Auditorio menor"], ["C102":"Desarrollo y proyeccion"], ["C201":"Biblioteca"]]
-    def e = [["E113":"Finanzas"], ["E114":"Administracion"], ["E204":"Sala de reuniones"], ["E219":"Sala de maestros"], ["E220":"Escuela de manejo"]]
+    def c = [[code:"C101", name:"Auditorio menor"], [code:"C102", name:"Desarrollo y proyeccion"], [code:"C201", name:"Biblioteca"]]
+    def e = [[code:"E113", name:"Finanzas"], [code:"E114", name:"Administracion"], [code:"E204", name:"Sala de reuniones"], [code:"E219", name:"Sala de maestros"], [code:"E220", name:"Escuela de manejo"]]
     def allCls = []
 
     def isAdministrative = userSchoolsOrDepartments.findAll { it in departments }
@@ -186,7 +186,7 @@ class UserController {
       }
     }
 
-    [user:user, allCls:allCls ?: cls, userSchoolsOrDepartments:userSchoolsOrDepartments]
+    [user:user, allCls:allCls ?: cls, userClassrooms:user?.classrooms]
   }
 
   def password() {}
