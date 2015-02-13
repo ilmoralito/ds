@@ -62,6 +62,7 @@ class RequestController {
       init {
         action {
           flow.type = params?.type ?: "common"
+          flow.userClassrooms = userService.transformUserClassrooms()
         }
 
         on("success").to "buildRequest"
@@ -89,12 +90,15 @@ class RequestController {
               internet:cmd.internet
           )
 
-          [req:req, requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()]
+          [
+            req:req,
+            requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()
+          ]
         }.to "hours"
       }
 
       hours {
-        on("confirm") { PersistHourCommand cmd -> 
+        on("confirm") { PersistHourCommand cmd ->
           if (!cmd.validate()) {
               cmd.errors.allErrors.each { println it.defaultMessage }
               return error()
@@ -131,7 +135,7 @@ class RequestController {
 
           if (!req || req.status != "pending") { response.sendError 404 }
 
-          [req:req]
+          [req:req, userClassrooms:userService.transformUserClassrooms()]
         }
 
         on("success").to "edit"

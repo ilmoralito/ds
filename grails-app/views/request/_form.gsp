@@ -6,7 +6,7 @@
 		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 
 		<!--classrooms-->
-		<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:req]"/>
+		<g:render template="userClassrooms"/>
 
 		<!--schools-->
 		<g:render template="userSchools" model="[userSchools:userSchools, req:req]"/>
