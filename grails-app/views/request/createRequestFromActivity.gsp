@@ -27,7 +27,7 @@
 				<g:hiddenField name="block" value="${params?.block}"/>
 
 				<!--classrooms-->
-				<g:render template="userClassrooms" model="[req:req]"/>
+				<g:render template="userClassrooms"/>
 
 				<!--schools-->
 				<g:render template="userSchools" model="[req:req]"/>
