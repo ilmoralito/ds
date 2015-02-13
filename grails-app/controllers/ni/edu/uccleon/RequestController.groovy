@@ -198,9 +198,9 @@ class RequestController {
     def multipleRequestsFlow = {
       init {
         action {
-          flow.currentUser = User.findByEmail(session?.user?.email)
-          flow.userClassrooms = flow.currentUser.classrooms as List
-          flow.userSchools = flow.currentUser.schools as List
+          flow.currentUser = session?.user
+          flow.userClassrooms = userService.transformUserClassrooms()
+          flow.userSchools = flow.currentUser?.schools as List
           flow.dates = []
           flow.requestInstances = []
           flow.type = params?.type ?: "interval"
@@ -242,7 +242,7 @@ class RequestController {
 
         on("confirm") {
           flow.position = 0
-          
+
           def result = requestService.getInfoToAddHours(flow.dates[flow.position])
 
           [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
@@ -284,7 +284,7 @@ class RequestController {
           } else {
             flow.position = 0
           }
-          
+
           def result = requestService.getInfoToAddHours(flow.dates[flow.position])
 
           flow.blocks = 0 //restart blocks in flow scope

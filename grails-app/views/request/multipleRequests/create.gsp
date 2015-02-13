@@ -39,18 +39,18 @@
 	<br>
 
 	<h4>${dates[position].format("yyyy-MM-dd")}</h4>
-	
+
 	<div class="row">
 		<g:each in="${1..datashows}" var="datashow">
 			<div class="span2">
 				<h4>Datashow ${datashow}</h4>
 				<g:form>
 					<a href="#" class="showAndHideDetail"><small>Detalle</small></a>
-					
+
 					<div class="detail">
 						<g:hiddenField name="dateOfApplication" value="${dates[position].format("yyyy-MM-dd")}"/>
 						<g:hiddenField name="datashow" value="${datashow}"/>
-						<g:render template="userClassrooms" model="[userClassrooms:userClassrooms, req:null]"/>
+						<g:render template="userClassrooms"/>
 						<g:render template="userSchools" model="[userSchools:userSchools, req:null]"/>
 						<g:textArea name="description" value="${description}" class="input-block-level" style="resize:vertical; max-height:100px;" placeholder="Descripcion"/>
 					</div>
@@ -58,7 +58,7 @@
 					<g:each in="${1..blocks}" var="block">
 						<g:set var="isSelected" value="${requests.find { it.datashow == datashow && it.hours.block.contains(block) }}"/>
 						<g:set var="isJustAdded" value="${requestInstances.find { it.dateOfApplication == dates[position] && it.datashow == datashow && it.hours.block.contains(block) }}"/>
-						<g:set var="trueOrFalse" value="${isSelected || isJustAdded ? 'true' : 'false'}"/>	
+						<g:set var="trueOrFalse" value="${isSelected || isJustAdded ? 'true' : 'false'}"/>
 
 						<div class="checkBox">
 							<label>
@@ -72,6 +72,6 @@
 				</g:form>
 			</div>
 		</g:each>
-	</div>	
+	</div>
 </body>
 </html>
