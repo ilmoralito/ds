@@ -3,7 +3,7 @@ package ni.edu.uccleon
 import grails.util.Holders
 
 class RequestController {
-
+  def userService
   def requestService
   def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
 
@@ -438,11 +438,14 @@ class RequestController {
             log.error "[$e.field: $e.defaultMessage]"
           }
 
+          flash.message = "A ocurrido un error. Verifica que todos los datos esten completados"
+        } else {
+          redirect action:"activity", params:[dateSelected:params?.dateOfApplication, datashow:params.datashow, block:params.block]
           return
         }
-
-        redirect action:"activity", params:[dateSelected:params?.dateOfApplication, datashow:params.datashow, block:params.block]
       }
+
+      [userClassrooms:userService.transformUserClassrooms()]
     }
 
     //REPORTS

@@ -1,6 +1,10 @@
 package ni.edu.uccleon
 
+import org.springframework.web.context.request.RequestContextHolder
+
 class UserService {
+  def grailsApplication
+
   def addSchoolsAndDepartments(schools, User user) {
     //delete all user schools
     def tmpSchools = []
@@ -38,5 +42,24 @@ class UserService {
   def addSchoolsAndUserClassrooms(def schools, def classrooms, User user) {
     addSchoolsAndDepartments(schools, user)
     addClassrooms(classrooms, user)
+  }
+
+  def transformUserClassrooms() {
+    def session = RequestContextHolder.currentRequestAttributes().getSession()
+    def user = session.user.refresh()
+    def userClassrooms = user.classrooms
+    def classrooms = grailsApplication.config.ni.edu.uccleon.cls
+    def results = userClassrooms.collect { c ->
+      def zone = c[0]
+      def target = classrooms[zone].find { it.code == c }
+
+      if (target.containsKey("name")) {
+        target
+      } else {
+        [code:target.code, name:target.code]
+      }
+    }
+
+    results.sort()
   }
 }
