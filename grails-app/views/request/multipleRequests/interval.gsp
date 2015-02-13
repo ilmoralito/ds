@@ -20,7 +20,7 @@
 
 				<g:submitButton name="${type == 'dates' ? 'addDate' : 'addInterval'}" value="Agregar" class="btn"/>
 			</g:form>
-			
+
 			<g:if test="${dates}">
 				<table class="table table-striped table-hover">
 					<thead>
@@ -41,7 +41,7 @@
 					</tbody>
 				</table>
 
-				<g:link event="confirm" class="btn">Confirmar</g:link>
+				<g:link event="confirm" class="btn btn-primary">Confirmar</g:link>
 			</g:if>
 		</div>
 	</div>

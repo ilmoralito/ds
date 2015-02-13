@@ -31,8 +31,8 @@
 				  	</g:if>
 				  </ul>
 				</div>
-				<g:link event="done" class="btn">Confirmar</g:link>
-				<g:link event="cancel" class="btn btn-info">Cancelar</g:link>
+				<g:link event="done" class="btn btn-primary">Confirmar</g:link>
+				<g:link event="cancel" class="btn btn-warning">Cancelar</g:link>
 			</div>
 		</div>
 	</div>
