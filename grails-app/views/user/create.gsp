@@ -1,6 +1,7 @@
 <g:applyLayout name="fourColumns">
 	<head>
 		<title>Crear usuario</title>
+		<r:require modules="bootstrap-css, bootstrap-responsive-css, createUser"/>
 	</head>
 
 	<content tag="main">

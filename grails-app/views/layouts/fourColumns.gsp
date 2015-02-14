@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="master"/>
 	<title><g:layoutTitle/></title>
-	<r:require modules="bootstrap-css, bootstrap-responsive-css, app"/>
 	<g:layoutHead/>
 </head>
 <body>
