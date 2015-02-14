@@ -71,23 +71,23 @@ class RequestController {
       buildRequest {
         on("create") { BuildRequestCommand cmd ->
           if (!cmd.validate()) {
-              cmd.errors.allErrors.each { error ->
-                log.error "[$error.field: $error.defaultMessage]"
-              }
-              flow.requestErrors = cmd
+            cmd.errors.allErrors.each { error ->
+              log.error "[$error.field: $error.defaultMessage]"
+            }
+            flow.requestErrors = cmd
 
-              return error()
+            return error()
           }
 
           Request req = new Request(
-              dateOfApplication:cmd.dateOfApplication,
-              classroom:cmd.classroom,
-              school:cmd.school,
-              description:cmd.description,
-              type:cmd.type,
-              audio:cmd.audio,
-              screen:cmd.screen,
-              internet:cmd.internet
+            dateOfApplication:cmd.dateOfApplication,
+            classroom:cmd.classroom,
+            school:cmd.school,
+            description:cmd.description,
+            type:cmd.type,
+            audio:cmd.audio,
+            screen:cmd.screen,
+            internet:cmd.internet
           )
 
           [

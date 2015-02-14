@@ -13,9 +13,13 @@
   <g:render template="navbar"/>
 
   <g:form action="schoolsAndDepartments">
-    <g:render template="schoolsAndDepartments"/>
+    <div class="row">
+      <div class="span10">
+        <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary pull-right"/>
+      </div>
+    </div>
 
-    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
+    <g:render template="schoolsAndDepartments"/>
   </g:form>
 </body>
 </html>

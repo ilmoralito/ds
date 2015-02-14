@@ -11,6 +11,12 @@
 
   <g:form action="classrooms">
     <div class="row">
+      <div class="span10">
+        <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary pull-right"/>
+      </div>
+    </div>
+
+    <div class="row">
       <g:each in="${allCls}" var="classroom">
         <div class="span2">
           <h4>${classroom.key}</h4>
@@ -22,8 +28,6 @@
         </div>
       </g:each>
     </div>
-
-    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
   </g:form>
 </body>
 </html>

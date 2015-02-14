@@ -15,16 +15,8 @@
 			<li><g:link controller="request" action="createRequest" params="[type:'express']">Expreso</g:link></li>
 			<li><g:link controller="request" action="createRequest">General</g:link></li>
 			<li class=divider></li>
-			<li>
-				<g:link controller="request" action="multipleRequests" params="[type:'dates']">
-					por fechas
-				</g:link>
-			</li>
-			<li>
-				<g:link controller="request" action="multipleRequests" params="[type:'interval']">
-					por intervalo
-				</g:link>
-			</li>
+			<li><g:link controller="request" action="multipleRequests" params="[type:'dates']">Fechas</g:link></li>
+			<li><g:link controller="request" action="multipleRequests" params="[type:'interval']">Intervalo</g:link></li>
 	   </ul>
 	</div>
 </ds:isUser>
@@ -50,9 +42,6 @@
 	<ds:isUser>
 		<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
 	</ds:isUser>
-	</ul>
-
-	<ul class="nav nav-tabs nav-stacked">
 		<li><g:link controller="user" action="logout">Salir</g:link></li>
 	</ul>
 </ul>
