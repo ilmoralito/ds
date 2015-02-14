@@ -7,7 +7,7 @@
 
 <ds:isUser>
 	<div class="btn-group" style="margin:0 0 10px 0;">
-	  <button class="btn">Crear solicitud</button>
+	  <button class="btn">Crear solicitud tipo</button>
 	  <button class="btn dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 		</button>
