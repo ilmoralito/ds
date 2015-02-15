@@ -73,6 +73,30 @@ class BootStrap {
         peluso.addToRequests requestInstance
         requestInstance.save(failOnError:true)
 
+        def requestInstance0 = new Request(
+          dateOfApplication:today + 3,
+          classroom:peluso.classrooms.collect{ it }[0],
+          school:peluso.schools.collect{ it }[0],
+          datashow:1,
+          type:"common"
+        )
+
+        requestInstance0.addToHours new Hour(block:0)
+        peluso.addToRequests requestInstance0
+        requestInstance0.save(failOnError:true)
+
+        def r = new Request(
+          dateOfApplication:today + 3,
+          classroom:peluso.classrooms.collect{ it }[0],
+          school:peluso.schools.collect{ it }[0],
+          datashow:1,
+          type:"express"
+        )
+
+        r.addToHours new Hour(block:1)
+        peluso.addToRequests r
+        r.save(failOnError:true)
+
         def pelusoRequestInstance1 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[1], school:peluso.schools.collect{ it }[0], datashow:5, type:"express")
         def pelusoHour1 = new Hour(block:1)
 
@@ -109,7 +133,7 @@ class BootStrap {
         hotch.addToRequests hotchRequestInstance3
         hotchRequestInstance3.save(failOnError:true)
 
-        assert Request.count() == 6
+        assert Request.count() == 8
       break
       case Environment.PRODUCTION:
         User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save()
