@@ -58,6 +58,9 @@
 										</div>
 									</g:if>
 									<p>${req.user.fullName}</p>
+									<g:if test="${req.type == 'common'}">
+										<i class="icon-user"></i>
+									</g:if>
 									${req.classroom}
 								</g:if>
 								<g:else>
