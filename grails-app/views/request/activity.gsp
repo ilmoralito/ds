@@ -81,7 +81,7 @@
 
 	<content tag="col1">
 		<h4 class="activity-heading">Filtrar por</h4>
-		<g:form action="filter" autocomplete="off">
+		<g:form action="activity" autocomplete="off">
 			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
 
 			<label for="users">Usuarios</label>
@@ -96,14 +96,14 @@
 			<label for="types">Tipos</label>
 			<div class="checkbox">
 				<label>
-					<g:checkBox name="types" value="true" checked="${params?.types?.contains('true')}"/>
+					<g:checkBox name="types" value="common" checked="${params?.types?.contains('common')}"/>
 					General
 				</label>
 			</div>
 
 			<div class="checkbox">
 				<label>
-					<g:checkBox name="types" value="false" checked="${params?.types?.contains('false')}"/>
+					<g:checkBox name="types" value="express" checked="${params?.types?.contains('express')}"/>
 					Expreso
 				</label>
 			</div>

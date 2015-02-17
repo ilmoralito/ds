@@ -1,0 +1,297 @@
+[33me5a5d93[m Improved filter view
+[33m3c60533[m Changed navbar brand
+[33mbb58207[m Merged sidebar items
+[33mce03cf1[m Refatored activity view layouts in order to handle filter feature
+[33ma2e19a3[m Show request type
+[33m8eb5bd5[m Created test data
+[33m1ad6404[m Minor ux improvements
+[33m816d254[m Changed create request button label
+[33mff17ca8[m Added details callcbak
+[33m934e717[m Refactored layout
+[33md9eb8ea[m Stand out buttons priorities
+[33mba6d5fa[m Fixed create request from interval and between dates
+[33m4260de6[m Removed no needed code
+[33m552aa06[m Added userService.transformUserClassrooms method call to create and edit request
+[33m06f1e18[m Show classroom name if it has name as key
+[33mf93dff3[m Refactorized user create view
+[33m1388b83[m Refactored and improved choose classrooms
+[33m86e6135[m Changed schools and departments way to be displayed
+[33m36aa1e1[m Refactored user profile view
+[33mb8be624[m Show block 0 in activities
+[33mefc26c9[m Added k2303 to classrooms
+[33m19cbdf0[m Edded forgoten classrooms
+[33md899f00[m Todo add custom validation, hot fix
+[33mfc95a57[m Minor user experience changed
+[33m5ef5953[m Stand out view button
+[33m9649c9d[m Display classrooms based on user schools or department
+[33mc1324a1[m Refactorized user show view
+[33m1fba115[m List classrooms from right map
+[33m167d385[m Removed no needed actions and reindented based in 2tab size
+[33m8b7c77c[m Fixed percentage calc in requests by day
+[33m5579ec5[m Sorted day results
+[33m4a13f26[m Added report by day
+[33m33ac628[m Added two new departments
+[33m45be50e[m Added placeholders attributes
+[33mea981b2[m Add create request link in origin drag tag
+[33m24bb308[m Delete justAdded class when perfom a succesfuly drag
+[33mcd518b7[m Removed jquery needs
+[33m52fc98f[m Prevent drag canceled event
+[33m301abb2[m Enabled drag and drop event when trying to update request data or hour
+[33mb2a2302[m Easy to delete hours
+[33mfca27a7[m Updated message about administrate classrooms and schools
+[33me2cd7aa[m Properly display combo boxes
+[33m5b7d2ef[m Updated popup message instead of faqs use normas
+[33m7b66f13[m Added block number in activity table
+[33m0fae729[m Stand out current logged user request and stand out just create request in activity view
+[33mebad5da[m Minor refactorization in create request from activity view
+[33m66b105d[m Refactored activity admin perspective
+[33m93d341e[m Changing activity layout
+[33m12ff88a[m Removed no needed module
+[33m61ca17f[m Concluded process to create request from activity view
+[33mf23f6ca[m Formated code for easy to read code
+[33m0219166[m Removed no needed module referenc
+[33m29476ab[m Remove no needed css class
+[33m1157c87[m Improved get user classrooms and schools from form
+[33mc4f1583[m Removed no needed module
+[33ma969d38[m Redesign request activity
+[33m12623c6[m Turned faqs into normas
+[33m90dcba4[m Added class bar-chart to resumen view
+[33m12082da[m Display barchart in requests by classroom report
+[33mfbbf230[m Simplier way to display total and average data about requests
+[33mb8afeef[m Transformed into bar chart data about resumen
+[33mdd1ce19[m Added new request to try request in diferents months
+[33me9b6b36[m Passed calc total logic to controller and calc average by month in each year
+[33m6448474[m Added total request
+[33m4b1518d[m Simplier way to display resume data
+[33me54b7f0[m Fixed resume report query
+[33ma531d9b[m Made it simpler toString
+[33m1005090[m Fixed sidebar active state
+[33m1729115[m Improved admin classrooms
+[33m24085c1[m Created admin classrooms view and minor fixed within profile
+[33m753e6e0[m Created schoolsAndClassrooms logic
+[33mc37a89c[m separating profile
+[33me77cf65[m Minor fix in request table header
+[33mb08df66[m Minor fixed
+[33m024bdf8[m Removed no needed label
+[33m20a62ef[m Fixed typo error
+[33mcc2ea01[m Show cursor as pointer when hover divs with well class
+[33m29bf553[m Clean user interface when no request to show
+[33m8acdecd[m Select o unselect checkbox by bash in request list
+[33m2e6f498[m Improved update bash request status
+[33m5dc31e5[m Fixed sidebar selecting requests reports and request list
+[33mbaacfec[m Fixed sidebar selecting users
+[33m2964a5e[m Fixed sidebar when selecting profile
+[33mfe1758d[m Setted request by resume as default reportBy instance
+[33mcd1e197[m Created resumen request activities
+[33m900638d[m Simpler log message
+[33m47f6429[m Fixed filter request by date
+[33m29fe305[m In activity view display all activities in the same block
+[33m7532e46[m Created more requests for testing
+[33mff71dea[m Constrain observation textarea
+[33m387af49[m Refactored request form, display label properly
+[33m0ba3141[m Refactored public app face
+[33mdfecb9a[m Fixed request form
+[33m1a3bf04[m Fixed select datashow
+[33mfae6752[m Fixed hidden merge conflict
+[33maa1d632[m Merge branch 'master' of https://github.com/ilmoralito/ds
+[33mca87dd0[m Changed way to display if request is common or express
+[33me44d036[m Fixed blocks display
+[33mc22a0d1[m Set current user in flow scope
+[33m36b88ee[m Constrain textarea resized and setted max-height
+[33mfd86ce0[m Mark chosed date
+[33m3919e95[m Improved UX
+[33mecb9027[m Improved access to current user
+[33mf2fadc8[m Set autocomplete to off in login
+[33m52918ab[m Updated classroom name
+[33mc4a9e8d[m Seted autocompleted to off in login form
+[33m3430cfe[m Implementing delete request in create multiple request mode
+[33m9911e04[m Impelementing create multiple requests
+[33m245e8fe[m Fixed same hour error creating test requests
+[33m79d0977[m Implementing create multiple request at once
+[33m40c263d[m Added counter to history element in request toolbar
+[33mba726dc[m Fixed display date when call activity action
+[33m9cae990[m Fixed mindate jquery ui in dateOfAplication input
+[33m4fe8f52[m Added custom error message when trying to create any request
+[33me631fc7[m Display request error when creating any request
+[33m62b6124[m Added recursos humanos to departments
+[33m7a518c8[m Refactored minor common request message
+[33m134d7ec[m Refactored common request message
+[33mace9bdd[m Invite users with no classrooms to administrate classrooms from profile view
+[33mfd39e1c[m Properly validate classrooms for user
+[33md8fae94[m Added Mesanini one and two to classrooms list
+[33m59af62c[m Update state whit no validation
+[33m6d09a15[m Tab 2
+[33me1c7f81[m Fixed another merging conflict
+[33m7d68926[m Fixed merging conflict
+[33m6c645af[m Fixing error when try to update request status
+[33mcff9e88[m Added some requests to test and minor refactored easy to read request controller
+[33m45a7921[m Fix step one
+[33m597b5bc[m Fix step one
+[33m5b989f4[m Improved request updateStatus action allowing to redirect to activity selected date
+[33m87b1721[m Allowed request activity action to be access trought POST and GET methods
+[33m81d43f3[m Fixed request activity action
+[33m5e935f4[m Fixing no index column error
+[33mfb90c58[m Set hours as List
+[33me8aae03[m Minor view inproved
+[33m886d7bd[m Fixed display activity
+[33m4f84d3b[m Improved edit request
+[33m81461c1[m Improved add new request
+[33mcedec50[m Refactoring buildRequest
+[33m9d9b658[m Minor refactored user show view
+[33mffb4d7f[m Notify user about site location and credentials
+[33m9157020[m Fixed email template
+[33m1fd2226[m Send notification mail when create user
+[33m6a1b95b[m Improved create user
+[33md73bd80[m Refactored style public views
+[33md263f26[m Merge branch 'master' of https://github.com/ilmoralito/ds
+[33m2106bb0[m Allowed to get access to create request from any view in site
+[33mb376a83[m Allowed to get access to create request from any view in site
+[33m655e1fa[m Added new school
+[33m32cc080[m Refactored search request by date
+[33m5fcebb5[m Minor improved in UI
+[33m70a9561[m Removed database session plugin
+[33m9f009e7[m Merge branch 'master' of heroku.com:uccds
+[33m6190962[m Merge branch 'master' of heroku.com:uccds
+[33m1014699[m Merge branch 'master' of heroku.com:uccds
+[33m30d04ff[m Merge branch 'master' of heroku.com:uccds
+[33m25f1b95[m Merge branch 'master' of heroku.com:uccds
+[33mb453cbb[m Merge branch 'master' of heroku.com:uccds
+[33m7defdea[m Merge branch 'master' of heroku.com:uccds
+[33m71b3033[m Fixing deploying
+[33m3796fdf[m Fixing deploying
+[33mf31b3b5[m Fixed requestby method
+[33ma00055b[m Updating datasource
+[33m64ba43d[m Merge branch 'master' of heroku.com:uccds
+[33maf8dcb0[m Added enable or disable user account feature
+[33m5051253[m Added postgre db support
+[33meb74239[m Added postgre db support
+[33m15d7332[m Fixed merge conflict
+[33m8679f37[m added heroku plugin to fix session problems in heroku
+[33m46c5d34[m added heroku plugin to fix session problems in heroku
+[33ma567e6f[m Minor tag fix
+[33m99a5bab[m Setted jdk 1.7 to fix heroku error R14 (Memory quota exceeded)
+[33m5c3d6ab[m Fixed in production create first user
+[33m7306b26[m Fixed datasource prod section
+[33m77be16a[m Mapping User domain class column nane
+[33mb4588d0[m Refactored user requests history
+[33m684efeb[m Minor ux change in request toolbar
+[33ma15ec94[m Fixed new user message
+[33m978525d[m Added new items to faqs section
+[33m7039261[m Refactored user profile view
+[33m7599a75[m Refactored request history
+[33me3619e2[m Added new item in faqs
+[33m60398c8[m Refactored request list toolbar
+[33md333e8e[m Refactored set schoolsAndDepartment instead of schools
+[33m3714c56[m Refactored create user feature and profile feature
+[33m0a2a72e[m Splited schools and departments in profile
+[33mab2d562[m fixed select one request to update status
+[33m4a895c8[m change status to several request at once
+[33m72b8e1e[m fixed navbar item when select faqs
+[33m046e7d2[m set server url
+[33mff40f64[m refactored public navbar
+[33m5c0171a[m fixed got to index in navbar
+[33m9fbd530[m rename link connection between user and schools and classrooms
+[33m458cb95[m created others request action, and default only display pending request
+[33m4da945f[m delete reference to css file and added responsive
+[33m68b212d[m fixed set correct layout
+[33m10b4bfb[m fixed addapt in public views solution #1
+[33mab039bc[m refactored public views
+[33mc6675e4[m created dev manifest, and define specific configuration values
+[33m99db0a5[m fixed display user classroom or school if there is only one choosen
+[33m69a1832[m merged sunday into master
+[33m54f0bd8[m fixed search user action
+[33m8e5a58b[m recovering from the git fiasco
+[33m16273b4[m refactored add school and classroom action
+[33m5efca52[m in express request set default date of application to today
+[33ma3890e3[m creating canceled status
+[33ma8b9582[m changed style to toolbar in activity view
+[33mdb9787e[m show requests number in request list view for admin user
+[33m4e072c9[m added change status to request from activity view
+[33m85aa90c[m colored hours box by current user
+[33m040b56e[m change url mapping for user profile and user update password
+[33m999b9d4[m simple refactored user profile view
+[33m32eebdd[m trying to fix user profile view error
+[33m00f68f8[m change deployment config to auto-configure conf
+[33m410836f[m removed *.db files
+[33m9f4a777[m set tes db to mem
+[33m066b448[m updated .gitignore file
+[33m5bc6416[m view activity available for not logged users
+[33md10beac[m added today activity link in login and refactored
+[33m7263e72[m display activity info if there are request in that day
+[33m602bb56[m added classroom info in active requets updated a little style
+[33m02d5ed4[m updated action name to activity insted of disponabilty
+[33m5c4ab65[m renamed disponibilty
+[33m53a238d[m definded new activity info view
+[33m2a7a292[m refactored disponibilty action and its view
+[33m73e734a[m refactored disponibilty controller action
+[33mb1f575f[m set active state in navbar form user with role user
+[33m1b964f0[m sort by count results in reports
+[33ma474423[m fixed request view action, updated request view
+[33m56fa27c[m fixed updateState action
+[33m4f1434a[m updateStatus action only for users whit role admin
+[33m675c82e[m intercept delete and update action if request status is different than pending
+[33m8ea5ff6[m updated manifest file
+[33mc1c7a72[m updated .gitignore file
+[33mf772b97[m Merge branch 'refactor-edit-request-flow'
+[33m65a9604[m delete no necessary file
+[33maa798e8[m added update request and blocks hour feature
+[33mdd4afdb[m created a new department
+[33m4a7d782[m upated message tag
+[33mc7e15d3[m scaled memory
+[33mbff54fa[m created VE and R departments
+[33md3ae6c6[m added posible nullable error defence
+[33m5561de1[m delete no necessary files
+[33mf8f2a50[m updated domain classes as serializables
+[33md43bb92[m fixed display message if request type is express
+[33m9838e36[m validate speaker and screens availabilty
+[33m0f8b71a[m deleted request type message from create request form
+[33m4b33482[m refactor-create-request-flow
+[33m58f9816[m minor changes in request edit view
+[33mdf3c571[m refactored request list view
+[33m721e983[m removed input placeholder style
+[33m8be3f7e[m updated max result in pagination in user list view
+[33m59f9a56[m added find user by department
+[33m6d7e0d9[m added pagination to user list
+[33mcd8262a[m droped list by user enabled property from list view
+[33md22d660[m simple refactor to user list view
+[33m003b0ab[m created two new departments to schools list
+[33mf9b5a0c[m autocomplete property enabled in login form and feedback user email if login fail
+[33mb2a7901[m refactored user creation procedure
+[33m81fd632[m deleted self register feature
+[33mf6e99eb[m fixed requests for week now accept day 2 monday
+[33m31f6f95[m updated create request button to dropdown button
+[33ma33b12f[m added search requests by dates feature
+[33m9d19dd9[m fixed correct hours when no hours is selected
+[33m071582d[m added request info when selecting hour
+[33me1268d0[m fixed error when delete request
+[33med9215f[m refactor faqs view
+[33me418a63[m fixed error when updated user profile
+[33mc11e211[m bug fixed disponibilty request action
+[33m53b693c[m allow request to be set i three possible status
+[33m1742e31[m completed todo block to hour
+[33mbdb118f[m block to hour
+[33mc7882e5[m denied access to user/create action if user isnot role admin
+[33m38e4805[m refactor user list navbar
+[33m44f78ff[m updated search box name in user list
+[33m272ff0d[m navbar is displayed when there are no user
+[33m5a98857[m Merge branch 'fix-check-if-user-exist-before-create-it'
+[33m9e335eb[m check-if-user-exist-in-prod
+[33m5045fcb[m updated .gitignore file
+[33m22b85e9[m created user to test in production
+[33mf99dfba[m fixed create user schools by user with role admin
+[33m57fd690[m feature:create user by admin
+[33m840abee[m mapping errors to response codes
+[33mfe52853[m fixed speakers and screens availability
+[33meca75b7[m deploying settings
+[33m433c53a[m dropped inc variable
+[33m2015e4a[m validate speakers and screens availability
+[33m9e9c9c1[m delete sortable column
+[33m45563d5[m refactored user profile view
+[33m35e3efa[m updated .gitignore file
+[33m59ce70d[m Merge branch 'master' of https://github.com/ilmoralito/ds
+[33m112dc16[m Initial commit
+[33m25e5916[m delete files
+[33m8081ff6[m working in app
+[33m0b79ee3[m several changes
+[33ma06e01d[m added features
+[33m148e646[m first commit

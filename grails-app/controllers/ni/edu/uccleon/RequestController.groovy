@@ -384,10 +384,14 @@ class RequestController {
     }
 
     def activity(String dateSelected) {
-      Date date = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
-      def requests = Request.requestFromTo(date, date).findAllByStatus("pending")
-      def day = date[Calendar.DAY_OF_WEEK]
+      def users = params.list("users")
+      def schools = params.list("schools")
+      def classrooms = params.list("classrooms")
+      def types = params.list("types")
+      def dateOfApplication = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
+      def day = dateOfApplication[Calendar.DAY_OF_WEEK]
       def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+      def requests
 
       def blocks = {
         if (day == 7) {
@@ -409,22 +413,49 @@ class RequestController {
         }
       }
 
+      if (users || schools || classrooms || types) {
+        def criteria = Request.createCriteria()
+
+        requests = criteria {
+          ge "dateOfApplication", dateOfApplication
+          le "dateOfApplication", dateOfApplication
+
+          eq "status", "pending"
+
+          if (users) {
+            user {
+              "in" "email", users
+            }
+          }
+
+          if (schools) {
+            "in" "school", schools
+          }
+
+          if (classrooms) {
+            "in" "classroom", classrooms
+          }
+
+          if (types) {
+            "in" "type", types
+          }
+        }
+      } else {
+        requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
+      }
+
+
       [
         requests:requests,
         blocks:blocks.call(),
         day:day,
-        dateSelected:date,
+        dateSelected:dateOfApplication,
         datashows:grailsApplication.config.ni.edu.uccleon.datashows,
         layout:layout.call(),
         schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
         classrooms:requestService.mergedClassrooms(),
         users:User.findAllByRole("user")
       ]
-    }
-
-    def filter(String dateSelected) {
-      def types = params.list("types")
-      redirect action:"activity", params:[dateSelected:dateSelected]
     }
 
     def todo(Integer id, Integer datashow, Integer block) {
