@@ -82,23 +82,28 @@
 	<content tag="col1">
 		<h4 class="activity-heading">Filtrar por</h4>
 		<g:form action="filter" autocomplete="off">
+			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
+
+			<label for="users">Usuarios</label>
+			<g:select name="users" from="${users}" optionKey="email" optionValue="fullName" multiple="true" class="span2"/>
+
 			<label for="classrooms">Aulas</label>
-			<g:select name="classrooms" from="" multiple="true" class="span2"/>
+			<g:select name="classrooms" from="${classrooms}" optionKey="code" optionValue="name" multiple="true" class="span2"/>
 
-			<label for="schools">Facultades o departamentos</label>
-			<g:select name="schools" from="" multiple="true" class="span2"/>
+			<label for="schools">Facultades y departamentos</label>
+			<g:select name="schools" from="${schoolsAndDepartments}" multiple="true" class="span2"/>
 
-			<label for="types">Tipo</label>
+			<label for="types">Tipos</label>
 			<div class="checkbox">
 				<label>
-					<g:checkBox name="types" value="true" checked="false"/>
+					<g:checkBox name="types" value="true" checked="${params?.types?.contains('true')}"/>
 					General
 				</label>
 			</div>
 
 			<div class="checkbox">
 				<label>
-					<g:checkBox name="types" value="false" checked="false"/>
+					<g:checkBox name="types" value="false" checked="${params?.types?.contains('false')}"/>
 					Expreso
 				</label>
 			</div>

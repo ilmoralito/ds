@@ -33,4 +33,18 @@ class RequestService {
 
     [requests:requests, datashows:datashows, day:day, blocks:blocks.call()]
   }
+
+  def mergedClassrooms() {
+    def cls = grailsApplication.config.ni.edu.uccleon.cls
+    def classroomsMerged = cls["B"] + cls["C"] + cls["D"] + cls["K"] + cls["undefined"]
+    def classrooms = classroomsMerged.collect { classroom ->
+      if (classroom.containsKey("name")) {
+        classroom
+      } else {
+        [code:classroom.code, name:classroom.code]
+      }
+    }
+
+    classrooms
+  }
 }

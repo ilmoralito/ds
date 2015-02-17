@@ -22,6 +22,7 @@ class RequestController {
     disponability:"POST",
     updStatus:"POST",
     activity:["GET", "POST"],
+    filter:"POST",
     todo:"POST",
     createRequestFromActivity:["GET", "POST"]
   ]
@@ -386,6 +387,8 @@ class RequestController {
       Date date = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
       def requests = Request.requestFromTo(date, date).findAllByStatus("pending")
       def day = date[Calendar.DAY_OF_WEEK]
+      def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+
       def blocks = {
         if (day == 7) {
           grailsApplication.config.ni.edu.uccleon.saturday.blocks
@@ -396,7 +399,6 @@ class RequestController {
         }
       }
 
-      //get proper layout
       def layout = {
         if (!session?.user) {
           "oneColumn"
@@ -413,8 +415,16 @@ class RequestController {
         day:day,
         dateSelected:date,
         datashows:grailsApplication.config.ni.edu.uccleon.datashows,
-        layout:layout.call()
+        layout:layout.call(),
+        schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
+        classrooms:requestService.mergedClassrooms(),
+        users:User.findAllByRole("user")
       ]
+    }
+
+    def filter(String dateSelected) {
+      def types = params.list("types")
+      redirect action:"activity", params:[dateSelected:dateSelected]
     }
 
     def todo(Integer id, Integer datashow, Integer block) {
