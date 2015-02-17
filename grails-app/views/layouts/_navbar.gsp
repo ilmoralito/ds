@@ -1,7 +1,7 @@
 <div class="navbar navbar-inverse navbar-static-top">
   <div class="navbar-inner">
     <div class="container">
-      <a class="brand" href="#">UCC-DS</a>
+      <a class="brand" href="#">UCC Leon, ssma</a>
         <ul class="nav pull-right">
           <li class="${actionName == 'login' ? 'active' : ''}">
             <g:link controller="user" action="login">Iniciar sesion</g:link>
