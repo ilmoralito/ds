@@ -21,18 +21,15 @@
 	</div>
 </ds:isUser>
 
-<ds:isAdmin>
-	<ul class="nav nav-tabs nav-stacked">
+<ul class="nav nav-tabs nav-stacked">
+	<ds:isAdmin>
 		<li class="${controllerName == 'user' && !(actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
 			<g:link controller="user" action="list">Usuarios</g:link>
 		</li>
 		<li class="${controllerName == 'request' && actionName == 'requestsBy' ? 'active' : ''}">
 			<g:link controller="request" action="requestsBy" params="[type:'resumen']">Reportes</g:link>
 		</li>
-	</ul>
-</ds:isAdmin>
-
-<ul class="nav nav-tabs nav-stacked" style="width:98%;">
+	</ds:isAdmin>
 	<li class="${(controllerName == 'request' && actionName != 'requestsBy') ? 'active' : 'no-active'}">
 		<g:link controller="request" action="list">Solicitudes</g:link>
 	</li>
