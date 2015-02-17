@@ -1,5 +1,5 @@
 .main {
-	margin-top: 50px;
+	margin-top: 45px;
 }
 
 .well {
@@ -68,4 +68,8 @@
 
 summary {
 	cursor: pointer;
+}
+
+h4.activity-heading {
+	margin-top: 0;
 }

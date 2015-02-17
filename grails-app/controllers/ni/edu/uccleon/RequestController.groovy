@@ -396,12 +396,24 @@ class RequestController {
         }
       }
 
+      //get proper layout
+      def layout = {
+        if (!session?.user) {
+          "oneColumn"
+        } else if (session?.user?.role == "admin") {
+          "threeColumns"
+        } else {
+          "twoColumns"
+        }
+      }
+
       [
         requests:requests,
         blocks:blocks.call(),
         day:day,
         dateSelected:date,
-        datashows:grailsApplication.config.ni.edu.uccleon.datashows
+        datashows:grailsApplication.config.ni.edu.uccleon.datashows,
+        layout:layout.call()
       ]
     }
 

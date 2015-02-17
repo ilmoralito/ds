@@ -8,6 +8,10 @@
 	<g:layoutHead/>
 </head>
 <body>
+	<g:if test="${actionName == 'activity' && !session?.user}">
+		<g:render template="/layouts/navbar"/>
+	</g:if>
+
 	<div class="container main">
 		<div class="row">
 			<g:layoutBody/>
