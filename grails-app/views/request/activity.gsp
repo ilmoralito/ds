@@ -85,13 +85,29 @@
 			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
 
 			<label for="users">Usuarios</label>
-			<g:select name="users" from="${users}" optionKey="email" optionValue="fullName" multiple="true" class="span2"/>
+			<select name="users" id="users" multiple="true" class="span2">
+				<g:each in="${users}" var="user">
+					<option value="${user.email}" ${params.list('users')?.contains(user.email) ? 'selected' : ''}>
+						${user.fullName}
+					</option>
+				</g:each>
+			</select>
 
 			<label for="classrooms">Aulas</label>
-			<g:select name="classrooms" from="${classrooms}" optionKey="code" optionValue="name" multiple="true" class="span2"/>
+			<select name="classrooms" id="classrooms" multiple="true" class="span2">
+				<g:each in="${classrooms}" var="classroom">
+					<option value="${classroom.code}" ${params.list('classrooms')?.contains(classroom.code) ? 'selected' : ''}>
+						${classroom.name}
+					</option>
+				</g:each>
+			</select>
 
-			<label for="schools">Facultades y departamentos</label>
-			<g:select name="schools" from="${schoolsAndDepartments}" multiple="true" class="span2"/>
+			<label for="schools">Facultades y <a href="#" id="departments">departamentos</a></label>
+			<select name="schools" id="schools" multiple="true" class="span2">
+				<g:each in="${schoolsAndDepartments}" var="school">
+					<option value="${school}" ${params.list('schools')?.contains(school) ? 'selected' : ''}>${school}</option>
+				</g:each>
+			</select>
 
 			<label for="types">Tipos</label>
 			<div class="checkbox">
