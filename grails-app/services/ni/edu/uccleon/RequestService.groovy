@@ -36,7 +36,7 @@ class RequestService {
 
   def mergedClassrooms() {
     def cls = grailsApplication.config.ni.edu.uccleon.cls
-    def classroomsMerged = cls["B"] + cls["C"] + cls["D"] + cls["K"] + cls["undefined"]
+    def classroomsMerged = cls["B"] + cls["C"] + cls["D"] + cls["E"] + cls["K"] + cls["undefined"]
     def classrooms = classroomsMerged.collect { classroom ->
       if (classroom.containsKey("name")) {
         classroom
