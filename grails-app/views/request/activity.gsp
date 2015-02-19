@@ -80,9 +80,13 @@
 	</content>
 
 	<content tag="col1">
+		<h4 class="activity-heading">Filtrar por</h4>
 		<g:form action="activity" autocomplete="off">
 			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
 			<g:render template="filter"/>
+
+			<br>
+			<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block"/>
 		</g:form>
 	</content>
 </g:applyLayout>

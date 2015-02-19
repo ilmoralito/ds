@@ -1,4 +1,3 @@
-<h4 class="activity-heading">Filtrar por</h4>
 <label for="users">Usuarios</label>
 <select name="users" id="users" multiple="true" class="span2">
 	<g:each in="${users}" var="user">
@@ -34,6 +33,3 @@
 	<g:checkBox name="types" value="express" checked="${params?.types?.contains('express')}"/>
 	Expreso
 </label>
-
-<br><br>
-<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block"/>

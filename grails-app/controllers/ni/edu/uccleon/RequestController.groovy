@@ -36,19 +36,58 @@ class RequestController {
 
   def list() {
     def requests
-    def user = session?.user
-    def role = user?.role
+    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+    def users = params.list("users")
+    def schools = params.list("schools")
+    def classrooms = params.list("classrooms")
+    def types = params.list("types")
+    def status = params.list("status")
+    def requestFromDate = params.date("requestFromDate", "yyyy-MM-dd")
+    def requestToDate = params.date("requestToDate", "yyyy-MM-dd")
+    def userInstance = session?.user
+    def role = userInstance?.role
 
-    if (params?.requestFromDate && params?.requestToDate) {
-      Date from = params.date("requestFromDate", "yyyy-MM-dd") ?: new Date()
-      Date to = params.date("requestToDate", "yyyy-MM-dd") ?: new Date()
+    if (users || schools || classrooms || types || status || requestFromDate || requestToDate) {
+      Date from = requestFromDate ?: new Date()
+      Date to = requestToDate ?: new Date()
+      def criteria = Request.createCriteria()
 
-      requests = Request.requestFromTo(from , to).list()
+      requests = criteria {
+        ge "dateOfApplication", from.clearTime()
+        le "dateOfApplication", to.clearTime()
+
+        if (users) {
+          user {
+            "in" "email", users
+          }
+        }
+
+        if (schools) {
+          "in" "school", schools
+        }
+
+        if (classrooms) {
+          "in" "classroom", classrooms
+        }
+
+        if (types) {
+          "in" "type", types
+        }
+
+        if (status) {
+          "in" "status", status
+        }
+      }
     } else {
-      requests = (role == "admin") ? Request.todayRequest().list() : Request.listByUser(user).findAllByStatus("pending")
+      requests = (role == "admin") ? Request.todayRequest().list() : Request.listByUser(userInstance).findAllByStatus("pending")
     }
 
-    [requests:requests]
+    [
+      requests:requests,
+      schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
+      classrooms:requestService.mergedClassrooms(),
+      users:User.findAllByRole("user")
+    ]
   }
 
     def others() {
@@ -288,7 +327,7 @@ class RequestController {
           def result = requestService.getInfoToAddHours(flow.dates[flow.position])
 
           flow.blocks = 0 //restart blocks in flow scope
-          
+
           [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
         }.to "create"
 
@@ -315,7 +354,7 @@ class RequestController {
 
       summary {
         on("back").to "create"
-        
+
         on("deleteRequestInstance") {
           def rDate = new Date().parse("yyyy-MM-dd", params?.rDate)
           def index = params.int("index")
@@ -442,7 +481,6 @@ class RequestController {
       } else {
         requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
       }
-
 
       [
         requests:requests,

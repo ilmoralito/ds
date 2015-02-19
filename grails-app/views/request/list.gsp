@@ -101,8 +101,38 @@
 	</content>
 
 	<content tag="col1">
-		<g:form action="activity" autocomplete="off">
+		<h4 class="activity-heading">Filtrar por</h4>
+		<g:form action="list" autocomplete="off">
+			<label for="">Fechas</label>
+			<g:textField name="requestFromDate" value="${params?.requestFromDate}" class="span2" placeholder="Desde"/>
+
+			<label for=""></label>
+			<g:textField name="requestToDate" value="${params?.requestToDate}" class="span2" placeholder="Hasta"/>
+
 			<g:render template="filter"/>
+
+			<label for="" style="margin-top:7px;">Estado</label>
+			<label for="" class="checkbox">
+				<g:checkBox name="status" value="pending" checked="${params?.status?.contains('pending')}"/>
+				Pendiente
+			</label>
+
+			<label for="" class="checkbox">
+				<g:checkBox name="status" value="attended" checked="${params?.status?.contains('attended')}"/>
+				Atendido
+			</label>
+
+			<label for="" class="checkbox">
+				<g:checkBox name="status" value="absent" checked="${params?.status?.contains('absent')}"/>
+				Ausente
+			</label>
+
+			<label for="" class="checkbox">
+				<g:checkBox name="status" value="canceled" checked="${params?.status?.contains('canceled')}"/>
+				Cancelado
+			</label>
+
+			<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block"/>
 		</g:form>
 	</content>
 </g:applyLayout>
