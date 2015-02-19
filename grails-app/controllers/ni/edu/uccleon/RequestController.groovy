@@ -22,7 +22,6 @@ class RequestController {
     disponability:"POST",
     updStatus:"POST",
     activity:["GET", "POST"],
-    filter:"POST",
     todo:"POST",
     createRequestFromActivity:["GET", "POST"]
   ]
