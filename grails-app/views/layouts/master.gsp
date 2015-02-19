@@ -15,7 +15,6 @@
 	<div class="container main">
 		<div class="row">
 			<g:layoutBody/>
-			<ds:flashMessage>${flash.message}</ds:flashMessage>
 		</div>
 	</div>
 
