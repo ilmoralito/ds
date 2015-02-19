@@ -85,8 +85,7 @@
 			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
 			<g:render template="filter"/>
 
-			<br>
-			<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block"/>
+			<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block filter-button"/>
 		</g:form>
 	</content>
 </g:applyLayout>
