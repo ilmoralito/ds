@@ -9,11 +9,11 @@
 
 		<g:form action="create" autocomplete="off">
 			<h4>Usuario</h4>
-			<label for="email">Email</label>
-			<g:textField name="email" value="${user?.email}" class="span3" autofocus="true"/>
+			<label for="email"></label>
+			<g:textField name="email" value="${user?.email}" class="span3" autofocus="true" placeholder="Email"/>
 
-			<label for="fullName">Nombre completo</label>
-			<g:textField name="fullName" value="${user?.fullName}" class="span3"/>
+			<label for="fullName"></label>
+			<g:textField name="fullName" value="${user?.fullName}" class="span3" placeholder="Nombre y apellido"/>
 
 			<g:submitButton name="send" value="Guardar y enviar notificacion" class="btn btn-primary"/>
 
