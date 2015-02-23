@@ -136,7 +136,8 @@ class BootStrap {
         assert Request.count() == 8
       break
       case Environment.PRODUCTION:
-        User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save()
+        User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save(failOnError:true)
+        User.findByEmail("sloco31@gmail.com") ?: new User(email:"sloco31@gmail.com", password:"sloco31", role:"admin", fullName:"Sergio Lopez", enabled:true).save(failOnError:true)
       break
     }
   }
