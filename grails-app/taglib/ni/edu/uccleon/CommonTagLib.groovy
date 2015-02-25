@@ -2,6 +2,7 @@ package ni.edu.uccleon
 
 class CommonTagLib {
 	static namespace = "ds"
+	def requestService
 
 	def flashMessage = {attrs, body ->
 		if (flash.message) {
@@ -15,6 +16,11 @@ class CommonTagLib {
 		} else {
 			out << "Deshabilitado"
 		}
+	}
+
+	def classroom = { attrs ->
+		def classrooms = requestService.mergedClassrooms() as List
+		out << classrooms.find { it.code == attrs.room }.name
 	}
 
 	def isAdmin = {attrs, body ->

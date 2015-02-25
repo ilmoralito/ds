@@ -60,7 +60,7 @@
 										<g:if test="${req.type == 'common'}">
 											<i class="icon-user"></i>
 										</g:if>
-										${req.classroom}
+										<ds:classroom room="${req.classroom}"/>
 									</g:if>
 									<g:else>
 										<g:if test="${session?.user?.role == 'user'}">
