@@ -54,6 +54,9 @@ class UserController {
       classrooms.each { classroom -> user.addToClassrooms classroom }
 
       if (!user.save()) {
+        user.errors.allErrors.each { errors ->
+          log.error "[$errors.field: $errors.defaultMessage]"
+        }
         return [user:user]
       }
 

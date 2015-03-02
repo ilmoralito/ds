@@ -7,7 +7,7 @@
 	<content tag="main">
 		<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.cls}"/>
 
-		<g:form action="create" autocomplete="off">
+		<g:form action="create" autocomplete="off" name="form">
 			<h4>Usuario</h4>
 			<label for="email"></label>
 			<g:textField name="email" value="${user?.email}" class="span3" autofocus="true" placeholder="Email"/>
@@ -34,7 +34,7 @@
 				<summary><strong>${classroom.key}</strong></summary>
 				<g:each in="${classrooms[classroom.key]}" var="c">
 					<label class="checkbox">
-						<g:checkBox name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}"/> ${c.name ?: c.code}
+						<g:checkBox form="form" name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}"/> ${c.name ?: c.code}
 					</label>
 				</g:each>
 			</details>
