@@ -22,7 +22,11 @@
 				<tbody>
 					<g:each in="${0..blocks}" var="block">
 						<tr>
-							<td class="blocks" style="vertical-align:middle;">${block + 1}</td>
+							<td class="blocks" style="vertical-align:middle;">
+							<g:if test="${blocks == 6}">
+								${block == 3 ? "" : block + 1}
+							</g:if>
+							</td>
 
 							<g:each in="${1..datashows}" var="d">
 								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
