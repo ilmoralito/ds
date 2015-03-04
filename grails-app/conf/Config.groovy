@@ -111,9 +111,9 @@ ni.edu.uccleon.cls = [
   K:[[code:"K103"], [code:"K104"], [code:"K105"], [code:"K201"], [code:"K202"], [code:"K203"]],
   undefined:[[code:"Afuera de UCC"], [code:"Corredor registro"]]
 ]
-ni.edu.uccleon.blocks = 7
-ni.edu.uccleon.saturday.blocks = 4
-ni.edu.uccleon.sunday.blocks = 3
+ni.edu.uccleon.blocks = 6
+ni.edu.uccleon.saturday.blocks = 3
+ni.edu.uccleon.sunday.blocks = 2
 ni.edu.uccleon.datashows = 5
 ni.edu.uccleon.week.datashows = 5
 ni.edu.uccleon.saturday.datashows = 8
