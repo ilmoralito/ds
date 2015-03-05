@@ -13,7 +13,7 @@
 				<g:form action="list" class="form-inline pull-right">
 					<g:textField name="query" value="${params?.query}" class="span2" placeholder="Por Nombre, Correo o Departamento"/>
 					<button type="submit" class="btn"><i class="icon-search"></i></button>
-					<g:link action="create" class="btn">Crear usuario</g:link>
+					<g:link action="create" class="btn btn-primary">Crear usuario</g:link>
 				</g:form>
 			</div>
 		</div>
