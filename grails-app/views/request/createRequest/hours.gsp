@@ -40,7 +40,7 @@
 
 				<g:form params="[datashow:datashow]">
 					<h4>Datashow ${datashow}</h4>
-					<g:each in="${1..blocks}" var="block" status="j">
+					<g:each in="${0..blocks}" var="block" status="j">
 						<label class="checkbox">
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
 							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(j)}}">
