@@ -23,8 +23,22 @@ class RequestController {
     updStatus:"POST",
     activity:["GET", "POST"],
     todo:"POST",
-    createRequestFromActivity:["GET", "POST"]
+    createRequestFromActivity:["GET", "POST"],
+    report:"GET"
   ]
+
+  def report() {
+    def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    def results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] } { it.school }.collectEntries { a ->
+      [a.key, a.value.collectEntries { b->
+        [months[b.key], b.value.collectEntries { c ->
+          [c.key, c.value.size()]
+        }]
+      }]
+    }
+
+    [results:results]
+  }
 
   private checkRequestStatus() {
     def req = Request.get(params?.id)
