@@ -25,7 +25,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<g:each in="${results}" var="r">
+					<g:each in="${results.sort{ -it.value }}" var="r">
 						<tr>
 							<td>${r.key}</td>
 							<td>${r.value}</td>
