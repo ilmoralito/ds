@@ -11,7 +11,7 @@
 			<h4>${year.key}</h4>
 
 			<g:each in="${year.value}" var="month">
-				<h5>${month.key}</h5>
+				<h5 id="${year.key}">${month.key}</h5>
 
 				<table class="table">
 					<colgroup>
