@@ -26,11 +26,11 @@
 		<li class="${controllerName == 'user' && !(actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
 			<g:link controller="user" action="list">Usuarios</g:link>
 		</li>
-		<li class="${controllerName == 'request' && actionName == 'requestsBy' ? 'active' : ''}">
+		<li class="${controllerName == 'request' && actionName in ['requestsBy', 'report', 'detail'] ? 'active' : ''}">
 			<g:link controller="request" action="requestsBy" params="[type:'resumen']">Reportes</g:link>
 		</li>
 	</ds:isAdmin>
-	<li class="${(controllerName == 'request' && actionName != 'requestsBy') ? 'active' : 'no-active'}">
+	<li class="${(controllerName == 'request' && !(actionName in ['requestsBy', 'report', 'detail'])) ? 'active' : 'no-active'}">
 		<g:link controller="request" action="list">Solicitudes</g:link>
 	</li>
 	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
