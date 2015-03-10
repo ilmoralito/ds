@@ -20,7 +20,7 @@
 					</colgroup>
 					<g:each in="${month.value.sort{ -it.value }}" var="school">
 						<tr>
-							<td style="border:0;" id="${year.key} ${month.key}">
+							<td style="border:0;" id="${year.key}${month.key}">
 								<g:link action="detail" params="[y:year.key, m:month.key, s:school.key]">
 									${school.key}
 								</g:link>
