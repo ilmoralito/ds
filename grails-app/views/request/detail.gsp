@@ -9,7 +9,7 @@
 
 		<div class="row">
 			<div class="span10">
-				<g:link action="report" params="[type:'report']" fragment="${params.y}" class="btn">Regresar</g:link>
+				<g:link action="report" params="[type:'report']" fragment="${params?.y} ${params?.m}" class="btn">Regresar</g:link>
 			</div>
 		</div>
 		<br>
