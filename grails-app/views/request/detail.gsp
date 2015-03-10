@@ -31,6 +31,12 @@
 							<td>${r.value}</td>
 						</tr>
 					</g:each>
+					<tr>
+						<td>TOTAL</td>
+						<td>
+							${results*.value.sum()}
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</g:if>
