@@ -24,7 +24,8 @@ class RequestController {
     activity:["GET", "POST"],
     todo:"POST",
     createRequestFromActivity:["GET", "POST"],
-    report:"GET"
+    report:"GET",
+    detail:"GET"
   ]
 
   def report() {
@@ -35,6 +36,20 @@ class RequestController {
           [c.key, c.value.size()]
         }]
       }]
+    }
+
+    [results:results]
+  }
+
+  def detail(Integer y, String m, String s) {
+    def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+    def query = Request.where {
+      school == s && month(dateOfApplication) == months.indexOf(m) + 1 && year(dateOfApplication) == y
+    }
+
+    def results = query.list().groupBy { it.user.fullName }.collectEntries {
+      [it.key, it.value.size()]
     }
 
     [results:results]
