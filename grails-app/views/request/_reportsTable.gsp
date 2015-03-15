@@ -1,5 +1,5 @@
 <g:if test="${type in ['resumen', 'classrooms']}">
-	<g:each in="${results}" var="result">
+	<g:each in="${results.sort { -it.key }}" var="result">
 		<h4>${result.key}</h4>
 		<table class="table">
 			<tbody>
