@@ -48,8 +48,21 @@ class RequestController {
       school == s && month(dateOfApplication) == months.indexOf(m) + 1 && year(dateOfApplication) == y
     }
 
-    def results = query.list().groupBy { it.user.fullName }.collectEntries {
-      [it.key, it.value.size()]
+    def results = query.list().groupBy { it.user.fullName } { it.status }.collectEntries { a ->
+      [(a.key): a.value.collectEntries { b ->
+        [(b.key): b.value.size()]
+      }]
+    }
+
+    def requestStatus = ["pending", "attended", "absent", "canceled"]
+    results.each { key, value ->
+      requestStatus.each { status ->
+        if (!(status in value.keySet())) {
+          value[status] = 0
+        }
+      }
+
+      value["total"] = value*.value.sum()
     }
 
     [results:results]

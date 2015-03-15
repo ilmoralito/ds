@@ -21,21 +21,31 @@
 				<thead>
 					<tr>
 						<th>Solicitado por</th>
-						<th>Cantidad</th>
+						<th>Pendientes</th>
+						<th>Atendidos</th>
+						<th>No retirados/recividos</th>
+						<th>Cancelados</th>
+						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody>
-					<g:each in="${results.sort{ -it.value }}" var="r">
+					<g:each in="${results.sort{ -it.value.total }}" var="r">
 						<tr>
 							<td>${r.key}</td>
-							<td>${r.value}</td>
+							<td>${r.value.pending}</td>
+							<td>${r.value.attended}</td>
+							<td>${r.value.absent}</td>
+							<td>${r.value.canceled}</td>
+							<td>${r.value.total}</td>
 						</tr>
 					</g:each>
 					<tr>
-						<td>TOTAL</td>
-						<td>
-							${results*.value.sum()}
-						</td>
+						<td>TOTALES</td>
+						<td>${results*.value.pending.sum()}</td>
+						<td>${results*.value.attended.sum()}</td>
+						<td>${results*.value.absent.sum()}</td>
+						<td>${results*.value.canceled.sum()}</td>
+						<td>${results*.value.total.sum()}</td>
 					</tr>
 				</tbody>
 			</table>
