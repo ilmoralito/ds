@@ -7,7 +7,7 @@
 	<content tag="main">
 		<g:render template="reportNavBar"/>
 
-		<g:each in="${results}" var="year">
+		<g:each in="${results.sort { -it.key }}" var="year">
 			<h4>${year.key}</h4>
 
 			<g:each in="${year.value}" var="month">
