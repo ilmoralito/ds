@@ -12,7 +12,6 @@
 				<g:link action="report" params="[type:'report']" fragment="${params?.y}${params?.m}" class="btn">Regresar</g:link>
 			</div>
 		</div>
-		<br>
 
 		<g:if test="${results}">
 			<h4>${params?.m} del ${params?.y}, ${params?.s}</h4>
