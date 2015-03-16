@@ -3,7 +3,7 @@
 		<h4>${result.key}</h4>
 		<table class="table">
 			<tbody>
-				<g:each in="${result.value}" var="data">
+				<g:each in="${result.value.sort { it.key }}" var="data">
 					<tr>
 						<td width="1" style="border:0; vertical-align:middle;">${data.key}</td>
 						<td style="border:0;">
