@@ -25,7 +25,7 @@
 <g:elseif test="${type == 'day'}">
 	<g:each in="${results}" var="result">
 		<h4>${result.key}</h4>
-		<table class="table">
+		<table class="table table-hover">
 			<colgroup>
 				<col span="1" style="width: 10%;">
 				<col span="1" style="width: 10%;">
@@ -46,6 +46,10 @@
 						</td>
 					</tr>
 				</g:each>
+				<tr>
+					<td>TOTAL</td>
+					<td colspan="2">${result.value*.value*.size.sum()}</td>
+				</tr>
 			</tbody>
 		</table>
 	</g:each>
