@@ -23,7 +23,7 @@
 </g:if>
 
 <g:elseif test="${type == 'day'}">
-	<g:each in="${results}" var="result">
+	<g:each in="${results.sort { -it.key }}" var="result">
 		<h4>${result.key}</h4>
 		<table class="table table-hover">
 			<colgroup>
