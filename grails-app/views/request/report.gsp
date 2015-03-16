@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
 	<head>
 		<title>Reporte por departamento</title>
-		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, reports"/>
 	</head>
 
 	<content tag="main">
@@ -11,9 +11,9 @@
 			<h4>${year.key}</h4>
 
 			<g:each in="${year.value}" var="month">
-				<h5>${month.key}</h5>
+				<h5 class="month">${month.key}</h5>
 
-				<table class="table">
+				<table class="table hide month-detail">
 					<colgroup>
 						<col span="1" style="width: 25%;">
 						<col span="1" style="width: 75%;">

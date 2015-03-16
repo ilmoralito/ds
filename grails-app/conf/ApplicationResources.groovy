@@ -36,4 +36,9 @@ modules = {
     resource url:"js/jquery.details.min.js"
     resource url:"js/details.js"
   }
+
+  reports {
+    dependsOn "app"
+    resource url:"js/reports.js"
+  }
 }

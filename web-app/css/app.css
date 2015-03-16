@@ -77,3 +77,12 @@ h4.activity-heading {
 .filter-button {
 	margin-top:8px;
 }
+
+h5.month {
+	cursor:pointer;
+	margin-left:10px;
+}
+
+table.month-detail {
+	margin-left:20px;
+}
