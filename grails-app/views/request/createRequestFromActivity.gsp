@@ -17,7 +17,7 @@
 					</tr>
 					<tr>
 						<td>Bloque</td>
-						<td>${params?.block}</td>
+						<td>${params.int("block") + 1}</td>
 					</tr>
 				</tbody>
 			</table>
