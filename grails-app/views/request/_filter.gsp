@@ -20,7 +20,7 @@
 
 <label for="schools">Facultades y <a href="#" id="departments" data-departments="${departments?.join(',')}">departamentos</a></label>
 <select name="schools" id="schools" multiple="true" class="span2">
-	<g:each in="${schoolsAndDepartments}" var="school">
+	<g:each in="${schoolsAndDepartments.sort()}" var="school">
 		<option value="${school}" ${params.list('schools')?.contains(school) ? 'selected' : ''}>${school}</option>
 	</g:each>
 </select>
