@@ -128,7 +128,7 @@ class RequestController {
       requests:requests,
       schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
       classrooms:requestService.mergedClassrooms(),
-      users:User.findAllByRole("user", [sort:"fullName", order:"asc"])
+      users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName", order:"asc"])
     ]
   }
 
