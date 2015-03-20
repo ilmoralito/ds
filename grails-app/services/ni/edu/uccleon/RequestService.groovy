@@ -45,6 +45,6 @@ class RequestService {
       }
     }
 
-    classrooms
+    classrooms.sort { it.name }
   }
 }
