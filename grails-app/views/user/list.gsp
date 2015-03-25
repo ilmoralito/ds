@@ -1,29 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="layout" content="main">
-	<title>Usuarios</title>
-	<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
-</head>
-<body>
+<g:applyLayout name="threeColumns">
+	<head>
+		<title>Usuarios</title>
+		<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+	</head>
 
-		<div class="row">
-			<div class="span10">
-				<g:form action="list" class="form-inline pull-right">
-					<g:textField name="query" value="${params?.query}" class="span2" placeholder="Por Nombre, Correo o Departamento"/>
-					<button type="submit" class="btn"><i class="icon-search"></i></button>
-					<g:link action="create" class="btn btn-primary">Crear usuario</g:link>
-				</g:form>
-			</div>
-		</div>
-
+	<content tag="main">
 		<g:if test="${users}">
-			<small>${users.size()} de ${usersCount - 1} usuarios registrados</small>
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>Nombre</th>
+						<th>Usuarios</th>
 						<th class="td-mini"></th>
 					</tr>
 				</thead>
@@ -36,13 +22,58 @@
 					</g:each>
 				</tbody>
 			</table>
-
-			<div class="paginate">
-				<g:paginate controller="user" action="list" total="${usersCount - 1}" prev="Anterior" next="Siguiente"/>
-			</div>
 		</g:if>
 		<g:else>
-			<div class="alert alert-info"><strong>nothing.to.show</strong></div>
+			<h4>Nada que mostrar</h4>
 		</g:else>
-</body>
-</html>
+	</content>
+
+	<content tag="col1">
+		<g:link action="create" class="btn btn-block btn-primary">Crear usuario</g:link>
+
+		<h4>Filtrar por</h4>
+
+		<g:form action="list">
+			<label for="fullName">Nombre</label>
+			<g:textField name="fullName" value="${params?.fullName}" class="span2" placeholder="Nombre"/>
+
+			<label>Estado</label>
+			<label class="checkbox">
+				<g:checkBox name="enabled" value="true" checked="${params?.enabled?.contains('true')}"/>
+				Activos
+			</label>
+
+			<label class="checkbox">
+				<g:checkBox name="enabled" value="false" checked="${params?.enabled?.contains('false')}"/>
+				Inactivos
+			</label>
+
+			<label for="roles">Rol</label>
+			<select name="roles" id="roles" multiple="true" class="span2">
+				<g:each in="${grailsApplication.config.ni.edu.uccleon.roles}" var="rol">
+					<option value="${rol}" ${params?.roles?.contains(rol) ? 'selected' : ''}>${rol}</option>
+				</g:each>
+			</select>
+
+			<label for="coordinations">Coordinaciones</label>
+			<select name="coordinations" id="coordinations" multiple="true" class="span2">
+				<g:each in="${coordinations}" var="coordination">
+					<option value="${coordination}" ${params?.coordinations?.contains(coordination) ? 'selected' : ''}>
+						${coordination}
+					</option>
+				</g:each>
+			</select>
+
+			<label for="departments">Departamentos</label>
+			<select name="departments" id="departments" multiple="true" class="span2">
+				<g:each in="${departments}" var="department">
+					<option value="${department}" ${params?.departments?.contains(department) ? 'selected' : ''}>
+						${department}
+					</option>
+				</g:each>
+			</select>
+
+			<button type="submit" class="btn btn-block">Filtrar</button>
+		</g:form>
+	</content>
+</g:applyLayout>

@@ -15,7 +15,7 @@ class User implements Serializable {
   static constraints = {
     email email:true, unique:true, blank:false
     password blank:false
-    role inList:['admin', 'user'], maxSize:255
+    role maxSize:255, inList:Holders.config.ni.edu.uccleon.roles as List
     fullName blank:false
     schools nullable:false
     classrooms nullable:false

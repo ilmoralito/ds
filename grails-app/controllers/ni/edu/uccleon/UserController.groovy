@@ -23,18 +23,44 @@ class UserController {
 
   def list() {
     def users
+    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+    def coordinationsAndDepartments = params.list("coordinations") + params.list("departments")
+    def usersFiltered = []
 
-    params.max = Math.min(params.int('max') ?: 10, 100)
+    if (request.method == "POST") {
+      def criteria = User.createCriteria()
+      users = criteria {
+        if (params?.fullName) {
+          like "fullName", "%$params.fullName%"
+        }
 
-  	if (request.method == "POST") {
-      def query = "%${params?.query}%"
+        def enabled = params.list("enabled")*.toBoolean()
+        if (enabled) {
+          "in" "enabled", enabled
+        }
 
-      users = User.listByRole("user").search(query).list(params)
-  	} else {
+        def roles = params.list("roles")
+        if (roles) {
+          "in" "role", roles
+        }
+      }
+    } else {
       users = User.listByRole("user").list(params)
     }
 
-    [users:users, usersCount:User.count()]
+    if (coordinationsAndDepartments) {
+      users.each { user ->
+        if (user.schools.any { it in coordinationsAndDepartments} ) {
+           usersFiltered << user
+         }
+      }
+    }
+
+    [
+      users:usersFiltered ?: users,
+      coordinations:schoolsAndDepartments.schools.sort(),
+      departments:schoolsAndDepartments.departments.sort()
+    ]
   }
 
   def create() {
