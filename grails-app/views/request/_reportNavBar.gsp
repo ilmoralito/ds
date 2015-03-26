@@ -18,12 +18,12 @@
     <g:link action="requestsBy" params="[type:'day']">Dia</g:link>
   </li>
   </li>
-  <li class="${params.type == 'resumen' ? 'active' : 'not-active'}">
-    <g:link action="requestsBy" params="[type:'resumen']">Resumen</g:link>
-  </li>
   <li class="${params.type == 'report' || actionName == 'detail' ? 'active' : ''}">
     <g:link action="report" params="[type:'report']">
       Reporte
     </g:link>
+  </li>
+  <li class="${params.type == 'resumen' ? 'active' : 'not-active'}">
+    <g:link action="requestsBy" params="[type:'resumen']">Resumen</g:link>
   </li>
 </ul>
