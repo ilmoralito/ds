@@ -13,7 +13,7 @@
 			<g:each in="${year.value}" var="month">
 				<h5 class="month">${month.key}</h5>
 
-				<table class="table hide month-detail">
+				<table class="table ${currentYear == year.key && currentMonth == month.key ? 'show' : 'hide'} month-detail">
 					<colgroup>
 						<col span="1" style="width: 25%;">
 						<col span="1" style="width: 75%;">
