@@ -45,7 +45,7 @@ class UserController {
         }
       }
     } else {
-      users = User.listByRole("user").list(params)
+      users = User.listByRole("user").findAllByEnabled(true)
     }
 
     if (coordinationsAndDepartments) {

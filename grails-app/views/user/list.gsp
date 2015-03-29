@@ -39,7 +39,7 @@
 
 			<label>Estado</label>
 			<label class="checkbox">
-				<g:checkBox name="enabled" value="true" checked="${params?.enabled?.contains('true')}"/>
+				<g:checkBox name="enabled" value="true" checked="${params?.enabled?.contains('true') || !params?.enabled}"/>
 				Activos
 			</label>
 
@@ -51,7 +51,9 @@
 			<label for="roles">Rol</label>
 			<select name="roles" id="roles" multiple="true" class="span2">
 				<g:each in="${grailsApplication.config.ni.edu.uccleon.roles}" var="rol">
-					<option value="${rol}" ${params?.roles?.contains(rol) ? 'selected' : ''}>${rol}</option>
+					<option value="${rol}" ${ params?.roles?.contains(rol) || !params?.roles && rol == 'user' ? 'selected' : '' }>
+						${rol}
+					</option>
 				</g:each>
 			</select>
 
