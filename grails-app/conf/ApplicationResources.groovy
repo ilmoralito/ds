@@ -41,4 +41,10 @@ modules = {
     dependsOn "app"
     resource url:"js/reports.js"
   }
+
+  users {
+    dependsOn "jquery"
+    dependsOn "app"
+    resource url:"js/users.js"
+  }
 }

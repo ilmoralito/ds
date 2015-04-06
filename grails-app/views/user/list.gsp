@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
 	<head>
 		<title>Usuarios</title>
-		<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+		<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, users"/>
 	</head>
 
 	<content tag="main">
@@ -57,7 +57,7 @@
 				</g:each>
 			</select>
 
-			<label for="coordinations">Coordinaciones</label>
+			<label for="coordinations" id="coord">Coordinaciones</label>
 			<select name="coordinations" id="coordinations" multiple="true" class="span2">
 				<g:each in="${coordinations}" var="coordination">
 					<option value="${coordination}" ${params?.coordinations?.contains(coordination) ? 'selected' : ''}>
@@ -66,7 +66,7 @@
 				</g:each>
 			</select>
 
-			<label for="departments">Departamentos</label>
+			<label for="departments" id="depart">Departamentos</label>
 			<select name="departments" id="departments" multiple="true" class="span2">
 				<g:each in="${departments}" var="department">
 					<option value="${department}" ${params?.departments?.contains(department) ? 'selected' : ''}>
