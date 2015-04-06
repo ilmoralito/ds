@@ -79,9 +79,9 @@ class RequestController {
 
   def list() {
     def requests
-    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
     def users = params.list("users")
     def schools = params.list("schools")
+    def departments = params.list("departments")
     def classrooms = params.list("classrooms")
     def types = params.list("types")
     def status = params.list("status")
@@ -89,45 +89,19 @@ class RequestController {
     def requestToDate = params.date("requestToDate", "yyyy-MM-dd")
     def userInstance = session?.user
     def role = userInstance?.role
+    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+    Date from = requestFromDate ?: new Date()
+    Date to = requestToDate ?: new Date()
 
-    if (users || schools || classrooms || types || status || requestFromDate || requestToDate) {
-      Date from = requestFromDate ?: new Date()
-      Date to = requestToDate ?: new Date()
-      def criteria = Request.createCriteria()
-
-      requests = criteria {
-        ge "dateOfApplication", from.clearTime()
-        le "dateOfApplication", to.clearTime()
-
-        if (users) {
-          user {
-            "in" "email", users
-          }
-        }
-
-        if (schools) {
-          "in" "school", schools
-        }
-
-        if (classrooms) {
-          "in" "classroom", classrooms
-        }
-
-        if (types) {
-          "in" "type", types
-        }
-
-        if (status) {
-          "in" "status", status
-        }
-      }
+    if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
+      requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
     } else {
       requests = (role == "admin") ? Request.todayRequest().list() : Request.listByUser(userInstance).findAllByStatus("pending")
     }
 
     [
       requests:requests,
-      schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
+      schoolsAndDepartments:schoolsAndDepartments,
       classrooms:requestService.mergedClassrooms(),
       users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName", order:"asc"])
     ]
@@ -467,6 +441,7 @@ class RequestController {
     def activity(String dateSelected) {
       def users = params.list("users")
       def schools = params.list("schools")
+      def departments = params.list("departments")
       def classrooms = params.list("classrooms")
       def types = params.list("types")
       def dateOfApplication = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
@@ -494,33 +469,10 @@ class RequestController {
         }
       }
 
-      if (users || schools || classrooms || types) {
-        def criteria = Request.createCriteria()
+      if (users || schools || departments || classrooms || types) {
+        def today = new Date()
 
-        requests = criteria {
-          ge "dateOfApplication", dateOfApplication
-          le "dateOfApplication", dateOfApplication
-
-          eq "status", "pending"
-
-          if (users) {
-            user {
-              "in" "email", users
-            }
-          }
-
-          if (schools) {
-            "in" "school", schools
-          }
-
-          if (classrooms) {
-            "in" "classroom", classrooms
-          }
-
-          if (types) {
-            "in" "type", types
-          }
-        }
+        requests = Request.filter(users, schools, departments, classrooms, types).requestFromTo(today, today).list()
       } else {
         requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
       }
@@ -532,7 +484,7 @@ class RequestController {
         dateSelected:dateOfApplication,
         datashows:grailsApplication.config.ni.edu.uccleon.datashows,
         layout:layout.call(),
-        schoolsAndDepartments:schoolsAndDepartments.schools + schoolsAndDepartments.departments,
+        schoolsAndDepartments:schoolsAndDepartments,
         classrooms:requestService.mergedClassrooms(),
         users:User.findAllByRole("user")
       ]

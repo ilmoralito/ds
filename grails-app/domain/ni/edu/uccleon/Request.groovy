@@ -44,6 +44,30 @@ class Request implements Serializable {
   }
 
   static namedQueries = {
+    filter { users, schools, departments, classrooms, types, status = null, requestFromDate = null, requestToDate = null ->
+      if (users) {
+        user {
+          "in" "email", users
+        }
+      }
+
+      if (schools || departments) {
+        "in" "school", schools + departments
+      }
+
+      if (classrooms) {
+        "in" "classroom", classrooms
+      }
+
+      if (types) {
+        "in" "type", types
+      }
+
+      if (status) {
+        "in" "status", status
+      }
+    }
+
     listByUser {user ->
       eq "user", user
     }
