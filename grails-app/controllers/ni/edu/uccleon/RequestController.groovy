@@ -103,7 +103,7 @@ class RequestController {
       requests:requests,
       schoolsAndDepartments:schoolsAndDepartments,
       classrooms:requestService.mergedClassrooms(),
-      users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName", order:"asc"])
+      users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
     ]
   }
 
@@ -486,7 +486,7 @@ class RequestController {
         layout:layout.call(),
         schoolsAndDepartments:schoolsAndDepartments,
         classrooms:requestService.mergedClassrooms(),
-        users:User.findAllByRole("user")
+        users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
       ]
     }
 
