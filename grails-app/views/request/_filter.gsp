@@ -16,14 +16,14 @@
 	</g:each>
 </select>
 
-<label for="schools">Coordinaciones</label>
+<label for="schools" id="coord">Coordinaciones</label>
 <select name="schools" id="schools" multiple="true" class="span2">
 	<g:each in="${schoolsAndDepartments.schools.sort()}" var="school">
 		<option value="${school}" ${params.list('schools')?.contains(school) ? 'selected' : ''}>${school}</option>
 	</g:each>
 </select>
 
-<label for="departments">Departamentos</label>
+<label for="departments" id="depart">Departamentos</label>
 <select name="departments" id="departments" multiple="true" class="span2">
 	<g:each in="${schoolsAndDepartments.departments.sort()}" var="department">
 		<option value="${department}" ${params.list('departments')?.contains(department) ? 'selected' : ''}>${department}</option>

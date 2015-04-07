@@ -20,13 +20,13 @@ modules = {
 
   requestList {
     dependsOn "jquery"
-    resource url:"js/departments.js"
+    resource url:"js/users.js"
     resource url:"js/requestList.js"
   }
 
   activity {
     dependsOn "jquery"
-    resource url:"js/departments.js"
+    resource url:"js/users.js"
     resource url:"js/activity.js"
   }
 
