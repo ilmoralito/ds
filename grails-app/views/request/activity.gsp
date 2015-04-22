@@ -16,7 +16,7 @@
 				<thead>
 					<th width="10">B</th>
 					<g:each in="${1..datashows}" var="datashow">
-						<th>Datashow ${datashow}</th>
+						<th><span class="toggle">Datashow</span> ${datashow}</th>
 					</g:each>
 				</thead>
 				<tbody>
