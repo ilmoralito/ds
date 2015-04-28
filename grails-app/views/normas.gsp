@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="${(!session?.user) ? 'public' : 'main'}">
 	<title>Faqs</title>
-	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
-	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css"/>
+	<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-collapse, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+	<g:set var="faqsStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-collapse"/>
 	<r:require modules="${(!session?.user) ? faqsStyle : mainStyle}"/>
 </head>
 <body>

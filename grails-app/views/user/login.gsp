@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="public">
 	<title>Login</title>
-	<r:require modules="bootstrap-css, bootstrap-responsive-css"/>
+	<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-collapse"/>
 </head>
 <body>
 	<g:form action="login" autocomplete="off" style="padding-top:50px;">
