@@ -1,16 +1,14 @@
-<g:form controller="request" action="activity" autocomplete="off" style="margin:0;">
-	<div class="input-append">
-		<g:textField name="dateSelected" value="${params?.dateSelected}" class="input-small" placeholder="Disponibilidad"/>
-		<button type="submit" class="btn">Listar</button>
-	</div>
+<g:form controller="request" action="activity" autocomplete="off" style="margin:1;">
+	<g:textField name="dateSelected" value="${params?.dateSelected}" class="input-small span2" placeholder="Disponibilidad"/>
+	<button type="submit" class="btn">Listar</button>
 </g:form>
 
 <ds:isUser>
-	<div class="btn-group" style="margin:0 0 10px 0;">
-	  <button class="btn">Crear solicitud tipo</button>
-	  <button class="btn dropdown-toggle" data-toggle="dropdown">
-			<span class="caret"></span>
-		</button>
+	<div class="btn-group" style="margin:-10px 0 10px 0;">
+	  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    	Crear solicitud
+    <span class="caret"></span>
+  	</a>
 	  <ul class="dropdown-menu">
 			<li><g:link controller="request" action="createRequest" params="[type:'express']">Expreso</g:link></li>
 			<li><g:link controller="request" action="createRequest">General</g:link></li>
