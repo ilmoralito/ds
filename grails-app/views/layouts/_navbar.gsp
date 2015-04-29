@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
       </a>
 
-      <a class="brand" href="#">UCC Leon, ssma</a>
+      <a class="brand" href="#">SSMA</a>
 
       <div class="nav-collapse collapse">
         <ul class="nav pull-right">
