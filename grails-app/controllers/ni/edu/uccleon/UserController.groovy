@@ -195,9 +195,9 @@ class UserController {
     def e = [[code:"E113", name:"Finanzas"], [code:"E114", name:"Administracion"], [code:"E204", name:"Sala de reuniones"], [code:"E219", name:"Sala de maestros"], [code:"E220", name:"Escuela de manejo"]]
     def allCls = []
 
-    def isAdministrative = userSchoolsOrDepartments.findAll { it in departments }
+    def isUserWithValidEmail = user.email.tokenize("@")
 
-    if (!isAdministrative) {
+    if (isUserWithValidEmail[1] != "ucc.edu.ni") {
       allCls = cls.subMap(["C", "D", "E", "K"])
 
       def validC = allCls["C"].findAll { !(it in c) }

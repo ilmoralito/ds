@@ -38,7 +38,7 @@ class BootStrap {
         hotch.save(failOnError:true)
 
         def peluso = new User(
-          email:"peluso@ucc.edu.ni",
+          email:"peluso@yahoo.com",
           password:"123",
           role:"user",
           fullName:"peluso roger",
