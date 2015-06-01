@@ -478,15 +478,16 @@ class RequestController {
       }
 
       [
-        requests:requests,
-        blocks:blocks.call(),
-        day:day,
-        dateSelected:dateOfApplication,
-        datashows:grailsApplication.config.ni.edu.uccleon.datashows,
-        layout:layout.call(),
-        schoolsAndDepartments:schoolsAndDepartments,
-        classrooms:requestService.mergedClassrooms(),
-        users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
+        requests: requests,
+        blocks: blocks.call(),
+        day: day,
+        dateSelected: dateOfApplication,
+        datashows: grailsApplication.config.ni.edu.uccleon.datashows,
+        layout: layout.call(),
+        schoolsAndDepartments: schoolsAndDepartments,
+        classrooms: requestService.mergedClassrooms(),
+        users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"]),
+        noAdminRoles: grailsApplication.config.ni.edu.uccleon.roles[1..-1]
       ]
     }
 
