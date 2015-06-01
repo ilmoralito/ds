@@ -29,8 +29,8 @@ class CommonTagLib {
 		}
 	}
 
-	def isUser = {attrs, body ->
-		if (session?.user?.role == "user") {
+	def isUser = { attrs, body ->
+		if (session?.user?.role != "admin") {
 			out << body()
 		}
 	}
