@@ -40,7 +40,7 @@ class BootStrap {
         def peluso = new User(
           email:"peluso@yahoo.com",
           password:"123",
-          role:"user",
+          role:"coordinador",
           fullName:"peluso roger",
           enabled:true,
           schools:[schools[1]],
@@ -52,7 +52,7 @@ class BootStrap {
         def nami = new User(
           email:"nami@ucc.edu.ni",
           password:"123",
-          role:"user",
+          role:"asistente",
           fullName:"nami roger",
           enabled:true,
           schools:[theDepartments[1]],
