@@ -93,7 +93,7 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-ni.edu.uccleon.roles = ["admin", "user"]
+ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente"]
 ni.edu.uccleon.schoolsAndDepartments = [
   schools: [
     "Ciencias Economicas Empresariales",
