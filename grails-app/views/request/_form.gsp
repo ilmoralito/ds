@@ -2,6 +2,11 @@
 	<div class="span8">
 		<g:hiddenField name="type" value="${req?.type ?: type}"/>
 
+		<g:if test="${session?.user?.role in ['coordinador', 'asistente']}">
+			<label for="user">Solicitado por</label>
+			<g:select name="user" from="${users}" optionKey="email" optionValue="fullName" class="form-control"/>
+		</g:if>
+
 		<label for="dateOfApplication">Fecha de solicitud</label>
 		<g:textField name="dateOfApplication" value="${(actionName == 'createRequest' && type == 'express') ? new Date().format('yyyy-MM-dd') : g.formatDate(date:req?.dateOfApplication, format:'yyyy-MM-dd')}" autocomplete="off"/>
 

@@ -9,23 +9,25 @@ class RequestController {
 
   static defaultAction = "list"
   static allowedMethods = [
-    list:["GET", "POST"],
-    create:["GET", "POST"],
-    edit:"GET",
-    show:"GET",
-    updte:"POST",
-    delete:["GET"],
-    updateStatus:"GET",
-    requestsBySchools:["GET", "POST"],
-    requestsByClassrooms:["GET", "POST"],
-    requestsByUsers:["GET", "POST"],
-    disponability:"POST",
-    updStatus:"POST",
-    activity:["GET", "POST"],
-    todo:"POST",
-    createRequestFromActivity:["GET", "POST"],
-    report:"GET",
-    detail:"GET"
+    list: ["GET", "POST"],
+    create: ["GET", "POST"],
+    edit: "GET",
+    show: "GET",
+    updte: "POST",
+    delete: ["GET"],
+    updateStatus: "GET",
+    requestsBySchools: ["GET", "POST"],
+    requestsByClassrooms: ["GET", "POST"],
+    requestsByUsers: ["GET", "POST"],
+    disponability: "POST",
+    updStatus: "POST",
+    activity: ["GET", "POST"],
+    todo: "POST",
+    createRequestFromActivity: ["GET", "POST"],
+    report: "GET",
+    detail: "GET",
+    getUserClassroomsAndSchools: "GET",
+    requestsByCoordination: "GET"
   ]
 
   def report() {
@@ -114,11 +116,55 @@ class RequestController {
       [requests:requests]
     }
 
+    def getUserClassroomsAndSchools(String userEmail) {
+      def user = User.findByEmail(userEmail)
+      def userClassrooms = user.classrooms
+      def userSchools = user.schools.findAll { s ->
+        s in session?.user?.schools
+      }
+
+      render(contentType: "application/json") {
+        classrooms = userClassrooms
+        schools = userSchools
+      }
+    }
+
+    def requestsByCoordination() {
+      def userSchools = session?.user?.schools
+      def criteria = Request.createCriteria()
+      def result = criteria {
+        "in" "school", userSchools
+      }
+
+      def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+      def results = result.groupBy { it.dateOfApplication[Calendar.YEAR] } { it.school } { it.dateOfApplication[Calendar.MONTH] }.collectEntries { d ->
+        [d.key, d.value.collectEntries { o ->
+          [o.key, o.value.collectEntries { x ->
+            [months[x.key], x.value.size()]
+          }]
+        }]
+      }
+
+      [results: results]
+    }
+
     def createRequestFlow = {
       init {
         action {
           flow.type = params?.type ?: "common"
           flow.userClassrooms = userService.transformUserClassrooms()
+
+          if (session?.user?.role in ["coordinador", "asistente"]) {
+            def users = User.findAllByRoleNotEqual("admin")
+            def results = users.findAll { user ->
+              session?.user?.schools.any { user.schools.contains(it) }
+            }
+
+            //TODO
+            //flow.users = results.swap(0, results.findIndexOf { it.email == session?.user?.email })
+            flow.users = results
+          }
         }
 
         on("success").to "buildRequest"
@@ -133,6 +179,10 @@ class RequestController {
             flow.requestErrors = cmd
 
             return error()
+          }
+
+          if (session?.user?.role in ["coordinador", "asistente"]) {
+            flow.user = User.findByEmail(params?.user)
           }
 
           Request req = new Request(
@@ -156,12 +206,12 @@ class RequestController {
       hours {
         on("confirm") { PersistHourCommand cmd ->
           if (!cmd.validate()) {
-              cmd.errors.allErrors.each { println it.defaultMessage }
-              return error()
+            cmd.errors.allErrors.each { println it.defaultMessage }
+            return error()
           }
 
           //add to current request datashow selected
-          def user = User.get(session?.user?.id)
+          def user = flow?.user ?: User.get(session?.user?.id)
           user.addToRequests flow.req
 
           //add datashow number selected to current request
@@ -169,10 +219,10 @@ class RequestController {
 
           //add hours to request
           cmd.blocks.each { block ->
-              flow.req.addToHours(new Hour(block:block))
+            flow.req.addToHours(new Hour(block:block))
           }
 
-          flash.message = "Solicitud guardada"
+          flash.message = "Solicitud creada"
         }.to "done"
 
         on("delete").to "done"

@@ -1,7 +1,7 @@
 <g:set var="schoolsAndDepartments" value="${grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments}"/>
 
 <g:if test="${actionName == 'create'}">
-	<h4>Facultades</h4>
+	<h4>Coordinaciones</h4>
 	<g:each in="${schoolsAndDepartments.schools.sort()}" var="school">
     <label class="checkbox">
       <g:checkBox form="form" name="schools" value="${school}" checked="${userSchools?.contains(school) || user?.schools?.contains(school)}"/> ${school}
@@ -18,7 +18,7 @@
 <g:else>
 	<div class="row">
 		<div class="span5">
-			<h4>Facultades</h4>
+			<h4>Coordinaciones</h4>
 			<g:each in="${schoolsAndDepartments.schools.sort()}" var="school">
 		    <label class="checkbox">
 	        <g:checkBox name="schools" value="${school}" checked="${userSchools?.contains(school) || user?.schools?.contains(school)}"/> ${school}

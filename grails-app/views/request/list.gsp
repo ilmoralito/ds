@@ -1,4 +1,4 @@
-<g:applyLayout name="${session?.user?.role == 'user' ? 'twoColumns' : 'threeColumns'}">
+<g:applyLayout name="${session?.user?.role in grailsApplication.config.ni.edu.uccleon.roles[1..-1] ? 'twoColumns' : 'threeColumns'}">
 	<head>
 		<title>Solicitudes</title>
 		<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, requestList"/>

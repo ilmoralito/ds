@@ -31,7 +31,7 @@ class BootStrap {
           role:"user",
           fullName:"hotch roger",
           enabled:true,
-          schools:[schools[2], theDepartments[0]],
+          schools:[theSchools[7], theSchools[2]],
           classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
         )
 
@@ -55,7 +55,7 @@ class BootStrap {
           role:"asistente",
           fullName:"nami roger",
           enabled:true,
-          schools:[theDepartments[1]],
+          schools:[theSchools[6], theSchools[7]],
           classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
         )
 
