@@ -19,7 +19,7 @@
 						</tr>
 						<g:each in="${y.value}" var="c">
 							<tr>
-								<td colspan="2">${c.key}</td>
+								<td colspan="2"><strong>${c.key}</strong></td>
 							</tr>
 							<g:each in="${c.value}" var="m">
 								<tr>
