@@ -18,7 +18,8 @@ class UserController {
   	resetPassword:"GET",
     profile:["GET", "POST"],
     schoolsAndDepartments:["GET", "POST"],
-    classrooms:["GET", "POST"]
+    classrooms:["GET", "POST"],
+    updateUserRole: "POST"
   ]
 
   def list() {
@@ -45,7 +46,7 @@ class UserController {
         }
       }
     } else {
-      users = User.listByRole("user").findAllByEnabled(true)
+      users = User.findAllByEnabled(true)
     }
 
     if (coordinationsAndDepartments) {
@@ -113,6 +114,19 @@ class UserController {
 
       flash.message = "data.saved"
     }
+  }
+
+  def updateUserRole() {
+    def id = params?.id
+    def user = User.get(id)
+
+    if (!user) { response.sendError 404 }
+
+    user.properties["role"] = params?.role
+
+    user.save(flush: true)
+
+    redirect action: "show", id: id
   }
 
   def enableDisableUserAccount(Integer id) {

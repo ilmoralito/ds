@@ -130,7 +130,8 @@ class RequestController {
     }
 
     def requestsByCoordination() {
-      def userSchools = session?.user?.schools
+      def user = session.user.refresh()
+      def userSchools = user?.schools
       def criteria = Request.createCriteria()
       def result = criteria {
         "in" "school", userSchools
