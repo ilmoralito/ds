@@ -53,7 +53,7 @@ class UserService {
       def zone = c[0]
       def target = classrooms[zone].find { it.code == c }
 
-      if (target.containsKey("name")) {
+      if (target?.containsKey("name")) {
         target
       } else {
         [code:target.code, name:target.code]
