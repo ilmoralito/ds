@@ -27,7 +27,7 @@
 		<br>
 		<small>
 			Administra <g:link controller="user" action="classrooms">aulas</g:link>,
-			<g:link controller="user" action="schoolsAndDepartments">facultades o departamentos</g:link>
+			<g:link controller="user" action="schoolsAndDepartments">Coordinaciones o departamentos</g:link>
 		</small>
 	</div>
 </div>
