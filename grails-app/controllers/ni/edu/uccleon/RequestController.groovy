@@ -157,7 +157,7 @@ class RequestController {
           flow.userClassrooms = userService.transformUserClassrooms()
 
           if (session?.user?.role in ["coordinador", "asistente"]) {
-            def users = User.findAllByRoleNotEqual("admin", [sort: "fullName", order: "asc"])
+            def users = User.findAllByRoleNotEqualAndEnabled("admin", true, [sort: "fullName", order: "asc"])
             def results = users.findAll { user ->
               session?.user?.schools.any { user.schools.contains(it) }
             }
