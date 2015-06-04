@@ -21,7 +21,13 @@
     <g:textField name="fullName" value="${user?.fullName}" class="span4" placeholder="Nombre completo"/>
 
     <br>
-    <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary"/>
+    <g:submitButton name="send" value="Actualizar perfil" class="btn"/>
+  </g:form>
+
+  <g:form action="updatePassword">
+    <g:render template="updatePasswordForm"/>
+    <br>
+    <g:submitButton name="send" value="Confirmar cambio de clave" class="btn"/>
   </g:form>
 </body>
 </html>

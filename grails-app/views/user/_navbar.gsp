@@ -3,12 +3,9 @@
 		<g:link action="profile">Perfil</g:link>
 	</li>
 	<li class="${actionName == 'schoolsAndDepartments' ? 'active' : ''}">
-		<g:link action="schoolsAndDepartments">Facultades y departamentos</g:link>
+		<g:link action="schoolsAndDepartments">Coordinaciones y departamentos</g:link>
 	</li>
 	<li class="${actionName == 'classrooms' ? 'active' : ''}">
 		<g:link action="classrooms">Aulas</g:link>
-	</li>
-	<li class="${actionName == 'password' ? 'active' : ''}">
-		<g:link action="password">Cambiar clave</g:link>
 	</li>
 </ul>

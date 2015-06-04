@@ -232,12 +232,10 @@ class UserController {
     [user:user, allCls:allCls ?: cls, userClassrooms:user?.classrooms]
   }
 
-  def password() {}
-
   def updatePassword(updatePasswordCommand cmd) {
     if (!cmd.validate()) {
       cmd.errors.allErrors.each { log.error "[$it.field:$it.defaultMessage]" }
-      redirect action:"password"
+      redirect action:"profile"
       return
     }
 
@@ -247,7 +245,7 @@ class UserController {
     user.save()
 
     flash.message = "Clave actualizada"
-    redirect action:"password", params:[id:cmd.id]
+    redirect action:"profile", params:[id:cmd.id]
   }
 
   def login(String email, String password) {
