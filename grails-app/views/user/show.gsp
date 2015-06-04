@@ -39,7 +39,7 @@
 		<h4>Administrar</h4>
 		<g:form action="updateUserRole">
 			<g:hiddenField name="id" value="${user?.id}"/>
-			<g:select name="role" from="${grailsApplication.config.ni.edu.uccleon.roles}" value="${user?.role}"/>
+			<g:select name="role" from="${grailsApplication.config.ni.edu.uccleon.roles}" value="${user?.role}" class="span2"/>
 			<g:submitButton name="send" value="Actualizar" class="btn btn-block btn-warning"/>
 		</g:form>
 
