@@ -36,13 +36,14 @@
 	</content>
 
 	<content tag="col1">
-		<h4>Administrar</h4>
+		<h4>Actualizar rol</h4>
 		<g:form action="updateUserRole">
 			<g:hiddenField name="id" value="${user?.id}"/>
 			<g:select name="role" from="${grailsApplication.config.ni.edu.uccleon.roles}" value="${user?.role}" class="span2"/>
 			<g:submitButton name="send" value="Actualizar" class="btn btn-block btn-warning"/>
 		</g:form>
 
+		<h4>Adminsitrar</h4>
 		<g:form action="enableDisableUserAccount">
 			<g:hiddenField name="id" value="${user?.id}"/>
 			<button type="submit" class="btn btn-default btn-block">Estado actual: <ds:isEnabled status="${user.enabled}"/></button>
