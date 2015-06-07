@@ -18,6 +18,10 @@
 				<div class="span10 offset1">
 			</g:else>
 				<g:layoutBody/>
+
+				<g:if test="${flash?.message}">
+					<p>${flash.message}</p>
+				</g:if>
 			</div>
 		</div>
 	</div>

@@ -253,7 +253,7 @@ class UserController {
       def user = User.login(email, password).get()
 
       if (!user) {
-        flash.message = "user.not.found"
+        flash.message = "Usuario no registrado. Verifica credenciales"
       } else {
         session.user = user
         redirect controller:"request", action:"list"
