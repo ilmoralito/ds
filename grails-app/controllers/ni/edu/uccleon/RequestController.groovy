@@ -35,7 +35,7 @@ class RequestController {
     def requestStatus = [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
     def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
       [d.key, d.value.collectEntries { o ->
-        [requestStatus[o.key], d.value.size()]
+        [requestStatus[o.key], o.value.size()]
       }]
     }
 
