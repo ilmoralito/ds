@@ -39,7 +39,7 @@ class RequestController {
       }]
     }
 
-    results.sort { -it.key }.each { key, value ->
+    results.each { key, value ->
       requestStatus.each { k, v ->
         if (!(v in value.keySet())) {
           value[v] = 0
@@ -49,7 +49,7 @@ class RequestController {
       value["TOTAL"] = value*.value.sum()
     }
 
-    [results: results]
+    [results: results.sort { -it.key }]
   }
 
   def report() {
