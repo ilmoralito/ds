@@ -27,8 +27,30 @@ class RequestController {
     report: "GET",
     detail: "GET",
     getUserClassroomsAndSchools: "GET",
-    requestsByCoordination: "GET"
+    requestsByCoordination: "GET",
+    userStatistics: "GET"
   ]
+
+  def userStatistics() {
+    def requestStatus = [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
+    def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
+      [d.key, d.value.collectEntries { o ->
+        [requestStatus[o.key], d.value.size()]
+      }]
+    }
+
+    results.sort { -it.key }.each { key, value ->
+      requestStatus.each { k, v ->
+        if (!(v in value.keySet())) {
+          value[v] = 0
+        }
+      }
+
+      value["TOTAL"] = value*.value.sum()
+    }
+
+    [results: results]
+  }
 
   def report() {
     def date = new Date()

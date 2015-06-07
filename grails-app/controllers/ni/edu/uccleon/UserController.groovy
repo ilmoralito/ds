@@ -256,7 +256,7 @@ class UserController {
         flash.message = "Usuario no registrado. Verifica credenciales"
       } else {
         session.user = user
-        redirect controller:"request", action:"list"
+        redirect controller: "request", action: user.role == "user" ? "userStatistics" : "list"
         return false
       }
     }
