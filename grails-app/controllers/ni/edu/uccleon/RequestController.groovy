@@ -28,11 +28,20 @@ class RequestController {
     detail: "GET",
     getUserClassroomsAndSchools: "GET",
     requestsByCoordination: "GET",
-    userStatistics: "GET"
+    userStatistics: "GET",
+    userStatisticsDetail: "GET"
   ]
 
+  private getMonths() {
+    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+  }
+
+  private getRequestStatus() {
+    [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
+  }
+
   def userStatistics() {
-    def requestStatus = [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
+    def requestStatus = this.getRequestStatus()
     def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
       [d.key, d.value.collectEntries { o ->
         [requestStatus[o.key], o.value.size()]
@@ -50,6 +59,30 @@ class RequestController {
     }
 
     [results: results.sort { -it.key }]
+  }
+
+  def userStatisticsDetail(Integer y) {
+    def months = this.getMonths()
+    def requestStatus = this.getRequestStatus()
+    def query = Request.where {
+      user == session?.user && year(dateOfApplication) == y
+    }
+
+    def results = query.list().groupBy { it.dateOfApplication[Calendar.MONTH] } { it.status }.collectEntries { d ->
+      [months[d.key], d.value.collectEntries { o ->
+        [requestStatus[o.key], o.value.size()]
+      }]
+    }
+
+    results.values().each { instance ->
+      requestStatus.each { status ->
+        if (!(status.value in instance.keySet())) {
+           instance[status.value] = 0
+        }
+      }
+    }
+
+    [results: results]
   }
 
   def report() {
