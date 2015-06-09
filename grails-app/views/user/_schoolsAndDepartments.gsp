@@ -1,4 +1,5 @@
 <g:set var="schoolsAndDepartments" value="${grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments}"/>
+<g:set var="hideForUsers" value="${session?.user?.role == 'user' ? true : false}"/>
 
 <g:if test="${actionName == 'create'}">
 	<h4>Coordinaciones</h4>
@@ -21,7 +22,7 @@
 			<h4>Coordinaciones</h4>
 			<g:each in="${schoolsAndDepartments.schools.sort()}" var="school">
 		    <label class="checkbox">
-	        <g:checkBox name="schools" value="${school}" checked="${userSchools?.contains(school) || user?.schools?.contains(school)}"/> ${school}
+	        <g:checkBox name="schools" value="${school}" checked="${userSchools?.contains(school) || user?.schools?.contains(school)}" disabled="${hideForUsers}"/> ${school}
 		    </label>
 			</g:each>
 		</div>
@@ -29,7 +30,7 @@
 			<h4>Departamentos</h4>
 			<g:each in="${schoolsAndDepartments.departments.sort()}" var="department">
 		    <label class="checkbox">
-	        <g:checkBox name="schools" value="${department}" checked="${userSchools?.contains(department) || user?.schools?.contains(department)}"/> ${department}
+	        <g:checkBox name="schools" value="${department}" checked="${userSchools?.contains(department) || user?.schools?.contains(department)}" disabled="${hideForUsers}"/> ${department}
 		    </label>
 			</g:each>
 		</div>

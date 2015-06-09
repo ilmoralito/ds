@@ -11,11 +11,13 @@
     <g:render template="navbar"/>
 
     <g:form action="schoolsAndDepartments">
-      <div class="row">
-        <div class="span10">
-          <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary pull-right"/>
+      <g:if test="${session?.user?.role != 'user' }">
+        <div class="row">
+          <div class="span10">
+            <g:submitButton name="send" value="Confirmar cambios" class="btn btn-primary pull-right"/>
+          </div>
         </div>
-      </div>
+      </g:if>
 
       <g:render template="schoolsAndDepartments"/>
     </g:form>
