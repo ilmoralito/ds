@@ -38,5 +38,14 @@ class CommonFilters {
         }
       }
     }
+
+    coordAndAsistOnly(controller:"request", action:"(createRequestFromActivity)") {
+      before = {
+        if (!(session?.user?.role in grailsApplication.config.ni.edu.uccleon.roles[2..-1])) {
+          response.sendError 403
+          return false
+        }
+      }
+    }
   }
 }

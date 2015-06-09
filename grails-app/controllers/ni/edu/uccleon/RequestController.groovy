@@ -593,7 +593,7 @@ class RequestController {
         schoolsAndDepartments: schoolsAndDepartments,
         classrooms: requestService.mergedClassrooms(),
         users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"]),
-        noAdminRoles: grailsApplication.config.ni.edu.uccleon.roles[1..-1]
+        allowedUsers: grailsApplication.config.ni.edu.uccleon.roles[2..-1]
       ]
     }
 

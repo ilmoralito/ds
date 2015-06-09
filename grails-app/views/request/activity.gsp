@@ -9,7 +9,7 @@
 	<content tag="main">
 		<g:set var="dateSelected" value="${dateSelected.format('yyyy-MM-dd')}"/>
 
-		<g:if test="${requests || session?.user?.role in noAdminRoles}">
+		<g:if test="${requests || session?.user?.role in allowedUsers}">
 			<h4 class="activity-heading">${requests.size()} actividades ${dateSelected}</h4>
 
 			<table class="table table-bordered" style="table-layout: fixed;">
@@ -70,7 +70,7 @@
 										<ds:classroom room="${req.classroom}"/>
 									</g:if>
 									<g:else>
-										<g:if test="${session?.user?.role in noAdminRoles}">
+										<g:if test="${session?.user?.role in allowedUsers}">
 											<g:link action="createRequestFromActivity" params="[dateOfApplication:dateSelected, datashow:d, block:block]" class="pull-right">+</g:link>
 										</g:if>
 									</g:else>
