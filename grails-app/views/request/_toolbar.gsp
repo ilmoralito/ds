@@ -2,7 +2,7 @@
 	<div class="span10">
 		<ds:isUser>
 			<div class="pull-right">
-				<g:link action="list" class="btn ${actionName == 'list' ? 'active' : ''}">
+				<g:link action="listOfPendingApplications" class="btn ${actionName == 'listOfPendingApplications' ? 'active' : ''}">
 					Pendientes
 				</g:link>
 				<g:link action="userStatistics" class="btn ${actionName in ['userStatistics', 'userStatisticsDetail'] ? 'active' : ''}">

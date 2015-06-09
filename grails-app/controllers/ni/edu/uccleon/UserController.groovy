@@ -256,7 +256,7 @@ class UserController {
         flash.message = "Usuario no registrado. Verifica credenciales"
       } else {
         session.user = user
-        redirect controller: "request", action: "list"
+        redirect controller: "request", action: session?.user?.role == 'admin' ? 'list' : 'listOfPendingApplications'
         return false
       }
     }

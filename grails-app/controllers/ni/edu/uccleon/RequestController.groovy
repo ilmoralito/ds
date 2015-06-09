@@ -29,7 +29,8 @@ class RequestController {
     getUserClassroomsAndSchools: "GET",
     requestsByCoordination: "GET",
     userStatistics: "GET",
-    userStatisticsDetail: "GET"
+    userStatisticsDetail: "GET",
+    listOfPendingApplications: "GET"
   ]
 
   private getMonths() {
@@ -38,6 +39,14 @@ class RequestController {
 
   private getRequestStatus() {
     [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
+  }
+
+  def listOfPendingApplications() {
+    def query = Request.where {
+      user == session?.user && status == "pending"
+    }
+
+    [results: query.list().groupBy { it.dateOfApplication }]
   }
 
   def userStatistics() {
@@ -285,7 +294,7 @@ class RequestController {
       }
 
       done {
-        redirect controller:"request", action:"list"
+        redirect controller:"request", action:"listOfPendingApplications"
       }
     }
 
