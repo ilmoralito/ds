@@ -5,13 +5,11 @@
 	</head>
 
 	<content tag="main">
-		<g:if test="${session?.user?.role != 'user'}">
-			<g:render template="toolbar"/>
-		</g:if>
+		<g:render template="toolbar"/>
 
 		<h4>${params.y}</h4>
 
-		<table class="table">
+		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>Meses</th>

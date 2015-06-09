@@ -5,7 +5,7 @@
 				<g:link action="list" class="btn ${actionName == 'list' ? 'active' : ''}">
 					Pendientes
 				</g:link>
-				<g:link action="userStatistics" class="btn ${actionName == 'userStatistics' ? 'active' : ''}">
+				<g:link action="userStatistics" class="btn ${actionName in ['userStatistics', 'userStatisticsDetail'] ? 'active' : ''}">
 					Resumen
 				</g:link>
 				<g:if test="${session?.user?.role in grailsApplication.config.ni.edu.uccleon.roles[2..-1]}">
