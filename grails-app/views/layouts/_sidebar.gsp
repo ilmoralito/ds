@@ -29,7 +29,7 @@
 		</li>
 	</ds:isAdmin>
 	<li class="${(controllerName == 'request' && !(actionName in ['requestsBy', 'report', 'detail'])) ? 'active' : 'no-active'}">
-		<g:link controller="request" action="${session?.user?.role != 'user' ? 'list' : 'userStatistics'}">Solicitudes</g:link>
+		<g:link controller="request" action="list">Solicitudes</g:link>
 	</li>
 	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
 		<g:link controller="user" action="profile">Perfil</g:link>

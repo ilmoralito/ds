@@ -5,9 +5,7 @@
 	</head>
 
 	<content tag="main">
-		<g:if test="${session?.user?.role != 'user'}">
-			<g:render template="toolbar"/>
-		</g:if>
+		<g:render template="toolbar"/>
 
 		<g:if test="${results}">
 			<h4>Resumen de solictudes</h4>
