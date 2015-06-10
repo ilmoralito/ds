@@ -93,6 +93,16 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+ni.edu.uccleon.data = [
+  [coordination: "Ciencias Economicas Empresariales", datashow: 1],
+  [coordination: "Administracion Turistica y Hotelera", datashow: 2],
+  [coordination: "Ciencias Juridicas Empresariales", datashow: 3],
+  [coordination: "Ciencias Agragrias", datashow: 4],
+  [coordination: "Ingenieria e Informatica", datashow: 5],
+  [coordination: "Estudios por encuentro superior", datashow: 6],
+  [coordination: "Arquitectura", datashow: 7],
+  [coordination: "Ingles", datashow: 8]
+]
 ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente"]
 ni.edu.uccleon.schoolsAndDepartments = [
   schools: [
@@ -264,7 +274,7 @@ ni.edu.uccleon.cls = [
 ni.edu.uccleon.blocks = 6
 ni.edu.uccleon.saturday.blocks = 3
 ni.edu.uccleon.sunday.blocks = 2
-ni.edu.uccleon.datashows = 7
+ni.edu.uccleon.datashows = 10
 ni.edu.uccleon.week.datashows = 5
 ni.edu.uccleon.saturday.datashows = 8
 ni.edu.uccleon.sunday.datashows = 8

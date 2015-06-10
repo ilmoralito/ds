@@ -1,8 +1,9 @@
-<g:form controller="request" action="activity" autocomplete="off" style="margin:1;">
+<g:form controller="request" action="activity" autocomplete="off">
 	<g:textField name="dateSelected" value="${params?.dateSelected}" class="input-small span2" placeholder="Disponibilidad"/>
 	<button type="submit" class="btn">Listar</button>
 </g:form>
 
+<!--
 <ds:isUser>
 	<div class="btn-group" style="margin:-10px 0 10px 0;">
 	  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -18,6 +19,11 @@
 	   </ul>
 	</div>
 </ds:isUser>
+-->
+
+<g:link controller="request" action="createRequest" class="btn btn-primary btn-block" style="margin: -10px 0 10px 0;">
+	Crear solicitud
+</g:link>
 
 <ul class="nav nav-tabs nav-stacked">
 	<ds:isAdmin>

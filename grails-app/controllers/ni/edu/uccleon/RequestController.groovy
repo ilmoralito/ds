@@ -217,7 +217,7 @@ class RequestController {
     def createRequestFlow = {
       init {
         action {
-          flow.type = params?.type ?: "common"
+          flow.type = params?.type ?: "express"
           flow.userClassrooms = userService.transformUserClassrooms()
 
           if (session?.user?.role in ["coordinador", "asistente"]) {
