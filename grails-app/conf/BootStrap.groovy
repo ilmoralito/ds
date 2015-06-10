@@ -61,6 +61,17 @@ class BootStrap {
 
         nami.save(failOnError:true)
 
+        def ready = new User(
+          email: "ready@ucc.edu.ni",
+          password: "123",
+          role: "user",
+          fullName: "Ready Martinez",
+          schools: theDepartments[0],
+          classrooms:[classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
+        )
+
+        ready.save(failOnError: true)
+
         //request
         //peluso
         //express
