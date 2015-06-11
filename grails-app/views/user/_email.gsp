@@ -4,4 +4,4 @@
 <p>Direccion: <a href="http://uccds.herokuapp.com">http://uccds.herokuapp.com</a></p>
 <p>Email: ${user.email}</p>
 <p>Clave por defecto: <b>123</b></p>
-<p>Alguna duda estamos por aqui, y gracias por su colaboracion</p>
+<p>Alguna duda estamos por este canal. Gracias por su colaboracion</p>
