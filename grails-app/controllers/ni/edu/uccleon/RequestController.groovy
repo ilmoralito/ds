@@ -362,7 +362,7 @@ class RequestController {
       }
 
       done {
-        redirect controller:"request", action:"list"
+        redirect controller:"request", action:"listOfPendingApplications"
       }
     }
 
