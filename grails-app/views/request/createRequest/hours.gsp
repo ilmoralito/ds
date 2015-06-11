@@ -47,7 +47,7 @@
 					<g:each in="${0..blocks}" var="block" status="j">
 						<g:set var="isChecked" value="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(j)} ? true : false}"/>
 						<g:set var="allowed" value="${data.find { it.coordination == req.school }.datashow}"/>
-						<g:set var="isDisabled" value="${datashow == allowed && !isChecked ? false : true}"/>
+						<g:set var="isDisabled" value="${datashow in allowed && !isChecked ? false : true}"/>
 
 						<label class="checkbox">
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
