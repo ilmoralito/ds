@@ -64,7 +64,7 @@ class BootStrap {
         def ready = new User(
           email: "ready@ucc.edu.ni",
           password: "123",
-          role: "user",
+          role: "administrativo",
           fullName: "Ready Martinez",
           schools: theDepartments[0],
           classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
@@ -75,7 +75,7 @@ class BootStrap {
         def coco = new User(
           email: "coco@ucc.edu.ni",
           password: "123",
-          role: "user",
+          role: "administrativo",
           fullName: "Coco Martinez",
           schools: theDepartments[5],
           classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
