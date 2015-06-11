@@ -226,9 +226,9 @@ class RequestController {
               session?.user?.schools.any { user.schools.contains(it) }
             }
 
-            //TODO
-            //flow.users = results.swap(0, results.findIndexOf { it.email == session?.user?.email })
-            flow.users = results
+            //Set session user in position 0 in users list
+            results -= session?.user
+            flow.users = results.plus 0, session?.user
           }
         }
 
