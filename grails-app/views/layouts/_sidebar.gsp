@@ -21,9 +21,11 @@
 </ds:isUser>
 -->
 
-<g:link controller="request" action="createRequest" class="btn btn-primary btn-block" style="margin: -10px 0 10px 0;">
-	Crear solicitud
-</g:link>
+<g:if test="${session?.user?.role in ['coordinador', 'asistente', 'administrativo']}">
+	<g:link controller="request" action="createRequest" class="btn btn-primary btn-block" style="margin: -10px 0 10px 0;">
+		Crear solicitud
+	</g:link>
+</g:if>
 
 <ul class="nav nav-tabs nav-stacked">
 	<ds:isAdmin>

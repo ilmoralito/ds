@@ -115,7 +115,7 @@ ni.edu.uccleon.data = [
   [coordination: "Transporte", datashow: [8, 9]],
   [coordination: "Escuela de manejo", datashow: [8, 9]]
 ]
-ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente"]
+ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
 ni.edu.uccleon.schoolsAndDepartments = [
   schools: [
     "Ciencias Economicas Empresariales",
