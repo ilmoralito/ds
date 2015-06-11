@@ -602,7 +602,7 @@ class RequestController {
         schoolsAndDepartments: schoolsAndDepartments,
         classrooms: requestService.mergedClassrooms(),
         users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"]),
-        allowedUsers: grailsApplication.config.ni.edu.uccleon.roles[2..-1]
+        allowedUsers: ["coordinador", "asistente"]
       ]
     }
 
