@@ -4,10 +4,10 @@ import grails.util.Holders
 
 class User implements Serializable {
   String email
-  String password
+  String password = "123"
   String role = "user"
   String fullName
-  Boolean enabled = false
+  Boolean enabled = true
 
 	Date dateCreated
 	Date lastUpdated

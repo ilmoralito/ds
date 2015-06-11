@@ -71,12 +71,7 @@ class UserController {
       def schools = params.list "schools"
       def classrooms = params.list "classrooms"
 
-      def user = new User(
-        email:params?.email,
-        password:"123",
-        fullName:params?.fullName,
-        enabled:true
-      )
+      def user = new User( email: params?.email, fullName: params?.fullName, role: params?.role )
 
       schools.each { school -> user.addToSchools school }
 
@@ -86,13 +81,14 @@ class UserController {
         user.errors.allErrors.each { errors ->
           log.error "[$errors.field: $errors.defaultMessage]"
         }
+
         return [user:user]
       }
 
       //notify new user
       sendMail {
         to params.email
-        subject "Datashow"
+        subject "Sobre solicitudes de datashow"
         html g.render(template:"email", model:[user:user])
       }
 

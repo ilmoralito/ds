@@ -8,12 +8,12 @@
 		<g:set var="classrooms" value="${grailsApplication.config.ni.edu.uccleon.cls}"/>
 
 		<g:form action="create" autocomplete="off" name="form">
-			<h4>Usuario</h4>
-			<label for="email"></label>
+			<h4>Perfil</h4>
 			<g:textField name="email" value="${user?.email}" class="span3" autofocus="true" placeholder="Email"/>
 
-			<label for="fullName"></label>
 			<g:textField name="fullName" value="${user?.fullName}" class="span3" placeholder="Nombre y apellido"/>
+
+			<g:select name="role" from="${grailsApplication.config.ni.edu.uccleon.roles}" noSelection="[null: 'Selecciona un rol']" class="span3"/>
 
 			<g:submitButton name="send" value="Guardar y enviar notificacion" class="btn btn-primary"/>
 
