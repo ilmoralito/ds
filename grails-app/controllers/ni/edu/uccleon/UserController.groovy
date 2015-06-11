@@ -57,8 +57,10 @@ class UserController {
       }
     }
 
+    def usersList = usersFiltered ?: users
+
     [
-      users:usersFiltered ?: users,
+      users:usersList.sort { it.fullName },
       coordinations:schoolsAndDepartments.schools.sort(),
       departments:schoolsAndDepartments.departments.sort()
     ]
