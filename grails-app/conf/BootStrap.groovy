@@ -29,7 +29,7 @@ class BootStrap {
           email:"hotch@ucc.edu.ni",
           password:"123",
           role:"user",
-          fullName:"hotch roger",
+          fullName:"Hotch Martinez",
           enabled:true,
           schools:[theSchools[7], theSchools[2]],
           classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
@@ -41,7 +41,7 @@ class BootStrap {
           email:"peluso@yahoo.com",
           password:"123",
           role:"coordinador",
-          fullName:"peluso roger",
+          fullName:"Peluso Martinez",
           enabled:true,
           schools:[schools[1]],
           classrooms:[classrooms["D"][0]["code"], classrooms["D"][1]["code"], classrooms["D"][2]["code"]] // D101, D102, D103
@@ -53,7 +53,7 @@ class BootStrap {
           email:"nami@ucc.edu.ni",
           password:"123",
           role:"asistente",
-          fullName:"nami roger",
+          fullName:"Nami Martinez",
           enabled:true,
           schools:[theSchools[6], theSchools[7]],
           classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
@@ -67,10 +67,21 @@ class BootStrap {
           role: "user",
           fullName: "Ready Martinez",
           schools: theDepartments[0],
-          classrooms:[classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
+          classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
         )
 
         ready.save(failOnError: true)
+
+        def coco = new User(
+          email: "coco@ucc.edu.ni",
+          password: "123",
+          role: "user",
+          fullName: "Coco Martinez",
+          schools: theDepartments[5],
+          classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
+        )
+
+        coco.save(failOnError: true)
 
         //request
         //peluso
