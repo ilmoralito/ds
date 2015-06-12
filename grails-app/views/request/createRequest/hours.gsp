@@ -54,7 +54,7 @@
 							<g:checkBox name="blocks" value="${j}" checked="${isChecked}" disabled="${isDisabled}"/>
 						</label>
 					</g:each>
-					<g:submitButton name="confirm" value="Confirmar" class="btn btn-small btn-block ${isDisabled ? 'disabled' : ''}"/>
+					<g:submitButton name="confirm" value="Confirmar" class="btn btn-small btn-block ${!isDisabled ? 'btn-primary' : ''} ${isDisabled ? 'disabled' : ''}"/>
 				</g:form>
 			</div>
 		</g:each>
