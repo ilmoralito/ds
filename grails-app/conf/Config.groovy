@@ -102,7 +102,7 @@ ni.edu.uccleon.data = [
   [coordination: "Estudios por encuentro superior", datashow: 6],
   [coordination: "Arquitectura", datashow: 7],
   [coordination: "Ingles", datashow: 8],
-  [coordination: "Especializacion", datashow: [ 4, 5, 6, 7, 8, 9, 10]],
+  [coordination: "Especializacion", datashow: [4, 5, 6, 7, 8, 9, 10]],
   [coordination: "Administracion", datashow: [8, 9]],
   [coordination: "Protocolo", datashow: [8, 9]],
   [coordination: "Promotoria", datashow: [8, 9]],

@@ -46,15 +46,16 @@
 					<h4>${datashow}</h4>
 					<g:each in="${0..blocks}" var="block" status="j">
 						<g:set var="isChecked" value="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(j)} ? true : false}"/>
-						<g:set var="allowed" value="${data.find { it.coordination == req.school }.datashow}"/>
-						<g:set var="isDisabled" value="${datashow in allowed && !isChecked ? false : true}"/>
+						<g:set var="allowedDatashows" value="${data.find { it.coordination == req.school }.datashow}"/>
+						<g:set var="isDisabled" value="${!(datashow in allowedDatashows)}"/>
+						<g:set var="usedBlocks" value="${requests.count { it.datashow == datashow }}"/>
 
 						<label class="checkbox">
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
-							<g:checkBox name="blocks" value="${j}" checked="${isChecked}" disabled="${isDisabled}"/>
+							<g:checkBox name="blocks" value="${j}" checked="${isChecked}" disabled="${isDisabled || isChecked ? true : false}"/>
 						</label>
 					</g:each>
-					<g:submitButton name="confirm" value="Confirmar" class="btn btn-small btn-block ${!isDisabled ? 'btn-primary' : ''} ${isDisabled ? 'disabled' : ''}"/>
+					<g:submitButton name="confirm" value="Confirmar" class="btn btn-small btn-block ${isDisabled ? '' : 'btn-primary'} ${isDisabled || usedBlocks -1 == blocks ? 'disabled' : ''}"/>
 				</g:form>
 			</div>
 		</g:each>
