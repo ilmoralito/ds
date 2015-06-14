@@ -315,7 +315,9 @@ class RequestController {
       edit {
         on("confirm") { BuildRequestCommand cmd ->
           if (!cmd.validate()) {
-            cmd.errors.allErrors.each { println it }
+            cmd.errors.allErrors.each { error ->
+              log.error "[$error.field: $error.defaultMessage]"
+            }
             return error()
           }
 
@@ -526,8 +528,8 @@ class RequestController {
 
     	req.delete()
 
-    	flash.message = "data.request.deleted"
-    	redirect action:"list"
+    	flash.message = "Solicitud eliminada"
+    	redirect action: "listOfPendingApplications"
     }
 
     def updateStatus(Long id) {
