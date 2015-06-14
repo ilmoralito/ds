@@ -26,6 +26,9 @@ $("#user").on("change", function() {
 
 				school.append(option);
 			};
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			console.log(xhr.status, thrownError);
 		}
 	})
 });

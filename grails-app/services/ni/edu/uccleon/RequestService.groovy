@@ -47,4 +47,21 @@ class RequestService {
 
     classrooms.sort { it.name }
   }
+
+  def getUsersInCurrentUserCoordinations(String role, User user, String action) {
+    if (role in ["coordinador", "asistente"]) {
+      def users = User.findAllByRoleNotEqualAndEnabled("admin", true, [sort: "fullName", order: "asc"])
+      def results = users.findAll { u ->
+        user.schools.any { u.schools.contains(it) }
+      }
+
+      //Set session user in position 0 in users list
+      if (action == 'create') {
+        results -= user
+        results.plus 0, user
+      } else {
+        results
+      }
+    }
+  }
 }

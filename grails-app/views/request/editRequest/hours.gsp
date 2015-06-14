@@ -7,6 +7,9 @@
 	<r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
 </head>
 <body>
+	<!-- coordination data -->
+	<g:set var="data" value="${grailsApplication.config.ni.edu.uccleon.data}"/>
+
 	<!-- avaliables datashows -->
 	<g:set var="datashows" value="${(req.type == 'express') ? grailsApplication.config.ni.edu.uccleon.datashows : 2}"/>
 
@@ -26,12 +29,13 @@
 
 	<div class="row">
 		<div class="span5">
-			<h4>Solicitud del ${req.dateOfApplication.format("yyyy-MM-dd")} en ${req.classroom}</h4>
+			El ${req.dateOfApplication.format("yyyy-MM-dd")} en ${req.classroom} por ${req.school}
 		</div>
 		<div class="span5">
-			<g:link event="cancel" class="btn pull-right">Cancelar</g:link>
+			<g:link event="delete" class="pull-right"><i class="icon-trash"></i></g:link>
 		</div>
 	</div>
+
 	<div class="row">
 		<g:each in="${1..datashows}" var="datashow" status="i">
 			<div class="${(req.type == 'express') ? 'span2' : 'span5'}">
@@ -39,10 +43,17 @@
 				<g:set var="datashow" value="${i + 1}"/>
 
 				<g:form params="[datashow:datashow]">
-					<h4>Datashow ${datashow}</h4>
+					<h4>${datashow}</h4>
 					<g:each in="${0..blocks}" var="block" status="j">
 						<label class="checkbox">
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
+							<g:set var="currentRequest" value="${requests.find { it.datashow == datashow && it.hours.block.contains(j) && req.datashow == datashow && req.hours.block.contains(j)} ? true : false}"/>
+							<g:set var="allowedData" value="${data.find { it.coordination == req.school }.datashow}"/>
+							<g:set var="isDisabled" value="${datashow in allowedData ? true : false}"/>
+
+							<g:checkBox name="blocks" value="${j}" checked="${currentRequest}" disabled="${!isDisabled}"/>
+
+							<!--
 							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(j)}}">
 								<g:if test="${req.datashow == datashow && req.hours.block.contains(j)}">
 									<g:checkBox name="blocks" value="${j}" checked="${true}"/>
@@ -54,9 +65,10 @@
 							<g:else>
 								<g:checkBox name="blocks" value="${j}" checked="${false}"/>
 							</g:else>
+							-->
 						</label>
 					</g:each>
-					<g:submitButton name="confirm" value="Confirmar" class="btn"/>
+					<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-small"/>
 				</g:form>
 			</div>
 		</g:each>

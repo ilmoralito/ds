@@ -220,16 +220,7 @@ class RequestController {
           flow.type = params?.type ?: "express"
           flow.userClassrooms = userService.transformUserClassrooms()
 
-          if (session?.user?.role in ["coordinador", "asistente"]) {
-            def users = User.findAllByRoleNotEqualAndEnabled("admin", true, [sort: "fullName", order: "asc"])
-            def results = users.findAll { user ->
-              session?.user?.schools.any { user.schools.contains(it) }
-            }
-
-            //Set session user in position 0 in users list
-            results -= session?.user
-            flow.users = results.plus 0, session?.user
-          }
+          flow.users = requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "create")
         }
 
         on("success").to "buildRequest"
@@ -306,7 +297,11 @@ class RequestController {
 
           if (!req || req.status != "pending") { response.sendError 404 }
 
-          [req:req, userClassrooms:userService.transformUserClassrooms()]
+          [
+            req: req,
+            userClassrooms: userService.transformUserClassrooms(),
+            users: requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "edit")
+          ]
         }
 
         on("success").to "edit"
