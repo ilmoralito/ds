@@ -3,7 +3,7 @@ $("#user").on("change", function() {
 			userEmail = _this.val();
 
 	$.ajax({
-		url: "getUserClassroomsAndSchools/",
+		url: window.ajaxURL,
 		data: { userEmail: userEmail },
 		dataType: "JSON",
 		success: function(data) {

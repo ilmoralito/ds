@@ -31,3 +31,8 @@
 		</small>
 	</div>
 </div>
+
+<!--SAD solution T.T-->
+<g:javascript>
+	window.ajaxURL = "${createLink(controller: 'request', action: 'getUserClassroomsAndSchools')}"
+</g:javascript>
