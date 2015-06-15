@@ -13,21 +13,30 @@
   	<small><g:renderErrors bean="${cmd}"/></small>
   </g:hasErrors>
 
-  <g:form action="profile">
-    <label for="email"></label>
-    <g:textField name="email" value="${user?.email}" class="span4" autofocus="true" placeholder="Email"/>
+  <div class="row">
+    <div class="span5">
+      <g:form action="profile">
+        <g:textField name="email" value="${user?.email}" class="span5" autofocus="true" placeholder="Email"/>
 
-    <label for="fullName"></label>
-    <g:textField name="fullName" value="${user?.fullName}" class="span4" placeholder="Nombre completo"/>
+        <g:textField name="fullName" value="${user?.fullName}" class="span5" placeholder="Nombre completo"/>
+        <br>
+        <g:submitButton name="send" value="Actualizar perfil" class="btn btn-primary"/>
+      </g:form>
+    </div>
 
-    <br>
-    <g:submitButton name="send" value="Actualizar perfil" class="btn"/>
-  </g:form>
+    <div class="span5">
+      <g:form action="updatePassword">
+        <g:hiddenField name="id" value="${session?.user?.id}"/>
 
-  <g:form action="updatePassword">
-    <g:render template="updatePasswordForm"/>
-    <br>
-    <g:submitButton name="send" value="Confirmar cambio de clave" class="btn"/>
-  </g:form>
+        <g:passwordField name="password" class="span5" placeholder="Clave actual"/>
+
+        <g:passwordField name="npassword" class="span5" placeholder="Nueva clavel"/>
+
+        <g:passwordField name="rpassword" class="span5" placeholder="Repetir nueva clave"/>
+        <br>
+        <g:submitButton name="send" value="Confirmar cambio de clave" class="btn btn-primary"/>
+      </g:form>
+    </div>
+  </div>
 </body>
 </html>
