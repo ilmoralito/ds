@@ -16,7 +16,7 @@
 				<thead>
 					<th width="10">B</th>
 					<g:each in="${1..datashows}" var="datashow">
-						<th>${datashow}</th>
+						<th style="text-align: center;">${datashow}</th>
 					</g:each>
 				</thead>
 				<tbody>
@@ -24,10 +24,10 @@
 						<tr>
 							<td class="blocks" style="vertical-align:middle;">
 								<g:if test="${blocks == 6}">
-									${block == 3 ? "" : block + 1}
+									<strong>${block == 3 ? "" : block + 1}</strong>
 								</g:if>
 								<g:else>
-									${block + 1}
+									<strong>${block + 1}</strong>
 								</g:else>
 							</td>
 
