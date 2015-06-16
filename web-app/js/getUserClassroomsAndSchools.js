@@ -16,7 +16,7 @@ $("#user").on("change", function() {
 			school.find("option").remove();
 
 			for (var i = 0; i < userClassrooms.length; i++) {
-				var option = $("<option>", { value: userClassrooms[i], text: userClassrooms[i] });
+				var option = $("<option>", { value: userClassrooms[i]["code"], text: userClassrooms[i]["name"] });
 
 				classroom.append(option);
 			};

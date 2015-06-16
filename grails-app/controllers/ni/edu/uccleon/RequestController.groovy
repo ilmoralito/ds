@@ -182,7 +182,7 @@ class RequestController {
 
     def getUserClassroomsAndSchools(String userEmail) {
       def user = User.findByEmail(userEmail)
-      def userClassrooms = user.classrooms
+      def userClassrooms = userService.transformUserClassrooms(user.classrooms as List)
       def userSchools = user.schools.findAll { s ->
         s in session?.user?.schools
       }
@@ -218,8 +218,7 @@ class RequestController {
       init {
         action {
           flow.type = params?.type ?: "express"
-          flow.userClassrooms = userService.transformUserClassrooms()
-
+          flow.userClassrooms = userService.transformUserClassrooms(session?.user?.refresh().classrooms as List)
           flow.users = requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "create")
         }
 
@@ -299,7 +298,7 @@ class RequestController {
 
           [
             req: req,
-            userClassrooms: userService.transformUserClassrooms(),
+            userClassrooms: userService.transformUserClassrooms(session?.user?.refresh()?.classrooms as List),
             users: requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "edit")
           ]
         }
@@ -367,7 +366,7 @@ class RequestController {
       init {
         action {
           flow.currentUser = session?.user
-          flow.userClassrooms = userService.transformUserClassrooms()
+          flow.userClassrooms = userService.transformUserClassrooms(session?.user?.refresh()?.classrooms as List)
           flow.userSchools = flow.currentUser?.schools as List
           flow.dates = []
           flow.requestInstances = []
@@ -647,7 +646,7 @@ class RequestController {
         }
       }
 
-      [userClassrooms:userService.transformUserClassrooms()]
+      [userClassrooms:userService.transformUserClassrooms(session?.user?.refresh().classrooms as List)]
     }
 
     //REPORTS

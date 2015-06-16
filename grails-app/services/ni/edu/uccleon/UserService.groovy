@@ -44,10 +44,7 @@ class UserService {
     addClassrooms(classrooms, user)
   }
 
-  def transformUserClassrooms() {
-    def session = RequestContextHolder.currentRequestAttributes().getSession()
-    def user = session.user.refresh()
-    def userClassrooms = user.classrooms
+  def transformUserClassrooms(List userClassrooms) {
     def classrooms = grailsApplication.config.ni.edu.uccleon.cls
     def results = userClassrooms.collect { c ->
       def zone = c[0]
