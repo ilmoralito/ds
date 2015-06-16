@@ -9,7 +9,7 @@
 <body>
 	<g:form>
 		<g:render template="form"/>
-		<g:submitButton name="create" value="Crear solicitud" class="btn"/>
+		<g:submitButton name="create" value="Continuar" class="btn btn-primary"/>
 	</g:form>
 
 	<g:hasErrors bean="${requestErrors}">

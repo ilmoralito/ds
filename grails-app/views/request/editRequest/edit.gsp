@@ -13,7 +13,7 @@
 
 	<g:form>
 		<g:render template="form"/>
-		<g:submitButton name="confirm" value="Confirmar y continuar" class="btn"/>
+		<g:submitButton name="confirm" value="Continuar" class="btn btn-primary"/>
 	</g:form>
 
 	<strong>${message}</strong>
