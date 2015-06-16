@@ -27,7 +27,7 @@ modules = {
   activity {
     dependsOn "jquery"
     resource url:"js/users.js"
-    resource url:"js/activity.js"
+    //resource url:"js/activity.js"
   }
 
   createUser {

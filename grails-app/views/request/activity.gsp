@@ -70,9 +70,11 @@
 										<ds:classroom room="${req.classroom}"/>
 									</g:if>
 									<g:else>
+										<!--
 										<g:if test="${session?.user?.role in allowedUsers}">
 											<g:link action="createRequestFromActivity" params="[dateOfApplication:dateSelected, datashow:d, block:block]" class="pull-right">+</g:link>
 										</g:if>
+										-->
 									</g:else>
 								</td>
 							</g:each>
