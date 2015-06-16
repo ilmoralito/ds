@@ -38,37 +38,24 @@
 
 	<div class="row">
 		<g:each in="${1..datashows}" var="datashow" status="i">
-			<div class="${(req.type == 'express') ? 'span2' : 'span5'}">
-
+			<div class="span2">
 				<g:set var="datashow" value="${i + 1}"/>
+				<g:set var="size" value="${requests.findAll { it.datashow == datashow }.hours*.size()?.sum()}"/>
+				<g:set var="allowedDatashows" value="${data.find { it.coordination == req.school }.datashow}"/>
+				<g:set var="isDisabled" value="${!(datashow in allowedDatashows)}"/>
 
 				<g:form params="[datashow:datashow]">
 					<h4>${datashow}</h4>
 					<g:each in="${0..blocks}" var="block" status="j">
 						<label class="checkbox">
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
-							<g:set var="currentRequest" value="${requests.find { it.datashow == datashow && it.hours.block.contains(j) && req.datashow == datashow && req.hours.block.contains(j)} ? true : false}"/>
-							<g:set var="allowedData" value="${data.find { it.coordination == req.school }.datashow}"/>
-							<g:set var="isDisabled" value="${datashow in allowedData ? true : false}"/>
+							<g:set var="isChecked" value="${requests.find {it.datashow == datashow && it.hours.block.contains(j)} ? true : false}"/>
+							<g:set var="currentRequest" value="${requests.find {req.datashow == datashow && req.hours.block.contains(j)} ? true : false}"/>
 
-							<g:checkBox name="blocks" value="${j}" checked="${currentRequest}" disabled="${!isDisabled}"/>
-
-							<!--
-							<g:if test="${requests.find {it.datashow == datashow && it?.hours?.block?.contains(j)}}">
-								<g:if test="${req.datashow == datashow && req.hours.block.contains(j)}">
-									<g:checkBox name="blocks" value="${j}" checked="${true}"/>
-								</g:if>
-								<g:else>
-									<g:checkBox name="blocks" value="${j}" checked="${true}" disabled="true"/>
-								</g:else>
-							</g:if>
-							<g:else>
-								<g:checkBox name="blocks" value="${j}" checked="${false}"/>
-							</g:else>
-							-->
+							<g:checkBox name="blocks" value="${j}" checked="${currentRequest || isChecked}" disabled="${isDisabled || !currentRequest}"/>
 						</label>
 					</g:each>
-					<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-small"/>
+					<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-small ${isDisabled || size == blocks + 1 ? 'disabled' : ''}"/>
 				</g:form>
 			</div>
 		</g:each>
