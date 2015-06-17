@@ -6,7 +6,7 @@
 
 	<content tag="main">
 		<g:if test="${requestsByBlock}">
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<th colspan="3">
 						<input type="checkbox" name="trigger" id="trigger">
@@ -15,7 +15,7 @@
 				<tbody>
 					<g:each in="${requestsByBlock}" var="b">
 						<tr>
-							<td colspan="3">Bloque ${b.block + 1}</td>
+							<td colspan="3"><strong>Bloque ${b.block + 1}</strong></td>
 						</tr>
 						<g:each in="${b.requests}" var="r">
 							<tr>

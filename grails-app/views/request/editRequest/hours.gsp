@@ -51,7 +51,7 @@
 							<ds:blockToHour block="${j + 1}" doapp="${day}"/>
 							<g:set var="isChecked" value="${requests.find {it.datashow == datashow && it.hours.block.contains(j)} ? true : false}"/>
 							<g:set var="currentRequest" value="${requests.find {req.datashow == datashow && req.hours.block.contains(j)} ? true : false}"/>
-
+${isChecked}
 							<g:checkBox name="blocks" value="${j}" checked="${currentRequest || isChecked}" disabled="${isDisabled || !currentRequest}"/>
 						</label>
 					</g:each>

@@ -11,7 +11,7 @@
 			<g:each in="${results}" var="r">
 				<p><strong>${r.key.format("yyyy-MM-dd")}</strong></p>
 
-				<table class="table">
+				<table class="table table-hover">
 					<tbody>
 						<g:each in="${r.value}" var="ri">
 							<tr>
