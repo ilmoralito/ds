@@ -46,7 +46,7 @@ class RequestController {
       user == session?.user && status == "pending"
     }
 
-    [results: query.list().groupBy { it.dateOfApplication }]
+    [results: query.list().groupBy { it.dateOfApplication }.sort { it.key }]
   }
 
   def userStatistics() {
