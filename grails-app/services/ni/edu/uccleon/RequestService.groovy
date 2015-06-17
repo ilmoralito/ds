@@ -20,18 +20,19 @@ class RequestService {
   def getInfoToAddHours(Date date) {
     def requests = Request.requestFromTo(date, date).list()
     def datashows = grailsApplication.config.ni.edu.uccleon.datashows
-    def day = date[Calendar.DAY_OF_WEEK]
-    def blocks = {
-      if (day == 1) {
-        grailsApplication.config.ni.edu.uccleon.sunday.blocks
-      } else if (day == 7) {
-        grailsApplication.config.ni.edu.uccleon.saturday.blocks
-      } else {
-        grailsApplication.config.ni.edu.uccleon.blocks
-      }
-    }
+    def blocks = getDayOfWeekBlocks(date[Calendar.DAY_OF_WEEK])
 
-    [requests:requests, datashows:datashows, day:day, blocks:blocks.call()]
+    [requests: requests, datashows: datashows, day: day, blocks: blocks]
+  }
+
+  def getDayOfWeekBlocks(Integer dayOfWeek) {
+    if (dayOfWeek == 1) {
+      grailsApplication.config.ni.edu.uccleon.sunday.blocks
+    } else if (dayOfWeek == 7) {
+      grailsApplication.config.ni.edu.uccleon.saturday.blocks
+    } else {
+      grailsApplication.config.ni.edu.uccleon.blocks
+    }
   }
 
   def mergedClassrooms() {

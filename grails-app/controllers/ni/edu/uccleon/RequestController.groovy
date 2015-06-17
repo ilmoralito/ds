@@ -156,8 +156,9 @@ class RequestController {
     def userInstance = session?.user
     def role = userInstance?.role
     def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-    Date from = requestFromDate ?: new Date()
-    Date to = requestToDate ?: new Date()
+    def today = new Date()
+    Date from = requestFromDate ?: today
+    Date to = requestToDate ?: today
 
     if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
       requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
@@ -165,8 +166,17 @@ class RequestController {
       requests = (role == "admin") ? Request.todayRequest().list() : Request.listByUser(userInstance).findAllByStatus("pending")
     }
 
+    def blocks = requestService.getDayOfWeekBlocks(today[Calendar.DAY_OF_WEEK])
+    def requestsByBlock = []
+
+    //group requests by starting block
+    (0..blocks).collect { block ->
+      def node = [block: block, requests: requests.findAll { r -> r.hours.block.min() == block }]
+      requestsByBlock.add node
+    }
+
     [
-      requests:requests,
+      requestsByBlock:requestsByBlock.findAll { it.requests },
       schoolsAndDepartments:schoolsAndDepartments,
       classrooms:requestService.mergedClassrooms(),
       users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
