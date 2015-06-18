@@ -325,6 +325,7 @@ class RequestController {
             return error()
           }
 
+          flow.req.user = User.findByEmail(params?.user)
           flow.req.dateOfApplication = cmd.dateOfApplication
           flow.req.classroom = cmd.classroom
           flow.req.school = cmd.school
