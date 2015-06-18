@@ -365,7 +365,7 @@ class RequestController {
           flow.req.save()
         }.to "done"
 
-        on("cancel").to "done"
+        on("delete").to "done"
       }
 
       done {
