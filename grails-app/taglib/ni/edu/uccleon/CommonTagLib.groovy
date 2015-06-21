@@ -35,6 +35,12 @@ class CommonTagLib {
 		}
 	}
 
+	def isAcademic = { attrs, body ->
+		if (session?.user?.role in ["coordinador", "asistente"]) {
+			out << body()
+		}
+	}
+
 	def requestStatus = {attrs, body ->
 		def status = attrs.status
 

@@ -42,6 +42,11 @@
 	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
 		<g:link controller="user" action="profile">Perfil</g:link>
 	</li>
+	<ds:isAcademic>
+		<li class="${actionName == 'coordsAndRooms' ? 'active' : ''}">
+			<g:link controller="user" action="coordsAndRooms">Roster</g:link>
+		</li>
+	</ds:isAcademic>
 	<ds:isUser>
 		<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
 	</ds:isUser>
