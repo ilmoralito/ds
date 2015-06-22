@@ -37,6 +37,18 @@ class BootStrap {
 
         hotch.save(failOnError:true)
 
+        def bonita = new User(
+          email:"bonita@ucc.edu.ni",
+          password:"123",
+          role:"user",
+          fullName:"Bonita Martinez",
+          enabled:true,
+          schools:[theSchools[6]],
+          classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
+        )
+
+        bonita.save(failOnError: true)
+
         def peluso = new User(
           email:"peluso@yahoo.com",
           password:"123",

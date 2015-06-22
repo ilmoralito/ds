@@ -17,8 +17,16 @@ class User implements Serializable {
     password blank:false
     role maxSize:255, inList:Holders.config.ni.edu.uccleon.roles as List
     fullName blank:false
-    schools nullable:false
-    classrooms nullable:false
+    schools validator: { schools, user ->
+      if (!schools?.size()) {
+        "notValid"
+      }
+    }
+    classrooms validator: { classrooms, user ->
+      if (!classrooms?.size()) {
+       "notValid"
+      }
+    }
   }
 
   static namedQueries = {

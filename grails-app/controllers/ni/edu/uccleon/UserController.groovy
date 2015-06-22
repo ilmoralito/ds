@@ -22,6 +22,75 @@ class UserController {
     updateUserRole: "POST"
   ]
 
+  def coordsAndRoomsFlow = {
+    init {
+      action {
+        flow.userCoordinations = session?.user?.refresh()?.schools as List
+
+        if (flow.userCoordinations.size() > 1) {
+          coordinations()
+        } else {
+          flow.coordination = flow.userCoordinations[0]
+          roster()
+        }
+      }
+
+      on("coordinations").to "coordinations"
+      on("roster").to "roster"
+    }
+
+    coordinations {
+      on("confirm") {
+        flow.coordination = params?.coordination
+        if (flow.users) {
+          flow.users.collect { it.refresh() }
+        }
+
+        def query = User.where {
+          enabled == true && role == "user"
+        }
+
+        flow.users = query.list()
+
+
+        if (!flow.coordination) {
+          flash.message = "Selecciona una coordinacion"
+          return error()
+        }
+      }.to "roster"
+    }
+
+    roster {
+      on("back").to "coordinations"
+    }
+
+    done {
+      redirect controller:"request", action:"listOfPendingApplications"
+    }
+  }
+
+  def updateUserCoordination(Integer id, String coordination, Boolean state) {
+    def user = User.get id
+
+    if (state) {
+      user.addToSchools coordination
+    } else {
+      user.removeFromSchools coordination
+    }
+
+    if (!user.save()) {
+      user.errors.allErrors.each { error ->
+        log.error "[$error.field: $error.defaultMessage]"
+      }
+    }
+
+    render(contentType: "application/json") {
+      error = user.hasErrors()
+      email = user.email
+      fullName = user.fullName
+    }
+  }
+
   def list() {
     def users
     def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
