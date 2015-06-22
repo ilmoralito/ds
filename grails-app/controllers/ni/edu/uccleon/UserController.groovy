@@ -31,6 +31,7 @@ class UserController {
           coordinations()
         } else {
           flow.coordination = flow.userCoordinations[0]
+          flow.users = User.findAllByEnabledAndRole true, "user"
           roster()
         }
       }
@@ -46,12 +47,7 @@ class UserController {
           flow.users.collect { it.refresh() }
         }
 
-        def query = User.where {
-          enabled == true && role == "user"
-        }
-
-        flow.users = query.list()
-
+        flow.users = User.findAllByEnabledAndRole true, "user"
 
         if (!flow.coordination) {
           flash.message = "Selecciona una coordinacion"
