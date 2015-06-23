@@ -57,4 +57,8 @@ modules = {
     dependsOn "app"
     resource url: "js/roster.js"
   }
+
+  login {
+    resource url:"js/login.js"
+  }
 }
