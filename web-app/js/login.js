@@ -2,8 +2,7 @@ var LoginFocus = (function() {
 	return {
 		setFocus: function() {
 			var email = document.querySelector("#email"),
-					password = document.querySelector("#password"),
-					send = document.querySelector("#send");
+					password = document.querySelector("#password");
 
 			if (email.value) {
 				password.focus();
