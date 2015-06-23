@@ -3,26 +3,8 @@
 	<button type="submit" class="btn">Listar</button>
 </g:form>
 
-<!--
-<ds:isUser>
-	<div class="btn-group" style="margin:-10px 0 10px 0;">
-	  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-    	Crear solicitud
-    <span class="caret"></span>
-  	</a>
-	  <ul class="dropdown-menu">
-			<li><g:link controller="request" action="createRequest" params="[type:'express']">Expreso</g:link></li>
-			<li><g:link controller="request" action="createRequest">General</g:link></li>
-			<li class=divider></li>
-			<li><g:link controller="request" action="multipleRequests" params="[type:'dates']">Fechas</g:link></li>
-			<li><g:link controller="request" action="multipleRequests" params="[type:'interval']">Intervalo</g:link></li>
-	   </ul>
-	</div>
-</ds:isUser>
--->
-
 <g:if test="${session?.user?.role in ['coordinador', 'asistente', 'administrativo']}">
-	<g:link controller="request" action="createRequest" class="btn btn-primary btn-block" style="margin: -10px 0 10px 0;">
+	<g:link controller="request" action="create" class="btn btn-primary btn-block" style="margin: -10px 0 10px 0;">
 		Crear solicitud
 	</g:link>
 </g:if>
@@ -44,7 +26,7 @@
 	</li>
 	<ds:isAcademic>
 		<li class="${actionName == 'coordsAndRooms' ? 'active' : ''}">
-			<g:link controller="user" action="coordsAndRooms">Roster</g:link>
+			<g:link controller="user" action="admin">Roster</g:link>
 		</li>
 	</ds:isAcademic>
 	<ds:isUser>

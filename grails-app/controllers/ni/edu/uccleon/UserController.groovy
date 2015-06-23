@@ -19,8 +19,13 @@ class UserController {
     profile:["GET", "POST"],
     schoolsAndDepartments:["GET", "POST"],
     classrooms:["GET", "POST"],
-    updateUserRole: "POST"
+    updateUserRole: "POST",
+    admin: "GET"
   ]
+
+  def admin() {
+    redirect action: "coordsAndRooms"
+  }
 
   def coordsAndRoomsFlow = {
     init {

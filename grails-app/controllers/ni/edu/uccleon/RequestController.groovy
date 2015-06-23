@@ -30,7 +30,8 @@ class RequestController {
     requestsByCoordination: "GET",
     userStatistics: "GET",
     userStatisticsDetail: "GET",
-    listOfPendingApplications: "GET"
+    listOfPendingApplications: "GET",
+    create: "GET"
   ]
 
   private getMonths() {
@@ -222,6 +223,10 @@ class RequestController {
       }
 
       [results: results]
+    }
+
+    def create() {
+      redirect action: "createRequest"
     }
 
     def createRequestFlow = {
