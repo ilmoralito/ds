@@ -94,26 +94,94 @@ log4j = {
 }
 
 ni.edu.uccleon.data = [
-  [coordination: "Ciencias Economicas Empresariales", datashow: 1],
-  [coordination: "Administracion Turistica y Hotelera", datashow: 2],
-  [coordination: "Ciencias Juridicas Empresariales", datashow: 3],
-  [coordination: "Ciencias Agragrias", datashow: 4],
-  [coordination: "Ingenieria e Informatica", datashow: 5],
-  [coordination: "Estudios por encuentro superior", datashow: 6],
-  [coordination: "Arquitectura", datashow: 7],
-  [coordination: "Ingles", datashow: 8],
-  [coordination: "Especializacion", datashow: [4, 5, 6, 7, 8, 9, 10]],
-  [coordination: "Administracion", datashow: [8, 9]],
-  [coordination: "Protocolo", datashow: [8, 9]],
-  [coordination: "Promotoria", datashow: [8, 9]],
-  [coordination: "Direccion Academica", datashow: [8, 9]],
-  [coordination: "Vice Rectoria General", datashow: [8, 9]],
-  [coordination: "Registro", datashow: [8, 9]],
-  [coordination: "Recursos humanos", datashow: [8, 9]],
-  [coordination: "Vida Estudiantil", datashow: [8, 9]],
-  [coordination: "Desarrollo Proyeccion", datashow: [8, 9]],
-  [coordination: "Transporte", datashow: [8, 9]],
-  [coordination: "Escuela de manejo", datashow: [8, 9]]
+  [
+    coordination: "Ciencias Economicas Empresariales",
+    datashow: [1, 1, 1, 1, 1, 1, 1]
+  ],
+  [
+    coordination: "Administracion Turistica y Hotelera",
+    datashow: [2, 2, 2, 2, 2, 2, 2]
+  ],
+  [
+    coordination: "Ciencias Juridicas Empresariales",
+    datashow: [3, 3, 3, 3, 3, 3, 3]
+  ],
+  [
+    coordination: "Ciencias Agragrias",
+    datashow: [4, 4, 4, 4, 4, 4, 4]
+  ],
+  [
+    coordination: "Ingenieria e Informatica",
+    datashow: [5, 5, 5, 5, 5, 5, 5]
+  ],
+  [
+    coordination: "Estudios por encuentro superior",
+    datashow: [6, 6, 6, 6, 6, 6, 6]
+  ],
+  [
+    coordination: "Arquitectura",
+    datashow: [7, 7, 7, 7, 7, 7, 7]
+  ],
+  [
+    coordination: "Ingles",
+    datashow: [8, 8, 8, 8, 8, 8, 8]
+  ],
+  [
+    coordination:"Especializacion",
+    datashow: [
+      [4, 5, 6, 7, 8, 9, 10],
+      [8, 9],
+      [8, 9],
+      [8, 9],
+      [8, 9],
+      [8, 9],
+      [4, 5, 6, 7, 8, 9, 10],
+    ]
+  ],
+  [
+    coordination: "Administracion",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Protocolo",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Promotoria",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Direccion Academica",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Vice Rectoria General",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Registro",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Recursos humanos",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Vida Estudiantil",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Desarrollo Proyeccion",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Transporte",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+  ],
+  [
+    coordination: "Escuela de manejo",
+    datashow: [8, 8, 8, 8, 8, 8, 8]
+  ]
 ]
 ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
 ni.edu.uccleon.schoolsAndDepartments = [

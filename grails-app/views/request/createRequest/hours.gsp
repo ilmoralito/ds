@@ -40,7 +40,7 @@
 		<g:each in="${1..datashows}" var="datashow" status="i">
 			<g:set var="datashow" value="${i + 1}"/>
 			<g:set var="size" value="${requests.findAll { it.datashow == datashow }.hours*.size()?.sum()}"/>
-			<g:set var="allowedDatashows" value="${data.find { it.coordination == req.school }.datashow}"/>
+			<g:set var="allowedDatashows" value="${data.find { it.coordination == req.school }.datashow[day - 1]}"/>
 			<g:set var="isDisabled" value="${!(datashow in allowedDatashows)}"/>
 
 			<div class="span2">
