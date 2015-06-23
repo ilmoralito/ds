@@ -17,9 +17,14 @@
     <div class="span5">
       <g:form action="profile">
         <g:textField name="email" value="${user?.email}" class="span5" autofocus="true" placeholder="Email"/>
-
         <g:textField name="fullName" value="${user?.fullName}" class="span5" placeholder="Nombre completo"/>
-        <br>
+
+        <ul>
+          <g:each in="${user?.schools}" var="coordination">
+            <li>${coordination}</li>
+          </g:each>
+        </ul>
+
         <g:submitButton name="send" value="Actualizar perfil" class="btn btn-primary"/>
       </g:form>
     </div>
@@ -29,11 +34,9 @@
         <g:hiddenField name="id" value="${session?.user?.id}"/>
 
         <g:passwordField name="password" class="span5" placeholder="Clave actual"/>
-
         <g:passwordField name="npassword" class="span5" placeholder="Nueva clavel"/>
-
         <g:passwordField name="rpassword" class="span5" placeholder="Repetir nueva clave"/>
-        <br>
+
         <g:submitButton name="send" value="Confirmar cambio de clave" class="btn btn-primary"/>
       </g:form>
     </div>
