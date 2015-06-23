@@ -17,7 +17,7 @@ class UserController {
   	updatePassword:"POST",
   	resetPassword:"GET",
     profile:["GET", "POST"],
-    schoolsAndDepartments:["GET", "POST"],
+    //schoolsAndDepartments:["GET", "POST"],
     classrooms:["GET", "POST"],
     updateUserRole: "POST",
     admin: "GET"
@@ -254,6 +254,7 @@ class UserController {
     [user:user]
   }
 
+  /*
   def schoolsAndDepartments() {
     def user = User.findByEmail(session?.user?.email)
 
@@ -267,6 +268,7 @@ class UserController {
 
     [user:user]
   }
+  */
 
   def classrooms() {
     def user = User.findByEmail(session?.user?.email)
