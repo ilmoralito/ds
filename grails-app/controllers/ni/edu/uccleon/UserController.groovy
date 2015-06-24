@@ -31,12 +31,12 @@ class UserController {
     init {
       action {
         flow.userCoordinations = session?.user?.refresh()?.schools as List
+        flow.users = User.findAllByEnabledAndRole true, "user", [sort: "fullName", order: "asc"]
 
         if (flow.userCoordinations.size() > 1) {
           coordinations()
         } else {
           flow.coordination = flow.userCoordinations[0]
-          flow.users = User.findAllByEnabledAndRole true, "user"
           roster()
         }
       }
@@ -52,8 +52,6 @@ class UserController {
           flow.users.collect { it.refresh() }
         }
 
-        flow.users = User.findAllByEnabledAndRole true, "user"
-
         if (!flow.coordination) {
           flash.message = "Selecciona una coordinacion"
           return error()
@@ -63,10 +61,6 @@ class UserController {
 
     roster {
       on("back").to "coordinations"
-    }
-
-    done {
-      redirect controller:"request", action:"listOfPendingApplications"
     }
   }
 
