@@ -14,18 +14,7 @@
         </div>
       </div>
 
-      <div class="row">
-        <g:each in="${allCls}" var="classroom">
-          <div class="span2">
-            <h4>${classroom.key}</h4>
-            <g:each in="${classroom.value}" var="c">
-              <label class="checkbox">
-                <g:checkBox name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}"/> ${c.name ?: c.code}
-              </label>
-            </g:each>
-          </div>
-        </g:each>
-      </div>
+      <g:render template="classrooms" model="[classrooms: allCls]"/>
     </g:form>
   </content>
 </g:applyLayout>

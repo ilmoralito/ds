@@ -61,6 +61,23 @@ class UserController {
 
     roster {
       on("back").to "coordinations"
+      on("classrooms") {
+        def user = User.get params?.id
+
+        if (!user) {
+          response.sendError 404
+        }
+
+        [
+          user: user,
+          classrooms: userService.getClassrooms(user.email),
+          userClassrooms: user.classrooms
+        ]
+      }.to "classrooms"
+    }
+
+    classrooms {
+      on("back").to "roster"
     }
   }
 
@@ -268,22 +285,6 @@ class UserController {
     def user = User.findByEmail(session?.user?.email)
     def departments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
     def userSchoolsOrDepartments = user.schools as List
-    def cls = grailsApplication.config.ni.edu.uccleon.cls
-    def c = [[code:"C101", name:"Auditorio menor"], [code:"C102", name:"Desarrollo y proyeccion"], [code:"C201", name:"Biblioteca"]]
-    def e = [[code:"E113", name:"Finanzas"], [code:"E114", name:"Administracion"], [code:"E204", name:"Sala de reuniones"], [code:"E219", name:"Sala de maestros"], [code:"E220", name:"Escuela de manejo"]]
-    def allCls = []
-
-    def isUserWithValidEmail = user.email.tokenize("@")
-
-    if (isUserWithValidEmail[1] != "ucc.edu.ni") {
-      allCls = cls.subMap(["C", "D", "E", "K"])
-
-      def validC = allCls["C"].findAll { !(it in c) }
-      def validE = allCls["E"].findAll { !(it in e) }
-
-      allCls["C"] = validC
-      allCls["E"] = validE
-    }
 
     if (request.method == "POST") {
       def classrooms = params.list("classrooms")
@@ -293,7 +294,11 @@ class UserController {
       }
     }
 
-    [user:user, allCls:allCls ?: cls, userClassrooms:user?.classrooms]
+    [
+      user: user,
+      allCls: userService.getClassrooms(session?.user?.email),
+      userClassrooms: user?.classrooms
+    ]
   }
 
   def updatePassword(updatePasswordCommand cmd) {

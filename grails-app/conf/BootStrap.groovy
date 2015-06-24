@@ -52,10 +52,10 @@ class BootStrap {
         def peluso = new User(
           email:"peluso@yahoo.com",
           password:"123",
-          role:"coordinador",
+          role:"user",
           fullName:"Peluso Martinez",
           enabled:true,
-          schools:[schools[1]],
+          schools:[schools[1], theSchools[7]],
           classrooms:[classrooms["D"][0]["code"], classrooms["D"][1]["code"], classrooms["D"][2]["code"]] // D101, D102, D103
         )
 

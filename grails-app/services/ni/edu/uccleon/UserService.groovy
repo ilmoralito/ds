@@ -5,6 +5,10 @@ import org.springframework.web.context.request.RequestContextHolder
 class UserService {
   def grailsApplication
 
+  def getAppConfiguration() {
+    grailsApplication.config.ni.edu.uccleon.cls
+  }
+
   def addSchoolsAndDepartments(schools, User user) {
     //delete all user schools
     def tmpSchools = []
@@ -58,5 +62,26 @@ class UserService {
     }
 
     results.sort()
+  }
+
+  def getClassrooms(String userEmail) {
+    def classrooms = grailsApplication.config.ni.edu.uccleon.cls
+    def c = [[code:"C101", name:"Auditorio menor"], [code:"C102", name:"Desarrollo y proyeccion"], [code:"C201", name:"Biblioteca"]]
+    def e = [[code:"E113", name:"Finanzas"], [code:"E114", name:"Administracion"], [code:"E204", name:"Sala de reuniones"], [code:"E219", name:"Sala de maestros"], [code:"E220", name:"Escuela de manejo"]]
+    def allClassrooms = []
+
+    def isUserWithValidEmail = userEmail.tokenize("@")
+
+    if (isUserWithValidEmail[1] != "ucc.edu.ni") {
+      allClassrooms = classrooms.subMap(["C", "D", "E", "K"])
+
+      def validC = allClassrooms["C"].findAll { !(it in c) }
+      def validE = allClassrooms["E"].findAll { !(it in e) }
+
+      allClassrooms["C"] = validC
+      allClassrooms["E"] = validE
+    }
+
+    allClassrooms ?: classrooms
   }
 }

@@ -7,7 +7,7 @@
 	<content tag="main">
 		<div class="row">
 			<div class="span10">
-				<g:link event="back" class="pull-right">Coordinaciones</g:link>
+				<g:link event="back" class="pull-right">Regresar</g:link>
 			</div>
 		</div>
 
@@ -20,8 +20,10 @@
 								<g:checkBox name="users" value="${user.email}" checked="${coordination in user.schools}" data-id="${user.id}" data-coordination="${coordination}"/>
 							</td>
 							<td>${user.fullName}</td>
-							<td>
-								<!--aulas-->
+							<td width="1">
+								<g:if test="${coordination in user.schools}">
+									<g:link event="classrooms" params="[id:user.id]">Aulas</g:link>
+								</g:if>
 							</td>
 						</tr>
 					</g:each>
