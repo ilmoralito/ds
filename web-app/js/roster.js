@@ -2,7 +2,7 @@ var Roster = (function(){
 	return {
 		toggle: function(dataset, self) {
 			$.ajax({
-				url: "updateUserCoordination/",
+				url: "addingOrRemovingUserCoordinationsOrClassrooms/",
 				data: dataset,
 				success: function(result) {
 					var td = self.parent().parent().find("td:last-child");

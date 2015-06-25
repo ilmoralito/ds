@@ -17,7 +17,7 @@
 					<g:each in="${users}" var="user">
 						<tr>
 							<td width="1">
-								<g:checkBox name="users" value="${user.email}" checked="${coordination in user.schools}" data-id="${user.id}" data-coordination="${coordination}"/>
+								<g:checkBox name="users" value="${user.email}" checked="${coordination in user.schools}" data-id="${user.id}" data-data="${coordination}" data-flag="coordination"/>
 							</td>
 							<td>${user.fullName}</td>
 							<td width="1">

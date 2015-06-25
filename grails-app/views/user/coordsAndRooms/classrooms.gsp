@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
 	<head>
 		<title>Aulas</title>
-		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, classrooms"/>
 	</head>
 
 	<content tag="main">
@@ -14,5 +14,9 @@
 		<h4>Aulas de ${user.fullName}</h4>
 
 		<g:render template="classrooms" model="[classrooms: classrooms]"/>
+
+		<g:javascript>
+			window.ajaxURL = "${createLink(controller: 'user', action: 'addingOrRemovingUserCoordinationsOrClassrooms')}"
+		</g:javascript>
 	</content>
 </g:applyLayout>

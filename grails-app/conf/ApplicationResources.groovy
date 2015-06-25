@@ -60,6 +60,11 @@ modules = {
     resource url: "js/roster.js"
   }
 
+  classrooms {
+    dependsOn "app"
+    resource url: "js/classrooms.js"
+  }
+
   login {
     resource url: "js/login.js"
   }

@@ -5,7 +5,7 @@
 
       <g:each in="${classroom.value}" var="c">
         <label class="checkbox">
-          <g:checkBox name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}"/> ${c.name ?: c.code}
+          <g:checkBox name="classrooms" value="${c.code}" checked="${userClassrooms?.contains(c.code)}" data-id="${user.id}" data-data="${c.code}" data-flag="classrooms"/> ${c.name ?: c.code}
         </label>
       </g:each>
     </div>

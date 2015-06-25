@@ -68,6 +68,10 @@ class UserController {
           response.sendError 404
         }
 
+        if (flow.users) {
+          flow.users.collect { it.refresh() }
+        }
+
         [
           user: user,
           classrooms: userService.getClassrooms(user.email),
@@ -81,16 +85,24 @@ class UserController {
     }
   }
 
-  def updateUserCoordination(Integer id, String coordination, Boolean state) {
+  def addingOrRemovingUserCoordinationsOrClassrooms(Integer id, String data, String flag, Boolean state) {
     def user = User.get id
 
     if (state) {
-      user.addToSchools coordination
+      if (flag == "classrooms") {
+        user.addToClassrooms data
+      } else {
+        user.addToSchools data
+      }
     } else {
-      user.removeFromSchools coordination
+      if (flag == "classrooms") {
+        user.removeFromClassrooms data
+      } else {
+        user.removeFromSchools data
+      }
     }
 
-    if (!user.save()) {
+    if (!user.save(flush: true)) {
       user.errors.allErrors.each { error ->
         log.error "[$error.field: $error.defaultMessage]"
       }
