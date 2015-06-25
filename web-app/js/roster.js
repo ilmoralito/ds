@@ -1,12 +1,18 @@
 var Roster = (function(){
 	return {
-		add: function(dataset) {
+		toggle: function(dataset, self) {
 			$.ajax({
 				url: "updateUserCoordination/",
 				data: dataset,
 				success: function(result) {
-					if (result.error === "true") {
-						alert("Operacion no permitida. Profesor " + result.fullName + " unica coordinacion: " + dataset.coordination);
+					var td = self.parent().parent().find("td:last-child");
+
+					td.find("a").toggleClass("show hide");
+
+					if (result.error) {
+						swal("Accion cancelada", "No se puede eliminar el usuario solo posee una coordinacion")
+						self.attr("checked", true);
+						td.find("a").addClass("show");
 					};
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
@@ -22,5 +28,5 @@ $(":checkbox").on("change", function() {
 			dataset = _this.data();
 
 	dataset.state = _this.is(":checked");
-	Roster.add(dataset);
+	Roster.toggle(dataset, _this);
 })

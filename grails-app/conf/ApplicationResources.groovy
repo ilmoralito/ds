@@ -55,10 +55,12 @@ modules = {
 
   roster {
     dependsOn "app"
+    resource url: "css/sweetalert.css"
+    resource url: "js/sweetalert.min.js"
     resource url: "js/roster.js"
   }
 
   login {
-    resource url:"js/login.js"
+    resource url: "js/login.js"
   }
 }

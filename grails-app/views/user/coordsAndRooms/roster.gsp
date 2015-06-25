@@ -21,9 +21,9 @@
 							</td>
 							<td>${user.fullName}</td>
 							<td width="1">
-								<g:if test="${coordination in user.schools}">
-									<g:link event="classrooms" params="[id:user.id]">Aulas</g:link>
-								</g:if>
+								<g:link event="classrooms" params="[id:user.id]" class="${coordination in user.schools ? 'show' : 'hide'}">
+									Aulas
+								</g:link>
 							</td>
 						</tr>
 					</g:each>
