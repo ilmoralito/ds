@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="span10">
-		<ds:isUser>
+		<ds:isNotAdmin>
 			<div class="pull-right">
 				<g:link action="listOfPendingApplications" class="btn ${actionName == 'listOfPendingApplications' ? 'active' : ''}">
 					Pendientes
@@ -14,6 +14,6 @@
 					</g:link>
 				</g:if>
 			</div>
-		</ds:isUser>
+		</ds:isNotAdmin>
 	</div>
 </div>

@@ -29,9 +29,9 @@
 			<g:link controller="user" action="admin">Roster</g:link>
 		</li>
 	</ds:isAcademic>
-	<ds:isUser>
+	<ds:isNotAdmin>
 		<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
-	</ds:isUser>
+	</ds:isNotAdmin>
 		<li><g:link controller="user" action="logout">Salir</g:link></li>
 	</ul>
 </ul>

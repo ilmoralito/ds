@@ -29,7 +29,7 @@ class CommonTagLib {
 		}
 	}
 
-	def isUser = { attrs, body ->
+	def isNotAdmin = { attrs, body ->
 		if (session?.user?.role != "admin") {
 			out << body()
 		}
