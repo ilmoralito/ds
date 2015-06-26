@@ -9,13 +9,13 @@ class CommonFilters {
 
         if (!session?.user && controllerName != "user" && actionName != "activity") {
           flash.message = "acceso.denegado"
-          redirect controller:"user"
+          redirect controller:"user", action: "login"
           return false
         }
 
         if (!session?.user && controllerName == "user" && !publicActions.contains(actionName)) {
           flash.message = "acceso.denegado"
-          redirect controller:"user"
+          redirect controller:"user", action: "login"
           return false
         }
       }
