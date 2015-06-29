@@ -51,13 +51,15 @@ class UserService {
   def transformUserClassrooms(List userClassrooms) {
     def classrooms = grailsApplication.config.ni.edu.uccleon.cls
     def results = userClassrooms.collect { c ->
-      def zone = c[0]
-      def target = classrooms[zone].find { it.code == c }
-
-      if (target.containsKey("name")) {
-        target
+      if (classrooms["undefined"].find { it.code == c }) {
+        [code: c, name: c]
       } else {
-        [code:target.code, name:target.code]
+        def target = classrooms[c[0]].find { it.code == c }
+        if (target.containsKey("name")) {
+          target
+        } else {
+          [code:target.code, name:target.code]
+        }
       }
     }
 
