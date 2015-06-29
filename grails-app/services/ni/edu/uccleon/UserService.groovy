@@ -63,7 +63,7 @@ class UserService {
       }
     }
 
-    results.sort()
+    results.sort { it.name }
   }
 
   def getClassrooms(String userEmail) {
