@@ -240,7 +240,7 @@ ni.edu.uccleon.cls = [
       [code: "D103"],
       [code: "D104"],
       [code: "D105"],
-      [code: "D109"],
+      [code: "D109", name: "Sala de audiovisuales"],
       [code: "D201"],
       [code: "D202"],
       [code: "D203"],
