@@ -43,11 +43,20 @@ class RequestController {
   }
 
   def listOfPendingApplications() {
-    def query = Request.where {
-      user == session?.user && status == "pending"
+    def requests = Request.findAllByUserAndStatus session?.user, "pending"
+    def classrooms = grailsApplication.config.ni.edu.uccleon.cls
+  	def codes = classrooms.keySet() as List
+
+    requests.collect { r ->
+    	def code = r.classroom[0]
+    	def k = code in codes[0..4] && r.classroom.size() == 4 ? code : "undefined"
+    	def t = classrooms[k].find { it.code == r.classroom }
+
+    	r.classroom = t.containsKey("name") ? t.name : t.code
+    	r.discard()
     }
 
-    [results: query.list().groupBy { it.dateOfApplication }.sort { it.key }]
+    [results: requests.groupBy { it.dateOfApplication }.sort { it.key }]
   }
 
   def userStatistics() {
