@@ -5,6 +5,7 @@ import grails.util.Holders
 class RequestController {
   def userService
   def requestService
+  def classroomService
   def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
 
   static defaultAction = "list"
@@ -44,19 +45,9 @@ class RequestController {
 
   def listOfPendingApplications() {
     def requests = Request.findAllByUserAndStatus session?.user, "pending"
-    def classrooms = grailsApplication.config.ni.edu.uccleon.cls
-  	def codes = classrooms.keySet() as List
+  	def results = classroomService.transform(requests)
 
-    requests.collect { r ->
-    	def code = r.classroom[0]
-    	def k = code in codes[0..4] && r.classroom.size() == 4 ? code : "undefined"
-    	def t = classrooms[k].find { it.code == r.classroom }
-
-    	r.classroom = t.containsKey("name") ? t.name : t.code
-    	r.discard()
-    }
-
-    [results: requests.groupBy { it.dateOfApplication }.sort { it.key }]
+    [results: results.groupBy { it.dateOfApplication }.sort { it.key }]
   }
 
   def userStatistics() {
