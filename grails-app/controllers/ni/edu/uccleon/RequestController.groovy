@@ -164,7 +164,7 @@ class RequestController {
     if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
       requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
     } else {
-      requests = (role == "admin") ? Request.todayRequest().list() : Request.listByUser(userInstance).findAllByStatus("pending")
+      requests = Request.todayRequest().list()
     }
 
     def blocks = requestService.getDayOfWeekBlocks(today[Calendar.DAY_OF_WEEK])
