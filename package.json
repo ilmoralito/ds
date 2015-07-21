@@ -1,0 +1,26 @@
+{
+  "name": "ds",
+  "version": "1.0.0",
+  "description": "build tasks",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ilmoralito/ds.git"
+  },
+  "author": "amakenadog@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilmoralito/ds/issues"
+  },
+  "homepage": "https://github.com/ilmoralito/ds",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2"
+  }
+}
