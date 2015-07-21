@@ -61,4 +61,5 @@ stacktrace.log
 *.iws
 .env
 
+# node
 /node_modules
