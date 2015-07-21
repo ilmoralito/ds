@@ -95,36 +95,36 @@ log4j = {
 
 ni.edu.uccleon.data = [
   [
-    coordination: "Ciencias Economicas Empresariales",
+    coordination: "Industrial",
     datashow: [1, 1, 1, 1, 1, 1, 1]
   ],
   [
-    coordination: "Administracion Turistica y Hotelera",
+    coordination: "CPF, EG, MP",
     datashow: [2, 2, 2, 2, 2, 2, 2]
   ],
   [
-    coordination: "Ciencias Juridicas Empresariales",
+    coordination: "AE, AETH, CI, D",
     datashow: [3, 3, 3, 3, 3, 3, 3]
   ],
   [
-    coordination: "Ciencias Agragrias",
+    coordination: "Arquitectura y civil",
     datashow: [4, 4, 4, 4, 4, 4, 4]
   ],
   [
-    coordination: "Ingenieria e Informatica",
+    coordination: "Sistemas y diseno grafico",
     datashow: [5, 5, 5, 5, 5, 5, 5]
   ],
   [
-    coordination: "Estudios por encuentro superior",
-    datashow: [10, 6, 6, 6, 6, 6, 6]
+    coordination: "Ingles",
+    datashow: [6, 6, 6, 6, 6, 6, 6]
   ],
   [
-    coordination: "Arquitectura",
+    coordination: "Agronomia",
     datashow: [7, 7, 7, 7, 7, 7, 7]
   ],
   [
-    coordination: "Ingles",
-    datashow: [8, 8, 8, 8, 8, 8, 8]
+    coordination: "FESE",
+    datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
   ],
   [
     coordination:"Especializacion",
@@ -180,20 +180,20 @@ ni.edu.uccleon.data = [
   ],
   [
     coordination: "Escuela de manejo",
-    datashow: [8, 8, 8, 8, 8, 8, 8]
+    datashow: [6, 6, 6, 6, 6, 6, 6]
   ]
 ]
 ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
 ni.edu.uccleon.schoolsAndDepartments = [
   schools: [
-    "Ciencias Economicas Empresariales",
-    "Administracion Turistica y Hotelera",
-    "Ciencias Juridicas Empresariales",
-    "Ciencias Agragrias",
-    "Ingenieria e Informatica",
-    "Estudios por encuentro superior",
-    "Arquitectura",
-    "Ingles"
+    "Industrial",
+    "CPF, EG, MP",
+    "AE, AETH, CI, D",
+    "Arquitectura y civil",
+    "Sistemas y diseno grafico",
+    "Ingles",
+    "Ingles",
+    "FESE"
   ],
   departments: [
     "Especializacion",
