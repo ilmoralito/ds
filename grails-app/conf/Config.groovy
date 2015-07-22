@@ -300,7 +300,7 @@ ni.edu.uccleon.sunday.datashows = 8
 ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3
 
-grails.plugins.twitterbootstrap.fixtaglib = true
+//grails.plugins.twitterbootstrap.fixtaglib = true
 
 grails.mail.default.from="mario.martinez@ucc.edu.ni"
 
