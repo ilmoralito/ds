@@ -192,7 +192,7 @@ ni.edu.uccleon.schoolsAndDepartments = [
     "Arquitectura y civil",
     "Sistemas y diseno grafico",
     "Ingles",
-    "Ingles",
+    "Agronomia",
     "FESE"
   ],
   departments: [
