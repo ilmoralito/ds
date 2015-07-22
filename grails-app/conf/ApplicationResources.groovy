@@ -66,6 +66,6 @@ modules = {
   }
 
   login {
-    resource url: "js/login.js"
+    resource url: "js/dest/login.min.js"
   }
 }
