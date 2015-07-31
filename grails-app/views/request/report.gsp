@@ -7,31 +7,31 @@
 	<content tag="main">
 		<g:render template="reportNavBar"/>
 
-		<g:each in="${results.sort { -it.key }}" var="year">
-			<h4>${year.key}</h4>
-
-			<g:each in="${year.value}" var="month">
-				<h5 class="month">${month.key}</h5>
-
-				<table class="table ${currentYear == year.key && currentMonth == month.key ? 'show' : 'hide'} month-detail">
-					<colgroup>
-						<col span="1" style="width: 25%;">
-						<col span="1" style="width: 75%;">
-					</colgroup>
-					<g:each in="${month.value.sort{ -it.value }}" var="school">
+		<table class="table table-hover">
+			<tbody>
+					<g:each in="${results.sort {-it.key}}" var="y">
 						<tr>
-							<td style="border:0;" id="${year.key}${month.key}">
-								<g:link action="detail" params="[y:year.key, m:month.key, s:school.key]">
-									${school.key}
-								</g:link>
-							</td>
-							<td style="border:0;">
-								<div style="width:${school.value}px;" class="bar-chart">${school.value}</div>
-							</td>
+							<td colspan="2" style="border: 0;"><strong>${y.key}</strong></td>
 						</tr>
+
+						<g:each in="${y.value}" var="m">
+							<tr>
+								<td colspan="2"><strong>${m.key}</strong></td>
+							</tr>
+
+							<g:each in="${m.value.sort{ -it.value }}" var="s">
+								<tr>
+									<td style="width:20%;">
+										<g:link action="detail" params="[y:y.key, m:m.key, s:s.key]">
+											${s.key}
+										</g:link>
+									</td>
+									<td>${s.value}</td>
+								</tr>
+							</g:each>
+						</g:each>
 					</g:each>
-				</table>
-			</g:each>
-		</g:each>
+			</tbody>
+		</table>
 	</content>
 </g:applyLayout>

@@ -97,7 +97,7 @@ class RequestController {
 
   def report() {
     def date = new Date()
-    def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    def months = this.getMonths()
     def results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] } { it.school }.collectEntries { a ->
       [a.key, a.value.collectEntries { b->
         [months[b.key], b.value.collectEntries { c ->
@@ -106,7 +106,11 @@ class RequestController {
       }]
     }
 
-    [results:results, currentYear:date[Calendar.YEAR], currentMonth:months[date[Calendar.MONTH]]]
+    [
+      results: results,
+      currentYear: date[Calendar.YEAR],
+      currentMonth: months[date[Calendar.MONTH]]
+    ]
   }
 
   def detail(Integer y, String m, String s) {
