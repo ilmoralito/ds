@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
 	<head>
 		<title>Reporte por departamento</title>
-		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, reports"/>
+		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, app"/>
 	</head>
 
 	<content tag="main">
