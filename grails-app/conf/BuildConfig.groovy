@@ -1,4 +1,5 @@
-grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+//grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.work.dir = "target"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
@@ -22,13 +23,14 @@ grails.project.dependency.resolution = {
     repositories {
         inherits true // Whether to inherit repository definitions from plugins
 
-        grailsPlugins()
-        grailsHome()
-        grailsCentral()
         mavenLocal()
         mavenCentral()
+        grailsCentral()
+        grailsPlugins()
+        grailsHome()
+        mavenRepo 'http://repo.grails.org/grails'
 
-        mavenRepo "http://maven.springframework.org/milestone/"
+        //mavenRepo "http://maven.springframework.org/milestone/"
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
@@ -48,7 +50,8 @@ grails.project.dependency.resolution = {
     plugins {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.3"
-        runtime ":resources:1.1.6"
+        //runtime ":resources:1.1.6"
+        runtime ":resources:1.2.7"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -61,7 +64,7 @@ grails.project.dependency.resolution = {
 
         compile ':cache:1.0.1'
 
-        //mine plugins
+        //app plugins
         compile ":twitter-bootstrap:2.3.0"
         compile ":webxml:1.4.1"
         compile ":jquery-ui:1.8.24"
