@@ -95,6 +95,15 @@ class BootStrap {
 
         coco.save(failOnError: true)
 
+        def bonita2 = new User(
+          email: "bonita2@ucc.edu.ni",
+          password: "123",
+          role: "coordinador",
+          fullName: "Bonita2 Martinez",
+          schools: theSchools[7],
+          classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
+        ).save failOnError: true
+
         //request
         //peluso
         //express
