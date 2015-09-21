@@ -3,19 +3,11 @@ package ni.edu.uccleon
 class CommonFilters {
 
   def filters = {
-    security(controller:'*', action:'*') {
+    security(controller: "*", action: "*") {
       before = {
-        def publicActions = ["login"]
-
-        if (!session?.user && controllerName != "user" && actionName != "activity") {
-          flash.message = "acceso.denegado"
-          redirect controller:"user", action: "login"
-          return false
-        }
-
-        if (!session?.user && controllerName == "user" && !publicActions.contains(actionName)) {
-          flash.message = "acceso.denegado"
-          redirect controller:"user", action: "login"
+        if (controllerName == "request" && actionName != "activity" && !session?.user) {
+          flash.message = "Acceso denegado"
+          redirect controller: "request", action: "activity"
           return false
         }
       }

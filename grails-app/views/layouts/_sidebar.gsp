@@ -32,6 +32,6 @@
 	<ds:isNotAdmin>
 		<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
 	</ds:isNotAdmin>
-		<li><g:link controller="user" action="logout">Salir</g:link></li>
+		<li><g:link controller="logout">Salir</g:link></li>
 	</ul>
 </ul>

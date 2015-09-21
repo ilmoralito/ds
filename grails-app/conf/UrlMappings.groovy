@@ -7,7 +7,8 @@ class UrlMappings {
 			}
 		}
 
-		"/"(controller:"user", action:"login")
+		"/"(controller:"request", action:"activity")
+
 		"/normas"(view:"/normas")
 
 		"/request/create/$type?"(controller:"request", action:"create") {

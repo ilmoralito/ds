@@ -5,7 +5,7 @@ class UserController {
   def userService
   def emailConfirmationService
 
-  static defaultAction = "login"
+  static defaultAction = "profile"
   static allowedMethods = [
   	list:["GET", "POST"],
   	create:["GET", "POST"],
@@ -13,11 +13,9 @@ class UserController {
     enableDisableUserAccount:"POST",
     notification:"POST",
   	delete:"GET",
-  	login:["GET", "POST"],
   	updatePassword:"POST",
   	resetPassword:"GET",
     profile:["GET", "POST"],
-    //schoolsAndDepartments:["GET", "POST"],
     classrooms:["GET", "POST"],
     updateUserRole: "POST",
     admin: "GET"
@@ -277,22 +275,6 @@ class UserController {
     [user:user]
   }
 
-  /*
-  def schoolsAndDepartments() {
-    def user = User.findByEmail(session?.user?.email)
-
-    if (request.method == "POST") {
-      def schools = params.list("schools")
-
-      if (schools) {
-        userService.addSchoolsAndDepartments(schools, user)
-      }
-    }
-
-    [user:user]
-  }
-  */
-
   def classrooms() {
     def user = User.findByEmail(session?.user?.email)
     def departments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
@@ -329,20 +311,6 @@ class UserController {
     redirect action:"profile", params:[id:cmd.id]
   }
 
-  def login(String email, String password) {
-    if (request.post) {
-      def user = User.login(email, password).get()
-
-      if (!user) {
-        flash.message = "Usuario no registrado. Verifica credenciales"
-      } else {
-        session.user = user
-        redirect controller: "request", action: session?.user?.role == 'admin' ? 'list' : 'listOfPendingApplications'
-        return false
-      }
-    }
-  }
-
   def resetPassword(Integer id) {
   	def user = User.get(id)
 
@@ -361,11 +329,6 @@ class UserController {
 
   	flash.message = "dato.guardado"
   	redirect action:"show", params:[id:id]
-  }
-
-  def logout() {
-    session.user = null
-    redirect action:"login"
   }
 }
 

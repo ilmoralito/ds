@@ -2,7 +2,7 @@
 	<head>
 		<title>Activiades</title>
 		<g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, activity"/>
-		<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-collapse, app"/>
+		<g:set var="activityStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-collapse, app, login"/>
 		<r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
 	</head>
 
