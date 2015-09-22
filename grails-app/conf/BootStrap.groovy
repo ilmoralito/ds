@@ -106,7 +106,6 @@ class BootStrap {
 
         //request
         //peluso
-        //express
         def today = new Date().clearTime()
 
         def requestInstance = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[0], school:peluso.schools.collect{ it }[0], datashow:1, type:"express")
@@ -155,12 +154,21 @@ class BootStrap {
         pelusoRequestInstance2.save(failOnError:true)
 
         //hotch
-        def hotchRequestInstance1 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:1, type:"express")
+        def hotchRequestInstance1 = new Request (
+          dateOfApplication: today,
+          classroom: hotch.classrooms.collect{ it }[0],
+          school: hotch.schools.collect{ it }[0],
+          datashow: 1,
+          type: "express",
+          audio: true,
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem a aut ex beatae, aspernatur sapiente minus labore voluptatem nobis molestias inventore enim iure saepe minima tempore totam aperiam hic impedit."
+        )
+
         def hourInstance = new Hour(block:2)
 
         hotchRequestInstance1.addToHours hourInstance
         hotch.addToRequests hotchRequestInstance1
-        hotchRequestInstance1.save(failOnError:true)
+        hotchRequestInstance1.save failOnError: true
 
         def hotchRequestInstance2 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
         def hourInstance1 = new Hour(block:1)

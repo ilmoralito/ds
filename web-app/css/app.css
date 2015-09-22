@@ -84,3 +84,7 @@ h4.activity-heading {
 .filter-button {
 	margin-top:8px;
 }
+
+td.hasDetails { background: #EEE; }
+
+table.no-top-border td { border-top: 0; }

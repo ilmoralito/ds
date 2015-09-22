@@ -118,6 +118,12 @@ class Request implements Serializable {
     hours cascade: "all-delete-orphan"
   }
 
+  Boolean hasDetails() {
+    if (audio || screen || internet || description) {
+      true
+    }
+  }
+
   String toString() { dateOfApplication }
 
 }
