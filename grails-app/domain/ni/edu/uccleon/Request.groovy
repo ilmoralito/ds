@@ -59,10 +59,6 @@ class Request implements Serializable {
         "in" "classroom", classrooms
       }
 
-      if (types) {
-        "in" "type", types
-      }
-
       if (status) {
         "in" "status", status
       }

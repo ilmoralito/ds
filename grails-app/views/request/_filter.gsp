@@ -29,14 +29,3 @@
 		<option value="${department}" ${params.list('departments')?.contains(department) ? 'selected' : ''}>${department}</option>
 	</g:each>
 </select>
-
-<label for="types">Tipos</label>
-<label class="checkbox inline">
-	<g:checkBox name="types" value="common" checked="${params?.types?.contains('common')}"/>
-	General
-</label>
-
-<label class="checkbox inline">
-	<g:checkBox name="types" value="express" checked="${params?.types?.contains('express')}"/>
-	Expreso
-</label>

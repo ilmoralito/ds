@@ -600,10 +600,10 @@ class RequestController {
         }
       }
 
-      if (users || schools || departments || classrooms || types) {
+      if (users || schools || departments || classrooms) {
         def today = new Date()
 
-        requests = Request.filter(users, schools, departments, classrooms, types).requestFromTo(today, today).list()
+        requests = Request.filter(users, schools, departments, classrooms).requestFromTo(today, today).list()
       } else {
         requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
       }
