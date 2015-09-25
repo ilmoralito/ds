@@ -4,7 +4,7 @@
       <a class="brand" href="#">SSMA</a>
 
       <g:form controller="login" autocomplete="off" class="navbar-form pull-right">
-        <g:textField name="email" value="${params?.email}" placeholder="Email"/>
+        <input type="email" name="email" id="email" value="${params?.email}" placeholder="Email" />
         <g:passwordField name="password" placeholder="Clave"/>
         <g:submitButton name="send" value="Entrar" class="btn btn-primary"/>
       </g:form>
