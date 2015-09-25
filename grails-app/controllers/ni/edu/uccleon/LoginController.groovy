@@ -3,7 +3,7 @@ package ni.edu.uccleon
 class LoginController {
   def index(String email, String password) {
     def user = User.login(email, password).get()
-    def successAction = session?.user?.role == "admin" ? "list" : "listOfPendingApplications"
+    def successAction = user?.role == "admin" ? "list" : "listOfPendingApplications"
     def accessDeniedAction = "activity"
     def flag = false
 
