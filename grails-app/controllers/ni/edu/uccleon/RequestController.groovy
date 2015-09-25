@@ -570,11 +570,12 @@ class RequestController {
     }
 
     def activity(String dateSelected) {
+      //data for filter
       def users = params.list("users")
       def schools = params.list("schools")
       def departments = params.list("departments")
       def classrooms = params.list("classrooms")
-      def types = params.list("types")
+      
       def dateOfApplication = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
       def day = dateOfApplication[Calendar.DAY_OF_WEEK]
       def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
