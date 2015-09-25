@@ -28,7 +28,8 @@ grails.project.dependency.resolution = {
         grailsCentral()
         grailsPlugins()
         grailsHome()
-        mavenRepo 'http://repo.grails.org/grails'
+        //mavenRepo 'http://repo.grails.org/grails'
+        mavenRepo 'https://repo.grails.org/grails/plugins'
 
         //mavenRepo "http://maven.springframework.org/milestone/"
 
@@ -50,10 +51,10 @@ grails.project.dependency.resolution = {
     plugins {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.3"
-        runtime ":resources:1.2"
+        //runtime ":resources:1.2"
         //runtime ":resources:1.1.6"
         //runtime ":resources:1.2.7" ok in local
-        //runtime ':resources:1.2.14'
+        runtime ':resources:1.2.14'
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
