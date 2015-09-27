@@ -158,15 +158,16 @@ class BootStrap {
           dateOfApplication: today,
           classroom: hotch.classrooms.collect{ it }[0],
           school: hotch.schools.collect{ it }[0],
-          datashow: 1,
-          type: "express",
+          datashow: 10,
           audio: true,
           description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem a aut ex beatae, aspernatur sapiente minus labore voluptatem nobis molestias inventore enim iure saepe minima tempore totam aperiam hic impedit."
         )
 
-        def hourInstance = new Hour(block:2)
+        hotchRequestInstance1
+          .addToHours(new Hour(block: 0))
+          .addToHours(new Hour(block: 1))
+          .addToHours(new Hour(block: 2))
 
-        hotchRequestInstance1.addToHours hourInstance
         hotch.addToRequests hotchRequestInstance1
         hotchRequestInstance1.save failOnError: true
 

@@ -88,3 +88,7 @@ h4.activity-heading {
 td.hasDetails { background: #EEE; }
 
 table.no-top-border td { border-top: 0; }
+
+td.toName {
+	border-top: 0;
+}

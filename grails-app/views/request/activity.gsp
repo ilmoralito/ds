@@ -31,55 +31,54 @@
 
 							<g:each in="${1..datashows}" var="d">
 								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
+								<g:set var="blks" value="${req?.hours?.block?.sort()}"/>
+								<g:set var="toName" value="${req && block > blks?.getAt(0)}"/>
 								<g:set var="justAdded" value="${d == params.int('datashow') && block == params.int('block') ? 'justAdded' : ''}"/>
 								<g:set var="currentUser" value="${session?.user && session?.user?.email == req?.user?.email && !justAdded ? 'currentUser' : ''}"/>
 								<!--if current request has details and there is a logged user and user role is admin-->
 								<g:set var="hasDetails" value="${req?.hasDetails() && session?.user?.role == 'admin'}"/>
 
-								<td id="${req?.id}" class="activity requestInfoContainer ${justAdded} ${currentUser} ${hasDetails ? 'hasDetails' : ''}" data-datashow="${d}" data-block="${block}" data-doa="${dateSelected}">
+								<td id="${req?.id}" class="activity requestInfoContainer ${toName  ? 'toName' : ''} ${justAdded} ${currentUser} ${hasDetails ? 'hasDetails' : ''}" data-datashow="${d}" data-block="${block}" data-doa="${dateSelected}">
 									<g:if test="${req}">
-										<g:if test="${session?.user?.role == 'admin'}">
-											<div class="btn-group" style="position:absolute; top:1; right:3%;">
-												<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-													<span class="caret"></span>
-												</a>
-												<ul class="dropdown-menu">
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
-															Atendido
-														</g:link>
-													</li>
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
-															Ausente
-														</g:link>
-													</li>
-													<li>
-														<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
-															Cancelado
-														</g:link>
-													</li>
-													<g:if test="${hasDetails}">
-														<li class="divider"></li>
+										<g:if test="${!toName}">
+
+											<g:if test="${session?.user?.role == 'admin'}">
+												<div class="btn-group" style="position:absolute; top:1; right:3%;">
+													<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+														<span class="caret"></span>
+													</a>
+													<ul class="dropdown-menu">
 														<li>
-															<a href="#myModal" id="details" role="button" data-toggle="modal" data-description="${req?.description}" data-audio="${req?.audio}" data-screen="${req?.screen}" data-internet="${req?.internet}">
-																Detalle
-															</a>
+															<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'attended', dateSelected:dateSelected]">
+																Atendido
+															</g:link>
 														</li>
-													</g:if>
-												</ul>
-											</div>
+														<li>
+															<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'absent', dateSelected:dateSelected]">
+																Ausente
+															</g:link>
+														</li>
+														<li>
+															<g:link action="updateStatus" params="[id:req.id, path:actionName, status:'canceled', dateSelected:dateSelected]">
+																Cancelado
+															</g:link>
+														</li>
+														<g:if test="${hasDetails}">
+															<li class="divider"></li>
+															<li>
+																<a href="#myModal" id="details" role="button" data-toggle="modal" data-description="${req?.description}" data-audio="${req?.audio}" data-screen="${req?.screen}" data-internet="${req?.internet}">
+																	Detalle
+																</a>
+															</li>
+														</g:if>
+													</ul>
+												</div>
+											</g:if>
+
+											<p>${req.user.fullName}</p>
+											<ds:classroom room="${req.classroom}"/>
 										</g:if>
-										<p>${req.user.fullName}</p>
-										<ds:classroom room="${req.classroom}"/>
 									</g:if>
-									<g:else>
-										<!--
-										<g:if test="${session?.user?.role in allowedUsers}">
-											<g:link action="createRequestFromActivity" params="[dateOfApplication:dateSelected, datashow:d, block:block]" class="pull-right">+</g:link>
-										</g:if>
-										-->
-									</g:else>
 								</td>
 							</g:each>
 						</tr>
