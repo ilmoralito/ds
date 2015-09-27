@@ -7,8 +7,6 @@
 	</head>
 
 	<content tag="main">
-		<g:set var="dateSelected" value="${dateSelected.format('yyyy-MM-dd')}"/>
-
 		<g:if test="${requests || session?.user?.role in allowedUsers}">
 			<h4 class="activity-heading">${requests.size()} actividades ${dateSelected}</h4>
 
@@ -35,11 +33,10 @@
 								<g:set var="req" value="${requests.find { it.datashow == d && block in it.hours.block }}"/>
 								<g:set var="justAdded" value="${d == params.int('datashow') && block == params.int('block') ? 'justAdded' : ''}"/>
 								<g:set var="currentUser" value="${session?.user && session?.user?.email == req?.user?.email && !justAdded ? 'currentUser' : ''}"/>
-								<g:set var="isDraggable" value="${req && req?.user?.email == session?.user?.email}"/>
 								<!--if current request has details and there is a logged user and user role is admin-->
 								<g:set var="hasDetails" value="${req?.hasDetails() && session?.user?.role == 'admin'}"/>
 
-								<td id="${req?.id}" class="activity requestInfoContainer ${justAdded} ${currentUser} ${hasDetails ? 'hasDetails' : ''}" draggable="${isDraggable}" ondragstart="${isDraggable ? 'drag(event)' : ''}" ondrop="${!isDraggable && !req ? 'drop(event)' : ''}" ondragover="${!isDraggable && !req ? 'allowDrop(event)' : ''}" ondragend="dragend(event)" data-datashow="${d}" data-block="${block}" data-doa="${dateSelected}">
+								<td id="${req?.id}" class="activity requestInfoContainer ${justAdded} ${currentUser} ${hasDetails ? 'hasDetails' : ''}" data-datashow="${d}" data-block="${block}" data-doa="${dateSelected}">
 									<g:if test="${req}">
 										<g:if test="${session?.user?.role == 'admin'}">
 											<div class="btn-group" style="position:absolute; top:1; right:3%;">
@@ -74,9 +71,6 @@
 											</div>
 										</g:if>
 										<p>${req.user.fullName}</p>
-										<g:if test="${req.type == 'common'}">
-											<i class="icon-user"></i>
-										</g:if>
 										<ds:classroom room="${req.classroom}"/>
 									</g:if>
 									<g:else>
@@ -128,12 +122,14 @@
 	</content>
 
 	<content tag="col1">
-		<h4 class="activity-heading">Filtrar por</h4>
-		<g:form action="activity" autocomplete="off">
-			<g:hiddenField name="dateSelected" value="${dateSelected}"/>
-			<g:render template="filter"/>
+		<g:if test="${layout != 'oneColumn'}">
+			<h4 class="activity-heading">Filtrar por</h4>
+			<g:form action="activity" autocomplete="off">
+				<g:hiddenField name="dateSelected" value="${dateSelected}"/>
+				<g:render template="filter"/>
 
-			<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block filter-button"/>
-		</g:form>
+				<g:submitButton name="submit" value="Filtrar" class="btn btn-primary btn-block filter-button"/>
+			</g:form>
+		</g:if>
 	</content>
 </g:applyLayout>

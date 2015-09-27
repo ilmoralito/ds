@@ -575,21 +575,10 @@ class RequestController {
       def schools = params.list("schools")
       def departments = params.list("departments")
       def classrooms = params.list("classrooms")
-      
+
       def dateOfApplication = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
       def day = dateOfApplication[Calendar.DAY_OF_WEEK]
-      def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
       def requests
-
-      def blocks = {
-        if (day == 7) {
-          grailsApplication.config.ni.edu.uccleon.saturday.blocks
-        } else if (day == 1) {
-          grailsApplication.config.ni.edu.uccleon.sunday.blocks
-        } else {
-          grailsApplication.config.ni.edu.uccleon.blocks
-        }
-      }
 
       def layout = {
         if (!session?.user) {
@@ -609,18 +598,23 @@ class RequestController {
         requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
       }
 
-      [
+      def arrs = [
         requests: requests,
-        blocks: blocks.call(),
-        day: day,
-        dateSelected: dateOfApplication,
+        blocks: requestService.getDayOfWeekBlocks(day),
+        dateSelected: dateOfApplication.format('yyyy-MM-dd'),
         datashows: grailsApplication.config.ni.edu.uccleon.datashows,
-        layout: layout.call(),
-        schoolsAndDepartments: schoolsAndDepartments,
+        layout: layout(),
+        allowedUsers: ["coordinador", "asistente"],
+        schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,
         classrooms: requestService.mergedClassrooms(),
-        users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"]),
-        allowedUsers: ["coordinador", "asistente"]
+        users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
       ]
+
+      if (layout() == "oneColumn") {
+        arrs.subMap(["requests", "blocks", "dateSelected", "datashows", "layout", "allowedUsers"])
+      } else {
+        arrs
+      }
     }
 
     def todo(Integer id, Integer datashow, Integer block) {
