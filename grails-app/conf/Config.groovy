@@ -266,7 +266,7 @@ ni.edu.uccleon.cls = [
     [code: "E210"],
     [code: "E211"],
     [code: "E212"],
-    [code: "E213"],
+    [code: "E213", name: "Proyecto"],
     [code: "E214"],
     [code: "E215"],
     [code: "E216"],

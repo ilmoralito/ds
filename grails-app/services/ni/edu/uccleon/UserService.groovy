@@ -68,8 +68,19 @@ class UserService {
 
   def getClassrooms(String userEmail) {
     def classrooms = grailsApplication.config.ni.edu.uccleon.cls
-    def c = [[code:"C101", name:"Auditorio menor"], [code:"C102", name:"Desarrollo y proyeccion"], [code:"C201", name:"Biblioteca"]]
-    def e = [[code:"E113", name:"Finanzas"], [code:"E114", name:"Administracion"], [code:"E204", name:"Sala de reuniones"], [code:"E219", name:"Sala de maestros"], [code:"E220", name:"Escuela de manejo"]]
+    def c = [
+      [code:"C101", name:"Auditorio menor"],
+      [code:"C102", name:"Desarrollo y proyeccion"],
+      [code:"C201", name:"Biblioteca"]
+    ]
+    def e = [
+      [code:"E113", name:"Finanzas"],
+      [code:"E114", name:"Administracion"],
+      [code:"E204", name:"Sala de reuniones"],
+      [code:"E219", name:"Sala de maestros"],
+      [code:"E220", name:"Escuela de manejo"],
+      [code: "E213", name: "Proyecto"]
+    ]
     def allClassrooms = []
 
     def isUserWithValidEmail = userEmail.tokenize("@")
