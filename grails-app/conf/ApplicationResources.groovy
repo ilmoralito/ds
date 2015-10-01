@@ -59,7 +59,16 @@ modules = {
     resource url: "js/classrooms.js"
   }
 
+  /*
   login {
     resource url: "js/dest/login.min.js"
+  }
+  */
+
+  //show
+  //user info copy and paste
+  clipboard {
+    resource url: "components/clipboard/dist/clipboard.min.js"
+    resource url: "js/copy.js"
   }
 }

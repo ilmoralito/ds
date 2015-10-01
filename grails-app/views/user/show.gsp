@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
 	<head>
 		<title>${user?.fullName}</title>
-		<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+		<r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, clipboard"/>
 	</head>
 
 	<content tag="main">
@@ -13,7 +13,8 @@
 
 		<p>
 			<label for="">Correo</label>
-			${user?.email}
+			<input id="target" value="${user?.email}" />
+			<button class="btn btn-small trigger" data-clipboard-target="#target">Copiar email</button>
 		</p>
 
 		<g:if test="${user?.schools}">
