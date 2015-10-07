@@ -66,7 +66,16 @@
 														<g:if test="${hasDetails}">
 															<li class="divider"></li>
 															<li>
-																<a href="#myModal" id="details" role="button" data-toggle="modal" data-description="${req?.description}" data-audio="${req?.audio}" data-screen="${req?.screen}" data-internet="${req?.internet}">
+																<a href="#myModal"
+																	id="details"
+																	role="button"
+																	data-toggle="modal"
+																	data-description="${req?.description}"
+																	data-audio="${req?.audio}"
+																	data-screen="${req?.screen}"
+																	data-internet="${req?.internet}"
+																	data-user="${req?.user?.fullName}"
+																	data-classroom="${req?.classroom}">
 																	Detalle
 																</a>
 															</li>
@@ -93,7 +102,7 @@
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Detalle</h3>
+        <h4>Por <span id="user"></span> en <span id="classroom"></span></h4>
       </div>
       <div class="modal-body">
         <table class="table no-top-border">
