@@ -1,7 +1,6 @@
 @media screen and (max-width: 650px) {
 	td.requestInfoContainer {
 		font-size: .7em;
-		overflow: hidden;
 	}
 }
 
