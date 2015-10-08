@@ -780,7 +780,7 @@ class BuildRequestCommand implements Serializable {
   List hours
 
   static constraints = {
-    importFrom Request
+    importFrom Request, exclude: ["datashow"]
   }
 }
 

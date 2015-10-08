@@ -34,7 +34,7 @@ class Request implements Serializable {
     classroom blank:false, maxSize:255//TODO: add custom validator
     school blank:false
     description nullable:true, maxSize:10000
-    datashow nullable:true//TODO: range:0..grailsApplication.config.ni.edu.uccleon.datashows
+    datashow min: 1, max: Holders.config.ni.edu.uccleon.datashows
     type inList:["common", "express"], maxSize:255
     audio nullable:true
     screen nullable:true
