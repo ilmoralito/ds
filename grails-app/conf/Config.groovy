@@ -294,14 +294,9 @@ ni.edu.uccleon.blocks = 6
 ni.edu.uccleon.saturday.blocks = 3
 ni.edu.uccleon.sunday.blocks = 2
 ni.edu.uccleon.datashows = 10
-ni.edu.uccleon.week.datashows = 5
-ni.edu.uccleon.saturday.datashows = 8
-ni.edu.uccleon.sunday.datashows = 8
 
 ni.edu.uccleon.speakers = 2
 ni.edu.uccleon.screens = 3
-
-//grails.plugins.twitterbootstrap.fixtaglib = true
 
 grails.mail.default.from="mario.martinez@ucc.edu.ni"
 
