@@ -21,14 +21,14 @@
 	<li class="${(controllerName == 'request' && !(actionName in ['requestsBy', 'report', 'detail'])) ? 'active' : 'no-active'}">
 		<g:link controller="request" action="${session?.user?.role == 'admin' ? 'list' : 'listOfPendingApplications'}">Solicitudes</g:link>
 	</li>
-	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
-		<g:link controller="user" action="profile">Perfil</g:link>
-	</li>
 	<ds:isAcademic>
 		<li class="${actionName == 'coordsAndRooms' ? 'active' : ''}">
 			<g:link controller="user" action="admin">Roster</g:link>
 		</li>
 	</ds:isAcademic>
+	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
+		<g:link controller="user" action="profile">Perfil</g:link>
+	</li>
 	<ds:isNotAdmin>
 		<li class="${(!controllerName) ? 'active' : 'no-active'}"><g:link uri="/normas">Normas de uso</g:link></li>
 	</ds:isNotAdmin>
