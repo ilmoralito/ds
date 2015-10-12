@@ -17,14 +17,16 @@
 					<col span="1" style="width: 5%;">
 					<col span="1" style="width: 90%;">
 					<col span="1" style="width: 5%;">
-				 </colgroup>
-				<tbody>
+				</colgroup>
+				<thead>
 					<tr>
-						<td></td>
-						<td colspan="2">
+						<th></th>
+						<th colspan="2">
 							<input id="rosterFilterBox" name="rosterFilterBox" type="text" style="margin-bottom: 0;" placeholder="Filtrar">
-						</td>
+						</th>
 					</tr>
+				</thead>
+				<tbody>
 					<g:each in="${users}" var="user">
 						<tr>
 							<td style="text-align: center;">
