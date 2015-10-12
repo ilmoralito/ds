@@ -53,6 +53,7 @@ modules = {
     resource url: "css/sweetalert.css"
     resource url: "js/sweetalert.min.js"
     resource url: "js/roster.js"
+    resource url: "js/FilterBox.js"
   }
 
   classrooms {
