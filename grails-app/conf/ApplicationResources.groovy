@@ -61,12 +61,6 @@ modules = {
     resource url: "js/classrooms.js"
   }
 
-  /*
-  login {
-    resource url: "js/dest/login.min.js"
-  }
-  */
-
   //show
   //user info copy and paste
   clipboard {
