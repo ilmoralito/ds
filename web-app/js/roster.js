@@ -30,3 +30,19 @@ $(':checkbox').on('change', function() {
   dataset.state = _this.is(':checked');
   Roster.toggle(dataset, _this);
 });
+
+$("#rosterFilterBox").on("keyup", function(e) {
+  var text = $(this).val().toLowerCase();
+  var target = $(".userFullName");
+
+  target.each(function(index) {
+    var self = $(this);
+    var t = self.text().toLowerCase();
+
+    if (t.indexOf(text) === -1) {
+      self.parent().hide();
+    } else {
+      self.parent().show();
+    }
+  })
+});
