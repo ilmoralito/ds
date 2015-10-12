@@ -33,7 +33,7 @@ $(':checkbox').on('change', function() {
 
 $("#rosterFilterBox").on("keyup", function(e) {
   var text = $(this).val().toLowerCase();
-  var target = $(".userFullName");
+  var target = $(".target");
 
   target.each(function(index) {
     var self = $(this);

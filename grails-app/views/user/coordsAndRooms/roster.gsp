@@ -30,7 +30,7 @@
 							<td style="text-align: center;">
 								<g:checkBox name="users" value="${user.email}" checked="${coordination in user.schools}" data-id="${user.id}" data-data="${coordination}" data-flag="coordination"/>
 							</td>
-							<td class="userFullName">${user.fullName}</td>
+							<td class="target">${user.fullName}</td>
 							<td width="1">
 								<g:link event="classrooms" params="[id:user.id]" class="${coordination in user.schools ? 'show' : 'hide'}">
 									Aulas
