@@ -39,7 +39,8 @@ modules = {
   users {
     dependsOn "jquery"
     dependsOn "app"
-    resource url:"js/users.js"
+    resource url: "js/users.js"
+    resource url: "js/FilterBox.js"
   }
 
   getUserClassroomsAndSchools {

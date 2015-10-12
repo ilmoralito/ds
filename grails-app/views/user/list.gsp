@@ -7,16 +7,26 @@
 	<content tag="main">
 		<g:if test="${users}">
 			<table class="table table-hover">
+				<colgroup>
+					<col span="1" style="width: 95%;">
+					<col span="1" style="width: 5%;">
+				</colgroup>
 				<thead>
 					<tr>
-						<th>Usuarios</th>
-						<th class="td-mini"></th>
+						<th>
+							<input id="rosterFilterBox" name="rosterFilterBox" type="text" style="margin-bottom: 0;" placeholder="Filtrar">
+						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<g:each in="${users}" var="user">
 						<tr>
-							<td><g:link action="show" id="${user.id}">${user.fullName}</g:link></td>
+							<td>
+								<g:link action="show" id="${user.id}" class="target">
+									${user.fullName}
+								</g:link>
+							</td>
 							<td><g:link action="delete" id="${user.id}"><i class="icon-trash"></i></g:link></td>
 						</tr>
 					</g:each>
