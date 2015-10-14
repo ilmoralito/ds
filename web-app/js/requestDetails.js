@@ -1,4 +1,4 @@
-$("#details").on("click", function(e) {
+$(".details").on("click", function(e) {
 	e.preventDefault();
 
 	var data = $(this).data();

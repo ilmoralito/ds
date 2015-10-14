@@ -66,7 +66,9 @@
 														<g:if test="${hasDetails}">
 															<li class="divider"></li>
 															<li>
-																<a href="#myModal"
+																<a
+																	href="#myModal"
+																	class="details"
 																	id="details"
 																	role="button"
 																	data-toggle="modal"
