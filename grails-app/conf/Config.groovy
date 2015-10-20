@@ -182,9 +182,15 @@ ni.edu.uccleon.data = [
   [
     coordination: "Escuela de manejo",
     datashow: [6, 6, 6, 6, 6, 6, 6]
+  ],
+  [
+    coordination: "Direccion Financiera",
+    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
   ]
 ]
+
 ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
+
 ni.edu.uccleon.schoolsAndDepartments = [
   schools: [
     "Industrial",
@@ -208,9 +214,11 @@ ni.edu.uccleon.schoolsAndDepartments = [
     "Vida Estudiantil",
     "Desarrollo Proyeccion",
     "Transporte",
-    "Escuela de manejo"
+    "Escuela de manejo",
+    "Direccion Financiera"
   ]
 ]
+
 ni.edu.uccleon.cls = [
   B: [
       [code: "B101", name: "Auditorio mayor"],
@@ -290,12 +298,17 @@ ni.edu.uccleon.cls = [
     [code: "Piscina"]
   ]
 ]
+
 ni.edu.uccleon.blocks = 6
+
 ni.edu.uccleon.saturday.blocks = 3
+
 ni.edu.uccleon.sunday.blocks = 2
+
 ni.edu.uccleon.datashows = 10
 
 ni.edu.uccleon.speakers = 2
+
 ni.edu.uccleon.screens = 3
 
 grails.mail.default.from="mario.martinez@ucc.edu.ni"
