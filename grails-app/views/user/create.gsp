@@ -13,7 +13,12 @@
 
 			<g:textField name="fullName" value="${user?.fullName}" class="span3" placeholder="Nombre y apellido"/>
 
-			<g:select name="role" from="${grailsApplication.config.ni.edu.uccleon.roles}" noSelection="[null: 'Selecciona un rol']" class="span3"/>
+			<g:each in="${grailsApplication.config.ni.edu.uccleon.roles}" var="role">
+				<label class="radio">
+					<g:radio name="role" value="${role}" checked="${role == 'user'}"/>
+					${role}
+				</label>
+			</g:each>
 
 			<g:submitButton name="send" value="Guardar y enviar notificacion" class="btn btn-primary"/>
 
