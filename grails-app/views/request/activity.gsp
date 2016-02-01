@@ -109,19 +109,19 @@
       <div class="modal-body">
         <table class="table no-top-border">
         	<tbody>
-        		<tr>
+        		<tr class="hide">
         			<td width="1">Internet</td>
         			<td id="internet"></td>
         		</tr>
-        		<tr>
+        		<tr class="hide">
         			<td width="1">Parlantes</td>
         			<td id="audio"></td>
         		</tr>
-        		<tr>
+        		<tr class="hide">
         			<td width="1">Pantalla</td>
         			<td id="screen"></td>
         		</tr>
-        		<tr>
+        		<tr class="hide">
         			<td width="1">Comentario</td>
         			<td id="description"></td>
         		</tr>
