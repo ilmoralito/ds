@@ -33,7 +33,7 @@
 			</table>
 		</g:if>
 		<g:else>
-			<h4>Nada que mostrar</h4>
+			<p>Nada que mostrar</p>
 		</g:else>
 	</content>
 </g:applyLayout>
