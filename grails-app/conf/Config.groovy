@@ -305,7 +305,77 @@ ni.edu.uccleon.saturday.blocks = 3
 
 ni.edu.uccleon.sunday.blocks = 2
 
-ni.edu.uccleon.datashows = 10
+ni.edu.uccleon.datashows = [
+  [
+    trademark: "EPSON",
+    model: "H430A",
+    serialNumber: "PSPK2302463",
+    hdmi: false,
+    usb: true,
+    enabled: true
+  ],[
+    trademark: "EPSON",
+    model: "H430A",
+    serialNumber: "PSPK2302465",
+    hdmi: false,
+    usb: true,
+    enabled: true
+  ],[
+    trademark: "EPSON",
+    model: "H430A",
+    serialNumber: "PSPK2302445",
+    hdmi: false,
+    usb: true,
+    enabled: true
+  ],[
+    trademark: "EPSON",
+    model: "H430A",
+    serialNumber: "PSPK2302494",
+    hdmi: false,
+    usb: true,
+    enabled: true
+  ],[
+    trademark: "BENQ",
+    model: "MS521P",
+    serialNumber: "PD6CD01995000",
+    hdmi: true,
+    usb: false,
+    usbMiniB: true,
+    enabled: true
+  ],[
+    trademark: "BENQ",
+    model: "MS521P",
+    serialNumber: "PD6CD02163000",
+    hdmi: true,
+    usb: false,
+    usbMiniB: true,
+    enabled: true
+  ],[
+    trademark: "EPSON",
+    model: "H430A",
+    serialNumber: "PSPK2302433",
+    hdmi: false,
+    enabled: false
+  ],[
+    trademark: "BENQ",
+    model: "MS504",
+    serialNumber: "PDCCD01507000",
+    hdmi: false,
+    usb: false,
+    usbMiniB: true,
+    enabled: true
+  ],[
+    trademark: "BENQ",
+    model: "MS504",
+    serialNumber: "PDCCD01514000",
+    hdmi: false,
+    usb: false,
+    usbMiniB: true,
+    enabled: true
+  ],[
+    enabled: false
+  ]
+]
 
 ni.edu.uccleon.speakers = 2
 

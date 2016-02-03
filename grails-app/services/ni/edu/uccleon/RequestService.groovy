@@ -19,7 +19,7 @@ class RequestService {
 
   def getInfoToAddHours(Date date) {
     def requests = Request.requestFromTo(date, date).list()
-    def datashows = grailsApplication.config.ni.edu.uccleon.datashows
+    def datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
     def blocks = getDayOfWeekBlocks(date[Calendar.DAY_OF_WEEK])
 
     [requests: requests, datashows: datashows, day: day, blocks: blocks]

@@ -67,7 +67,7 @@ class BootStrap {
           role:"asistente",
           fullName:"Nami Martinez",
           enabled:true,
-          schools:[theSchools[6], theSchools[7], schools[7]],
+          schools: [theDepartments[0]],
           classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
         )
 
@@ -78,7 +78,7 @@ class BootStrap {
           password: "123",
           role: "administrativo",
           fullName: "Ready Martinez",
-          schools: theDepartments[0],
+          schools: [theDepartments[0]],
           classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
         )
 
@@ -89,7 +89,7 @@ class BootStrap {
           password: "123",
           role: "administrativo",
           fullName: "Coco Martinez",
-          schools: theDepartments[5],
+          schools: [theDepartments[5]],
           classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
         )
 
@@ -100,7 +100,7 @@ class BootStrap {
           password: "123",
           role: "coordinador",
           fullName: "Bonita2 Martinez",
-          schools: theSchools[7],
+          schools: [theSchools[7]],
           classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
         ).save failOnError: true
 

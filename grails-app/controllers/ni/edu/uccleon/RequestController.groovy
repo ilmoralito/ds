@@ -602,7 +602,7 @@ class RequestController {
         requests: requests,
         blocks: requestService.getDayOfWeekBlocks(day),
         dateSelected: dateOfApplication.format('yyyy-MM-dd'),
-        datashows: grailsApplication.config.ni.edu.uccleon.datashows,
+        datashows: grailsApplication.config.ni.edu.uccleon.datashows.size(),
         layout: layout(),
         allowedUsers: ["coordinador", "asistente"],
         schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,

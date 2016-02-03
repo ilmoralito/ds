@@ -11,7 +11,8 @@
 	<g:set var="data" value="${grailsApplication.config.ni.edu.uccleon.data}"/>
 
 	<!-- avaliables datashows -->
-	<g:set var="datashows" value="${(req.type == 'express') ? grailsApplication.config.ni.edu.uccleon.datashows : 2}"/>
+	<g:set var="datas" value="${grailsApplication.config.ni.edu.uccleon.datashows}"/>
+	<g:set var="datashows" value="${datas.size()}"/>
 
 	<!-- request day -->
 	<g:set var="day" value="${req.dateOfApplication[Calendar.DAY_OF_WEEK]}"/>
@@ -42,7 +43,7 @@
 				<g:set var="datashow" value="${i + 1}"/>
 				<g:set var="size" value="${requests.findAll { it.datashow == datashow }.hours*.size()?.sum()}"/>
 				<g:set var="allowedDatashows" value="${data.find { it.coordination == req.school }.datashow[day - 1]}"/>
-				<g:set var="isDisabled" value="${!(datashow in allowedDatashows)}"/>
+				<g:set var="isDisabled" value="${!(datashow in allowedDatashows) || !datas[datashow - 1].enabled}"/>
 
 				<g:form params="[datashow:datashow]">
 					<h4>${datashow}</h4>
