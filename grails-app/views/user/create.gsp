@@ -13,10 +13,11 @@
 
 			<g:textField name="fullName" value="${user?.fullName}" class="span3" placeholder="Nombre y apellido"/>
 
+			<h4>Role</h4>
 			<g:each in="${grailsApplication.config.ni.edu.uccleon.roles}" var="role">
 				<label class="radio">
 					<g:radio name="role" value="${role}" checked="${role == 'user'}"/>
-					${role}
+					${role.capitalize()}
 				</label>
 			</g:each>
 

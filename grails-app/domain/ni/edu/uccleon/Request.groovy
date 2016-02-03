@@ -17,30 +17,32 @@ class Request implements Serializable {
 
   String status = "pending"
 
-	Date dateCreated
-	Date lastUpdated
+  Date dateCreated
+  Date lastUpdated
 
   static constraints = {
-    dateOfApplication nullable:false, validator: {val, obj ->
-      def today = new Date()
-      def minDate = today + 2
+    dateOfApplication nullable: false, validator: { dateOfApplication, requestInstance ->
+      Date today = new Date()
+      Date minDate = today + 2
 
-      if (obj.type == "common") {
-        val >= minDate.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
+      if (requestInstance.type == "common") {
+        dateOfApplication >= minDate.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       } else {
-        val >= today.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
+        dateOfApplication >= today.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
       }
     }
-    classroom blank:false, maxSize:255//TODO: add custom validator
-    school blank:false
-    description nullable:true, maxSize:10000
-    datashow range: 1..Holders.config.ni.edu.uccleon.datashows.size()
-    type inList:["common", "express"], maxSize:255
-    audio nullable:true
-    screen nullable:true
-    internet nullable:true
-    status inList:["pending", "attended", "absent", "canceled"]
-    hours nullable:true
+    classroom blank: false, maxSize: 255// TODO: add custom validator
+    school blank: false// TODO: add custom validator
+    description nullable: true, maxSize: 10000
+    datashow range: 1..Holders.config.ni.edu.uccleon.datashows.size(), validator: { datashow, requestInstance ->
+      // validate when 
+    }
+    type inList: ["common", "express"], maxSize:255
+    audio nullable: true
+    screen nullable: true
+    internet nullable: true
+    status inList: ["pending", "attended", "absent", "canceled"]
+    hours nullable: true
   }
 
   static namedQueries = {
@@ -114,7 +116,7 @@ class Request implements Serializable {
   static hasMany = [hours:Hour]
 
   static mapping = {
-  	version false
+    version false
     hours cascade: "all-delete-orphan"
   }
 
@@ -125,5 +127,4 @@ class Request implements Serializable {
   }
 
   String toString() { dateOfApplication }
-
 }

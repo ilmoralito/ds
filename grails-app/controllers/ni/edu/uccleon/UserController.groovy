@@ -84,7 +84,7 @@ class UserController {
   }
 
   def addingOrRemovingUserCoordinationsOrClassrooms(Integer id, String data, String flag, Boolean state) {
-    def user = User.get id
+    User user = User.get id
 
     if (state) {
       if (flag == "classrooms") {
