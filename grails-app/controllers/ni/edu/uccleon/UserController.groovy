@@ -189,20 +189,13 @@ class UserController {
 
   def show(Integer id) {
     def user = User.get(id)
+    def roles = grailsApplication.config.ni.edu.uccleon.roles
 
-    if (!user) { response.sendError 404 }
-
-    if (request.get) {
-      return [user:user]
-    } else if (request.post) {
-      user.properties = params
-
-      if (!user.save()) {
-        return [user:user]
-      }
-
-      flash.message = "data.saved"
+    if (!user) {
+      response.sendError 404
     }
+
+    [user: user, roles: roles]
   }
 
   def updateUserRole() {
