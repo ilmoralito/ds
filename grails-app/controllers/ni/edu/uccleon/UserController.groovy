@@ -17,7 +17,7 @@ class UserController {
   	resetPassword:"GET",
     profile:["GET", "POST"],
     classrooms:["GET", "POST"],
-    updateUserRole: "POST",
+    updateUserRole: "GET",
     admin: "GET"
   ]
 
@@ -198,17 +198,17 @@ class UserController {
     [user: user, roles: roles]
   }
 
-  def updateUserRole() {
-    def id = params?.id
-    def user = User.get(id)
+  def updateUserRole(Integer id, String role) {
+    User user = User.get id
 
-    if (!user) { response.sendError 404 }
+    if (user) {
+      user.properties["role"] = role
+      user.save(flush: true)
+    }
 
-    user.properties["role"] = params?.role
-
-    user.save(flush: true)
-
-    redirect action: "show", id: id
+    render(contentType: "application/json") {
+      success = user ? true : false
+    }
   }
 
   def enableDisableUserAccount(Integer id) {

@@ -67,4 +67,10 @@ modules = {
     resource url: "components/clipboard/dist/clipboard.min.js"
     resource url: "js/copy.js"
   }
+
+  //show
+  //update user role
+  role {
+    resource url: "js/updateUserRole.js"
+  }
 }

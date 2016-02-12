@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>${user?.fullName}</title>
-        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, clipboard"/>
+        <title>Perfil: ${user?.fullName}</title>
+        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, clipboard, role"/>
     </head>
 
     <content tag="main">
@@ -38,11 +38,7 @@
 
     <content tag="col1">
         <h4>Actualizar rol</h4>
-        <g:form action="updateUserRole">
-            <g:hiddenField name="id" value="${user?.id}"/>
-            <g:select name="role" from="${roles}" value="${user?.role}" class="span2"/>
-            <g:submitButton name="send" value="Actualizar" class="btn btn-block btn-warning"/>
-        </g:form>
+        <ds:roles user="${user}"/>
 
         <h4>Adminsitrar</h4>
         <g:form action="enableDisableUserAccount">
@@ -56,5 +52,9 @@
         </g:form>
 
         <g:link action="resetPassword" id="${params?.id}" class="btn btn-warning btn-block">Resetear clave</g:link>
+
+        <g:javascript>
+            window.ajaxURL = "${createLink(controller: 'user', action: 'updateUserRole')}"
+        </g:javascript>
     </content>
 </g:applyLayout>
