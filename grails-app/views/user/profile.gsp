@@ -9,21 +9,31 @@
 <body>
   <g:render template="navbar"/>
 
-  <g:hasErrors bean="${cmd}">
-  	<small><g:renderErrors bean="${cmd}"/></small>
-  </g:hasErrors>
-
   <div class="row">
     <div class="span5">
       <g:form action="profile">
-        <g:textField name="email" value="${user?.email}" class="span5" autofocus="true" placeholder="Email"/>
-        <g:textField name="fullName" value="${user?.fullName}" class="span5" placeholder="Nombre completo"/>
+        <label for="fullName">Nombre y apellido</label>
+        <g:textField
+          name="fullName"
+          value="${user?.fullName}"
+          class="span5"
+          placeholder="Nombre completo"/>
 
-        <ul>
-          <g:each in="${user?.schools}" var="coordination">
-            <li>${coordination}</li>
-          </g:each>
-        </ul>
+        <p>
+          <label for="email">Email</label>
+          <span>${user?.email}</span>
+        </p>
+
+        <label>Coordinaciones</label>
+        <table class="table">
+          <tbody>
+            <g:each in="${user?.schools}" var="coordination">
+              <tr>
+                <td>${coordination}</td>
+              </tr>
+            </g:each>
+          </tbody>
+        </table>
 
         <g:submitButton name="send" value="Actualizar perfil" class="btn btn-primary"/>
       </g:form>

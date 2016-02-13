@@ -276,18 +276,17 @@ class UserController {
   }
 
   def profile() {
-    def user = User.findByEmail(session?.user?.email)
+    User user = session?.user?.refresh()
 
     if (request.post) {
-      user.properties["email", "fullName"] = params
-      session?.user?.email = params.email
+      user.properties["fullName"] = params
 
       if (!user.save()) {
-        return [user:user]
+        flash.message = "A ocurridoun error. Intentalo de nuevo"
       }
     }
 
-    [user:user]
+    [user: user]
   }
 
   def classrooms() {
