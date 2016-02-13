@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
     <head>
         <title>Perfil: ${user?.fullName}</title>
-        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app, clipboard, role"/>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, userShow"/>
     </head>
 
     <content tag="main">
@@ -14,17 +14,44 @@
         <p>
             <label for="">Correo</label>
             <input id="target" value="${user?.email}" />
-            <button class="btn btn-small trigger" data-clipboard-target="#target">Copiar email</button>
+            <button class="btn btn-small trigger" data-clipboard-target="#target">
+                Copiar email
+            </button>
         </p>
 
-        <g:if test="${user?.schools}">
-            <label for="">Facultades</label>
-            <ul>
-                <g:each in="${user?.schools}" var="school">
-                    <li>${school}</li>
+        <label>Coordinaciones</label>
+        <small id="toggleSchools" class="pull-right" style="cursor: pointer;">
+            Editar
+        </small>
+
+        <table class="table hide" id="updateSchoolsTable">
+            <tbody>
+                <g:each in="${coordinations}" var="coordination">
+                    <tr>
+                        <td width="1">
+                            <input
+                                type="checkbox"
+                                name="coordinations"
+                                value="${coordination}"
+                                data-id="${user?.id}"
+                                data-coordination="${coordination}"
+                                ${coordination in user?.schools ? 'checked': ''}>
+                        </td>
+                        <td>${coordination}</td>
+                    </tr>
                 </g:each>
-            </ul>
-        </g:if>
+            </tbody>
+        </table>
+
+        <table class="table" id="userSchoolsTable">
+            <tbody>
+                <g:each in="${user?.schools}" var="school">
+                    <tr>
+                        <td>${school}</td>
+                    </tr>
+                </g:each>
+            </tbody>
+        </table>
 
         <g:if test="${user?.classrooms}">
             <label for="">Aulas</label>
@@ -55,6 +82,7 @@
 
         <g:javascript>
             window.ajaxURL = "${createLink(controller: 'user', action: 'updateUserRole')}"
+            window.ajaxPATH = "${createLink(controller: 'user', action: 'updateUserSchools')}"
         </g:javascript>
     </content>
 </g:applyLayout>

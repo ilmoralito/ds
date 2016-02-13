@@ -61,16 +61,11 @@ modules = {
     resource url: "js/classrooms.js"
   }
 
-  //show
-  //user info copy and paste
-  clipboard {
+  userShow {
+    dependsOn "app"
     resource url: "components/clipboard/dist/clipboard.min.js"
     resource url: "js/copy.js"
-  }
-
-  //show
-  //update user role
-  role {
     resource url: "js/updateUserRole.js"
+    resource url: "js/updateUserSchools.js"
   }
 }

@@ -18,6 +18,7 @@ class UserController {
     profile:["GET", "POST"],
     classrooms:["GET", "POST"],
     updateUserRole: "GET",
+    updateUserSchools: "GET",
     admin: "GET"
   ]
 
@@ -188,14 +189,15 @@ class UserController {
   }
 
   def show(Integer id) {
-    def user = User.get(id)
-    def roles = grailsApplication.config.ni.edu.uccleon.roles
+    User user = User.get(id)
+    List roles = grailsApplication.config.ni.edu.uccleon.roles
+    List coordinations = grailsApplication.config.ni.edu.uccleon.data*.coordination
 
     if (!user) {
       response.sendError 404
     }
 
-    [user: user, roles: roles]
+    [user: user, roles: roles, coordinations: coordinations]
   }
 
   def updateUserRole(Integer id, String role) {
@@ -208,6 +210,26 @@ class UserController {
 
     render(contentType: "application/json") {
       success = user ? true : false
+    }
+  }
+
+  def updateUserSchools(Integer id, String coordination, Boolean checked) {
+    User user = User.get id
+    
+    if (checked) {
+      user.addToSchools coordination
+    } else {
+      user.removeFromSchools coordination
+    }
+
+    if (user.save(flush: true)) {
+      user.errors.allErrors.each {
+        error -> log.error "[$error.field: $error.defaultMessage]"
+      }
+    }
+
+    render(contentType: "application/json") {
+      delegate.coordination = coordination
     }
   }
 
