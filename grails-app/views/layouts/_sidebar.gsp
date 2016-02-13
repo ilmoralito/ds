@@ -11,7 +11,7 @@
 
 <ul class="nav nav-tabs nav-stacked">
 	<ds:isAdmin>
-		<li class="${controllerName == 'user' && !(actionName in ['profile', 'password']) ? 'active' : 'no-active'}">
+		<li class="${controllerName == 'user' && !(actionName in ['profile', 'classrooms']) ? 'active' : 'no-active'}">
 			<g:link controller="user" action="list">Usuarios</g:link>
 		</li>
 		<li class="${controllerName == 'request' && actionName in ['requestsBy', 'report', 'detail'] ? 'active' : ''}">
@@ -26,7 +26,7 @@
 			<g:link controller="user" action="admin">Roster</g:link>
 		</li>
 	</ds:isAcademic>
-	<li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
+	<li class="${(controllerName == 'user' && actionName in ['profile', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
 		<g:link controller="user" action="profile">Perfil</g:link>
 	</li>
 	<ds:isNotAdmin>
