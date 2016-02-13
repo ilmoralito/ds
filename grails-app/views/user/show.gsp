@@ -5,14 +5,10 @@
     </head>
 
     <content tag="main">
-        <h4>Perfil</h4>
-        <p>
-            <label for="">Nombre complete</label>
-            ${user?.fullName}
-        </p>
+        <h4>${user?.fullName}</h4>
 
         <p>
-            <label for="">Correo</label>
+            <label>Correo</label>
             <input id="target" value="${user?.email}" />
             <button class="btn btn-small trigger" data-clipboard-target="#target">
                 Copiar email
@@ -20,10 +16,14 @@
         </p>
 
         <label>Coordinaciones</label>
-        <small id="toggleSchools" class="pull-right" style="cursor: pointer;">
-            Editar
-        </small>
-
+        <div>
+            <small
+                id="toggleSchools"
+                class="pull-right"
+                style="cursor: pointer;">
+                Editar
+            </small>
+        </div>
         <table class="table hide" id="updateSchoolsTable">
             <tbody>
                 <g:each in="${coordinations}" var="coordination">
@@ -53,14 +53,16 @@
             </tbody>
         </table>
 
-        <g:if test="${user?.classrooms}">
-            <label for="">Aulas</label>
-            <ul>
+        <label>Aulas</label>
+        <table class="table">
+            <tbody>
                 <g:each in="${user.classrooms}" var="classroom">
-                    <li>${classroom}</li>
+                    <tr>
+                        <td>${classroom}</td>
+                    </tr>
                 </g:each>
-            </ul>
-        </g:if>
+            </tbody>
+        </table>
     </content>
 
     <content tag="col1">
