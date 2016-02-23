@@ -3,7 +3,7 @@ grails.servlet.version = "3.0" // Change depending on target container complianc
 grails.project.work.dir = "target"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
-//grails.project.war.file = "target/${appName}-${appVersion}.war"
+grails.project.war.file = "target/${appName}.war"
 
 // uncomment (and adjust settings) to fork the JVM to isolate classpaths
 //grails.project.fork = [
@@ -44,8 +44,7 @@ grails.project.dependency.resolution = {
         compile "org.grails:grails-webflow:$grailsVersion"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
-        runtime 'mysql:mysql-connector-java:5.1.27'
-        //runtime 'postgresql:postgresql:8.4-702.jdbc3'
+        runtime 'mysql:mysql-connector-java:5.1.38'
     }
 
     plugins {
