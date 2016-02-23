@@ -28,10 +28,11 @@ environments {
             dbCreate = "update"
             driverClassName = "com.mysql.jdbc.Driver"
             dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-            uri = new URI(System.env.CLEARDB_DATABASE_URL?:"//ba4b8d0a134035:88898334@us-cdbr-east-06.cleardb.net/heroku_b1e44ac57b51729?reconnect=true")
-            url = "jdbc:mysql://"+uri.host+uri.path
-            username = uri.userInfo.split(":")[0]
-            password = uri.userInfo.split(":")[1]
+            uri = new URI(System.env.CLEARDB_DATABASE_URL)
+            url = "jdbc:mysql://$uri.host$uri.path"
+            userInfo = uri.userInfo.split(":")
+            username = userInfo[0]
+            password = userInfo[1]
             pooled = true
             properties {
                maxActive = -1
