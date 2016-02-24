@@ -160,14 +160,16 @@ class UserController {
 
   def create() {
     if (request.post) {
-      def schools = params.list "schools"
-      def classrooms = params.list "classrooms"
+      List schools = params.list "schools"
+      List classrooms = params.list "classrooms"
 
-      def user = new User( email: params?.email, fullName: params?.fullName, role: params?.role )
-
-      schools.each { school -> user.addToSchools school }
-
-      classrooms.each { classroom -> user.addToClassrooms classroom }
+      User user = new User(
+        email: params?.email,
+        fullName: params?.fullName,
+        role: params?.role,
+        schools: schools,
+        classrooms: classrooms
+      )
 
       if (!user.save()) {
         user.errors.allErrors.each { errors ->
