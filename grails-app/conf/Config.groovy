@@ -382,7 +382,7 @@ ni.edu.uccleon.speakers = 2
 
 ni.edu.uccleon.screens = 3
 
-grails.mail.default.from="mario.martinez@ucc.edu.ni"
+grails.mail.default.from=System.env.GMAIL_USERNAME
 
 grails {
   mail {

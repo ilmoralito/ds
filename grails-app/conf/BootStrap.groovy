@@ -188,7 +188,17 @@ class BootStrap {
         assert Request.count() == 8
       break
       case Environment.PRODUCTION:
-        User.findByEmail("mario.martinez@ucc.edu.ni") ?: new User(email:"mario.martinez@ucc.edu.ni", password:"ucc2013", role:"admin", fullName:"Mario Roger Daniel Martinez Morales", enabled:true).save(failOnError:true)
+        if (!User.findByEmail(System.env.GMAIL_USERNAME)) {
+          new User (
+            email: System.env.GMAIL_USERNAME,
+            password: System.env.DEFAULT_ADMIN_PASSWORD,
+            role: "admin",
+            fullName: "Mario Roger Martinez Morales",
+            enabled: true,
+            schools: ["Soporte tecnico"],
+            classrooms: ["B201"]
+          ).save(failOnError: true)
+        }
       break
     }
   }
