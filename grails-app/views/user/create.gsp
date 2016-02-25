@@ -15,11 +15,11 @@
 
         <g:form action="create" autocomplete="off" name="form">
             <h4>Perfil</h4>
-            <g:textFiel
-                name="email
-                value="${user?.email}
-                class="span3
-                autofocus="true
+            <g:textField
+                name="email"
+                value="${user?.email}"
+                class="span3"
+                autofocus="true"
                 placeholder="Email"/>
 
             <g:textField
