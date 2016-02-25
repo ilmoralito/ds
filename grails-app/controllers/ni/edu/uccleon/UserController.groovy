@@ -267,12 +267,11 @@ class UserController {
 
     if (!user) {
       response.sendError 404
-      return false
     }
 
     user.delete()
 
-    flash.message = "data.deleted"
+    flash.message = "Usuario eliminado"
     redirect action:"list"
   }
 

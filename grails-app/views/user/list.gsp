@@ -14,7 +14,12 @@
 				<thead>
 					<tr>
 						<th>
-							<input id="rosterFilterBox" name="rosterFilterBox" type="text" style="margin-bottom: 0;" placeholder="Filtrar">
+							<input
+								id="rosterFilterBox"
+								name="rosterFilterBox"
+								type="text"
+								style="margin-bottom: 0;"
+								placeholder="Filtrar">
 						</th>
 						<th></th>
 					</tr>
@@ -27,7 +32,11 @@
 									${user.fullName}
 								</g:link>
 							</td>
-							<td><g:link action="delete" id="${user.id}"><i class="icon-trash"></i></g:link></td>
+							<td>
+								<g:link action="delete" id="${user.id}" class="action-delete">
+									<i class="icon-trash"></i>
+								</g:link>
+							</td>
 						</tr>
 					</g:each>
 				</tbody>
