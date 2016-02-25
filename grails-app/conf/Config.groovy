@@ -68,8 +68,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        //grails.serverURL = "http://uccds.herokuapp.com"
-        //grails.serverURL = "http://localhost/ds"
+        grails.serverURL = System.env.SERVER_URL
     }
 }
 

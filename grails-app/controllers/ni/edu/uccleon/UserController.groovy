@@ -7,14 +7,14 @@ class UserController {
 
   static defaultAction = "profile"
   static allowedMethods = [
-  	list:["GET", "POST"],
-  	create:["GET", "POST"],
-  	show:["GET", "POST"],
+    list:["GET", "POST"],
+    create:["GET", "POST"],
+    show:["GET", "POST"],
     enableDisableUserAccount:"POST",
     notification:"POST",
-  	delete:"GET",
-  	updatePassword:"POST",
-  	resetPassword:"GET",
+    delete:"GET",
+    updatePassword:"POST",
+    resetPassword:"GET",
     profile:["GET", "POST"],
     classrooms:["GET", "POST"],
     updateUserRole: "GET",
@@ -179,11 +179,10 @@ class UserController {
         return [user:user]
       }
 
-      //notify new user
       sendMail {
         to params.email
         subject "Sobre solicitudes de datashow"
-        html g.render(template:"email", model:[user:user])
+        html g.render(template:"email", model:[user:user, host: getServerURL()])
       }
 
       flash.message = "Usuario creado y notificacion enviada"
@@ -256,11 +255,11 @@ class UserController {
 
     sendMail {
       to user.email
-      subject "Datashow"
-      html g.render(template:"email", model:[user:user])
+      subject "Sobre solicitudes de datashow"
+      html g.render(template: "email", model : [user: user, host: getServerURL()])
     }
 
-    redirect action:"show", id:id
+    redirect action: "show", id: id
   }
 
   def delete(Integer id) {
@@ -328,37 +327,41 @@ class UserController {
   }
 
   def resetPassword(Integer id) {
-  	def user = User.get(id)
+    def user = User.get(id)
 
-  	if (!user) {
-  		response.sendError 404
-  	}
+    if (!user) {
+      response.sendError 404
+    }
 
-  	//TODO:generate token of 7 values
-  	user.properties["password"] = "1234567"
+    //TODO:generate token of 7 values
+    user.properties["password"] = "1234567"
 
-  	if (!user.save()) {
-  		flash.message = "something.when.wrong"
-  		redirect action:"show", params:[id:id]
-  		return false
-  	}
+    if (!user.save()) {
+      flash.message = "something.when.wrong"
+      redirect action:"show", params:[id:id]
+      return false
+    }
 
-  	flash.message = "dato.guardado"
-  	redirect action:"show", params:[id:id]
+    flash.message = "dato.guardado"
+    redirect action:"show", params:[id:id]
+  }
+
+  private String getServerURL() {
+    grailsApplication.config.grails.serverURL
   }
 }
 
 class updatePasswordCommand {
-	Integer id
-	String password
-	String npassword
-	String rpassword
+  Integer id
+  String password
+  String npassword
+  String rpassword
 
-	static constraints = {
-		password blank:false
-		npassword blank:false
-		rpassword blank:false, validator:{rpassword, obj ->
-			return rpassword == obj.npassword
-		}
-	}
+  static constraints = {
+    password blank:false
+    npassword blank:false
+    rpassword blank:false, validator:{rpassword, obj ->
+      return rpassword == obj.npassword
+    }
+  }
 }
