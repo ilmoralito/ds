@@ -1,24 +1,26 @@
 package ni.edu.uccleon
 
 class Hour implements Serializable {
-
     Integer block
 
-	Date dateCreated
-	Date lastUpdated
+    Date dateCreated
+    Date lastUpdated
+
+    Hour(Integer block) {
+        this()
+        this.block = block
+    }
 
     static constraints = {
-        block blank:false
+        block blank: false
     }
 
-    static belongsTo = [request:Request]
+    static belongsTo = [request: Request]
 
     static mapping = {
-    	version false
+        version false
     }
 
-    String toString() {
-        "block:$block"
-    }
+    String toString() { block }
 
 }

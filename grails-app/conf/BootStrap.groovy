@@ -109,7 +109,7 @@ class BootStrap {
         def today = new Date().clearTime()
 
         def requestInstance = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[0], school:peluso.schools.collect{ it }[0], datashow:1, type:"express")
-        def hour = new Hour(block:1)
+        def hour = new Hour(1)
 
         requestInstance.addToHours hour
         peluso.addToRequests requestInstance
@@ -123,7 +123,7 @@ class BootStrap {
           type:"common"
         )
 
-        requestInstance0.addToHours new Hour(block:0)
+        requestInstance0.addToHours new Hour(0)
         peluso.addToRequests requestInstance0
         requestInstance0.save(failOnError:true)
 
@@ -135,19 +135,19 @@ class BootStrap {
           type:"express"
         )
 
-        r.addToHours new Hour(block:1)
+        r.addToHours new Hour(1)
         peluso.addToRequests r
         r.save(failOnError:true)
 
         def pelusoRequestInstance1 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[1], school:peluso.schools.collect{ it }[0], datashow:5, type:"express")
-        def pelusoHour1 = new Hour(block:1)
+        def pelusoHour1 = new Hour(1)
 
         pelusoRequestInstance1.addToHours pelusoHour1
         peluso.addToRequests pelusoRequestInstance1
         pelusoRequestInstance1.save(failOnError:true)
 
         def pelusoRequestInstance2 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[2], school:peluso.schools.collect{ it }[0], datashow:3, type:"express")
-        def pelusoHour2 = new Hour(block:1)
+        def pelusoHour2 = new Hour(1)
 
         pelusoRequestInstance2.addToHours pelusoHour2
         peluso.addToRequests pelusoRequestInstance2
@@ -164,22 +164,22 @@ class BootStrap {
         )
 
         hotchRequestInstance1
-          .addToHours(new Hour(block: 0))
-          .addToHours(new Hour(block: 1))
-          .addToHours(new Hour(block: 2))
+          .addToHours(new Hour(0))
+          .addToHours(new Hour(1))
+          .addToHours(new Hour(2))
 
         hotch.addToRequests hotchRequestInstance1
         hotchRequestInstance1.save failOnError: true
 
         def hotchRequestInstance2 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
-        def hourInstance1 = new Hour(block:1)
+        def hourInstance1 = new Hour(1)
 
         hotchRequestInstance2.addToHours hourInstance1
         hotch.addToRequests hotchRequestInstance2
         hotchRequestInstance2.save(failOnError:true)
 
         def hotchRequestInstance3 = new Request(dateOfApplication:today + 30, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
-        def hourInstance2 = new Hour(block:1)
+        def hourInstance2 = new Hour(1)
 
         hotchRequestInstance3.addToHours hourInstance2
         hotch.addToRequests hotchRequestInstance3
