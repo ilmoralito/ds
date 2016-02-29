@@ -1,20 +1,19 @@
 package ni.edu.uccleon
 
 class RequestService {
-
-	static transactional = false
-	def grailsApplication
+  static transactional = false
+  def grailsApplication
 
   def getTotal(Date date, opt) {
-  	def criteria = Request.createCriteria()
-  	def total = criteria.count() {
-  		eq "dateOfApplication", date
-  		eq opt, true
-  	}
+    def criteria = Request.createCriteria()
+    def total = criteria.count() {
+      eq "dateOfApplication", date
+      eq opt, true
+    }
 
-  	def max = (opt == "audio") ? grailsApplication.config.ni.edu.uccleon.speakers : grailsApplication.config.ni.edu.uccleon.screens
+    def max = (opt == "audio") ? grailsApplication.config.ni.edu.uccleon.speakers : grailsApplication.config.ni.edu.uccleon.screens
 
-  	return (total == max) ? true : false
+    return (total == max) ? true : false
   }
 
   def getInfoToAddHours(Date date) {
@@ -25,7 +24,7 @@ class RequestService {
     [requests: requests, datashows: datashows, day: day, blocks: blocks]
   }
 
-  def getDayOfWeekBlocks(Integer dayOfWeek) {
+  Integer getDayOfWeekBlocks(Integer dayOfWeek) {
     if (dayOfWeek == 1) {
       grailsApplication.config.ni.edu.uccleon.sunday.blocks
     } else if (dayOfWeek == 7) {

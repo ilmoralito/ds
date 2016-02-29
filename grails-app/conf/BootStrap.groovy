@@ -106,38 +106,46 @@ class BootStrap {
 
         //request
         //peluso
-        def today = new Date().clearTime()
+        Date today = new Date().clearTime()
 
-        def requestInstance = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[0], school:peluso.schools.collect{ it }[0], datashow:1, type:"express")
-        def hour = new Hour(1)
+        Request requestInstance = new Request(
+          dateOfApplication: today,
+          classroom: peluso.classrooms.collect{ it }[0],
+          school: peluso.schools.collect{ it }[0],
+          datashow: 1
+        )
 
-        requestInstance.addToHours hour
+        requestInstance.addToHours new Hour(6)
+
         peluso.addToRequests requestInstance
-        requestInstance.save(failOnError:true)
 
-        def requestInstance0 = new Request(
-          dateOfApplication:today + 3,
-          classroom:peluso.classrooms.collect{ it }[0],
-          school:peluso.schools.collect{ it }[0],
-          datashow:1,
-          type:"common"
+        requestInstance.save failOnError: true
+
+        Request requestInstance0 = new Request(
+          dateOfApplication: today + 3,
+          classroom: peluso.classrooms.collect{ it }[0],
+          school: peluso.schools.collect{ it }[0],
+          datashow: 1
         )
 
         requestInstance0.addToHours new Hour(0)
+
         peluso.addToRequests requestInstance0
-        requestInstance0.save(failOnError:true)
+
+        requestInstance0.save failOnError: true
 
         def r = new Request(
-          dateOfApplication:today + 3,
-          classroom:peluso.classrooms.collect{ it }[0],
-          school:peluso.schools.collect{ it }[0],
-          datashow:1,
-          type:"express"
+          dateOfApplication: today + 3,
+          classroom: peluso.classrooms.collect{ it }[0],
+          school: peluso.schools.collect{ it }[0],
+          datashow: 1
         )
 
         r.addToHours new Hour(1)
+
         peluso.addToRequests r
-        r.save(failOnError:true)
+
+        r.save failOnError: true
 
         def pelusoRequestInstance1 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[1], school:peluso.schools.collect{ it }[0], datashow:5, type:"express")
         def pelusoHour1 = new Hour(1)
