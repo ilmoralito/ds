@@ -21,15 +21,10 @@ class Request implements Serializable {
   Date lastUpdated
 
   static constraints = {
-    dateOfApplication nullable: false, validator: { dateOfApplication, requestInstance ->
-      Date today = new Date()
-      Date minDate = today + 2
+    dateOfApplication nullable: false, validator: { dateOfApplication ->
+      Date date = new Date()
 
-      if (requestInstance.type == "common") {
-        dateOfApplication >= minDate.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
-      } else {
-        dateOfApplication >= today.clearTime() ? true : "buildRequestCommand.dateOfApplication.validator"
-      }
+      dateOfApplication >= date.clearTime()
     }
     classroom blank: false, maxSize: 255// TODO: add custom validator
     school blank: false// TODO: add custom validator

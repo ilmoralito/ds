@@ -121,6 +121,85 @@ class BootStrap {
 
         requestInstance.save failOnError: true
 
+        Request r1 = new Request(
+          dateOfApplication: today + 5,
+          classroom: peluso.classrooms.collect { it }[0],
+          school: peluso.schools.collect { it }[0],
+          datashow: 1
+        )
+
+        r1.addToHours new Hour(0)
+
+        peluso.addToRequests r1
+
+        r1.save failOnError: true
+
+        Request r2 = new Request(
+          dateOfApplication: today,
+          classroom: peluso.classrooms.collect { it }[0],
+          school: peluso.schools.collect { it }[0],
+          datashow: 3
+        )
+
+        r2.addToHours new Hour(0)
+
+        peluso.addToRequests r2
+
+        r2.save failOnError: true
+
+        Request r3 = new Request(
+          dateOfApplication: today,
+          classroom: hotch.classrooms.collect { it }[0],
+          school: hotch.schools.collect { it }[0],
+          datashow: 5
+        )
+
+        r3.addToHours new Hour(0)
+
+        hotch.addToRequests r3
+
+        r3.save failOnError: true
+
+        Request r4 = new Request(
+          dateOfApplication: today + 1,
+          classroom: hotch.classrooms.collect { it }[0],
+          school: hotch.schools.collect { it }[0],
+          datashow: 1
+        )
+
+        r4.addToHours new Hour(0)
+
+        hotch.addToRequests r4
+
+        r4.save failOnError: true
+
+        Request r5 = new Request(
+          dateOfApplication: today + 8,
+          classroom: hotch.classrooms.collect { it }[0],
+          school: hotch.schools.collect { it }[0],
+          datashow: 1
+        )
+
+        r5.addToHours new Hour(0)
+
+        hotch.addToRequests r5
+
+        r5.save failOnError: true
+
+        Request r6 = new Request(
+          dateOfApplication: today + 2,
+          classroom: hotch.classrooms.collect { it }[0],
+          school: hotch.schools.collect { it }[0],
+          datashow: 1
+        )
+
+        r6.addToHours new Hour(0)
+
+        hotch.addToRequests r6
+
+        r6.save failOnError: true
+        // +++++++++++++++++++++++++
+
         Request requestInstance0 = new Request(
           dateOfApplication: today + 3,
           classroom: peluso.classrooms.collect{ it }[0],
@@ -193,7 +272,7 @@ class BootStrap {
         hotch.addToRequests hotchRequestInstance3
         hotchRequestInstance3.save(failOnError:true)
 
-        assert Request.count() == 8
+        assert Request.count() == 14
       break
       case Environment.PRODUCTION:
         if (!User.findByEmail(System.env.GMAIL_USERNAME)) {

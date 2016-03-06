@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 import grails.util.Holders
+import static java.util.Calendar.*
 
 class RequestController {
   def userService
@@ -107,20 +108,28 @@ class RequestController {
   }
 
   def report() {
-    def date = new Date()
+    Date date = new Date()
     List months = MONTHS
-    def results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] } { it.school }.collectEntries { a ->
-      [a.key, a.value.collectEntries { b->
-        [months[b.key], b.value.collectEntries { c ->
-          [c.key, c.value.size()]
-        }]
-      }]
+    List<Request> requests = Request.list()
+    List data = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.school }.collect { o ->
+      [
+        year: o.key,
+        months: o.value.collect { t ->
+          [
+            month: MONTHS[t.key],
+            coordinations: t.value.collect { c ->
+              [
+                coordination: c.key,
+                size: c.value.size()
+              ]
+            }
+          ]
+        }
+      ]
     }
 
     [
-      results: results,
-      currentYear: date[Calendar.YEAR],
-      currentMonth: months[date[Calendar.MONTH]]
+      data: data.sort { -it.year }
     ]
   }
 

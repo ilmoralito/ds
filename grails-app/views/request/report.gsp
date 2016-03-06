@@ -1,37 +1,51 @@
 <g:applyLayout name="twoColumns">
-	<head>
-		<title>Reporte por departamento</title>
-		<r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, app"/>
-	</head>
+    <head>
+        <title>Reporte por departamento</title>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, app"/>
+    </head>
 
-	<content tag="main">
-		<g:render template="reportNavBar"/>
+    <content tag="main">
+        <g:render template="reportNavBar"/>
 
-		<table class="table table-hover">
-			<tbody>
-					<g:each in="${results.sort {-it.key}}" var="y">
-						<tr>
-							<td colspan="2" style="border: 0;"><strong>${y.key}</strong></td>
-						</tr>
+        <g:if test="${data}">
+            <g:each in="${data}" var="d">
+                <h4>${d.year}</h4>
 
-						<g:each in="${y.value}" var="m">
-							<tr>
-								<td colspan="2"><strong>${m.key}</strong></td>
-							</tr>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <g:each in="${d.months}" var="m">
+                                <tr>
+                                    <td colspan="2">
+                                        <strong>${m.month}</strong>
+                                    </td>
+                                </tr>
 
-							<g:each in="${m.value.sort{ -it.value }}" var="s">
-								<tr>
-									<td style="width:20%;">
-										<g:link action="detail" params="[y:y.key, m:m.key, s:s.key]">
-											${s.key}
-										</g:link>
-									</td>
-									<td>${s.value}</td>
-								</tr>
-							</g:each>
-						</g:each>
-					</g:each>
-			</tbody>
-		</table>
-	</content>
+                                <g:each in="${m.coordinations.sort { -it.size }}" var="c">
+                                    <colgroup>
+                                        <col span="1" style="width: 20%;">
+                                        <col span="1" style="width: 80%;">
+                                    </colgroup>
+                                    <tr>
+                                        <td>
+                                            <g:link
+                                                action="detail"
+                                                params="[y: d.year, m: m.month, s: c.coordination]">
+                                                ${c.coordination}
+                                            </g:link>
+                                        </td>
+                                        <td>${c.size}</td>
+                                    </tr>
+                                </g:each>
+                            </g:each>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </g:each>
+        </g:if>
+        <g:else>
+            <h4>...</h4>
+        </g:else>
+    </content>
 </g:applyLayout>
