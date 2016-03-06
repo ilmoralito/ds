@@ -115,7 +115,7 @@ class BootStrap {
           datashow: 1
         )
 
-        requestInstance.addToHours new Hour(6)
+        requestInstance.addToHours new Hour(0)
 
         peluso.addToRequests requestInstance
 
