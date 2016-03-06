@@ -35,9 +35,20 @@ class RequestController {
     create: "GET"
   ]
 
-  private getMonths() {
-    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-  }
+  private static final MONTHS = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ]
 
   private getRequestStatus() {
     [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
@@ -72,7 +83,7 @@ class RequestController {
   }
 
   def userStatisticsDetail(Integer y) {
-    def months = this.getMonths()
+    List months = MONTHS
     def requestStatus = this.getRequestStatus()
     def query = Request.where {
       user == session?.user && year(dateOfApplication) == y
@@ -97,7 +108,7 @@ class RequestController {
 
   def report() {
     def date = new Date()
-    def months = this.getMonths()
+    List months = MONTHS
     def results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] } { it.school }.collectEntries { a ->
       [a.key, a.value.collectEntries { b->
         [months[b.key], b.value.collectEntries { c ->
