@@ -27,7 +27,7 @@ class RequestController {
     todo: "POST",
     createRequestFromActivity: ["GET", "POST"],
     report: "GET",
-    detail: "GET",
+    reportDetail: "GET",
     getUserClassroomsAndSchools: "GET",
     requestsByCoordination: "GET",
     userStatistics: "GET",
@@ -133,7 +133,7 @@ class RequestController {
     ]
   }
 
-  def detail(Integer y, String m, String s) {
+  def reportDetail(Integer y, String m, String s) {
     List<Request> requests = Request.where {
       school == s &&
       month(dateOfApplication) == MONTHS.indexOf(m) + 1 &&

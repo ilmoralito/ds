@@ -18,7 +18,7 @@
         <g:link action="requestsBy" params="[type:'day']">Dia</g:link>
     </li>
     </li>
-    <li class="${params.type == 'report' || actionName == 'detail' ? 'active' : ''}">
+    <li class="${params.type == 'report' || actionName == 'reportDetail' ? 'active' : ''}">
         <g:link action="report" params="[type: 'report']">
             Reporte
         </g:link>

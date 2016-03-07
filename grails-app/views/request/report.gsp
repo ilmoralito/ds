@@ -29,7 +29,7 @@
                                     <tr>
                                         <td>
                                             <g:link
-                                                action="detail"
+                                                action="reportDetail"
                                                 params="[y: d.year, m: m.month, s: c.coordination]">
                                                 ${c.coordination}
                                             </g:link>
