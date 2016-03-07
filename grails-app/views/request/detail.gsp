@@ -19,7 +19,7 @@
         </div>
         <br>
 
-        <g:if test="${results}">
+        <g:if test="${data}">
             <p>${params?.s} ${params?.m} ${params?.y}</p>
 
             <table class="table table-hover">
@@ -34,23 +34,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <g:each in="${results.sort{ -it.value.total }}" var="r">
+                    <g:each in="${data}" var="d">
                         <tr>
-                            <td>${r.key}</td>
-                            <td>${r.value.pending}</td>
-                            <td>${r.value.attended}</td>
-                            <td>${r.value.absent}</td>
-                            <td>${r.value.canceled}</td>
-                            <td>${r.value.total}</td>
+                            <td>${d.user}</td>
+                            <td>${d.pending}</td>
+                            <td>${d.attended}</td>
+                            <td>${d.absent}</td>
+                            <td>${d.canceled}</td>
+                            <td>${d.total}</td>
                         </tr>
                     </g:each>
                     <tr>
-                        <td>TOTALES</td>
-                        <td>${results*.value.pending.sum()}</td>
-                        <td>${results*.value.attended.sum()}</td>
-                        <td>${results*.value.absent.sum()}</td>
-                        <td>${results*.value.canceled.sum()}</td>
-                        <td>${results*.value.total.sum()}</td>
+                        <td>TOTAL</td>
+                        <td>${data.pending.sum()}</td>
+                        <td>${data.attended.sum()}</td>
+                        <td>${data.absent.sum()}</td>
+                        <td>${data.canceled.sum()}</td>
+                        <td>${data.total.sum()}</td>
                     </tr>
                 </tbody>
             </table>

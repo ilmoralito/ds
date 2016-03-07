@@ -67,7 +67,7 @@ class BootStrap {
           role:"asistente",
           fullName:"Nami Martinez",
           enabled:true,
-          schools: [theDepartments[0]],
+          schools: [schools[1], theDepartments[0]],
           classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
         )
 
@@ -122,15 +122,16 @@ class BootStrap {
         requestInstance.save failOnError: true
 
         Request r1 = new Request(
-          dateOfApplication: today + 5,
-          classroom: peluso.classrooms.collect { it }[0],
-          school: peluso.schools.collect { it }[0],
-          datashow: 1
+          dateOfApplication: today,
+          classroom: hotch.classrooms.collect { it }[0],
+          school: hotch.schools.collect { it }[0],
+          datashow: 1,
+          status: "attended"
         )
 
         r1.addToHours new Hour(0)
 
-        peluso.addToRequests r1
+        hotch.addToRequests r1
 
         r1.save failOnError: true
 

@@ -134,30 +134,24 @@ class RequestController {
   }
 
   def detail(Integer y, String m, String s) {
-    def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    List<Request> requests = Request.where {
+      school == s &&
+      month(dateOfApplication) == MONTHS.indexOf(m) + 1 &&
+      year(dateOfApplication) == y
+    }.list()
 
-    def query = Request.where {
-      school == s && month(dateOfApplication) == months.indexOf(m) + 1 && year(dateOfApplication) == y
-    }
+    List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
+      [
+        user: o.key,
+        pending: o.value.pending.size(),
+        attended: o?.value?.attended?.size() ?: 0,
+        absent: o?.value?.absent?.size() ?: 0,
+        canceled: o?.value?.canceled?.size() ?: 0,
+        total: o.value*.value.flatten().size()
+      ]
+    }.sort { -it.total }
 
-    def results = query.list().groupBy { it.user.fullName } { it.status }.collectEntries { a ->
-      [(a.key): a.value.collectEntries { b ->
-        [(b.key): b.value.size()]
-      }]
-    }
-
-    def requestStatus = ["pending", "attended", "absent", "canceled"]
-    results.each { key, value ->
-      requestStatus.each { status ->
-        if (!(status in value.keySet())) {
-          value[status] = 0
-        }
-      }
-
-      value["total"] = value*.value.sum()
-    }
-
-    [results:results]
+    [data: data]
   }
 
   private checkRequestStatus() {
