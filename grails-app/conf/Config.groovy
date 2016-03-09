@@ -94,292 +94,304 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-ni.edu.uccleon.data = [
-  [
-    coordination: "Industrial",
-    datashow: [1, 1, 1, 1, 1, 1, 1]
-  ],
-  [
-    coordination: "CPF, EG, MP",
-    datashow: [2, 2, 2, 2, 2, 2, 2]
-  ],
-  [
-    coordination: "AE, AETH, CI, D",
-    datashow: [3, 3, 3, 3, 3, 3, 3]
-  ],
-  [
-    coordination: "Arquitectura y civil",
-    datashow: [4, 4, 4, 4, 4, 4, 4]
-  ],
-  [
-    coordination: "Sistemas y diseno grafico",
-    datashow: [5, 5, 5, 5, 5, 5, 5]
-  ],
-  [
-    coordination: "Ingles",
-    datashow: [6, 6, 6, 6, 6, 6, 6]
-  ],
-  [
-    coordination: "Agronomia",
-    datashow: [7, 7, 7, 7, 7, 7, 7]
-  ],
-  [
-    coordination: "FESE",
-    datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
-  ],
-  [
-    coordination:"Especializacion",
-    datashow: [
-      [4, 5, 6, 7, 8, 9, 10],
-      [8, 9],
-      [8, 9],
-      [8, 9],
-      [8, 9],
-      [8, 9],
-      [4, 5, 6, 7, 8, 9, 10],
-    ]
-  ],
-  [
-    coordination: "Administracion",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Protocolo",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Promotoria",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Direccion Academica",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Vice Rectoria General",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Registro",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Recursos humanos",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Vida Estudiantil",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Desarrollo Proyeccion",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Transporte",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ],
-  [
-    coordination: "Escuela de manejo",
-    datashow: [6, 6, 6, 6, 6, 6, 6]
-  ],
-  [
-    coordination: "Direccion Financiera",
-    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
-  ]
-]
+ni {
+  edu {
+    uccleon {
+      firstUserInformation = [
+        fullName: "FirstName LastName",
+        schools: ["school1", "school2"],
+        classrooms: ["classroom1", "classroom2"]
+      ]
 
-ni.edu.uccleon.roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
+      roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
 
-ni.edu.uccleon.schoolsAndDepartments = [
-  schools: [
-    "Industrial",
-    "CPF, EG, MP",
-    "AE, AETH, CI, D",
-    "Arquitectura y civil",
-    "Sistemas y diseno grafico",
-    "Ingles",
-    "Agronomia",
-    "FESE"
-  ],
-  departments: [
-    "Especializacion",
-    "Administracion",
-    "Protocolo",
-    "Promotoria",
-    "Direccion Academica",
-    "Vice Rectoria General",
-    "Registro",
-    "Recursos humanos",
-    "Vida Estudiantil",
-    "Desarrollo Proyeccion",
-    "Transporte",
-    "Escuela de manejo",
-    "Direccion Financiera"
-  ]
-]
+      data = [
+        [
+          coordination: "Industrial",
+          datashow: [1, 1, 1, 1, 1, 1, 1]
+        ],
+        [
+          coordination: "CPF, EG, MP",
+          datashow: [2, 2, 2, 2, 2, 2, 2]
+        ],
+        [
+          coordination: "AE, AETH, CI, D",
+          datashow: [3, 3, 3, 3, 3, 3, 3]
+        ],
+        [
+          coordination: "Arquitectura y civil",
+          datashow: [4, 4, 4, 4, 4, 4, 4]
+        ],
+        [
+          coordination: "Sistemas y diseno grafico",
+          datashow: [5, 5, 5, 5, 5, 5, 5]
+        ],
+        [
+          coordination: "Ingles",
+          datashow: [6, 6, 6, 6, 6, 6, 6]
+        ],
+        [
+          coordination: "Agronomia",
+          datashow: [7, 7, 7, 7, 7, 7, 7]
+        ],
+        [
+          coordination: "FESE",
+          datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
+        ],
+        [
+          coordination:"Especializacion",
+          datashow: [
+            [4, 5, 6, 7, 8, 9, 10],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [4, 5, 6, 7, 8, 9, 10],
+          ]
+        ],
+        [
+          coordination: "Administracion",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Protocolo",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Promotoria",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Direccion Academica",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Vice Rectoria General",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Registro",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Recursos humanos",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Vida Estudiantil",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Desarrollo Proyeccion",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Transporte",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ],
+        [
+          coordination: "Escuela de manejo",
+          datashow: [6, 6, 6, 6, 6, 6, 6]
+        ],
+        [
+          coordination: "Direccion Financiera",
+          datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+        ]
+      ]
 
-ni.edu.uccleon.cls = [
-  B: [
-      [code: "B101", name: "Auditorio mayor"],
-      [code: "B201", name: "Mesanini B201"],
-      [code: "B202", name: "Mesanini B202"]
-  ],
-  C: [
-      [code: "C101", name: "Auditorio menor"],
-      [code: "C102", name: "Desarrollo y proyeccion"],
-      [code: "C103"],
-      [code: "C104"],
-      [code: "C105"],
-      [code: "C106"],
-      [code: "C109A"],
-      [code: "C109B"],
-      [code: "C201", name: "Biblioteca"],
-      [code: "C202"],
-      [code: "C203"],
-      [code: "C204"],
-      [code: "C205"],
-      [code: "C206", name: "Lab 4"],
-      [code: "C207", name: "Lab 3"],
-      [code: "C208", name: "Lab 2"]
-  ],
-  D: [
-      [code: "D101"],
-      [code: "D102"],
-      [code: "D103"],
-      [code: "D104"],
-      [code: "D105"],
-      [code: "D109", name: "Sala de audiovisuales"],
-      [code: "D201"],
-      [code: "D202"],
-      [code: "D203"],
-      [code: "D204"],
-      [code: "D205"],
-      [code: "D206"],
-      [code: "D207"],
-      [code: "D208", name: "Lab 1"]
-  ],
-  E: [
-    [code: "E108"],
-    [code: "E112"],
-    [code: "E113", name: "Finanzas"],
-    [code: "E114", name: "Administracion"],
-    [code: "E115"],
-    [code: "E116"],
-    [code: "E117"],
-    [code: "E118"],
-    [code: "E119", name: "Sala de maestros"],
-    [code: "E204", name: "Sala de reuniones"],
-    [code: "E208"],
-    [code: "E209"],
-    [code: "E210"],
-    [code: "E211"],
-    [code: "E212"],
-    [code: "E213", name: "Proyecto"],
-    [code: "E214"],
-    [code: "E215"],
-    [code: "E216"],
-    [code: "E217"],
-    [code: "E218"],
-    [code: "E219"],
-    [code: "E220", name: "Escuela de manejo"]
-  ],
-  K: [
-    [code: "K103"],
-    [code: "K104"],
-    [code: "K105"],
-    [code: "K201"],
-    [code: "K202"],
-    [code: "K203"]
-  ],
-  undefined: [
-    [code: "Afuera de UCC"],
-    [code: "Corredor registro"],
-    [code: "Piscina"]
-  ]
-]
+      schoolsAndDepartments = [
+        schools: [
+          "Industrial",
+          "CPF, EG, MP",
+          "AE, AETH, CI, D",
+          "Arquitectura y civil",
+          "Sistemas y diseno grafico",
+          "Ingles",
+          "Agronomia",
+          "FESE"
+        ],
+        departments: [
+          "Especializacion",
+          "Administracion",
+          "Protocolo",
+          "Promotoria",
+          "Direccion Academica",
+          "Vice Rectoria General",
+          "Registro",
+          "Recursos humanos",
+          "Vida Estudiantil",
+          "Desarrollo Proyeccion",
+          "Transporte",
+          "Escuela de manejo",
+          "Direccion Financiera"
+        ]
+      ]
 
-ni.edu.uccleon.blocks = 6
+      cls = [
+        B: [
+            [code: "B101", name: "Auditorio mayor"],
+            [code: "B201", name: "Mesanini B201"],
+            [code: "B202", name: "Mesanini B202"]
+        ],
+        C: [
+            [code: "C101", name: "Auditorio menor"],
+            [code: "C102", name: "Desarrollo y proyeccion"],
+            [code: "C103"],
+            [code: "C104"],
+            [code: "C105"],
+            [code: "C106"],
+            [code: "C109A"],
+            [code: "C109B"],
+            [code: "C201", name: "Biblioteca"],
+            [code: "C202"],
+            [code: "C203"],
+            [code: "C204"],
+            [code: "C205"],
+            [code: "C206", name: "Lab 4"],
+            [code: "C207", name: "Lab 3"],
+            [code: "C208", name: "Lab 2"]
+        ],
+        D: [
+            [code: "D101"],
+            [code: "D102"],
+            [code: "D103"],
+            [code: "D104"],
+            [code: "D105"],
+            [code: "D109", name: "Sala de audiovisuales"],
+            [code: "D201"],
+            [code: "D202"],
+            [code: "D203"],
+            [code: "D204"],
+            [code: "D205"],
+            [code: "D206"],
+            [code: "D207"],
+            [code: "D208", name: "Lab 1"]
+        ],
+        E: [
+          [code: "E108"],
+          [code: "E112"],
+          [code: "E113", name: "Finanzas"],
+          [code: "E114", name: "Administracion"],
+          [code: "E115"],
+          [code: "E116"],
+          [code: "E117"],
+          [code: "E118"],
+          [code: "E119", name: "Sala de maestros"],
+          [code: "E204", name: "Sala de reuniones"],
+          [code: "E208"],
+          [code: "E209"],
+          [code: "E210"],
+          [code: "E211"],
+          [code: "E212"],
+          [code: "E213", name: "Proyecto"],
+          [code: "E214"],
+          [code: "E215"],
+          [code: "E216"],
+          [code: "E217"],
+          [code: "E218"],
+          [code: "E219"],
+          [code: "E220", name: "Escuela de manejo"]
+        ],
+        K: [
+          [code: "K103"],
+          [code: "K104"],
+          [code: "K105"],
+          [code: "K201"],
+          [code: "K202"],
+          [code: "K203"]
+        ],
+        undefined: [
+          [code: "Afuera de UCC"],
+          [code: "Corredor registro"],
+          [code: "Piscina"]
+        ]
+      ]
 
-ni.edu.uccleon.saturday.blocks = 3
+      blocks = 6
 
-ni.edu.uccleon.sunday.blocks = 2
+      saturday.blocks = 3
 
-ni.edu.uccleon.datashows = [
-  [
-    trademark: "EPSON",
-    model: "H430A",
-    serialNumber: "PSPK2302463",
-    hdmi: false,
-    usb: true,
-    enabled: true
-  ],[
-    trademark: "EPSON",
-    model: "H430A",
-    serialNumber: "PSPK2302465",
-    hdmi: false,
-    usb: true,
-    enabled: true
-  ],[
-    trademark: "EPSON",
-    model: "H430A",
-    serialNumber: "PSPK2302445",
-    hdmi: false,
-    usb: true,
-    enabled: true
-  ],[
-    trademark: "EPSON",
-    model: "H430A",
-    serialNumber: "PSPK2302494",
-    hdmi: false,
-    usb: true,
-    enabled: true
-  ],[
-    trademark: "BENQ",
-    model: "MS521P",
-    serialNumber: "PD6CD01995000",
-    hdmi: true,
-    usb: false,
-    usbMiniB: true,
-    enabled: true
-  ],[
-    trademark: "BENQ",
-    model: "MS521P",
-    serialNumber: "PD6CD02163000",
-    hdmi: true,
-    usb: false,
-    usbMiniB: true,
-    enabled: true
-  ],[
-    trademark: "EPSON",
-    model: "H430A",
-    serialNumber: "PSPK2302433",
-    hdmi: false,
-    enabled: false
-  ],[
-    trademark: "BENQ",
-    model: "MS504",
-    serialNumber: "PDCCD01507000",
-    hdmi: false,
-    usb: false,
-    usbMiniB: true,
-    enabled: true
-  ],[
-    trademark: "BENQ",
-    model: "MS504",
-    serialNumber: "PDCCD01514000",
-    hdmi: false,
-    usb: false,
-    usbMiniB: true,
-    enabled: true
-  ],[
-    enabled: false
-  ]
-]
+      sunday.blocks = 2
 
-ni.edu.uccleon.speakers = 2
+      datashows = [
+        [
+          trademark: "EPSON",
+          model: "H430A",
+          serialNumber: "PSPK2302463",
+          hdmi: false,
+          usb: true,
+          enabled: true
+        ],[
+          trademark: "EPSON",
+          model: "H430A",
+          serialNumber: "PSPK2302465",
+          hdmi: false,
+          usb: true,
+          enabled: true
+        ],[
+          trademark: "EPSON",
+          model: "H430A",
+          serialNumber: "PSPK2302445",
+          hdmi: false,
+          usb: true,
+          enabled: true
+        ],[
+          trademark: "EPSON",
+          model: "H430A",
+          serialNumber: "PSPK2302494",
+          hdmi: false,
+          usb: true,
+          enabled: true
+        ],[
+          trademark: "BENQ",
+          model: "MS521P",
+          serialNumber: "PD6CD01995000",
+          hdmi: true,
+          usb: false,
+          usbMiniB: true,
+          enabled: true
+        ],[
+          trademark: "BENQ",
+          model: "MS521P",
+          serialNumber: "PD6CD02163000",
+          hdmi: true,
+          usb: false,
+          usbMiniB: true,
+          enabled: true
+        ],[
+          trademark: "EPSON",
+          model: "H430A",
+          serialNumber: "PSPK2302433",
+          hdmi: false,
+          enabled: false
+        ],[
+          trademark: "BENQ",
+          model: "MS504",
+          serialNumber: "PDCCD01507000",
+          hdmi: false,
+          usb: false,
+          usbMiniB: true,
+          enabled: true
+        ],[
+          trademark: "BENQ",
+          model: "MS504",
+          serialNumber: "PDCCD01514000",
+          hdmi: false,
+          usb: false,
+          usbMiniB: true,
+          enabled: true
+        ],[
+          enabled: false
+        ]
+      ]
 
-ni.edu.uccleon.screens = 3
+      speakers = 2
+
+      screens = 3
+    }
+  }
+}
 
 grails.mail.default.from=System.env.GMAIL_USERNAME
 
