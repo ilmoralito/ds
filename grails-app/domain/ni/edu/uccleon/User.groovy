@@ -17,16 +17,8 @@ class User implements Serializable {
     password blank:false
     role maxSize:255, inList:Holders.config.ni.edu.uccleon.roles as List
     fullName blank:false
-    schools validator: { schools, user ->
-      if (!schools?.size()) {
-        "notValid"
-      }
-    }
-    classrooms validator: { classrooms, user ->
-      if (!classrooms?.size()) {
-       "notValid"
-      }
-    }
+    schools nullable: false, minSize: 1
+    classrooms nullable: false, minSize: 1
   }
 
   static namedQueries = {
@@ -51,7 +43,7 @@ class User implements Serializable {
     }
   }
 
-  static hasMany = [schools:String, requests:Request, classrooms:String]
+  static hasMany = [schools: String, requests: Request, classrooms: String]
 
   static mapping = {
     sort "dateCreated"
@@ -73,7 +65,5 @@ class User implements Serializable {
     }
   }
 
-  String toString() {
-    "$fullName ($email)"
-  }
+  String toString() { fullName }
 }
