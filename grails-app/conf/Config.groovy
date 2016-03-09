@@ -216,15 +216,16 @@ ni {
           "Administracion",
           "Protocolo",
           "Promotoria",
-          "Direccion Academica",
-          "Vice Rectoria General",
+          "Direccion academica",
+          "Vice rectoria general",
           "Registro",
           "Recursos humanos",
-          "Vida Estudiantil",
-          "Desarrollo Proyeccion",
+          "Vida estudiantil",
+          "Desarrollo y proyeccion",
           "Transporte",
           "Escuela de manejo",
-          "Direccion Financiera"
+          "Direccion financiera",
+          "Soporte tecnico"
         ]
       ]
 
