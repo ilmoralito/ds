@@ -1,7 +1,10 @@
 package ni.edu.uccleon
 
+import static java.util.Calendar.*
+
 class RequestService {
   static transactional = false
+
   def grailsApplication
 
   def getTotal(Date date, opt) {
@@ -62,6 +65,21 @@ class RequestService {
       } else {
         results
       }
+    }
+  }
+
+  List<Integer> getDatashow(String coordination, Integer dayOfWeek) {
+    ConfigObject config = grailsApplication.config.ni.edu.uccleon
+    def datashow = config.data.find { it.coordination == coordination }.datashow[dayOfWeek]
+    List<Integer> list = []
+
+    println "dayOfWeek: $dayOfWeek"
+    println "datashow: $datashow"
+
+    if (datashow instanceof Integer) {
+      list << datashow
+    } else {
+      datashow
     }
   }
 }

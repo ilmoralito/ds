@@ -2,19 +2,20 @@ package ni.edu.uccleon
 
 import org.hibernate.transform.AliasToEntityMapResultTransformer
 import grails.util.Holders
+import static java.util.Calendar.*
 
 class Request implements Serializable {
+  def requestService
+
   Date dateOfApplication
   String classroom
   String school
   String description
   Integer datashow
   String type = "express"
-
   Boolean audio
   Boolean screen
   Boolean internet
-
   String status = "pending"
 
   Date dateCreated
@@ -33,15 +34,15 @@ class Request implements Serializable {
       school in requestInstance.user.schools
     }
     description nullable: true, maxSize: 10000
-    datashow range: 1..Holders.config.ni.edu.uccleon.datashows.size(), validator: { datashow, requestInstance ->
-      // validate when 
+    datashow blank: false, validator: { datashow, obj ->
+      datashow in obj.requestService.getDatashow(obj.school, obj.dateOfApplication[DAY_OF_WEEK])
     }
     type inList: ["common", "express"], maxSize:255
     audio nullable: true
     screen nullable: true
     internet nullable: true
     status inList: ["pending", "attended", "absent", "canceled"]
-    hours nullable: true
+    hours nullable: true // TODO: FIX hours should not be bullable
   }
 
   static namedQueries = {

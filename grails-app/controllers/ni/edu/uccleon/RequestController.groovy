@@ -143,13 +143,35 @@ class RequestController {
     List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
       [
         user: o.key,
-        pending: o.value.pending.size(),
+        pending: o?.value?.pending?.size(),
         attended: o?.value?.attended?.size() ?: 0,
         absent: o?.value?.absent?.size() ?: 0,
         canceled: o?.value?.canceled?.size() ?: 0,
         total: o.value*.value.flatten().size()
       ]
     }.sort { -it.total }
+
+    [data: data]
+  }
+
+  def summary() {
+    List<Request> requests = Request.list()
+    Map group = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.status }
+    List data = group.collect { o ->
+      [
+        year: o.key,
+        months: (0..11).collect { t ->
+          [
+            month: MONTHS[t],
+            pending: o.value.find { it.key == t }.find { it.value },
+            attended: o.value.find { it.key == t && it.value.attended }?.value?.size() ?: 0,
+            absent: o.value.find { it.key == t && it.value.absent }?.value?.size() ?: 0,
+            canceled: o.value.find { it.key == t && it.value.canceled }?.value?.size() ?: 0,
+            total: o.value.find { it.key == t }?.value ?: 0
+          ]
+        }
+      ]
+    }
 
     [data: data]
   }
