@@ -42,7 +42,7 @@ var UpdateUserSchools = (function() {
 
 UpdateUserSchools.init();
 
-$(':checkbox').on('change', function() {
+$('#updateSchoolsTable').find(':checkbox').on('change', function() {
     var context = $(this),
         data = context.data();
 

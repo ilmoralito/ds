@@ -7,16 +7,16 @@ class UserController {
 
   static defaultAction = "profile"
   static allowedMethods = [
-    list:["GET", "POST"],
-    create:["GET", "POST"],
-    show:["GET", "POST"],
-    enableDisableUserAccount:"POST",
-    notification:"POST",
-    delete:"GET",
-    updatePassword:"POST",
-    resetPassword:"GET",
-    profile:["GET", "POST"],
-    classrooms:["GET", "POST"],
+    list: ["GET", "POST"],
+    create: ["GET", "POST"],
+    show: ["GET", "POST"],
+    updateUserEnabledProperty: "GET",
+    notification: "POST",
+    delete: "GET",
+    updatePassword: "POST",
+    resetPassword: "GET",
+    profile: ["GET", "POST"],
+    classrooms: ["GET", "POST"],
     updateUserRole: "GET",
     updateUserSchools: "GET",
     admin: "GET"
@@ -230,16 +230,16 @@ class UserController {
     }
   }
 
-  def enableDisableUserAccount(Integer id) {
-    def user = User.get(id)
-
-    if (!user) { response.sendError 404 }
+  def updateUserEnabledProperty(Integer id) {
+    User user = User.get(id)
 
     user.properties["enabled"] = !user.enabled
 
-    flash.message = (!user.save()) ? "A ocurrido un error intentalo nuevamente" : "Estado de cuenta actualizado"
+    String message = user.save() ? 'success' : 'error'
 
-    redirect action:"show", id:id
+    render(contentType: "application/json") {
+      status = message
+    }
   }
 
   def notification(Integer id) {
@@ -255,6 +255,7 @@ class UserController {
       html g.render(template: "email", model : [user: user, host: getServerURL()])
     }
 
+    flash.message = "Notificacion enviada"
     redirect action: "show", id: id
   }
 

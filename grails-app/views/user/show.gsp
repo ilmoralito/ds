@@ -5,7 +5,7 @@
     </head>
 
     <content tag="main">
-        <h4>${user?.fullName}</h4>
+        <p>${user?.fullName}</p>
 
         <p>
             <label>Correo</label>
@@ -15,7 +15,7 @@
             </button>
         </p>
 
-        <label>Coordinaciones</label>
+        <p>Coordinaciones</p>
         <div>
             <small
                 id="toggleSchools"
@@ -66,18 +66,23 @@
     </content>
 
     <content tag="col1">
-        <h4>Actualizar rol</h4>
+        <p>Actualizar rol</p>
         <ds:roles user="${user}"/>
 
-        <h4>Adminsitrar</h4>
-        <g:form action="enableDisableUserAccount">
+        <p>Adminsitrar</p>
+        <g:form>
             <g:hiddenField name="id" value="${user?.id}"/>
-            <button type="submit" class="btn btn-default btn-block">Estado actual: <ds:isEnabled status="${user.enabled}"/></button>
+            <div class="checkbox">
+                <label>
+                    <g:checkBox name="enabled" value="${user?.enabled}" checked="${user?.enabled}" data-id="${user.id}"/>
+                    Estado
+                </label>
+            </div>
         </g:form>
 
         <g:form action="notification">
             <g:hiddenField name="id" value="${user?.id}"/>
-            <button type="submit" class="btn btn-info btn-block">Notificar</button>
+            <button type="submit" class="btn btn-block">Notificar</button>
         </g:form>
 
         <g:link action="resetPassword" id="${params?.id}" class="btn btn-warning btn-block">Resetear clave</g:link>
@@ -85,6 +90,7 @@
         <g:javascript>
             window.ajaxURL = "${createLink(controller: 'user', action: 'updateUserRole')}"
             window.ajaxPATH = "${createLink(controller: 'user', action: 'updateUserSchools')}"
+            window.ajaxURI = "${createLink(controller: 'user', action: 'updateUserEnabledProperty')}"
         </g:javascript>
     </content>
 </g:applyLayout>

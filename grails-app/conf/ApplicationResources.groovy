@@ -4,18 +4,18 @@ modules = {
   }
 
   app {
-  	resource url:"css/app.css"
+    resource url:"css/app.css"
   }
 
   overrides {
-		"jquery-theme" {
-			resource id:"theme", url:"/css/custom-theme/jquery-ui-1.10.3.custom.min.css"
-		}
+    "jquery-theme" {
+      resource id:"theme", url:"/css/custom-theme/jquery-ui-1.10.3.custom.min.css"
+    }
   }
 
   datepicker {
-  	dependsOn "jquery"
-  	resource url:"js/app.js"
+    dependsOn "jquery"
+    resource url:"js/app.js"
   }
 
   requestList {
@@ -67,5 +67,6 @@ modules = {
     resource url: "js/copy.js"
     resource url: "js/updateUserRole.js"
     resource url: "js/updateUserSchools.js"
+    resource url: "js/updateUserEnabledProperty.js"
   }
 }
