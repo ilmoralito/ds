@@ -115,47 +115,43 @@ class UserController {
   }
 
   def list() {
-    def users
-    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-    def coordinationsAndDepartments = params.list("coordinations") + params.list("departments")
-    def usersFiltered = []
+    String fullName = params?.fullName
+    List<Boolean> enabled = params.list("enabled")*.toBoolean()
+    List<String> roles = params.list("roles")
+    List<String> schools = params.list("schools")
+    List<String> departments = params.list("departments")
 
-    if (request.method == "POST") {
-      def criteria = User.createCriteria()
-      users = criteria {
-        if (params?.fullName) {
-          like "fullName", "%$params.fullName%"
+    Closure users = {
+      if (request.post) {
+        List<User> users = []
+        def c = User.createCriteria()
+        List<User> result = c.list {
+          if (params?.fullName) {
+            like "fullName", "%$params.fullName%"
+          }
+
+          if (enabled) {
+            "in" "enabled", enabled
+          }
+
+          if (roles) {
+            "in" "role", roles
+          }
         }
 
-        def enabled = params.list("enabled")*.toBoolean()
-        if (enabled) {
-          "in" "enabled", enabled
+        if (schools || departments) {
+          users = result.findAll { user ->
+            user.schools.any { school -> school in schools || school in departments }
+          }
         }
 
-        def roles = params.list("roles")
-        if (roles) {
-          "in" "role", roles
-        }
+        (!schools && !departments) ? result : users
+      } else {
+        User.findAllByEnabled(true)
       }
-    } else {
-      users = User.findAllByEnabled(true)
     }
 
-    if (coordinationsAndDepartments) {
-      users.each { user ->
-        if (user.schools.any { it in coordinationsAndDepartments} ) {
-           usersFiltered << user
-         }
-      }
-    }
-
-    def usersList = usersFiltered ?: users
-
-    [
-      users:usersList.sort { it.fullName },
-      coordinations:schoolsAndDepartments.schools.sort(),
-      departments:schoolsAndDepartments.departments.sort()
-    ]
+    [ users: users() ]
   }
 
   def create() {

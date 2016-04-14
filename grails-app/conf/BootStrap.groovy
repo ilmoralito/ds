@@ -47,6 +47,7 @@ class BootStrap {
         String d102 = config.cls["D"][1]["code"]
         String d103 = config.cls["D"][2]["code"]
         String d104 = config.cls["D"][3]["code"]
+        String d109 = config.cls["D"][5]["code"]
 
         // E
         String e108 = config.cls["E"][0]["code"]
@@ -69,6 +70,15 @@ class BootStrap {
             fullName: "administrative user",
             schools: [administracion],
             classrooms: [mesanini1, mesanini2]
+        )
+
+        users << builder.user(
+            email: "someuser@domain.com",
+            role: "user",
+            fullName: "someuser user",
+            schools: [fese],
+            classrooms: [e108, e112, e113],
+            enabled: false
         )
 
         users << builder.user(
@@ -101,9 +111,6 @@ class BootStrap {
             }
         }
 
-        /*
-        Integer sunday = dayOfWeek + 5
-
         users << builder.user(
             email: "assistant.user@ucc.edu.ni",
             fullName: "assistant user",
@@ -112,10 +119,10 @@ class BootStrap {
             classrooms: [e108, e112, e113]
         ) {
             request(
-                dateOfApplication: today + 6,
+                dateOfApplication: today,
                 classroom: e108,
                 school: fese,
-                datashow: requestService.getDatashow(fese, sunday)[0],
+                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
                 description: "!very important"
             ) {
                 hour(block: 1)
@@ -123,34 +130,28 @@ class BootStrap {
             }
 
             request(
-                dateOfApplication: today + 6,
+                dateOfApplication: today,
                 classroom: e108,
                 school: fese,
-                datashow: requestService.getDatashow(fese, sunday)[0],
+                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
                 description: "!important"
             ) {
                 hour(block: 0)
             }
         }
 
-        /*
         users << builder.user(
             email: "coordinator.user@ucc.edu.ni",
             fullName: "coordinador user",
             role: "coordinador",
-            schools: [config.schoolsAndDepartments.schools[7]], // FESE
-            classrooms: [
-                config.cls["D"][5]["code"], // D109 Sala de audiovisuales
-                config.cls["E"][0]["code"], // E108
-                config.cls["E"][1]["code"], // E112
-                config.cls["E"][2]["code"] // E113
-            ]
+            schools: [fese],
+            classrooms: [d109, e108, e112, e113]
         ) {
             request(
                 dateOfApplication: today,
-                classroom: config.cls["D"][5]["code"],
-                school: config.schoolsAndDepartments.schools[7],
-                datashow: 5,
+                classroom: d109,
+                school: fese,
+                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
                 status: "attended",
                 audio: true
             ) {
@@ -161,16 +162,15 @@ class BootStrap {
 
             request(
                 dateOfApplication: today,
-                classroom: config.cls["E"][2]["code"],
-                school: config.schoolsAndDepartments.schools[7],
-                datashow: 6,
+                classroom: e113,
+                school: fese,
+                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
                 status: "canceled",
                 description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
             ) {
                 hour(block: 1)
             }
         }
-        */
 
         users.each { user ->
             user.save failOnError: true

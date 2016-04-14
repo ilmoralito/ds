@@ -198,4 +198,57 @@ class CommonTagLib {
         out << days[attrs.int("index") - 1]
     }
 
+    def coordinations = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        String area = attrs.area
+        List<String> coordinations = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments[area]
+        Map<String, String> params = [type: "checkbox", name: area]
+        List<String> list = attrs.list
+
+        mb.div {
+            label area == "schools" ? "Academia" : "Administrativa"
+
+            coordinations.each { coordination ->
+                params.value = coordination
+
+                if (coordination in list) {
+                    params.checked = true
+                } else {
+                    params.remove("checked")
+                }
+
+                div(class: "checkbox") {
+                    input(params)
+                    label { mkp.yield coordination }
+                }
+            }
+        }
+    }
+
+    def rol = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        List<String> roles = grailsApplication.config.ni.edu.uccleon.roles
+        Map<String, String> params = [type: "checkbox", name: "roles"]
+        List<String> listOfRoles = attrs?.listOfRoles
+
+        mb.div {
+            p "Roles"
+
+            roles.each { rol ->
+                params.value = rol
+
+                if (rol in listOfRoles) {
+                    params.checked = true
+                } else {
+                    params.remove("checked")
+                }
+
+                div(class: "checkbox") {
+                    input(params)
+                    label { mkp.yield rol }
+                }
+            }
+        }
+    }
+
 }

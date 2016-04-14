@@ -73,9 +73,6 @@ class RequestService {
     def datashow = config.data.find { it.coordination == coordination }.datashow[dayOfWeek]
     List<Integer> list = []
 
-    println "dayOfWeek: $dayOfWeek"
-    println "datashow: $datashow"
-
     if (datashow instanceof Integer) {
       list << datashow
     } else {
