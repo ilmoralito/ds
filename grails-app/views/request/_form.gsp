@@ -4,7 +4,7 @@
 
 		<g:if test="${session?.user?.role in ['coordinador', 'asistente']}">
 			<label for="user">Solicitado por</label>
-			<g:select name="user" from="${users}" optionKey="email" optionValue="fullName" value="${req?.user?.email}" class="form-control"/>
+			<g:select name="user.id" from="${users}" optionKey="id" optionValue="fullName" value="${req?.user?.email}" class="form-control"/>
 		</g:if>
 
 		<label for="dateOfApplication">Fecha de solicitud</label>

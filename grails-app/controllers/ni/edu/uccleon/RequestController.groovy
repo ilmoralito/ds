@@ -292,7 +292,7 @@ class RequestController {
           }
 
           if (session?.user?.role in ["coordinador", "asistente"]) {
-            flow.user = User.findByEmail(params?.user)
+            flow.user = cmd.user
           }
 
           Request req = new Request(
@@ -804,6 +804,7 @@ class RequestController {
 }
 
 class BuildRequestCommand implements Serializable {
+  User user
   Date dateOfApplication
   String classroom
   String school
