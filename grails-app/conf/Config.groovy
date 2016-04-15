@@ -139,7 +139,19 @@ ni {
           datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
         ],
         [
-          coordination:"Especializacion",
+          coordination: "Especializacion",
+          datashow: [
+            [4, 5, 6, 7, 8, 9, 10],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [8, 9],
+            [4, 5, 6, 7, 8, 9, 10],
+          ]
+        ],
+        [
+          coordination: "Educacion continua",
           datashow: [
             [4, 5, 6, 7, 8, 9, 10],
             [8, 9],
@@ -213,6 +225,7 @@ ni {
         ],
         departments: [
           "Especializacion",
+          "Educacion continua",
           "Administracion",
           "Protocolo",
           "Promotoria",
