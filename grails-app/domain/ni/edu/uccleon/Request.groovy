@@ -5,7 +5,7 @@ import grails.util.Holders
 import static java.util.Calendar.*
 
 class Request implements Serializable {
-  def requestService
+  //def requestService
 
   Date dateOfApplication
   String classroom
@@ -35,7 +35,7 @@ class Request implements Serializable {
     }
     description nullable: true, maxSize: 10000
     datashow blank: false, validator: { datashow, obj ->
-      datashow in obj.requestService.getDatashow(obj.school, obj.dateOfApplication[DAY_OF_WEEK])
+      //datashow in obj.requestService.getDatashow(obj.school, obj.dateOfApplication[DAY_OF_WEEK])
     }
     type inList: ["common", "express"], maxSize:255
     audio nullable: true

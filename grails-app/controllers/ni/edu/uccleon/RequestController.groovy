@@ -814,14 +814,13 @@ class BuildRequestCommand implements Serializable {
   Boolean audio = false
   Boolean screen = false
   Boolean internet = false
-  List hours
 
   static constraints = {
     importFrom Request, exclude: ["datashow"]
   }
 }
 
-class PersistHourCommand {
+class PersistHourCommand implements Serializable {
   Integer datashow
   List blocks
 
