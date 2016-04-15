@@ -57,7 +57,7 @@ class RequestController {
 
   def listOfPendingApplications() {
     def requests = Request.findAllByUserAndStatus session?.user, "pending"
-  	def results = classroomService.transform(requests)
+    def results = classroomService.transform(requests)
 
     [results: results.groupBy { it.dateOfApplication }.sort { it.key }]
   }

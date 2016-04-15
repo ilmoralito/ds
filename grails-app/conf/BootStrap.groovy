@@ -21,7 +21,7 @@ class BootStrap {
 
     private development() {
         ConfigObject config = grailsApplication.config.ni.edu.uccleon
-        Date today = new Date()
+        Date today = new Date().clearTime()
         Integer dayOfWeek = today[DAY_OF_WEEK]
         DomainBuilder builder = new DomainBuilder()
         List<User> users = []
