@@ -59,7 +59,7 @@ class RequestController {
     def requests = Request.findAllByUserAndStatus session?.user, "pending"
     def results = classroomService.transform(requests)
 
-    [results: results.groupBy { it.dateOfApplication }.sort { it.key }]
+    [results: results.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.sort { a, b ->  b.key <=> a.key }]
   }
 
   def userStatistics() {
