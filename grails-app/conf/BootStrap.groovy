@@ -1,301 +1,176 @@
 import ni.edu.uccleon.*
 import grails.util.Environment
+import grails.util.DomainBuilder
 
 class BootStrap {
-	def grailsApplication
+    def grailsApplication
 
-  def init = { servletContext ->
-    if (Environment.current == Environment.DEVELOPMENT) {
-      development()
+    def init = { servletContext ->
+        if (Environment.current == Environment.DEVELOPMENT) {
+            development()
+        }
+
+        if (Environment.current == Environment.PRODUCTION) {
+            production()
+        }
     }
 
-    if (Environment.current == Environment.PRODUCTION) {
-      production()
+    def destroy = {}
+
+    private development() {
+        ConfigObject config = grailsApplication.config.ni.edu.uccleon
+        Date today = new Date().clearTime()
+        DomainBuilder builder = new DomainBuilder()
+        List<User> users = []
+
+        builder.classNameResolver = "ni.edu.uccleon"
+
+        users << builder.user(
+            email: "admin.user@ucc.edu.ni",
+            role: "admin",
+            fullName: "admin user",
+            schools: [config.schoolsAndDepartments.departments[13]], // Soporte tecnico
+            classrooms: [
+                config.cls["B"][1]["code"], // Mesanini 1
+                config.cls["B"][2]["code"] // Mesanini 2
+            ]
+        )
+
+        users << builder.user(
+            email: "administrative.user@ucc.edu.ni",
+            role: "administrativo",
+            fullName: "administrative user",
+            schools: [config.schoolsAndDepartments.departments[1]], // Administracion
+            classrooms: [
+                config.cls["B"][1]["code"], // Mesanini 1
+                config.cls["B"][2]["code"] // Mesanini 2
+            ]
+        )
+
+        users << builder.user(
+            email: "user.user@domain.com",
+            fullName: "user user",
+            schools: [
+                config.schoolsAndDepartments.schools[0], // CPF, EG, MP
+                config.schoolsAndDepartments.schools[1], // AE, AETH, CI, D
+                config.schoolsAndDepartments.schools[2] // Arquitectura y civil
+            ],
+            classrooms: [
+                config.cls["D"][0]["code"], // D101
+                config.cls["D"][1]["code"], // D102
+                config.cls["D"][2]["code"], // D103
+                config.cls["D"][3]["code"] // D104
+            ]
+        ) {
+            request(
+                dateOfApplication: today,
+                classroom: config.cls["D"][1]["code"],
+                school: config.schoolsAndDepartments.schools[1],
+                datashow: 1,
+                description: "Lorem ipsum dolor sit amet",
+                audio: true,
+                internet: true
+            ) {
+                hour(block: 0)
+            }
+
+            request(
+                dateOfApplication: today,
+                classroom: config.cls["D"][0]["code"],
+                school: config.schoolsAndDepartments.schools[0],
+                datashow: 2,
+                description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+            ) {
+                hour(block: 1)
+                hour(block: 2)
+            }
+        }
+
+        users << builder.user(
+            email: "assistant.user@ucc.edu.ni",
+            fullName: "assistant user",
+            schools: [config.schoolsAndDepartments.schools[7]],
+            classrooms: [
+                config.cls["E"][0]["code"], // E108
+                config.cls["E"][1]["code"], // E112
+                config.cls["E"][2]["code"]  // E113
+            ]
+        ) {
+            request(
+                dateOfApplication: today + 1,
+                classroom: config.cls["E"][0]["code"],
+                school: config.schoolsAndDepartments.schools[7],
+                datashow: 5,
+                description: "!very important"
+            ) {
+                hour(block: 2)
+                hour(block: 3)
+            }
+
+            request(
+                dateOfApplication: today + 1,
+                classroom: config.cls["E"][0]["code"],
+                school: config.schoolsAndDepartments.schools[7],
+                datashow: 5,
+                description: "!important"
+            ) {
+                hour(block: 0)
+            }
+        }
+
+        users << builder.user(
+            email: "coordinador.user@ucc.edu.ni",
+            fullName: "coordinador user",
+            schools: [config.schoolsAndDepartments.schools[7]], // FESE
+            classrooms: [
+                config.cls["D"][5]["code"], // D109 Sala de audiovisuales
+                config.cls["E"][0]["code"], // E108
+                config.cls["E"][1]["code"], // E112
+                config.cls["E"][2]["code"] // E113
+            ]
+        ) {
+            request(
+                dateOfApplication: today,
+                classroom: config.cls["D"][5]["code"],
+                school: config.schoolsAndDepartments.schools[7],
+                datashow: 5,
+                status: "attended",
+                audio: true
+            ) {
+                hour(block: 0)
+                hour(block: 1)
+                hour(block: 2)
+            }
+
+            request(
+                dateOfApplication: today,
+                classroom: config.cls["E"][2]["code"],
+                school: config.schoolsAndDepartments.schools[7],
+                datashow: 6,
+                status: "canceled",
+                description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+            ) {
+                hour(block: 1)
+            }
+        }
+
+        users.each { user ->
+            user.save failOnError: true
+        }
     }
-  }
 
-  private development() {
-    def theSchools = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.schools
-    def theDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
-    def schools = theSchools + theDepartments
-    def classrooms = grailsApplication.config.ni.edu.uccleon.cls
-
-    //users
-    def mario = new User (
-      email:"mario@ucc.edu.ni",
-      password:"123",
-      role:"admin",
-      fullName:"mario roger",
-      enabled:true,
-      schools:[schools[4]],
-      classrooms:[classrooms["B"][0]["code"], classrooms["B"][1]["code"]] //B101 and B201
-    )
-
-    mario.save(failOnError:true)
-
-    def hotch = new User(
-      email:"hotch@ucc.edu.ni",
-      password:"123",
-      role:"user",
-      fullName:"Hotch Martinez",
-      enabled:true,
-      schools:[theSchools[7], theSchools[2]],
-      classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
-    )
-
-    hotch.save(failOnError:true)
-
-    def bonita = new User(
-      email:"bonita@ucc.edu.ni",
-      password:"123",
-      role:"user",
-      fullName:"Bonita Martinez",
-      enabled:true,
-      schools:[theSchools[6]],
-      classrooms:[classrooms["C"][14]["code"], classrooms["C"][15]["code"]] //C206:lab4, C207:lab3, C208:lab2
-    )
-
-    bonita.save(failOnError: true)
-
-    def peluso = new User(
-      email:"peluso@yahoo.com",
-      password:"123",
-      role:"user",
-      fullName:"Peluso Martinez",
-      enabled:true,
-      schools:[schools[1], theSchools[7], schools[7]],
-      classrooms:[classrooms["D"][0]["code"], classrooms["D"][1]["code"], classrooms["D"][2]["code"]] // D101, D102, D103
-    )
-
-    peluso.save(failOnError:true)
-
-    def nami = new User(
-      email:"nami@ucc.edu.ni",
-      password:"123",
-      role:"asistente",
-      fullName:"Nami Martinez",
-      enabled:true,
-      schools: [schools[1], theDepartments[0]],
-      classrooms:[classrooms["K"][0]["code"], classrooms["K"][1]["code"]] //K103, K104
-    )
-
-    nami.save(failOnError:true)
-
-    def ready = new User(
-      email: "ready@ucc.edu.ni",
-      password: "123",
-      role: "administrativo",
-      fullName: "Ready Martinez",
-      schools: [theDepartments[0]],
-      classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
-    )
-
-    ready.save(failOnError: true)
-
-    def coco = new User(
-      email: "coco@ucc.edu.ni",
-      password: "123",
-      role: "administrativo",
-      fullName: "Coco Martinez",
-      schools: [theDepartments[5]],
-      classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
-    )
-
-    coco.save(failOnError: true)
-
-    def bonita2 = new User(
-      email: "bonita2@ucc.edu.ni",
-      password: "123",
-      role: "coordinador",
-      fullName: "Bonita2 Martinez",
-      schools: [theSchools[7]],
-      classrooms: [classrooms["B"][0]["code"], classrooms["B"][1]["code"], classrooms["B"][2]["code"]]
-    ).save failOnError: true
-
-    //request
-    Date today = new Date().clearTime()
-
-    Request requestInstance = new Request(
-      dateOfApplication: today + 350,
-      classroom: peluso.classrooms.collect{ it }[0],
-      school: peluso.schools.collect{ it }[0],
-      datashow: 1
-    )
-
-    requestInstance.addToHours new Hour(0)
-
-    peluso.addToRequests requestInstance
-
-    requestInstance.save failOnError: true
-
-    Request r1 = new Request(
-      dateOfApplication: today,
-      classroom: hotch.classrooms.collect { it }[0],
-      school: hotch.schools.collect { it }[0],
-      datashow: 1,
-      status: "attended"
-    )
-
-    r1.addToHours new Hour(0)
-
-    hotch.addToRequests r1
-
-    r1.save failOnError: true
-
-    Request r2 = new Request(
-      dateOfApplication: today,
-      classroom: peluso.classrooms.collect { it }[0],
-      school: peluso.schools.collect { it }[0],
-      datashow: 3
-    )
-
-    r2.addToHours new Hour(0)
-
-    peluso.addToRequests r2
-
-    r2.save failOnError: true
-
-    Request r3 = new Request(
-      dateOfApplication: today,
-      classroom: hotch.classrooms.collect { it }[0],
-      school: hotch.schools.collect { it }[0],
-      datashow: 5
-    )
-
-    r3.addToHours new Hour(0)
-
-    hotch.addToRequests r3
-
-    r3.save failOnError: true
-
-    Request r4 = new Request(
-      dateOfApplication: today + 1,
-      classroom: hotch.classrooms.collect { it }[0],
-      school: hotch.schools.collect { it }[0],
-      datashow: 1
-    )
-
-    r4.addToHours new Hour(0)
-
-    hotch.addToRequests r4
-
-    r4.save failOnError: true
-
-    Request r5 = new Request(
-      dateOfApplication: today + 8,
-      classroom: hotch.classrooms.collect { it }[0],
-      school: hotch.schools.collect { it }[0],
-      datashow: 1
-    )
-
-    r5.addToHours new Hour(0)
-
-    hotch.addToRequests r5
-
-    r5.save failOnError: true
-
-    Request r6 = new Request(
-      dateOfApplication: today + 2,
-      classroom: hotch.classrooms.collect { it }[0],
-      school: hotch.schools.collect { it }[0],
-      datashow: 1
-    )
-
-    r6.addToHours new Hour(0)
-
-    hotch.addToRequests r6
-
-    r6.save failOnError: true
-
-    Request requestInstance0 = new Request(
-      dateOfApplication: today + 3,
-      classroom: peluso.classrooms.collect{ it }[0],
-      school: peluso.schools.collect{ it }[0],
-      datashow: 1
-    )
-
-    requestInstance0.addToHours new Hour(0)
-
-    peluso.addToRequests requestInstance0
-
-    requestInstance0.save failOnError: true
-
-    def r = new Request(
-      dateOfApplication: today + 3,
-      classroom: peluso.classrooms.collect{ it }[0],
-      school: peluso.schools.collect{ it }[0],
-      datashow: 1
-    )
-
-    r.addToHours new Hour(1)
-
-    peluso.addToRequests r
-
-    r.save failOnError: true
-
-    def pelusoRequestInstance1 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[1], school:peluso.schools.collect{ it }[0], datashow:5, type:"express")
-    def pelusoHour1 = new Hour(1)
-
-    pelusoRequestInstance1.addToHours pelusoHour1
-    peluso.addToRequests pelusoRequestInstance1
-    pelusoRequestInstance1.save(failOnError:true)
-
-    def pelusoRequestInstance2 = new Request(dateOfApplication:today, classroom:peluso.classrooms.collect{ it }[2], school:peluso.schools.collect{ it }[0], datashow:3, type:"express")
-    def pelusoHour2 = new Hour(1)
-
-    pelusoRequestInstance2.addToHours pelusoHour2
-    peluso.addToRequests pelusoRequestInstance2
-    pelusoRequestInstance2.save(failOnError:true)
-
-    //hotch
-    def hotchRequestInstance1 = new Request (
-      dateOfApplication: today,
-      classroom: hotch.classrooms.collect{ it }[0],
-      school: hotch.schools.collect{ it }[0],
-      datashow: 10,
-      audio: true,
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem a aut ex beatae, aspernatur sapiente minus labore voluptatem nobis molestias inventore enim iure saepe minima tempore totam aperiam hic impedit."
-    )
-
-    hotchRequestInstance1
-      .addToHours(new Hour(0))
-      .addToHours(new Hour(1))
-      .addToHours(new Hour(2))
-
-    hotch.addToRequests hotchRequestInstance1
-    hotchRequestInstance1.save failOnError: true
-
-    def hotchRequestInstance2 = new Request(dateOfApplication:today, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
-    def hourInstance1 = new Hour(1)
-
-    hotchRequestInstance2.addToHours hourInstance1
-    hotch.addToRequests hotchRequestInstance2
-    hotchRequestInstance2.save(failOnError:true)
-
-    def hotchRequestInstance3 = new Request(dateOfApplication:today + 30, classroom:hotch.classrooms.collect{ it }[0], school:hotch.schools.collect{ it }[0], datashow:2, type:"express")
-    def hourInstance2 = new Hour(1)
-
-    hotchRequestInstance3.addToHours hourInstance2
-    hotch.addToRequests hotchRequestInstance3
-    hotchRequestInstance3.save(failOnError:true)
-
-    assert Request.count() == 14
-  }
-
-  private production() {
-    if (!User.findByEmail(System.env.GMAIL_USERNAME)) {
-      new User (
-        email: System.env.GMAIL_USERNAME,
-        password: System.env.DEFAULT_ADMIN_PASSWORD,
-        role: "admin",
-        fullName: "Mario Roger Martinez Morales",
-        enabled: true,
-        schools: ["Soporte tecnico"],
-        classrooms: ["B201"]
-      ).save(failOnError: true)
+    private production() {
+        ConfigObject config = grailsApplication.config.ni.edu.uccleon
+
+        if (!User.findByEmail(System.env.GMAIL_USERNAME)) {
+            new User (
+                email: System.env.GMAIL_USERNAME,
+                password: System.env.DEFAULT_ADMIN_PASSWORD,
+                role: "admin",
+                fullName: config.firstUserInformation.fullName,
+                schools: config.firstUserInformation.schools,
+                classrooms: config.firstUserInformation.classrooms
+            ).save failOnError: true
+        }
     }
-  }
-
-  def destroy = {
-  }
 }
