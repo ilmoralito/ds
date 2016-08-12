@@ -89,6 +89,7 @@ class BootStrap {
         users << builder.user(
             email: "assistant.user@ucc.edu.ni",
             fullName: "assistant user",
+            role: "asistente",
             schools: [config.schoolsAndDepartments.schools[7]],
             classrooms: [
                 config.cls["E"][0]["code"], // E108
@@ -119,8 +120,9 @@ class BootStrap {
         }
 
         users << builder.user(
-            email: "coordinador.user@ucc.edu.ni",
+            email: "coordinator.user@ucc.edu.ni",
             fullName: "coordinador user",
+            role: "coordinador",
             schools: [config.schoolsAndDepartments.schools[7]], // FESE
             classrooms: [
                 config.cls["D"][5]["code"], // D109 Sala de audiovisuales
