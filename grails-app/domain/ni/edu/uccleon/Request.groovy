@@ -26,8 +26,12 @@ class Request implements Serializable {
 
       dateOfApplication >= date.clearTime()
     }
-    classroom blank: false, maxSize: 255// TODO: add custom validator
-    school blank: false// TODO: add custom validator
+    classroom blank: false, maxSize: 255, validator: { classroom, requestInstance ->
+      classroom in requestInstance.user.classrooms
+    }
+    school blank: false, validator: { school, requestInstance ->
+      school in requestInstance.user.schools
+    }
     description nullable: true, maxSize: 10000
     datashow range: 1..Holders.config.ni.edu.uccleon.datashows.size(), validator: { datashow, requestInstance ->
       // validate when 
