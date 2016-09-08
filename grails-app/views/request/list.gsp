@@ -55,7 +55,7 @@
 	</content>
 
 	<content tag="col1">
-		<h4 class="activity-heading">Filtrar por</h4>
+		<p class="activity-heading">Filtrar por</p>
 		<g:form action="list" autocomplete="off">
 			<label for="">Fechas</label>
 			<g:textField name="requestFromDate" value="${params?.requestFromDate}" class="span2" placeholder="Desde"/>

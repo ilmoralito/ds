@@ -1,87 +1,90 @@
 @media screen and (max-width: 650px) {
-	td.requestInfoContainer {
-		font-size: .7em;
-	}
+    td.requestInfoContainer {
+        font-size: .7em;
+    }
 }
 
 .main {
-	margin-top: 35px;
+    margin-top: 35px;
 }
 
 .well {
-	background:#FFF;
-	margin-bottom:0;
+    background:#FFF;
+    margin-bottom:0;
 }
 
 .well form {
-	margin: 0;
+    margin: 0;
 }
 
 .td-mini {
-	width:1px;
+    width:1px;
 }
 
 .errors {
-	background: red;
+    background: red;
 }
 
 .td-detail {
-	border-right:1px solid #DDD;
-	border-left:1px solid #DDD;
-	text-align: center;
+    border-right:1px solid #DDD;
+    border-left:1px solid #DDD;
+    text-align: center;
 }
 
 .owner {
-	border: 1px solid #5BC0DE;
+    border: 1px solid #5BC0DE;
 }
 
 .detail {
-	display: none;
-	padding: 5px 0;
+    display: none;
+    padding: 5px 0;
 }
 
 /*charts*/
 .bar-chart {
-	background:#444;
-	padding:5px;
-	text-align:right;
-	color:#FFF;
+    background:#444;
+    padding:5px;
+    text-align:right;
+    color:#FFF;
 }
 
 .borderless td {
-	border: none;
+    border: none;
 }
 
 .blocks {
-	text-align:center;
+    text-align:center;
 }
 
 .activity {
-	width:20%;
-	height:50px;
-	position:relative;
+    width:20%;
+    height:50px;
+
+    font-size: .9em;
+
+    position:relative;
 }
 
 .justAdded {
-	background:#FC4F49;
-	color:#FFF;
+    background:#FC4F49;
+    color:#FFF;
 }
 
 .currentUser {
-	background:#D64952;
-	color:#FFF;
+    background:#D64952;
+    color:#FFF;
 }
 
 summary {
-	cursor: pointer;
+    cursor: pointer;
 }
 
-h4.activity-heading {
-	margin-top: 0;
+.activity-heading {
+    margin-top: 0;
 }
 
 .filter-button {
-	margin-top:8px;
+    margin-top:8px;
 }
 
 td.hasDetails { background: #EEE; }
@@ -89,5 +92,5 @@ td.hasDetails { background: #EEE; }
 table.no-top-border td { border-top: 0; }
 
 td.toName {
-	border-top: 0;
+    border-top: 0;
 }
