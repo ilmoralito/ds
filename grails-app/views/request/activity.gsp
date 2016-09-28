@@ -88,7 +88,7 @@
 
                                             <p>${req.user.fullName}</p>
                                             <p>${req.school}</p>
-                                            <ds:classroom room="${req.classroom}"/>
+                                            <p><ds:classroom room="${req.classroom}"/></p>
                                         </g:if>
                                     </g:if>
                                 </td>

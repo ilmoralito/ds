@@ -1,40 +1,43 @@
-$('#user').on('change', function() {
-  var _this = $(this);
-  var userEmail = _this.val();
+$(document).ready(function() {
+    var user = $('#user');
+    var classroom = $('#classroom');
+    var internet = $('#internet');
+    var media = $('#media');
+    var trigger = $('.trigger');
 
-  $.ajax({
-    url: window.ajaxURL,
-    data: {userEmail: userEmail},
-    dataType: 'JSON',
-    success: function(data) {
-      var userClassrooms = data.classrooms;
-      var userSchools = data.schools;
-      var classroom = $('#classroom');
-      var school = $('#school');
-
-      classroom.find('option').remove();
-      school.find('option').remove();
-
-      for (var i = 0; i < userClassrooms.length; i++) {
-        var option = $('<option>', {
-          value: userClassrooms[i].code,
-          text: userClassrooms[i].name
-        });
-
-        classroom.append(option);
-      }
-
-      for (var j = 0; j < userSchools.length; j++) {
-        var opt = $('<option>', {
-          value: userSchools[j],
-          text: userSchools[j]
-        });
-
-        school.append(opt);
-      }
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr.status, thrownError);
+    var hasClassroomWifi = function(wifi) {
+        if (wifi === false) {
+            internet.parent().hide();
+            internet.prop('checked', false);
+        } else {
+            internet.parent().show();
+        }
     }
-  });
+
+    user.on('change', function() {
+        var option = $(this).find('option:selected');
+        var classrooms = option.data().classrooms;
+
+        classroom.find('option').remove();
+
+        $.each(classrooms, function(index, element) {
+            var option = $('<option>', { value: element.code, text: element.name || element.code, 'data-wifi': element.wifi || false });
+
+            classroom.append(option);
+        });
+
+        hasClassroomWifi(classroom.find('option').first().data().wifi);
+    });
+
+    classroom.on('change', function() {
+        var wifi = $(this).find('option:selected').data().wifi;
+
+        hasClassroomWifi(wifi);
+    });
+
+    hasClassroomWifi(classroom.find('option').first().data().wifi);
+
+    trigger.on('click', function(e) {
+        $('#datashow').val($(this).data().datashow)
+    })
 });

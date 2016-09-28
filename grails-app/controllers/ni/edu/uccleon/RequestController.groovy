@@ -1,608 +1,371 @@
 package ni.edu.uccleon
 
-import grails.util.Holders
 import static java.util.Calendar.*
 
 class RequestController {
-  def userService
-  def requestService
-  def classroomService
-  def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
+    def userService
+    def requestService
+    def classroomService
 
-  static defaultAction = "list"
-  static allowedMethods = [
-    list: ["GET", "POST"],
-    create: ["GET", "POST"],
-    edit: "GET",
-    show: "GET",
-    updte: "POST",
-    delete: ["GET"],
-    updateStatus: "GET",
-    requestsBySchools: ["GET", "POST"],
-    requestsByClassrooms: ["GET", "POST"],
-    requestsByUsers: ["GET", "POST"],
-    disponability: "POST",
-    updStatus: "POST",
-    activity: ["GET", "POST"],
-    todo: "POST",
-    createRequestFromActivity: ["GET", "POST"],
-    report: "GET",
-    reportDetail: "GET",
-    getUserClassroomsAndSchools: "GET",
-    requestsByCoordination: "GET",
-    userStatistics: "GET",
-    userStatisticsDetail: "GET",
-    listOfPendingApplications: "GET",
-    create: "GET"
-  ]
+    def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
 
-  private static final MONTHS = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre"
-  ]
+    static defaultAction = "list"
+    static allowedMethods = [
+        buildRequest: 'GET',
+        storeRequest: 'POST',
+        list: ['GET', 'POST'],
+        edit: 'GET',
+        show: 'GET',
+        updte: 'POST',
+        delete: ['GET'],
+        updateStatus: 'GET',
+        requestsBySchools: ['GET', 'POST'],
+        requestsByClassrooms: ['GET', 'POST'],
+        requestsByUsers: ['GET', 'POST'],
+        disponability: 'POST',
+        updStatus: 'POST',
+        activity: ['GET', 'POST'],
+        todo: 'POST',
+        createRequestFromActivity: ['GET', 'POST'],
+        report: 'GET',
+        reportDetail: 'GET',
+        getUserClassroomsAndSchools: 'GET',
+        requestsByCoordination: 'GET',
+        userStatistics: 'GET',
+        userStatisticsDetail: 'GET',
+        listOfPendingApplications: 'GET',
+        create: 'GET'
+    ]
 
-  private getRequestStatus() {
-    [pending: "Pendiente", attended: "Atendido", absent: "Sin retirar", canceled: "Cancelado"]
-  }
+    private static final MONTHS = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+    ]
 
-  def listOfPendingApplications() {
-    def requests = Request.findAllByUserAndStatus session?.user, "pending"
-    def results = classroomService.transform(requests)
-
-    [results: results.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.sort { a, b ->  b.key <=> a.key }]
-  }
-
-  def userStatistics() {
-    def requestStatus = this.getRequestStatus()
-    def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
-      [d.key, d.value.collectEntries { o ->
-        [requestStatus[o.key], o.value.size()]
-      }]
+    private getRequestStatus() {
+        [
+            pending: "Pendiente",
+            attended: "Atendido",
+            absent: "Sin retirar",
+            canceled: "Cancelado"
+        ]
     }
 
-    results.each { key, value ->
-      requestStatus.each { k, v ->
-        if (!(v in value.keySet())) {
-          value[v] = 0
-        }
-      }
-
-      value["TOTAL"] = value*.value.sum()
-    }
-
-    [results: results.sort { -it.key }]
-  }
-
-  def userStatisticsDetail(Integer y) {
-    List months = MONTHS
-    def requestStatus = this.getRequestStatus()
-    def query = Request.where {
-      user == session?.user && year(dateOfApplication) == y
-    }
-
-    def results = query.list().groupBy { it.dateOfApplication[Calendar.MONTH] } { it.status }.collectEntries { d ->
-      [months[d.key], d.value.collectEntries { o ->
-        [requestStatus[o.key], o.value.size()]
-      }]
-    }
-
-    results.values().each { instance ->
-      requestStatus.each { status ->
-        if (!(status.value in instance.keySet())) {
-           instance[status.value] = 0
-        }
-      }
-    }
-
-    [results: results]
-  }
-
-  def report() {
-    Date date = new Date()
-    List months = MONTHS
-    List<Request> requests = Request.list()
-    List data = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.school }.collect { o ->
-      [
-        year: o.key,
-        months: o.value.collect { t ->
-          [
-            month: MONTHS[t.key],
-            coordinations: t.value.collect { c ->
-              [
-                coordination: c.key,
-                size: c.value.size()
-              ]
+    def buildRequest(BuildRequestCommand command) {
+        if (command.hasErrors()) {
+            command.errors.allErrors.each { error ->
+                log.error "[field: $error.field, message: $error.defaultMessage]"
             }
-          ]
+
+            flash.message = "Parametros incorrectos"
+            redirect uri: request.getHeader('referer')
+            return
         }
-      ]
+
+        [
+            school: command.school,
+            dateOfApplication: command.dateOfApplication,
+            blockWidget: createBlockWidget(command.school, command.dateOfApplication)
+        ]
     }
 
-    [
-      data: data.sort { -it.year }
-    ]
-  }
+    def storeRequest() {
+        Request newRequest = new Request(
+            dateOfApplication: params.date('dateOfApplication', 'yyyy-MM-dd'),
+            classroom: params.classroom,
+            school: params.school,
+            description: params.description,
+            datashow: params.int('datashow'),
+            audio: params.boolean('audio'),
+            screen: params.boolean('screen'),
+            internet: params.boolean('internet')
+        )
 
-  def reportDetail(Integer y, String m, String s) {
-    List<Request> requests = Request.where {
-      school == s &&
-      month(dateOfApplication) == MONTHS.indexOf(m) + 1 &&
-      year(dateOfApplication) == y
-    }.list()
-
-    List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
-      [
-        user: o.key,
-        pending: o?.value?.pending?.size(),
-        attended: o?.value?.attended?.size() ?: 0,
-        absent: o?.value?.absent?.size() ?: 0,
-        canceled: o?.value?.canceled?.size() ?: 0,
-        total: o.value*.value.flatten().size()
-      ]
-    }.sort { -it.total }
-
-    [data: data]
-  }
-
-  def summary() {
-    List<Request> requests = Request.list()
-    Map group = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.status }
-    List data = group.collect { o ->
-      [
-        year: o.key,
-        months: (0..11).collect { t ->
-          [
-            month: MONTHS[t],
-            pending: o.value.find { it.key == t }.find { it.value },
-            attended: o.value.find { it.key == t && it.value.attended }?.value?.size() ?: 0,
-            absent: o.value.find { it.key == t && it.value.absent }?.value?.size() ?: 0,
-            canceled: o.value.find { it.key == t && it.value.canceled }?.value?.size() ?: 0,
-            total: o.value.find { it.key == t }?.value ?: 0
-          ]
+        params.list('hours').each { block ->
+            newRequest.addToHours(new Hour(block: block))
         }
-      ]
+
+        User user = User.get(params.int('user'))
+
+        user.addToRequests(newRequest)
+
+        if (!newRequest.save()) {
+            newRequest.errors.allErrors.each { error ->
+                log.error "[field: $error.field, message: $error.defaultMessage]"
+            }
+
+            flash.message = 'Datos incorrectos'
+            redirect uri: request.getHeader('referer')
+            return
+        }
+
+        flash.message = 'Solicitud creada correctamente'
+        redirect action: 'activity', params: [dateSelected: params.dateOfApplication]
     }
 
-    [data: data]
-  }
+    def listOfPendingApplications() {
+        def requests = Request.findAllByUserAndStatus session?.user, "pending"
+        def results = classroomService.transform(requests)
 
-  private checkRequestStatus() {
-    def req = Request.get(params?.id)
-
-    if (!req) { response.sendError 404 }
-
-    if (req.status != "pending") { response.sendError 403 }
-  }
-
-  def list() {
-    def requests
-    def users = params.list("users")
-    def schools = params.list("schools")
-    def departments = params.list("departments")
-    def classrooms = params.list("classrooms")
-    def types = params.list("types")
-    def status = params.list("status")
-    def requestFromDate = params.date("requestFromDate", "yyyy-MM-dd")
-    def requestToDate = params.date("requestToDate", "yyyy-MM-dd")
-    def userInstance = session?.user
-    def role = userInstance?.role
-    def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-    def today = new Date()
-    Date from = requestFromDate ?: today
-    Date to = requestToDate ?: today
-
-    if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
-      requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
-    } else {
-      requests = Request.todayRequest().list()
+        [results: results.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.sort { a, b ->  b.key <=> a.key }]
     }
 
-    def blocks = requestService.getDayOfWeekBlocks(today[Calendar.DAY_OF_WEEK])
-    def requestsByBlock = []
+    def userStatistics() {
+        def requestStatus = this.getRequestStatus()
+        def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
+            [d.key, d.value.collectEntries { o ->
+                [requestStatus[o.key], o.value.size()]
+            }]
+        }
 
-    //group requests by starting block
-    (0..blocks).collect { block ->
-      def node = [block: block, requests: requests.findAll { r -> r.hours.block.min() == block }]
-      requestsByBlock.add node
+        results.each { key, value ->
+            requestStatus.each { k, v ->
+                if (!(v in value.keySet())) {
+                    value[v] = 0
+                }
+            }
+
+            value["TOTAL"] = value*.value.sum()
+        }
+
+        [results: results.sort { -it.key }]
     }
 
-    [
-      requestsByBlock:requestsByBlock.findAll { it.requests },
-      schoolsAndDepartments:schoolsAndDepartments,
-      classrooms:requestService.mergedClassrooms(),
-      users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
-    ]
-  }
+    def userStatisticsDetail(Integer y) {
+        List months = MONTHS
+        def requestStatus = this.getRequestStatus()
+        def query = Request.where {
+            user == session?.user && year(dateOfApplication) == y
+        }
+
+        def results = query.list().groupBy { it.dateOfApplication[Calendar.MONTH] } { it.status }.collectEntries { d ->
+            [months[d.key], d.value.collectEntries { o ->
+                [requestStatus[o.key], o.value.size()]
+            }]
+        }
+
+        results.values().each { instance ->
+            requestStatus.each { status ->
+                if (!(status.value in instance.keySet())) {
+                    instance[status.value] = 0
+                }
+            }
+        }
+
+        [results: results]
+    }
+
+    def report() {
+        Date date = new Date()
+        List months = MONTHS
+        List<Request> requests = Request.list()
+        List data = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.school }.collect { o ->
+            [
+                year: o.key,
+                months: o.value.collect { t ->
+                    [
+                        month: MONTHS[t.key],
+                        coordinations: t.value.collect { c ->
+                            [
+                                coordination: c.key,
+                                size: c.value.size()
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+
+        [data: data.sort { -it.year }]
+    }
+
+    def reportDetail(Integer y, String m, String s) {
+        List<Request> requests = Request.where {
+            school == s &&
+            month(dateOfApplication) == MONTHS.indexOf(m) + 1 &&
+            year(dateOfApplication) == y
+        }.list()
+
+        List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
+            [
+                user: o.key,
+                pending: o?.value?.pending?.size(),
+                attended: o?.value?.attended?.size() ?: 0,
+                absent: o?.value?.absent?.size() ?: 0,
+                canceled: o?.value?.canceled?.size() ?: 0,
+                total: o.value*.value.flatten().size()
+            ]
+        }.sort { -it.total }
+
+        [data: data]
+    }
+
+    def summary() {
+        List<Request> requests = Request.list()
+        Map group = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.status }
+        List data = group.collect { o ->
+            [
+                year: o.key,
+                months: (0..11).collect { t ->
+                    [
+                        month: MONTHS[t],
+                        pending: o.value.find { it.key == t }.find { it.value },
+                        attended: o.value.find { it.key == t && it.value.attended }?.value?.size() ?: 0,
+                        absent: o.value.find { it.key == t && it.value.absent }?.value?.size() ?: 0,
+                        canceled: o.value.find { it.key == t && it.value.canceled }?.value?.size() ?: 0,
+                        total: o.value.find { it.key == t }?.value ?: 0
+                    ]
+                }
+            ]
+        }
+
+        [data: data]
+    }
+
+    private checkRequestStatus() {
+        def req = Request.get(params?.id)
+
+        if (!req) { response.sendError 404 }
+
+        if (req.status != "pending") { response.sendError 403 }
+    }
+
+    def list() {
+        def requests
+        def users = params.list("users")
+        def schools = params.list("schools")
+        def departments = params.list("departments")
+        def classrooms = params.list("classrooms")
+        def types = params.list("types")
+        def status = params.list("status")
+        def requestFromDate = params.date("requestFromDate", "yyyy-MM-dd")
+        def requestToDate = params.date("requestToDate", "yyyy-MM-dd")
+        def userInstance = session?.user
+        def role = userInstance?.role
+        def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+        Date today = new Date()
+        Date from = requestFromDate ?: today
+        Date to = requestToDate ?: today
+
+        if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
+            requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
+        } else {
+            requests = Request.todayRequest().list()
+        }
+
+        def blocks = requestService.getDayOfWeekBlocks(today[Calendar.DAY_OF_WEEK])
+        def requestsByBlock = []
+
+        //group requests by starting block
+        (0..blocks).collect { block ->
+            def node = [block: block, requests: requests.findAll { r -> r.hours.block.min() == block }]
+
+            requestsByBlock.add node
+        }
+
+        [
+            requestsByBlock:requestsByBlock.findAll { it.requests },
+            schoolsAndDepartments:schoolsAndDepartments,
+            classrooms:requestService.mergedClassrooms(),
+            users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
+        ]
+    }
 
     def others() {
-      def results = Request.listByUser(session?.user).findAllByStatusNotEqual("pending")
-      def requests = results.groupBy { request -> request.status }
+        def results = Request.listByUser(session?.user).findAllByStatusNotEqual("pending")
+        def requests = results.groupBy { request -> request.status }
 
-      [requests:requests]
+        [requests:requests]
     }
 
     def getUserClassroomsAndSchools(String userEmail) {
-      def user = User.findByEmail(userEmail)
-      def userClassrooms = userService.transformUserClassrooms(user.classrooms as List)
-      def userSchools = user.schools.findAll { s ->
-        s in session?.user?.schools
-      }
+        def user = User.findByEmail(userEmail)
+        def userClassrooms = userService.transformUserClassrooms(user.classrooms as List)
+        def userSchools = user.schools.findAll { s ->
+            s in session?.user?.schools
+        }
 
-      render(contentType: "application/json") {
-        classrooms = userClassrooms
-        schools = userSchools
-      }
+        render(contentType: "application/json") {
+            classrooms = userClassrooms
+            schools = userSchools
+        }
     }
 
     def requestsByCoordination() {
-      def user = session.user.refresh()
-      def userSchools = user?.schools
-      def criteria = Request.createCriteria()
-      def result = criteria {
-        "in" "school", userSchools
-      }
-
-      def months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-
-      def results = result.groupBy { it.dateOfApplication[Calendar.YEAR] } { it.school } { it.dateOfApplication[Calendar.MONTH] }.collectEntries { d ->
-        [d.key, d.value.collectEntries { o ->
-          [o.key, o.value.collectEntries { x ->
-            [months[x.key], x.value.size()]
-          }]
-        }]
-      }
-
-      [results: results]
-    }
-
-    def create() {
-      redirect action: "createRequest"
-    }
-
-    def createRequestFlow = {
-      init {
-        action {
-          flow.type = params?.type ?: "express"
-          flow.userClassrooms = userService.transformUserClassrooms(session?.user?.refresh().classrooms as List)
-          flow.users = requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "create")
+        def user = session.user.refresh()
+        def userSchools = user?.schools
+        def criteria = Request.createCriteria()
+        def result = criteria {
+            "in" "school", userSchools
         }
 
-        on("success").to "buildRequest"
-      }
+        List<String> months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-      buildRequest {
-        on("create") { BuildRequestCommand cmd ->
-          if (!cmd.validate()) {
-            cmd.errors.allErrors.each { error ->
-              log.error "[$error.field: $error.defaultMessage]"
-            }
-            flow.requestErrors = cmd
-
-            return error()
-          }
-
-          if (session?.user?.role in ["coordinador", "asistente"]) {
-            flow.user = cmd.user
-          }
-
-          Request req = new Request(
-            dateOfApplication:cmd.dateOfApplication,
-            classroom:cmd.classroom,
-            school:cmd.school,
-            description:cmd.description,
-            type:cmd.type,
-            audio:cmd.audio,
-            screen:cmd.screen,
-            internet:cmd.internet
-          )
-
-          [
-            req:req,
-            requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()
-          ]
-        }.to "hours"
-      }
-
-      hours {
-        on("confirm") { PersistHourCommand cmd ->
-          if (!cmd.validate()) {
-            cmd.errors.allErrors.each { println it.defaultMessage }
-            return error()
-          }
-
-          //add to current request datashow selected
-          def user = flow?.user ?: User.get(session?.user?.id)
-          user.addToRequests flow.req
-
-          //add datashow number selected to current request
-          flow.req.datashow = cmd.datashow
-
-          //add hours to request
-          cmd.blocks.each { block ->
-            flow.req.addToHours(new Hour(block:block))
-          }
-
-          flash.message = "Solicitud creada"
-        }.to "done"
-
-        on("delete").to "done"
-      }
-
-      done {
-        redirect controller:"request", action:"listOfPendingApplications"
-      }
-    }
-
-    def editRequestFlow = {
-      init {
-        action {
-          Integer id = params.int("id")
-          def req = Request.findByIdAndUser(id, session?.user)
-
-          if (!req || req.status != "pending") { response.sendError 404 }
-
-          [
-            req: req,
-            userClassrooms: userService.transformUserClassrooms(session?.user?.refresh()?.classrooms as List),
-            users: requestService.getUsersInCurrentUserCoordinations(session?.user?.role, session?.user, "edit")
-          ]
+        def results = result.groupBy { it.dateOfApplication[Calendar.YEAR] } { it.school } { it.dateOfApplication[Calendar.MONTH] }.collectEntries { d ->
+            [d.key, d.value.collectEntries { o ->
+                [o.key, o.value.collectEntries { x ->
+                    [months[x.key], x.value.size()]
+                }]
+            }]
         }
 
-        on("success").to "edit"
-      }
-
-      edit {
-        on("confirm") { BuildRequestCommand cmd ->
-          if (!cmd.validate()) {
-            cmd.errors.allErrors.each { error ->
-              log.error "[$error.field: $error.defaultMessage]"
-            }
-            return error()
-          }
-
-          flow.req.user = User.findByEmail(params?.user) ?: session?.user
-          flow.req.dateOfApplication = cmd.dateOfApplication
-          flow.req.classroom = cmd.classroom
-          flow.req.school = cmd.school
-          flow.req.description = cmd.description
-          flow.req.audio = cmd.audio
-          flow.req.screen = cmd.screen
-          flow.req.internet = cmd.internet
-
-          [req:flow.req, requests:Request.requestFromTo(cmd.dateOfApplication, cmd.dateOfApplication).list()]
-        }.to("hours")
-      }
-
-      hours {
-        on("confirm") { PersistHourCommand cmd ->
-          if (!cmd.validate()) {
-            cmd.errors.allErrors.each { println it }
-            return error()
-          }
-
-          //delete all previous hours in request
-          def query = Hour.where {
-              request == flow.req
-          }
-
-          query.deleteAll()
-
-          //update datashow
-          if (cmd.datashow != flow.req.datashow) {
-            flow.req.datashow = cmd.datashow
-          }
-
-          //add new blocks
-          cmd.blocks.each { block ->
-            flow.req.addToHours(new Hour(block:block))
-          }
-
-          flow.req.save()
-        }.to "done"
-
-        on("delete").to "done"
-      }
-
-      done {
-        redirect controller:"request", action:"listOfPendingApplications"
-      }
-    }
-
-    def multipleRequestsFlow = {
-      init {
-        action {
-          flow.currentUser = session?.user
-          flow.userClassrooms = userService.transformUserClassrooms(session?.user?.refresh()?.classrooms as List)
-          flow.userSchools = flow.currentUser?.schools as List
-          flow.dates = []
-          flow.requestInstances = []
-          flow.type = params?.type ?: "interval"
-        }
-
-        on("success").to "interval"
-      }
-
-      interval {
-        on("addDate") { AddCommand cmd ->
-          if (cmd.hasErrors() || flow.dates.contains(cmd.date)) {
-            cmd.errors.allErrors.each { err ->
-              log.error "[$err.field: $err.defaultMessage]"
-            }
-
-            return error()
-          }
-
-          flow.dates << cmd.date
-        }.to "interval"
-
-        on("addInterval") { AddIntervalCommand cmd ->
-          if (cmd.hasErrors()) {
-            cmd.errors.allErrors.each { err ->
-              log.error "[$err.field: $err.defaultMessage]"
-            }
-            return error()
-          }
-
-          flow.dates = []
-          flow.dates.addAll cmd.fromDate..cmd.toDate
-        }.to "interval"
-
-        on("deleteDate") {
-          def index = params.int("index")
-
-          flow.dates.remove index
-        }.to "interval"
-
-        on("confirm") {
-          flow.position = 0
-
-          def result = requestService.getInfoToAddHours(flow.dates[flow.position])
-
-          [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
-        }.to "create"
-      }
-
-      create {
-        on("add") { BuildRequestCommand cmd ->
-          if (cmd.hasErrors()) {
-            cmd.errors.allErrors.each { error ->
-              log.error "[$error.field: $error.defaultMessage]"
-            }
-
-            return error()
-          }
-
-          def requestInstance = new Request(
-            dateOfApplication:cmd.dateOfApplication,
-            classroom:cmd.classroom,
-            school:cmd.school,
-            datashow:cmd.datashow,
-            description:cmd.description
-          )
-
-          cmd.hours.each { block ->
-            requestInstance.addToHours(new Hour(block:block))
-          }
-
-          flow.currentUser.addToRequests requestInstance
-
-          flow.requestInstances << requestInstance
-        }.to "create"
-
-        on("next") {
-          if (params?.position) {
-            flow.position = params?.int("position")
-          } else if (flow.position < (flow.dates.size() - 1)) {
-            flow.position += 1
-          } else {
-            flow.position = 0
-          }
-
-          def result = requestService.getInfoToAddHours(flow.dates[flow.position])
-
-          flow.blocks = 0 //restart blocks in flow scope
-
-          [requests:result.requests, datashows:result.datashows, day:result.day, blocks:result.blocks]
-        }.to "create"
-
-        on("cancel") {
-          flow.requestInstances = []
-        }.to "interval"
-
-        on("done") {
-          flow.requestInstances.each { req ->
-            if (!req.save(flush:true)) {
-              req.errors.allErrors.each { error ->
-                log.error "[$error.field: $error.defaultMessage]"
-              }
-            }
-          }
-        }.to "end"
-
-        on("summary"){
-          def results = flow.requestInstances.groupBy { it.dateOfApplication }
-
-          [results:results]
-        }.to "summary"
-      }
-
-      summary {
-        on("back").to "create"
-
-        on("deleteRequestInstance") {
-          def rDate = new Date().parse("yyyy-MM-dd", params?.rDate)
-          def index = params.int("index")
-          def instance = flow.results[rDate][index]
-
-          //remove from requestInstances grouped
-          flow.results[rDate] -= flow.results[rDate][index]
-
-          //remove from all requestInstances
-          flow.requestInstances -= instance
-
-          [results:flow.results]
-        }.to "summary"
-      }
-
-      end() {
-        redirect action:"list"
-      }
+        [results: results]
     }
 
     def show(Integer id) {
-      def req = Request.get(id)
+        def req = Request.get(id)
 
-      if (!req) {
-        response.sendError 404
-      }
+        if (!req) {
+            response.sendError 404
+        }
 
-      [req:req]
+        [req:req]
     }
 
     def delete(Integer id) {
-    	def req = Request.findByIdAndUser(id, session?.user)
+        def req = Request.findByIdAndUser(id, session?.user)
 
-    	if (!req) {
-    		response.sendError 404
-    	}
+        if (!req) {
+            response.sendError 404
+        }
 
-    	req.delete()
+        req.delete()
 
-    	flash.message = "Solicitud eliminada"
-    	redirect action: "listOfPendingApplications"
+        flash.message = "Solicitud eliminada"
+        redirect action: "listOfPendingApplications"
     }
 
     def updateStatus(Long id) {
-      def req = Request.get(id)
+        def req = Request.get(id)
 
-      if (!req) { response.sendError 404 }
+        if (!req) { response.sendError 404 }
 
-      if (params?.status) {
-        req.status = params.status
-      } else {
-        if (req.status == "pending") {
-          req.status = "attended"
-        } else if (req.status == "attended") {
-          req.status = "absent"
-        } else if (req.status == "absent") {
-          req.status = "canceled"
+        if (params?.status) {
+            req.status = params.status
         } else {
-          req.status = "pending"
+            if (req.status == "pending") {
+                req.status = "attended"
+            } else if (req.status == "attended") {
+                req.status = "absent"
+            } else if (req.status == "absent") {
+                req.status = "canceled"
+            } else {
+                req.status = "pending"
+            }
         }
-      }
 
-      flash.message = req.save(validate: false) ? "Confirmado..." : req.errors.allErrors.each { println it }
-      redirect action:params?.path ?: "list", params:params
+        flash.message = req.save(validate: false) ? "Confirmado..." : req.errors.allErrors.each { println it }
+        redirect action:params?.path ?: "list", params:params
     }
 
     def activity(String dateSelected) {
@@ -700,7 +463,6 @@ class RequestController {
       [userClassrooms:userService.transformUserClassrooms(session?.user?.refresh().classrooms as List)]
     }
 
-    //REPORTS
     def requestsBy(Date from, Date to, String type) {
       def results
       def totalRequestInYears
@@ -752,109 +514,87 @@ class RequestController {
     }
 
     def updStatus() {
-      if (params.requests) {
-        def status = {
-          def s = params?._action_updStatus
+        if (params.requests) {
+            def status = {
+                def s = params?._action_updStatus
 
-          if (s == "Atendido") {
-            return "attended"
-          } else if (s == "Ausente") {
-            return "absent"
-          } else {
-            return "canceled"
-          }
-        }
-
-        def requests = params.list("requests")
-
-        requests.each { request ->
-          def r = Request.get(request)
-
-          if (r) {
-            r.properties["status"] = status.call()
-
-            if (!r.save()) {
-              r.errors.allErrors.each {
-                  print it
-              }
+                if (s == "Atendido") {
+                    return "attended"
+                } else if (s == "Ausente") {
+                    return "absent"
+                } else {
+                    return "canceled"
+                }
             }
 
-            flash.message = "Estado actualizado"
-          }
+            def requests = params.list("requests")
+
+            requests.each { request ->
+                def r = Request.get(request)
+
+                if (r) {
+                    r.properties["status"] = status.call()
+
+                    if (!r.save()) {
+                        r.errors.allErrors.each {
+                            print it
+                        }
+                    }
+
+                    flash.message = "Estado actualizado"
+                }
+            }
+        } else {
+            flash.message = "Seleciona al menos una solicitud para poder continuar"
         }
-      } else {
-        flash.message = "Seleciona al menos una solicitud para poder continuar"
-      }
 
-      redirect action:"list"
+        redirect action:"list"
     }
 
-    //LIST BY
     def listBy(String type) {
-      def requests
+        def requests
 
-      switch(type) {
-        case "user":
-            requests = Request.listByUser(session?.user).list(params)
+        switch(type) {
+            case "user":
+                requests = Request.listByUser(session?.user).list(params)
             break
-      }
+        }
 
-      [requests:requests]
+        [requests: requests]
+    }
+
+    private BlockWidget createBlockWidget(String school, String dateOfApplication) {
+        Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
+        Integer dayOfWeek = date[Calendar.DAY_OF_WEEK]
+
+        new BlockWidget(
+            blocks: requestService.getDayOfWeekBlocks(dayOfWeek, school),
+            datashows: requestService.getDatashow(school, dayOfWeek),
+            requests: Request.requestFromTo(date, date).list()
+        )
     }
 }
 
-class BuildRequestCommand implements Serializable {
-  User user
-  Date dateOfApplication
-  String classroom
-  String school
-  String description
-  Integer datashow
-  String type = "express"
-  Boolean audio = false
-  Boolean screen = false
-  Boolean internet = false
+class BuildRequestCommand {
+    def userService
 
-  static constraints = {
-    importFrom Request, exclude: ["datashow"]
-  }
+    String school
+    String dateOfApplication
+
+    static constraints = {
+        school blank: false, validator: { school, obj ->
+            school in obj.userService.getCurrentUserSchools()
+        }
+        dateOfApplication blank: false, validator: { dateOfApplication ->
+            Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
+
+            date >= new Date().clearTime()
+        }
+    }
 }
 
-class PersistHourCommand implements Serializable {
-  Integer datashow
-  List blocks
-
-  static constraints = {
-    datashow nullable:false, min:1
-    blocks nullable:false
-  }
-}
-
-class AddCommand {
-  Date date
-
-  static constraints = {
-    date nullable:false, validator:{ date ->
-      def today = new Date().clearTime()
-
-      date >= today ? true : "AddDateCommand.date.validator"
-    }
-  }
-}
-
-@grails.validation.Validateable
-class AddIntervalCommand implements Serializable {
-  Date fromDate
-  Date toDate
-
-  static constraints = {
-    fromDate nullable:false, validator:{ date ->
-      def today = new Date().clearTime()
-
-      date >= today ? true : "AddDateByIntervalCommand.fromDate.validator"
-    }
-    toDate nullable:false, validator:{ toDate, obj ->
-      toDate > obj.fromDate ? true : "AddDateByIntervalCommand.toDate.validator"
-    }
-  }
+class BlockWidget {
+    Integer blocks
+    List<Integer> datashows
+    List<Request> requests
 }

@@ -8,7 +8,7 @@
 		<g:render template="toolbar"/>
 
 		<g:if test="${results}">
-			<h4>Resumen de solictudes</h4>
+			<p>Resumen de solictudes</p>
 
 			<table class="table">
 				<tbody>

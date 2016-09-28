@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
     <head>
         <title>Profesores</title>
-        <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, roster"/>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, roster"/>
     </head>
 
     <content tag="main">

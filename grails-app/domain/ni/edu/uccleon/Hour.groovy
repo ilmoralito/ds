@@ -16,9 +16,10 @@ class Hour implements Serializable {
     }
 
     static constraints = {
-        block min: 0, validator: { block, hourInstance ->
-            Integer dayOfWeek = hourInstance.request.dateOfApplication[DAY_OF_WEEK]
-            Integer blocks = hourInstance.requestService.getDayOfWeekBlocks(dayOfWeek)
+        block min: 0, validator: { block, obj ->
+            String school = obj.request.school
+            Integer dayOfWeek = obj.request.dateOfApplication[DAY_OF_WEEK]
+            Integer blocks = obj.requestService.getDayOfWeekBlocks(dayOfWeek, school)
 
             block in 0..blocks
         }

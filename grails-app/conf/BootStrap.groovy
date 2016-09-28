@@ -34,8 +34,10 @@ class BootStrap {
         String fese = config.schoolsAndDepartments.schools[7]
 
         // administrative
-        String administracion = config.schoolsAndDepartments.departments[1]
-        String soporteTecnico = config.schoolsAndDepartments.departments[13]
+        String administracion = config.schoolsAndDepartments.departments[2]
+        String soporteTecnico = config.schoolsAndDepartments.departments[14]
+        String especializacion = config.schoolsAndDepartments.departments[0]
+        String educacionContinua = config.schoolsAndDepartments.departments[1]
 
         // Schools and offices
         // B
@@ -65,6 +67,22 @@ class BootStrap {
         )
 
         users << builder.user(
+            email: 'karen.alonso@ucc.edu.ni',
+            role: 'asistente',
+            fullName: 'Karen Alonso',
+            schools: [especializacion, educacionContinua],
+            classrooms: [mesanini1, mesanini2, d109, e112]
+        )
+
+        users << builder.user(
+            email: 'yendri.iglesias@ucc.edu.ni',
+            role: 'asistente',
+            fullName: 'Yendri Iglesias',
+            schools: [especializacion, educacionContinua],
+            classrooms: [mesanini1, mesanini2, d109, e112]
+        )
+
+        users << builder.user(
             email: "administrative.user@ucc.edu.ni",
             role: "administrativo",
             fullName: "administrative user",
@@ -82,9 +100,18 @@ class BootStrap {
         )
 
         users << builder.user(
+            email: 'yetanotheruser@domain.com',
+            role: 'user',
+            fullName: 'Abigail Castellon',
+            schools: [fese],
+            classrooms: [e108, e112],
+            enabled: true
+        )
+
+        users << builder.user(
             email: "user.user@domain.com",
             fullName: "user user",
-            schools: [industrial, cpfegmp, aeaethcid],
+            schools: [industrial, cpfegmp, aeaethcid, fese],
             classrooms: [d101, d102, d103, d104]
         ) {
             request(
@@ -115,7 +142,7 @@ class BootStrap {
             email: "assistant.user@ucc.edu.ni",
             fullName: "assistant user",
             role: "asistente",
-            schools: [fese], 
+            schools: [fese],
             classrooms: [e108, e112, e113]
         ) {
             request(
@@ -139,6 +166,14 @@ class BootStrap {
                 hour(block: 0)
             }
         }
+
+        users << builder.user(
+            email: "anotherassistant.user@ucc.edu.ni",
+            fullName: "another assistant user",
+            role: "asistente",
+            schools: [fese, industrial],
+            classrooms: [e108, e112, e113]
+        )
 
         users << builder.user(
             email: "coordinator.user@ucc.edu.ni",

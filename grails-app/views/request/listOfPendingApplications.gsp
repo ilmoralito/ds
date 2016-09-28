@@ -9,7 +9,7 @@
 
         <g:if test="${results}">
             <g:each in="${results}" var="r">
-                <p><strong>${r.key}</strong></p>
+                <p>${r.key}</p>
 
                 <table class="table table-hover">
                     <tbody>

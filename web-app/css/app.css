@@ -71,12 +71,34 @@
 }
 
 .currentUser {
-    background:#D64952;
-    color:#FFF;
+    background:#DDDDDD;
 }
 
 summary {
     cursor: pointer;
+}
+
+section {
+    margin-bottom: 10px;
+}
+
+.create-request {
+    background: #F6F6F6;
+    border-radius: 3px;
+    box-sizing: border-box;
+    padding: 7px;
+    margin-bottom: 10px;
+}
+
+.input-block-level {
+    display: block;
+    width: 100%;
+    min-height: 28px;
+    box-sizing: border-box;
+}
+
+section form {
+    margin: 0;
 }
 
 .activity-heading {
@@ -93,4 +115,10 @@ table.no-top-border td { border-top: 0; }
 
 td.toName {
     border-top: 0;
+}
+
+textarea#description {
+    resize: none;
+    min-height: 50px;
+    max-height: 50px;
 }

@@ -1,11 +1,14 @@
 package ni.edu.uccleon
 
 import groovy.xml.*
+import groovy.json.JsonOutput
 
 class CommonTagLib {
-    static namespace = "ds"
+    def userService
     def requestService
     def grailsApplication
+
+    static namespace = "ds"
 
     def roles = { attrs ->
         List roles = grailsApplication.config.ni.edu.uccleon.roles
@@ -47,7 +50,8 @@ class CommonTagLib {
     }
 
     def classroom = { attrs ->
-        def classrooms = requestService.mergedClassrooms() as List
+        List classrooms = requestService.mergedClassrooms() as List
+
         out << classrooms.find { it.code == attrs.room }.name
     }
 
@@ -251,4 +255,215 @@ class CommonTagLib {
         }
     }
 
+    def createRequest = {
+        MarkupBuilder mb = new MarkupBuilder(out)
+        User currentUser = userService.getCurrentUser()
+        List<String> currentUserSchools = currentUser.schools.toList()
+        Map<String, String> parameters = [:]
+
+        if (currentUser.role in ['coordinador', 'asistente', 'administrativo']) {
+            mb.form(action: g.createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {
+                if (currentUserSchools.size() > 1) {
+                    div(class: 'form-group') {
+                        label(for: 'school') {
+                            mkp.yield 'Coordinacion'
+                        }
+
+                        delegate.select(name: 'school', class: 'form-control input-block-level') {
+                            currentUserSchools.each { school ->
+                                if (school == params?.school) {
+                                    parameters.selected = true
+                                } else {
+                                    parameters.remove('selected')
+                                }
+
+                                parameters.value = school
+
+                                option(parameters) {
+                                    mkp.yield school
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    input(type: 'hidden', name: 'school', value: currentUserSchools[0])
+                }
+
+                div(class: 'form-group') {
+                    label(for: 'dateOfApplication') {
+                        mkp.yield 'Fecha de solicitud'
+                    }
+
+                    input(type: 'date', id: 'dateOfApplication', name: 'dateOfApplication', class: 'form-control input-block-level', value: params?.dateOfApplication)
+                }
+
+                input(type: 'submit', value: 'Crear solicitud', class: 'btn btn-primary btn-block')
+            }
+        }
+    }
+
+    def usersBySchool = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        User currentUser = userService.getCurrentUser()
+        List<User> users = userService.getUsersBySchool(attrs.school)
+        Map<String, String> parameters = [:]
+
+        if (currentUser.role == 'administrativo') {
+            mb.input(type: 'hidden', name: '', value: '')
+        } else {
+            mb.div(class: 'form-group') {
+                label(for: 'user') { mkp.yield 'Solicitado por' }
+
+                delegate.select(id: 'user', name: 'user', class: 'form-control') {
+                    users.each { user ->
+                        if (currentUser == user) {
+                            parameters.selected = true
+                        } else {
+                            parameters.remove('selected')
+                        }
+
+                        parameters.value = user.id
+                        parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList()))
+
+                        option(parameters) {
+                            mkp.yield user.fullName
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def userClassrooms = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        User currentUser = userService.getCurrentUser()
+        List<String> currentUserClassrooms = currentUser.classrooms.toList()
+
+        mb.div(class: 'form-group') {
+            label(for: 'classroom') {
+                mkp.yield 'Aula'
+            }
+
+            delegate.select(id: 'classroom', name: 'classroom', class: 'form-group') {
+                currentUserClassrooms.each { classroom ->
+                    option(value: classroom, 'data-wifi': this.hasClassroomWIFI(classroom)) {
+                        mkp.yield classroom
+                    }
+                }
+            }
+        }
+    }
+
+    def blockWidget = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        List<Integer> datashows = attrs.blockWidget.datashows
+        List<Request> requests = attrs.blockWidget.requests
+        Integer blocks = attrs.blockWidget.blocks
+        Map<String, String> parameters = [:]
+
+        mb.section {
+            label 'Bloques'
+
+            table(class: 'table table-hover table-bordered') {
+                thead {
+                    datashows.eachWithIndex { datashow, index ->
+                        if (index == 0) {
+                            th(width: 1)
+                        }
+
+                        th {
+                            mkp.yield datashow
+
+                            if (this.hasHDMI(datashow)) {
+                                small(style: 'font-weight: normal; font-size: .6em;') {
+                                    mkp.yield 'HDMI'
+                                }
+                            }
+                        }
+                    }
+                }
+
+                tbody {
+                    (0..blocks).eachWithIndex { block, index ->
+                        tr {
+                            td {
+                                mkp.yield block + 1
+                            }
+                            datashows.each { datashow ->
+                                if (requests.find { it.datashow ==  datashow && block in it.hours.block }) {
+                                    parameters.checked = true
+                                    parameters.disabled = true
+                                } else {
+                                    parameters.remove('checked')
+                                    parameters.remove('disabled')
+                                }
+
+                                parameters.type = 'checkbox'
+                                parameters.name = 'hours'
+                                parameters.value = index
+
+                                td {
+                                    input(parameters)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                tfoot {
+                    tr {
+                        datashows.eachWithIndex { datashow, index ->
+                            if (index == 0) {
+                                td {}
+                            }
+
+                            td {
+                                input(
+                                    type: 'submit',
+                                    value: 'Confirmar',
+                                    class: 'btn btn-small btn-primary trigger',
+                                    'data-datashow': datashow)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private Boolean hasClassroomWIFI(String classroom) {
+        String letter = classroom[0]
+
+        if (letter in ['B', 'C', 'D', 'E', 'K']) {
+            Map room = grailsApplication.config.ni.edu.uccleon.cls[letter].find {
+                it.code == classroom
+            }
+
+            return room.wifi ?: false
+        }
+
+        false
+    }
+
+    private List getClassrooms(List<String> classrooms) {
+        def result = classrooms.collect { classroom ->
+            String letter = classroom[0]
+
+            grailsApplication.config.ni.edu.uccleon.cls[letter].find {
+                it.code == classroom
+            }
+        }
+
+        result
+    }
+
+    private Boolean hasHDMI(Integer datashow) {
+        List cannons = grailsApplication.config.ni.edu.uccleon.datashows
+
+        Map cannon = cannons.find { c ->
+            c.code == datashow
+        }
+
+        cannon.hdmi ?: false
+    }
 }

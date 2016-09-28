@@ -99,61 +99,61 @@ ni {
                 ],[
                     coordination: "Especializacion",
                     datashow: [
-                        [4, 5, 6, 7, 8, 9, 10],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [4, 5, 6, 7, 8, 9, 10],
+                        [4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [4, 5, 6, 7, 8, 9, 10, 11, 12],
                     ]
                 ],[
                     coordination: "Educacion continua",
                     datashow: [
-                        [4, 5, 6, 7, 8, 9, 10],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [8, 9],
-                        [4, 5, 6, 7, 8, 9, 10],
+                        [4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [8, 9, 10],
+                        [4, 5, 6, 7, 8, 9, 10, 11, 12],
                     ]
                 ],[
                     coordination: "Administracion",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Protocolo",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Promotoria",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Direccion Academica",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Vice Rectoria General",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Registro",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Recursos humanos",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Vida Estudiantil",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Desarrollo Proyeccion",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Transporte",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ],[
                     coordination: "Escuela de manejo",
                     datashow: [6, 6, 6, 6, 6, 6, 6]
                 ],[
                     coordination: "Direccion Financiera",
-                    datashow: [[8,9], [8,9], [8,9], [8,9], [8,9], [8,9], [8,9]]
+                    datashow: [[8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10], [8, 9, 10]]
                 ]
             ]
 
@@ -190,23 +190,23 @@ ni {
             cls = [
                 B: [
                     [code: "B101", name: "Auditorio mayor"],
-                    [code: "B201", name: "Mesanini B201"],
-                    [code: "B202", name: "Mesanini B202"]
+                    [code: "B201", name: "Mesanini B201", wifi: true],
+                    [code: "B202", name: "Mesanini B202", wifi: true]
                 ],
                 C: [
-                    [code: "C101", name: "Auditorio menor"],
+                    [code: "C101", name: "Auditorio menor", wifi: true],
                     [code: "C102", name: "Desarrollo y proyeccion"],
                     [code: "C103"],
                     [code: "C104"],
                     [code: "C105"],
                     [code: "C106"],
-                    [code: "C109A"],
+                    [code: "C109A", wifi: true],
                     [code: "C109B"],
-                    [code: "C201", name: "Biblioteca"],
+                    [code: "C201", name: "Biblioteca", wifi: true],
                     [code: "C202"],
                     [code: "C203"],
                     [code: "C204"],
-                    [code: "C205"],
+                    [code: "C205", wifi: true],
                     [code: "C206", name: "Lab 4"],
                     [code: "C207", name: "Lab 3"],
                     [code: "C208", name: "Lab 2"]
@@ -217,7 +217,7 @@ ni {
                     [code: "D103"],
                     [code: "D104"],
                     [code: "D105"],
-                    [code: "D109", name: "Sala de audiovisuales"],
+                    [code: "D109", name: "Sala de audiovisuales", wifi: true],
                     [code: "D201"],
                     [code: "D202"],
                     [code: "D203"],
@@ -228,29 +228,29 @@ ni {
                     [code: "D208", name: "Lab 1"]
                 ],
                 E: [
-                  [code: "E108"],
-                  [code: "E112"],
-                  [code: "E113", name: "Finanzas"],
-                  [code: "E114", name: "Administracion"],
-                  [code: "E115"],
-                  [code: "E116"],
-                  [code: "E117"],
-                  [code: "E118"],
-                  [code: "E119", name: "Sala de maestros"],
-                  [code: "E204", name: "Sala de reuniones"],
-                  [code: "E208"],
-                  [code: "E209"],
-                  [code: "E210"],
-                  [code: "E211"],
-                  [code: "E212"],
-                  [code: "E213", name: "Proyecto"],
-                  [code: "E214"],
-                  [code: "E215"],
-                  [code: "E216"],
-                  [code: "E217"],
-                  [code: "E218"],
-                  [code: "E219"],
-                  [code: "E220", name: "Escuela de manejo"]
+                    [code: "E108"],
+                    [code: "E112", wifi: true],
+                    [code: "E113", name: "Finanzas"],
+                    [code: "E114", name: "Administracion"],
+                    [code: "E115"],
+                    [code: "E116"],
+                    [code: "E117"],
+                    [code: "E118"],
+                    [code: "E119", name: "Sala de maestros", wifi: true],
+                    [code: "E204", name: "Sala de reuniones", wifi: true],
+                    [code: "E208"],
+                    [code: "E209"],
+                    [code: "E210"],
+                    [code: "E211"],
+                    [code: "E212"],
+                    [code: "E213", name: "Proyecto", wifi: true],
+                    [code: "E214"],
+                    [code: "E215"],
+                    [code: "E216"],
+                    [code: "E217"],
+                    [code: "E218"],
+                    [code: "E219"],
+                    [code: "E220", name: "Escuela de manejo"]
                 ],
                 K: [
                     [code: "K103"],
@@ -267,105 +267,101 @@ ni {
                 ]
             ]
 
-            blocks = 6
-            saturday.blocks = 3
-            sunday.blocks = 2
-
             datashows = [
                 [
                     trademark: "EPSON",
                     model: "H430A",
                     serialNumber: "PSPK2302463",
-                    hdmi: false,
-                    usb: true,
-                    enabled: true
+                    code: 1,
+                    enabled: true,
                 ],[
                     trademark: "EPSON",
                     model: "H573A",
                     serialNumber: "U3SK4400328",
+                    code: 2,
                     hdmi: true,
-                    usb: true,
                     wifi: true,
-                    enabled: true
+                    enabled: true,
                 ],[
                     trademark: "EPSON",
                     model: "H430A",
                     serialNumber: "PSPK2302445",
-                    hdmi: false,
-                    usb: true,
+                    code: 3,
                     enabled: true
                 ],[
                     trademark: "EPSON",
                     model: "H430A",
                     serialNumber: "PSPK2302494",
-                    hdmi: false,
-                    usb: true,
+                    code: 4,
                     enabled: true
                 ],[
                     trademark: "BENQ",
                     model: "MS521P",
                     serialNumber: "PD6CD01995000",
+                    code: 5,
                     hdmi: true,
-                    usb: false,
-                    usbMiniB: true,
                     enabled: true
                 ],[
                     trademark: "BENQ",
                     model: "MS521P",
                     serialNumber: "PD6CD02163000",
+                    code: 6,
                     hdmi: true,
-                    usb: false,
-                    usbMiniB: true,
                     enabled: true
                 ],[
                     trademark: "EPSON",
                     model: "H430A",
                     serialNumber: "PSPK2302433",
-                    hdmi: false,
+                    code: 7,
                     enabled: false
                 ],[
                     trademark: "BENQ",
                     model: "MS504",
                     serialNumber: "PDCCD01507000",
-                    hdmi: false,
-                    usb: false,
-                    usbMiniB: true,
+                    code: 8,
                     enabled: true
                 ],[
                     trademark: "BENQ",
                     model: "MS504",
                     serialNumber: "PDCCD01514000",
-                    hdmi: false,
-                    usb: false,
-                    usbMiniB: true,
+                    code: 9,
                     enabled: true
                 ],[
                     trademark: "BENQ",
                     model: "MX662",
                     serialNumber: "PDH8D02670000",
+                    code: 10,
                     hdmi: true,
-                    usb: true,
                     enabled: true
                 ],[
                     trademark: "EPSON",
                     model: "H573A",
                     serialNumber: "U3SK4X07310",
+                    code: 11,
                     hdmi: true,
-                    usb: true,
                     wifi: true,
                     enabled: true
                 ],[
                     trademark: "EPSON",
                     model: "H573A",
                     serialNumber: "U3SK4X07317",
+                    code: 12,
                     hdmi: true,
-                    usb: true,
                     wifi: true,
                     enabled: true
                 ]
             ]
 
+            specialization.saturday.blocks = 6
+            specialization.sunday.blocks = 6
+
+            saturday.blocks = 3
+            sunday.blocks = 2
+            blocks = 6
+
+            computers = 1
             speakers = 2
+            pointers = 2
             screens = 3
         }
     }
