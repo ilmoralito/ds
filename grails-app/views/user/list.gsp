@@ -48,31 +48,33 @@
     </content>
 
     <content tag="col1">
-        <g:link action="create" class="btn btn-block btn-primary">Crear usuario</g:link>
+        <section>
+            <g:link action="create" class="btn btn-block btn-primary">Crear usuario</g:link>
+        </section>
 
-        <br>
+        <section>
+            <g:form action="list">
+                <g:textField name="fullName" value="${params?.fullName}" class="span2" placeholder="Nombre"/>
 
-        <g:form action="list">
-            <g:textField name="fullName" value="${params?.fullName}" class="span2" placeholder="Nombre"/>
+                <label>Estado</label>
+                <label class="checkbox">
+                    <g:checkBox name="enabled" value="true" checked="${params.list('enabled').contains('true')}"/>
+                    Activos
+                </label>
 
-            <label>Estado</label>
-            <label class="checkbox">
-                <g:checkBox name="enabled" value="true" checked="${params.list('enabled').contains('true')}"/>
-                Activos
-            </label>
+                <label class="checkbox">
+                    <g:checkBox name="enabled" value="false" checked="${params.list('enabled').contains('false')}"/>
+                    Inactivos
+                </label>
 
-            <label class="checkbox">
-                <g:checkBox name="enabled" value="false" checked="${params.list('enabled').contains('false')}"/>
-                Inactivos
-            </label>
+                <ds:rol listOfRoles="${params.list('roles')}"/>
 
-            <ds:rol listOfRoles="${params.list('roles')}"/>
+                <ds:coordinations area="schools" list="${params.list('schools')}"/>
 
-            <ds:coordinations area="schools" list="${params.list('schools')}"/>
+                <ds:coordinations area="departments" list="${params.list('departments')}"/>
 
-            <ds:coordinations area="departments" list="${params.list('departments')}"/>
-
-            <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
-        </g:form>
+                <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+            </g:form>
+        </section>
     </content>
 </g:applyLayout>

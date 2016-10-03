@@ -24,11 +24,11 @@
                                 </td>
                                 <td>
                                     <g:link action="show" id="${r.id}">
-                                        Por ${r.user.fullName} de ${r.school} en ${r.classroom}
+                                        Por ${r.user} de ${r.school} en ${r.classroom}
                                     </g:link>
                                 </td>
                                 <td width="1">
-                                    <g:link action="updateStatus" params="[id:r.id, requestFromDate:params?.requestFromDate, requestToDate:params?.requestToDate]">
+                                    <g:link action="updateStatus" params="[id: r.id]">
                                         <ds:requestStatus status="${r.status}"/>
                                     </g:link>
                                 </td>
@@ -38,10 +38,18 @@
                 </tbody>
             </table>
 
-            <g:form action="list" name="status">
-                <g:actionSubmit value="Atendido" action="updStatus" class="btn"/>
-                <g:actionSubmit value="Ausente" action="updStatus" class="btn"/>
-                <g:actionSubmit value="Cancelado" action="updStatus" class="btn"/>
+            <g:form action="changeRequestsStatus" name="status">
+                <g:hiddenField name="newStatus"/>
+
+                <button type="submit" class="btn trigger" data-status="attended">
+                    Atendido
+                </button>
+                <button type="submit" class="btn trigger" data-status="absent">
+                    Sin retirar
+                </button>
+                <button type="submit" class="btn trigger" data-status="canceled">
+                    Cancelado
+                </button>
             </g:form>
         </g:if>
         <g:else>
@@ -50,7 +58,6 @@
     </content>
 
     <content tag="col1">
-        <p class="activity-heading">Filtrar por</p>
         <g:form action="list" autocomplete="off">
             <label for="">Fechas</label>
             <g:textField name="requestFromDate" value="${params?.requestFromDate}" class="span2" placeholder="Desde"/>

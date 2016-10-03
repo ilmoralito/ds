@@ -11,9 +11,24 @@
     </content>
 
     <content tag="col1">
-        <g:form action="filter" autocomplete="off">
+        <ul class="nav nav-tabs">
+            <li class="${!params.tab ? 'active' : ''}">
+                <g:link action="activity" params="[date: dateOfApplication.format('yyyy-MM-dd') ?: '']">
+                    Filtro
+                </g:link>
+            </li>
+            <li class="${params.tab ? 'active' : ''}">
+                <g:link action="activity" params="[date: dateOfApplication.format('yyyy-MM-dd') ?: '', tab: 'resumen']">
+                    Resumen
+                </g:link>
+            </li>
+        </ul>
 
-            <g:submitButton name="filter" value="Filtrar" class="btn btn-primary btn-block"/>
-        </g:form>
+        <g:if test="${!params.tab}">
+            Implementar filtro con parametros de las solicitudes listadas
+        </g:if>
+        <g:else>
+            Implementar resumen de las solicitudes de la fecha
+        </g:else>
     </content>
 </g:applyLayout>

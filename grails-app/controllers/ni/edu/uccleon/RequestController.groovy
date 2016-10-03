@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 import static java.util.Calendar.*
+import grails.gorm.DetachedCriteria
 
 class RequestController {
     def userService
@@ -20,7 +21,7 @@ class RequestController {
         requestsBySchools: ['GET', 'POST'],
         requestsByClassrooms: ['GET', 'POST'],
         requestsByUsers: ['GET', 'POST'],
-        updStatus: 'POST',
+        changeRequestsStatus: 'POST',
         activity: 'GET',
         todo: 'POST',
         createRequestFromActivity: ['GET', 'POST'],
@@ -348,7 +349,7 @@ class RequestController {
             response.sendError 404
         }
 
-        requestInstance.properties['status'] = params.status
+        requestInstance.properties['status'] = params.status ?: this.getNextRequestStatus(requestInstance.status)
         flash.message = requestInstance.save() ? 'Cambio de estado aplicado' : 'A ocurrido un error'
 
         redirect uri: request.getHeader('referer')
@@ -478,39 +479,16 @@ class RequestController {
       [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms', 'day']) ? results.count.sum() : 0, type:type]
     }
 
-    def updStatus() {
+    def changeRequestsStatus() {
         if (params.requests) {
-            def status = {
-                def s = params?._action_updStatus
-
-                if (s == "Atendido") {
-                    return "attended"
-                } else if (s == "Ausente") {
-                    return "absent"
-                } else {
-                    return "canceled"
-                }
+            DetachedCriteria<Request> query = Request.where {
+                id in params.list('requests')*.toLong()
             }
 
-            def requests = params.list("requests")
-
-            requests.each { request ->
-                def r = Request.get(request)
-
-                if (r) {
-                    r.properties["status"] = status.call()
-
-                    if (!r.save()) {
-                        r.errors.allErrors.each {
-                            print it
-                        }
-                    }
-
-                    flash.message = "Estado actualizado"
-                }
-            }
+            Integer total = query.updateAll(status: params.newStatus)
+            flash.message = "$total solicitudes afectadas"
         } else {
-            flash.message = "Seleciona al menos una solicitud para poder continuar"
+            flash.message = "Seleciona alguna solicitud para continuar"
         }
 
         redirect action:"list"
@@ -537,6 +515,22 @@ class RequestController {
             datashows: requestService.getDatashow(school, dayOfWeek),
             requests: Request.requestFromTo(date, date).list()
         )
+    }
+
+    private String getNextRequestStatus(final String status) {
+        List<Map<String, String>> requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus
+
+        Integer index = requestStatus.findIndexOf {
+            it.english == status
+        }
+
+        if (index < (requestStatus.size() - 1)) {
+            index = index + 1
+        } else {
+            index = 0
+        }
+
+        requestStatus[index].english
     }
 }
 

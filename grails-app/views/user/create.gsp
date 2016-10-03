@@ -14,7 +14,7 @@
             value="${grailsApplication.config.ni.edu.uccleon.roles}"/>
 
         <g:form action="create" autocomplete="off" name="form">
-            <h4>Perfil</h4>
+            <p>Perfil</p>
             <g:textField
                 name="email"
                 value="${user?.email}"
@@ -28,7 +28,7 @@
                 class="span3"
                 placeholder="Nombre y apellido"/>
 
-            <h4>Role</h4>
+            <p>Role</p>
             <g:each in="${roles}" var="role">
                 <label class="radio">
                     <g:radio
@@ -55,7 +55,7 @@
     </content>
 
     <content tag="col2">
-        <h4>Aulas</h4>
+        <p>Aulas</p>
         <g:each in="${classrooms}" var="classroom">
             <details>
                 <summary><strong>${classroom.key}</strong></summary>
