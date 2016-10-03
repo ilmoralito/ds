@@ -25,7 +25,6 @@ class UserService {
     }
 
     def addSchoolsAndDepartments(schools, User user) {
-        //delete all user schools
         def tmpSchools = []
         tmpSchools.addAll user.schools
 
@@ -33,7 +32,6 @@ class UserService {
             user.removeFromSchools(school)
         }
 
-        //add new user schools
         schools.each { school ->
             if (!user.schools.contains(school)) {
                 user.addToSchools(school)
@@ -42,7 +40,6 @@ class UserService {
     }
 
     def addClassrooms(classrooms, User user) {
-        //delete all user classrooms
         def tmpClassrooms = []
         tmpClassrooms.addAll user.classrooms
 
@@ -50,7 +47,6 @@ class UserService {
             user.removeFromClassrooms(classroom)
         }
 
-        //add new user classroom
         classrooms.each { classroom ->
             if (!user.classrooms.contains(classroom)) {
                 user.addToClassrooms(classroom)

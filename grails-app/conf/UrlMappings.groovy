@@ -40,7 +40,13 @@ class UrlMappings {
             }
         }
 
-        "/activity/$dateSeleted?" (controller:"request", action:"activity")
+        "/activities/$dateOfApplication?" {
+            controller = 'request'
+            action = 'activity'
+            constraints {
+                dateOfApplication nullable: true
+            }
+        }
 
         "/todo/$id?/$datashow?/$block?" (controller:"request", action:"todo")
 

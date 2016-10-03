@@ -14,17 +14,14 @@ class RequestController {
         buildRequest: 'GET',
         storeRequest: 'POST',
         list: ['GET', 'POST'],
-        edit: 'GET',
         show: 'GET',
-        updte: 'POST',
-        delete: ['GET'],
+        delete: 'GET',
         updateStatus: 'GET',
         requestsBySchools: ['GET', 'POST'],
         requestsByClassrooms: ['GET', 'POST'],
         requestsByUsers: ['GET', 'POST'],
-        disponability: 'POST',
         updStatus: 'POST',
-        activity: ['GET', 'POST'],
+        activity: 'GET',
         todo: 'POST',
         createRequestFromActivity: ['GET', 'POST'],
         report: 'GET',
@@ -33,8 +30,7 @@ class RequestController {
         requestsByCoordination: 'GET',
         userStatistics: 'GET',
         userStatisticsDetail: 'GET',
-        listOfPendingApplications: 'GET',
-        create: 'GET'
+        listOfPendingApplications: 'GET'
     ]
 
     private static final MONTHS = [
@@ -322,14 +318,14 @@ class RequestController {
         [results: results]
     }
 
-    def show(Integer id) {
-        def req = Request.get(id)
+    def show(Long id) {
+        Request requestInstance = Request.get(id)
 
-        if (!req) {
+        if (!requestInstance) {
             response.sendError 404
         }
 
-        [req:req]
+        [requestInstance: requestInstance]
     }
 
     def delete(Integer id) {
@@ -346,74 +342,43 @@ class RequestController {
     }
 
     def updateStatus(Long id) {
-        def req = Request.get(id)
+        Request requestInstance = Request.get(id)
 
-        if (!req) { response.sendError 404 }
+        if (!requestInstance) {
+            response.sendError 404
+        }
 
-        if (params?.status) {
-            req.status = params.status
-        } else {
-            if (req.status == "pending") {
-                req.status = "attended"
-            } else if (req.status == "attended") {
-                req.status = "absent"
-            } else if (req.status == "absent") {
-                req.status = "canceled"
+        requestInstance.properties['status'] = params.status
+        flash.message = requestInstance.save() ? 'Cambio de estado aplicado' : 'A ocurrido un error'
+
+        redirect uri: request.getHeader('referer')
+    }
+
+    def activity(String date) {
+        Date today = new Date()
+        Date dateOfApplication = date ? today.parse('yyyy-MM-dd', date) : today
+        List<Request> requestsBetweenDates = requestService.getRequestsBetweenDates(dateOfApplication, dateOfApplication)
+        List<Request> requests = requestService.getRequestStatus(requestsBetweenDates)
+        Integer datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
+
+        Closure layout = {
+            User currentUser = userService.getCurrentUser()
+
+            if (!currentUser) {
+                return 'oneColumn'
+            } else if (currentUser.role != 'admin') {
+                return 'twoColumns'
             } else {
-                req.status = "pending"
+                return 'threeColumns'
             }
         }
 
-        flash.message = req.save(validate: false) ? "Confirmado..." : req.errors.allErrors.each { println it }
-        redirect action:params?.path ?: "list", params:params
-    }
-
-    def activity(String dateSelected) {
-      //data for filter
-      def users = params.list("users")
-      def schools = params.list("schools")
-      def departments = params.list("departments")
-      def classrooms = params.list("classrooms")
-
-      def dateOfApplication = params.date("dateSelected", "yyyy-MM-dd") ?: new Date()
-      def day = dateOfApplication[Calendar.DAY_OF_WEEK]
-      def requests
-
-      def layout = {
-        if (!session?.user) {
-          "oneColumn"
-        } else if (session?.user?.role == "admin") {
-          "threeColumns"
-        } else {
-          "twoColumns"
-        }
-      }
-
-      if (users || schools || departments || classrooms) {
-        def today = new Date()
-
-        requests = Request.filter(users, schools, departments, classrooms).requestFromTo(today, today).list()
-      } else {
-        requests = Request.requestFromTo(dateOfApplication, dateOfApplication).findAllByStatus("pending")
-      }
-
-      def arrs = [
-        requests: requests,
-        blocks: requestService.getDayOfWeekBlocks(day),
-        dateSelected: dateOfApplication.format('yyyy-MM-dd'),
-        datashows: grailsApplication.config.ni.edu.uccleon.datashows.size(),
-        layout: layout(),
-        allowedUsers: ["coordinador", "asistente"],
-        schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,
-        classrooms: requestService.mergedClassrooms(),
-        users: User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
-      ]
-
-      if (layout() == "oneColumn") {
-        arrs.subMap(["requests", "blocks", "dateSelected", "datashows", "layout", "allowedUsers"])
-      } else {
-        arrs
-      }
+        [
+            requests: requests,
+            datashows: datashows,
+            dateOfApplication: dateOfApplication,
+            layout: layout()
+        ]
     }
 
     def todo(Integer id, Integer datashow, Integer block) {

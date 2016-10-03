@@ -5,39 +5,11 @@
 }
 
 .main {
-    margin-top: 35px;
-}
-
-.well {
-    background:#FFF;
-    margin-bottom:0;
-}
-
-.well form {
-    margin: 0;
-}
-
-.td-mini {
-    width:1px;
+    margin-top: 25px;
 }
 
 .errors {
     background: red;
-}
-
-.td-detail {
-    border-right:1px solid #DDD;
-    border-left:1px solid #DDD;
-    text-align: center;
-}
-
-.owner {
-    border: 1px solid #5BC0DE;
-}
-
-.detail {
-    display: none;
-    padding: 5px 0;
 }
 
 /*charts*/
@@ -46,32 +18,6 @@
     padding:5px;
     text-align:right;
     color:#FFF;
-}
-
-.borderless td {
-    border: none;
-}
-
-.blocks {
-    text-align:center;
-}
-
-.activity {
-    width:20%;
-    height:50px;
-
-    font-size: .9em;
-
-    position:relative;
-}
-
-.justAdded {
-    background:#FC4F49;
-    color:#FFF;
-}
-
-.currentUser {
-    background:#DDDDDD;
 }
 
 summary {
@@ -101,24 +47,37 @@ section form {
     margin: 0;
 }
 
-.activity-heading {
-    margin-top: 0;
-}
-
-.filter-button {
-    margin-top:8px;
-}
-
-td.hasDetails { background: #EEE; }
-
-table.no-top-border td { border-top: 0; }
-
-td.toName {
-    border-top: 0;
-}
-
 textarea#description {
     resize: none;
     min-height: 50px;
     max-height: 50px;
 }
+
+#activities th {
+    text-align: center;
+    font-weight: normal;
+}
+
+table.fixed {
+    table-layout: fixed;
+}
+
+.cell {
+    width:20%;
+    height:50px;
+
+    font-size: .9em;
+
+    position:relative;
+}
+
+.hasActivity {
+    background: #DDD;
+}
+
+label.tag {
+    font-size: .7em;
+    text-transform: uppercase;
+}
+
+hr { margin: 0; }

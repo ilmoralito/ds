@@ -107,76 +107,6 @@ class CommonTagLib {
         }
     }
 
-    def blockToHour = { attrs, body ->
-        def block = attrs.int("block")
-        def doapp = attrs.int("doapp") //day of Application
-
-        //sunday
-        if (doapp == 1) {
-            if (block == 1) {
-                out << "08:00 - 09:10"
-            }
-
-            if (block == 2) {
-                out << "09:10 - 10:40"
-            }
-
-            if (block == 3) {
-                out << "10:40 - 12:00"
-            }
-        }
-
-        //saturday
-        if (doapp == 7) {
-            if (block == 1) {
-                out << "08:00 - 10:00"
-            }
-
-            if (block == 2) {
-                out << "10:00 - 12:00"
-            }
-
-            if (block == 3) {
-                out << "01:40 - 02:15"
-            }
-
-            if (block == 4) {
-                out << "02:15 - 03:30"
-            }
-        }
-
-        //weekday
-        if (doapp >= 2 && doapp < 7) {
-            if (block == 1) {
-                out << "08:00 - 09:10"
-            }
-
-            if (block == 2) {
-                out << "09:10 - 10:20"
-            }
-
-            if (block == 3) {
-                out << "10:40 - 11:45"
-            }
-
-            if (block == 4) {
-                out << "12:00 - 01:15"
-            }
-
-            if (block == 5) {
-                out << "01:15 - 02:25"
-            }
-
-            if (block == 6) {
-                out << "02:25 - 03:35"
-            }
-
-            if (block == 7) {
-                out << "03:40 - 05:00"
-            }
-        }
-    }
-
     def message = { attrs, body ->
         def req = attrs.request
         def blocks = attrs.blocks
@@ -423,6 +353,88 @@ class CommonTagLib {
                                     value: 'Confirmar',
                                     class: 'btn btn-small btn-primary trigger',
                                     'data-datashow': datashow)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def activitiesTable = { attrs ->
+        MarkupBuilder mb = new MarkupBuilder(out)
+        Date dateOfApplication = attrs.dateOfApplication
+        List<Request> requests = attrs.requests
+        Integer datashows = attrs.datashows
+        Integer blocks = attrs.blocks
+        User currentUser = userService.getCurrentUser()
+        List requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus.findAll { it.english != 'pending' }
+
+        mb.section {
+            p "${requests.size()} actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
+
+            table(class: 'table table-bordered fixed') {
+                thead {
+                    (1..datashows).eachWithIndex { datashow, index ->
+                        if (index == 0) {
+                            th(width: 10) {}
+                        }
+
+                        th(style: 'font-weight: normal; text-align: center;') {
+                            mkp.yield datashow
+                        }
+                    }
+                }
+
+                tbody {
+                    (0..6).each { block ->
+                        tr {
+                            td(style: 'vertical-align: middle;') {
+                                mkp.yield block + 1
+                            }
+
+                            (1..datashows).each { datashow ->
+                                Request request = requests.find {
+                                    it.datashow == datashow && block in it.hours.block
+                                }
+
+                                if (request) {
+                                    List<Hour> hours = request.hours.sort { it.block }
+                                    Integer index = hours.findIndexOf { hour -> hour.block == block }
+
+                                    td(class: 'cell hasActivity') {
+                                        if (index == 0) {
+                                            if (currentUser?.role == 'admin') {
+                                                div(class: 'dropdown') {
+                                                    a(class: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#') {
+                                                        mkp.yield '+'
+                                                    }
+                                                    ul(class: 'dropdown-menu', role: 'menu', 'aria-labelledby': 'dLabel') {
+                                                        requestStatus.each { status ->
+                                                            li {
+                                                                a(href: g.createLink(action: 'updateStatus', params: [id: request.id, status: status.english])) {
+                                                                    mkp.yield status.spanish
+                                                                }
+                                                            }
+                                                        }
+
+                                                        li(class: 'divider')
+                                                        li {
+                                                            a(href: g.createLink(action: 'show', params: [id: request.id])) {
+                                                                mkp.yield 'Detalle'
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            p request.user.fullName
+                                            p request.classroom
+                                        }
+                                    }
+                                } else {
+                                    td(class: 'cell') {}
+                                }
                             }
                         }
                     }

@@ -16,12 +16,14 @@
                         <g:each in="${r.value}" var="ri">
                             <tr>
                                 <td>
-                                    <g:link action="editRequest" id="${ri.id}">
-                                        Para ${ri.school} en ${ri.classroom}
+                                    <g:link action="show" id="${ri.id}">
+                                        Por ${ri.school} en ${ri.classroom}
                                     </g:link>
                                 </td>
-                                <td width="1">
-                                    <g:link action="delete" params="[id: ri.id]"><i class="icon-trash"></i></g:link>
+                                <td>
+                                    <g:link action="delete" params="[id: ri.id]" class="pull-right">
+                                        <i class="icon-trash"></i>
+                                    </g:link>
                                 </td>
                             </tr>
                         </g:each>

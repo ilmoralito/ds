@@ -8,13 +8,11 @@
         <g:if test="${users}">
             <table class="table table-hover">
                 <colgroup>
-                    <col span="1" style="width: 1%;">
                     <col span="1" style="width: 95%;">
                     <col span="1" style="width: 5%;">
                 </colgroup>
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>
                             <input
                                 id="rosterFilterBox"
@@ -27,9 +25,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <g:each in="${users}" var="user" status="idx">
+                    <g:each in="${users}" var="user">
                         <tr>
-                            <td>${idx + 1}</td>
                             <td>
                                 <g:link action="show" id="${user.id}" class="target">
                                     ${user.fullName}

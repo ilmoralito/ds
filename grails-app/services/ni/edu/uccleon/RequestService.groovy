@@ -96,4 +96,18 @@ class RequestService {
 
         result
     }
+
+    List<Request> getRequestsBetweenDates(Date from, Date to) {
+        List<Request> requests = Request.where {
+            dateOfApplication >= from.clearTime() && dateOfApplication <= to.clearTime()
+        }.list()
+
+        requests
+    }
+
+    List<Request> getRequestStatus(List<Request> requests, String status = 'pending') {
+        requests.findAll { request ->
+            request.status == status
+        }
+    }
 }
