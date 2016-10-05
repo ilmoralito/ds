@@ -29,13 +29,6 @@ modules = {
         resource url:"js/requestDetails.js"
     }
 
-    createUser {
-        dependsOn "app"
-        dependsOn "jquery"
-        resource url:"js/jquery.details.min.js"
-        resource url:"js/details.js"
-    }
-
     users {
         dependsOn "jquery"
         dependsOn "app"

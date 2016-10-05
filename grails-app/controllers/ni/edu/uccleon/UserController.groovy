@@ -175,8 +175,8 @@ class UserController {
 
             sendMail {
                 to params.email
-                subject "Sobre solicitudes de datashow"
-                html g.render(template:"email", model:[user:user, host: getServerURL()])
+                subject "Sobre solicitudes de datashow en UCC-LEON"
+                html g.render(template: "email", model: [user:user, host: getServerURL()])
             }
 
             flash.message = "Usuario creado y notificacion enviada"
