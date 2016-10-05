@@ -5,7 +5,7 @@
     </head>
 
     <content tag="main">
-        <h4>Selecciona coordinacion</h4>
+        <p>Selecciona coordinacion</p>
 
         <g:form>
             <g:each in="${userCoordinations}" var="coordination">
@@ -17,7 +17,7 @@
                 </div>
             </g:each>
 
-            <g:submitButton name="confirm" value="Continuar" class="btn btn-primary"/>
+            <g:submitButton name="confirm" value="Continuar" class="btn btn-primary" style="margin-top: 10px;"/>
         </g:form>
     </content>
 </g:applyLayout>

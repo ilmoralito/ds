@@ -265,9 +265,13 @@ class CommonTagLib {
     }
 
     def userClassrooms = { attrs ->
+        Map<String, String> parameters = [:]
         MarkupBuilder mb = new MarkupBuilder(out)
         User currentUser = userService.getCurrentUser()
+        String selectedClassroom = attrs.selectedClassroom
         List<String> currentUserClassrooms = currentUser.classrooms.toList()
+
+        println selectedClassroom
 
         mb.div(class: 'form-group') {
             label(for: 'classroom') {
@@ -276,7 +280,16 @@ class CommonTagLib {
 
             delegate.select(id: 'classroom', name: 'classroom', class: 'form-group') {
                 currentUserClassrooms.each { classroom ->
-                    option(value: classroom, 'data-wifi': this.hasClassroomWIFI(classroom)) {
+                    parameters.value = classroom
+                    parameters['data-wifi'] = this.hasClassroomWIFI(classroom)
+
+                    if (classroom == selectedClassroom) {
+                        parameters.selected = true
+                    } else {
+                        parameters.remove('selected')
+                    }
+
+                    option(parameters) {
                         mkp.yield classroom
                     }
                 }

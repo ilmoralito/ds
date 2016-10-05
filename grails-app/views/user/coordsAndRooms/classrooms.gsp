@@ -7,7 +7,7 @@
     <content tag="main">
         <div class="row">
             <div class="span5">
-                <strong>Aulas de ${user.fullName}</strong>
+                <p>Aulas de ${user.fullName}</p>
             </div>
             <div class="span5">
                 <g:link event="back" class="pull-right">Regresar</g:link>

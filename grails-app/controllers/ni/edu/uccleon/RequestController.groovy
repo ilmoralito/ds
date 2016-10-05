@@ -16,7 +16,7 @@ class RequestController {
         storeRequest: 'POST',
         list: ['GET', 'POST'],
         show: 'GET',
-        delete: 'GET',
+        delete: 'DELETE',
         updateStatus: 'GET',
         requestsBySchools: ['GET', 'POST'],
         requestsByClassrooms: ['GET', 'POST'],
@@ -111,15 +111,31 @@ class RequestController {
     }
 
     def listOfPendingApplications() {
-        def requests = Request.findAllByUserAndStatus session?.user, "pending"
-        def results = classroomService.transform(requests)
+        List<Request> requests = Request.where {
+            school in userService.getCurrentUserSchools() && status == 'pending'
+        }.list()
 
-        [results: results.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.sort { a, b ->  b.key <=> a.key }]
+        List dataSet = requests.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.collect { a ->
+            [
+                dateOfApplication: a.key,
+                details: a.value.collect { b ->
+                    [
+                        id: b.id,
+                        classroom: b.classroom,
+                        userFullName: b.user.fullName
+                    ]
+                }
+            ]
+        }.sort { a, b ->
+            a.dateOfApplication <=> b.dateOfApplication
+        }
+
+        [dataSet: dataSet]
     }
 
     def userStatistics() {
         def requestStatus = this.getRequestStatus()
-        def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
+        def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEn[Cal]tries { d ->
             [d.key, d.value.collectEntries { o ->
                 [requestStatus[o.key], o.value.size()]
             }]
@@ -329,14 +345,14 @@ class RequestController {
         [requestInstance: requestInstance]
     }
 
-    def delete(Integer id) {
-        def req = Request.findByIdAndUser(id, session?.user)
+    def delete() {
+        Request requestInstance = Request.get(params.id)
 
-        if (!req) {
+        if (!requestInstance) {
             response.sendError 404
         }
 
-        req.delete()
+        requestInstance.delete()
 
         flash.message = "Solicitud eliminada"
         redirect action: "listOfPendingApplications"

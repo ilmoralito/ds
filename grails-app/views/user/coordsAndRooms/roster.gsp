@@ -7,7 +7,7 @@
     <content tag="main">
         <div class="row">
             <div class="span5">
-                <strong>Profesores en ${coordination}</strong>
+                <p>Profesores en ${coordination}</p>
             </div>
             <div class="span5">
                 <g:link event="back" class="pull-right">Regresar</g:link>
