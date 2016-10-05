@@ -5,14 +5,8 @@ $('#dateOfApplication').datepicker({
 });
 
 //request disponabilty
-$('#dateSelected').datepicker({
+$('#dateSelected, #date, #requestFromDate, #requestToDate').datepicker({
   dateFormat: 'yy-mm-dd'
-});
-
-//multiple requests
-$('#date').datepicker({
-  dateFormat: 'yy-mm-dd',
-  minDate:0
 });
 
 $('#fromDate').datepicker({
@@ -24,18 +18,3 @@ $('#toDate').datepicker({
   dateFormat: 'yy-mm-dd',
   minDate:0
 });
-
-$('.showAndHideDetail').on('click', function() {
-  $(this).next('.detail').slideToggle();
-});
-
-//request list
-$('#requestFromDate').datepicker({
-  dateFormat: 'yy-mm-dd'
-});
-
-$('#requestToDate').datepicker({
-  dateFormat: 'yy-mm-dd'
-});
-
-$('#popover').popover({html:true});
