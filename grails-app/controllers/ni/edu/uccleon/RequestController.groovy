@@ -107,7 +107,7 @@ class RequestController {
         }
 
         flash.message = 'Solicitud creada correctamente'
-        redirect action: 'activity', params: [dateSelected: params.dateOfApplication]
+        redirect action: 'activity', params: [date: params.dateOfApplication]
     }
 
     def listOfPendingApplications() {
