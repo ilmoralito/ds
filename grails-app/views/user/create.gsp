@@ -17,7 +17,7 @@
             <label for="fullName">Nombre y apellido</label>
             <g:textField name="fullName" value="${user?.fullName}" class="span3"/>
 
-            <p>Role</p>
+            <p>Rol</p>
             <g:each in="${roles}" var="role">
                 <label class="radio">
                     <g:radio
@@ -30,8 +30,8 @@
 
             <g:submitButton
                 name="send"
-                value="Guardar y enviar notificacion"
-                class="btn btn-primary"/>
+                value="Confirmar y enviar notificacion"
+                class="btn btn-block btn-primary"/>
 
             <g:hasErrors bean="${user}">
                 <p><g:renderErrors bean="${user}"/></p>
@@ -46,17 +46,19 @@
     <content tag="col2">
         <p>Aulas</p>
         <g:each in="${classrooms}" var="classroom">
-            <p>${classroom.key}</p>
-            <g:each in="${classrooms[classroom.key]}" var="c">
-                <label class="checkbox">
-                    <g:checkBox
-                        form="form"
-                        name="classrooms"
-                        value="${c.code}"
-                        checked="${userClassrooms?.contains(c.code)}"/>
-                        ${c.name ?: c.code}
-                </label>
-            </g:each>
+            <section>
+                <p>${classroom.key}</p>
+                <g:each in="${classrooms[classroom.key]}" var="c">
+                    <label class="checkbox">
+                        <g:checkBox
+                            form="form"
+                            name="classrooms"
+                            value="${c.code}"
+                            checked="${userClassrooms?.contains(c.code)}"/>
+                            ${c.name ?: c.code}
+                    </label>
+                </g:each>
+            </section>
         </g:each>
     </content>
 </g:applyLayout>

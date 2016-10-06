@@ -32,7 +32,7 @@
                                     ${user.fullName}
                                 </g:link>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <g:link action="delete" id="${user.id}" class="action-delete">
                                     <i class="icon-trash"></i>
                                 </g:link>
