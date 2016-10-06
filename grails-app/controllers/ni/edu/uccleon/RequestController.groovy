@@ -143,7 +143,7 @@ class RequestController {
 
     def userStatistics() {
         def requestStatus = this.getRequestStatus()
-        def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEn[Cal]tries { d ->
+        def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
             [d.key, d.value.collectEntries { o ->
                 [requestStatus[o.key], o.value.size()]
             }]
