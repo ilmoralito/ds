@@ -119,7 +119,7 @@ class RequestController {
 
         if (currentUserRole in ['coordinador', 'asistente']) {
             requests = query1.list()
-        } else if(currentUserRole == 'user') {
+        } else if(currentUserRole in ['user', 'administrativo']) {
             requests = query2.list()
         }
 

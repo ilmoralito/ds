@@ -239,7 +239,7 @@ class CommonTagLib {
         Map<String, String> parameters = [:]
 
         if (currentUser.role == 'administrativo') {
-            mb.input(type: 'hidden', name: '', value: '')
+            mb.input(type: 'hidden', name: 'user', value: currentUser.id)
         } else {
             mb.div(class: 'form-group') {
                 label(for: 'user') { mkp.yield 'Solicitado por' }
