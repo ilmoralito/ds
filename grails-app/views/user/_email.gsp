@@ -1,19 +1,24 @@
 <%@ page contentType="text/html" %>
-<p>
-    Saludos profesor ${user.fullName} le escribo para notificarle que se
-    le ha creado una cuenta para administrar las solicitudes de datashow en UCC Leon.
-</p>
+
+<p>Hola ${authority}</p>
 
 <p>
-    Para crear solicitudes de datashow debera realizarlas atravez del coordinador o
-    asistente de la coordinacion.
+    Escribo para notificarte que se creado una cuenta para ${fullName}
+    asignandolo a la siguientes coordinaciones y aulas:
 </p>
 
-<p>
-    Para gestionar sus solicitudes puede realizarlo desde la siguiente direccion
-    <a href="${host}">${host}</a> usando las credenciales siguientes:
-</p>
+<p>Coordinaciones</p>
+<ul>
+    <g:each in="${schools}" var="school">
+        <li>${school}</li>
+    </g:each>
+</ul>
 
-<p>Email: ${user.email}</p>
-<p>Clave por defecto: <b>123</b></p>
-<p>Alguna duda estamos por este canal. De nuevo saludos</p>
+<p>Aulas</p>
+<ul>
+    <g:each in="${classrooms}" var="classroom">
+        <li>${classroom}</li>
+    </g:each>
+</ul>
+
+<p>Para algo mas por los canales habituales</p>

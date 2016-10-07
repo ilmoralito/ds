@@ -156,8 +156,8 @@ class UserController {
 
     def create() {
         if (request.post) {
-            List schools = params.list "schools"
-            List classrooms = params.list "classrooms"
+            List schools = params.list('schools')
+            List classrooms = params.list('classrooms')
 
             User user = new User(
                 email: params?.email,
@@ -168,17 +168,26 @@ class UserController {
             )
 
             if (!user.save()) {
-                user.errors.allErrors.each { errors ->
-                    log.error "[$errors.field: $errors.defaultMessage]"
+                user.errors.allErrors.each { error ->
+                    log.error "[field: ${error.field}, message: ${error.defaultMessage}]"
                 }
 
-                return [user:user]
+                flash.message = "A ocurrido un error"
+                return [user: user]
             }
 
-            sendMail {
-                to params.email
-                subject "Sobre solicitudes de datashow en UCC-LEON"
-                html g.render(template: "email", model: [user:user, host: getServerURL()])
+            List<User> authorities = User.list().findAll {
+                it.enabled == true &&
+                it.role in ['asistente', 'coordinador'] &&
+                it.schools.toList().any { it in params.list('schools') }
+            }
+
+            authorities.each { authority ->
+                sendMail {
+                    to authorities.email
+                    subject "Notificacion de datashow"
+                    html g.render(template: "email", model: [authority: authority.fullName, fullName: params.fullName, schools: schools, classrooms: classrooms])
+                }
             }
 
             flash.message = "Usuario creado y notificacion enviada"
@@ -279,7 +288,7 @@ class UserController {
             user.properties["fullName"] = params
 
             if (!user.save()) {
-                flash.message = "A ocurridoun error. Intentalo de nuevo"
+                flash.message = "A ocurrido un error error. Intentalo de nuevo"
             }
         }
 
