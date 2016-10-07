@@ -42,35 +42,5 @@
         <g:else>
             <p>Sin datos que mostrar</p>
         </g:else>
-
-        <%--
-        <g:if test="${results}">
-            <g:each in="${results}" var="r">
-                <p>${r.key}</p>
-
-                <table class="table table-hover">
-                    <tbody>
-                        <g:each in="${r.value}" var="ri">
-                            <tr>
-                                <td>
-                                    <g:link action="show" id="${ri.id}">
-                                        Por ${ri.school} en ${ri.classroom}
-                                    </g:link>
-                                </td>
-                                <td>
-                                    <g:link action="delete" params="[id: ri.id]" class="pull-right">
-                                        <i class="icon-trash"></i>
-                                    </g:link>
-                                </td>
-                            </tr>
-                        </g:each>
-                    </tbody>
-                </table>
-            </g:each>
-        </g:if>
-        <g:else>
-            <p>Nada que mostrar</p>
-        </g:else>
-        --%>
     </content>
 </g:applyLayout>

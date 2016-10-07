@@ -7,6 +7,7 @@ class CommonTagLib {
     def userService
     def requestService
     def grailsApplication
+    def appService
 
     static namespace = "ds"
 
@@ -271,8 +272,6 @@ class CommonTagLib {
         String selectedClassroom = attrs.selectedClassroom
         List<String> currentUserClassrooms = currentUser.classrooms.toList().sort()
 
-        println selectedClassroom
-
         mb.div(class: 'form-group') {
             label(for: 'classroom') {
                 mkp.yield 'Aula'
@@ -290,7 +289,7 @@ class CommonTagLib {
                     }
 
                     option(parameters) {
-                        mkp.yield classroom
+                        mkp.yield appService.getClassroomCodeOrName(classroom)
                     }
                 }
             }
@@ -442,7 +441,7 @@ class CommonTagLib {
                                             }
 
                                             p request.user.fullName
-                                            p this.getClassroomCodeOrName(request.classroom)
+                                            p appService.getClassroomCodeOrName(request.classroom)
                                         }
                                     }
                                 } else {
@@ -480,14 +479,6 @@ class CommonTagLib {
         }
 
         result
-    }
-
-    private final String getClassroomCodeOrName(final String classroomCode) {
-        final Map classrooms = grailsApplication.config.ni.edu.uccleon.cls
-        final String code = classroomCode[0]
-        final Map classroom = classrooms[code].find { it.code == classroomCode }
-
-        classroom.name ?: classroom.code
     }
 
     private Boolean hasHDMI(Integer datashow) {

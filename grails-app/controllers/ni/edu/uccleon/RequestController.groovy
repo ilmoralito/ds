@@ -7,6 +7,7 @@ class RequestController {
     def userService
     def requestService
     def classroomService
+    def appService
 
     def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
 
@@ -131,8 +132,8 @@ class RequestController {
                 details: a.value.collect { b ->
                     [
                         id: b.id,
-                        classroom: b.classroom,
-                        userFullName: b.user.fullName
+                        userFullName: b.user.fullName,
+                        classroom: appService.getClassroomCodeOrName(b.classroom)
                     ]
                 }
             ]
