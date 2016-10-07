@@ -442,7 +442,7 @@ class CommonTagLib {
                                             }
 
                                             p request.user.fullName
-                                            p request.classroom
+                                            p this.getClassroomCodeOrName(request.classroom)
                                         }
                                     }
                                 } else {
@@ -480,6 +480,14 @@ class CommonTagLib {
         }
 
         result
+    }
+
+    private final String getClassroomCodeOrName(final String classroomCode) {
+        final Map classrooms = grailsApplication.config.ni.edu.uccleon.cls
+        final String code = classroomCode[0]
+        final Map classroom = classrooms[code].find { it.code == classroomCode }
+
+        classroom.name ?: classroom.code
     }
 
     private Boolean hasHDMI(Integer datashow) {
