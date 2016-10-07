@@ -253,7 +253,7 @@ class CommonTagLib {
                         }
 
                         parameters.value = user.id
-                        parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList()))
+                        parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList().sort()))
 
                         option(parameters) {
                             mkp.yield user.fullName
@@ -269,7 +269,7 @@ class CommonTagLib {
         MarkupBuilder mb = new MarkupBuilder(out)
         User currentUser = userService.getCurrentUser()
         String selectedClassroom = attrs.selectedClassroom
-        List<String> currentUserClassrooms = currentUser.classrooms.toList()
+        List<String> currentUserClassrooms = currentUser.classrooms.toList().sort()
 
         println selectedClassroom
 
