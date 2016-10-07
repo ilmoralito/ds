@@ -184,7 +184,7 @@ class UserController {
 
             authorities.each { authority ->
                 sendMail {
-                    to authorities.email
+                    to authority.email
                     subject "Notificacion de datashow"
                     html g.render(template: "email", model: [authority: authority.fullName, fullName: params.fullName, schools: schools, classrooms: classrooms])
                 }
