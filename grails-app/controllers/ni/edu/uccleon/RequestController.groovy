@@ -85,7 +85,9 @@ class RequestController {
             datashow: params.int('datashow'),
             audio: params.boolean('audio'),
             screen: params.boolean('screen'),
-            internet: params.boolean('internet')
+            internet: params.boolean('internet'),
+            pointer: params.boolean('pointer'),
+            cpu: params.boolean('cpu')
         )
 
         params.list('hours').each { block ->

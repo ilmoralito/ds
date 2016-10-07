@@ -57,7 +57,6 @@
                 <td>Pantalla</td>
                 <td>${requestInstance.screen ? 'Si' : 'No'}</td>
             </tr>
-            <%--
             <tr>
                 <td>Puntero</td>
                 <td>${requestInstance.pointer ? 'Si' : 'No'}</td>
@@ -66,7 +65,6 @@
                 <td>Computadora</td>
                 <td>${requestInstance.cpu ? 'Si' : 'No'}</td>
             </tr>
-            --%>
             <tr>
                 <td colspan="2">
                     <strong>Informacion</strong>

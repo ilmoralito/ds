@@ -12,6 +12,8 @@ class Request implements Serializable {
     Boolean audio
     Boolean screen
     Boolean internet
+    Boolean pointer
+    Boolean cpu
     String status = "pending"
 
     Date dateCreated
@@ -38,6 +40,8 @@ class Request implements Serializable {
         audio nullable: true
         screen nullable: true
         internet nullable: true
+        pointer nullable: true
+        cpu nullable: true
         status inList: ["pending", "attended", "absent", "canceled"]
         hours nullable: false, minSize: 1
     }
@@ -119,7 +123,7 @@ class Request implements Serializable {
     }
 
     Boolean hasDetails() {
-        if (audio || screen || internet || description) {
+        if (audio || screen || internet || pointer || cpu || description) {
             true
         }
     }

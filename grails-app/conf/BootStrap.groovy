@@ -9,7 +9,7 @@ class BootStrap {
 
     def init = { servletContext ->
         if (Environment.current == Environment.DEVELOPMENT) {
-            development()
+            // development()
         }
 
         if (Environment.current == Environment.PRODUCTION) {

@@ -20,28 +20,23 @@
             <label>Medios</label>
 
             <label class="checkbox inline">
-                <g:checkBox name="audio"/>
-                Parlante
+                <g:checkBox name="audio" value="true" checked="false"/> Parlante
             </label>
 
             <label class="checkbox inline">
-                <g:checkBox name="screen"/>
-                Pantalla
+                <g:checkBox name="screen" value="true" checked="false"/> Pantalla
             </label>
 
             <label class="checkbox inline">
-                <g:checkBox name="pointer"/>
-                Puntero
+                <g:checkBox name="pointer" value="true" checked="false"/> Puntero
             </label>
 
             <label class="checkbox inline">
-                <g:checkBox id="pc" name="pc"/>
-                Computadora
+                <g:checkBox name="cpu" value="true" checked="false"/> Computadora
             </label>
 
             <label class="checkbox inline">
-                <g:checkBox id="internet" name="internet"/>
-                Internet
+                <g:checkBox id="internet" name="internet" value="true" checked="false"/> Internet
             </label>
         </section>
 
