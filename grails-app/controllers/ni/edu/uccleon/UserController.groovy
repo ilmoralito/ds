@@ -28,7 +28,9 @@ class UserController {
         init {
             action {
                 flow.userCoordinations = session?.user?.refresh()?.schools as List
-                flow.users = User.findAllByEnabledAndRole true, "user", [sort: "fullName", order: "asc"]
+                flow.users =  User.where {
+                    enabled == true && role in ['user', 'coordinador']
+                }.list(sort: 'fullName', order: 'asc')
 
                 if (flow.userCoordinations.size() > 1) {
                     coordinations()
