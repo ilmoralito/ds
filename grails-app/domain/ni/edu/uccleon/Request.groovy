@@ -21,9 +21,9 @@ class Request implements Serializable {
 
     static constraints = {
         dateOfApplication nullable: false, validator: { dateOfApplication ->
-            Date date = new Date()
+            Date today = new Date()
 
-            dateOfApplication >= date.clearTime()
+            dateOfApplication >= today.clearTime()
         }
         classroom blank: false, maxSize: 255, validator: { classroom, requestInstance ->
             classroom in requestInstance.user.classrooms

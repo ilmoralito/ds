@@ -377,8 +377,15 @@ class RequestController {
         }
 
         requestInstance.properties['status'] = params.status ?: this.getNextRequestStatus(requestInstance.status)
-        flash.message = requestInstance.save() ? 'Cambio de estado aplicado' : 'A ocurrido un error'
 
+        // I need to set validate false in order to pass domain class dateOfApplication constraints
+        if (!requestInstance.save(validate: false)) {
+            requestInstance.errors.allErrors.each { error ->
+                log.error "[field: $error.field, message: $error.defaultMessage]"
+            }
+        }
+
+        flash.message = requestInstance.hasErrors() ? "A ocurrido un error" : "Cambio de estado aplicado"
         redirect uri: request.getHeader('referer')
     }
 
