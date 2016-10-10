@@ -265,18 +265,20 @@ class RequestController {
     }
 
     def list() {
+        ConfigObject config = grailsApplication.config.ni.edu.uccleon
+        Map schoolsAndDepartments = config.schoolsAndDepartments
+        List requestStatus = config.requestStatus
         def requests
-        def users = params.list("users")
-        def schools = params.list("schools")
-        def departments = params.list("departments")
-        def classrooms = params.list("classrooms")
-        def types = params.list("types")
-        def status = params.list("status")
-        def requestFromDate = params.date("requestFromDate", "yyyy-MM-dd")
-        def requestToDate = params.date("requestToDate", "yyyy-MM-dd")
+        def users = params.list('users')
+        def schools = params.list('schools')
+        def departments = params.list('departments')
+        def classrooms = params.list('classrooms')
+        def types = params.list('types')
+        def status = params.list('status')
+        def requestFromDate = params.date('requestFromDate', 'yyyy-MM-dd')
+        def requestToDate = params.date('requestToDate', 'yyyy-MM-dd')
         def userInstance = session?.user
         def role = userInstance?.role
-        def schoolsAndDepartments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
         Date today = new Date()
         Date from = requestFromDate ?: today
         Date to = requestToDate ?: today
@@ -298,10 +300,11 @@ class RequestController {
         }
 
         [
-            requestsByBlock:requestsByBlock.findAll { it.requests },
-            schoolsAndDepartments:schoolsAndDepartments,
-            classrooms:requestService.mergedClassrooms(),
-            users:User.findAllByRoleAndEnabled("user", true, [sort:"fullName"])
+            requestStatus: requestStatus,
+            schoolsAndDepartments: schoolsAndDepartments,
+            classrooms: requestService.mergedClassrooms(),
+            requestsByBlock: requestsByBlock.findAll { it.requests },
+            users: User.findAllByRoleAndEnabled('user', true, [sort: 'fullName'])
         ]
     }
 
@@ -525,7 +528,7 @@ class RequestController {
             flash.message = "Seleciona alguna solicitud para continuar"
         }
 
-        redirect action:"list"
+        redirect action: 'list', params: [requestFromDate: params.fromDate, requestToDate: params.toDate]
     }
 
     def listBy(String type) {
