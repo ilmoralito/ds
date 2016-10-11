@@ -7,9 +7,11 @@
     <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
 </head>
 <body>
-    <section>
-        <g:link url="${request.getHeader('referer')}">
-            Regresar
+    <section class="clearfix">
+        <g:link url="${request.getHeader('referer')}">Regresar</g:link>
+
+        <g:link action="edit" id="${requestInstance.id}" class="btn btn-primary pull-right">
+            Editar
         </g:link>
     </section>
 

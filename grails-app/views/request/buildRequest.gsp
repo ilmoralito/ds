@@ -42,7 +42,7 @@
 
         <div class="form-group">
             <label for="description">Observacion</label>
-            <g:textArea name="description" class="form-control input-block-level" style=""/>
+            <g:textArea name="description" class="form-control input-block-level"/>
         </div>
 
         <ds:blockWidget blockWidget="${blockWidget}"/>

@@ -4,6 +4,7 @@ import static java.util.Calendar.*
 
 class RequestService {
     def grailsApplication
+    def userService
 
     static transactional = false
 
@@ -109,5 +110,16 @@ class RequestService {
         requests.findAll { request ->
             request.status == status
         }
+    }
+
+    // Request that could be edited or removed
+    Request getAdministrableRequest(Long id) {
+        Request request = Request.where {
+            id == id &&
+            status == 'pending' &&
+            school in userService.getCurrentUserSchools()
+        }.get()
+
+        request
     }
 }

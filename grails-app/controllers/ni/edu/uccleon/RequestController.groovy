@@ -9,12 +9,12 @@ class RequestController {
     def classroomService
     def appService
 
-    def beforeInterceptor = [action: this.&checkRequestStatus, only: ["editRequestFlow" ,"delete"]]
-
     static defaultAction = "list"
     static allowedMethods = [
         buildRequest: 'GET',
         storeRequest: 'POST',
+        edit: 'GET',
+        update: 'POST',
         list: ['GET', 'POST'],
         show: 'GET',
         delete: 'DELETE',
@@ -111,6 +111,23 @@ class RequestController {
 
         flash.message = 'Solicitud creada correctamente'
         redirect action: 'activity', params: [date: params.dateOfApplication]
+    }
+
+    def edit(Long id) {
+        Request requestInstance = requestService.getAdministrableRequest(id)
+
+        if (!requestInstance || !(userService.getCurrentUser().role in ['coordinador', 'asistente', 'administrativo'])) {
+            response.sendError 404
+            return false
+        }
+
+        [
+            requestInstance: requestInstance,
+            blockWidget: createBlockWidget(
+                requestInstance.school,
+                requestInstance.dateOfApplication.format('yyyy-MM-dd')
+            )
+        ]
     }
 
     def listOfPendingApplications() {
@@ -256,14 +273,6 @@ class RequestController {
         [data: data]
     }
 
-    private checkRequestStatus() {
-        def req = Request.get(params?.id)
-
-        if (!req) { response.sendError 404 }
-
-        if (req.status != "pending") { response.sendError 403 }
-    }
-
     def list() {
         ConfigObject config = grailsApplication.config.ni.edu.uccleon
         Map schoolsAndDepartments = config.schoolsAndDepartments
@@ -360,10 +369,11 @@ class RequestController {
     }
 
     def delete() {
-        Request requestInstance = Request.get(params.id)
+        Request requestInstance = requestService.getAdministrableRequest(params.long('id'))
 
-        if (!requestInstance) {
+        if (!requestInstance || !(userService.getCurrentUser().role in ['coordinador', 'asistente', 'administrativo'])) {
             response.sendError 404
+            return false
         }
 
         requestInstance.delete()
