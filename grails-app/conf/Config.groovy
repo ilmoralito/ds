@@ -45,7 +45,10 @@ environments {
 }
 
 log4j = {
-    debug 'grails.app.services.com.grailsrocks.emailconfirmation'
+    trace 'org.hibernate.type.descriptor.sql.BasicBinder'
+
+    debug 'org.hibernate.SQL',
+          'grails.app.controllers'
 
     error  'org.codehaus.groovy.grails.web.servlet',
            'org.codehaus.groovy.grails.web.pages',
@@ -377,16 +380,16 @@ ni {
 grails.mail.default.from=System.env.GMAIL_USERNAME
 
 grails {
-  mail {
-    host = "smtp.gmail.com"
-    port = 465
-    username = System.env.GMAIL_USERNAME
-    password = System.env.GMAIL_PASSWORD
-    props = [
-        "mail.smtp.auth":"true",
-        "mail.smtp.socketFactory.port":"465",
-        "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-        "mail.smtp.socketFactory.fallback":"false"
-    ]
-  }
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = System.env.GMAIL_USERNAME
+        password = System.env.GMAIL_PASSWORD
+        props = [
+            "mail.smtp.auth":"true",
+            "mail.smtp.socketFactory.port":"465",
+            "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+            "mail.smtp.socketFactory.fallback":"false"
+        ]
+    }
 }
