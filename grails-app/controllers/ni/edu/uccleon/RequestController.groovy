@@ -240,7 +240,7 @@ class RequestController {
         List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
             [
                 user: o.key,
-                pending: o?.value?.pending?.size(),
+                pending: o?.value?.pending?.size() ?: 0,
                 attended: o?.value?.attended?.size() ?: 0,
                 absent: o?.value?.absent?.size() ?: 0,
                 canceled: o?.value?.canceled?.size() ?: 0,
@@ -315,13 +315,6 @@ class RequestController {
             requestsByBlock: requestsByBlock.findAll { it.requests },
             users: User.findAllByRoleAndEnabled('user', true, [sort: 'fullName'])
         ]
-    }
-
-    def others() {
-        def results = Request.listByUser(session?.user).findAllByStatusNotEqual("pending")
-        def requests = results.groupBy { request -> request.status }
-
-        [requests:requests]
     }
 
     def getUserClassroomsAndSchools(String userEmail) {

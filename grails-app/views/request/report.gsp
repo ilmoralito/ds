@@ -9,16 +9,14 @@
 
         <g:if test="${data}">
             <g:each in="${data}" var="d">
-                <h4>${d.year}</h4>
+                <p>${d.year}</p>
 
-                <table class="table">
+                <table class="table table-hover">
                     <tbody>
                         <tr>
                             <g:each in="${d.months}" var="m">
                                 <tr>
-                                    <td colspan="2">
-                                        <strong>${m.month}</strong>
-                                    </td>
+                                    <td colspan="2">${m.month}</td>
                                 </tr>
 
                                 <g:each in="${m.coordinations.sort { -it.size }}" var="c">

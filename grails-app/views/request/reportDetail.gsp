@@ -7,18 +7,6 @@
     <content tag="main">
         <g:render template="reportNavBar"/>
 
-        <div class="row">
-            <div class="span10">
-                <g:link
-                    action="report"
-                    params="[type:'report']"
-                    fragment="${params?.y}${params?.m}">
-                    Regresar
-                </g:link>
-            </div>
-        </div>
-        <br>
-
         <g:if test="${data}">
             <p>${params?.s} ${params?.m} ${params?.y}</p>
 
@@ -47,10 +35,10 @@
                     <tr>
                         <td>TOTAL</td>
                         <td>${data.pending.sum()}</td>
-                        <td>${data.attended.sum()}</td>
-                        <td>${data.absent.sum()}</td>
-                        <td>${data.canceled.sum()}</td>
-                        <td>${data.total.sum()}</td>
+                        <td>${data?.attended?.sum()}</td>
+                        <td>${data?.absent?.sum()}</td>
+                        <td>${data?.canceled?.sum()}</td>
+                        <td>${data?.total?.sum()}</td>
                     </tr>
                 </tbody>
             </table>
