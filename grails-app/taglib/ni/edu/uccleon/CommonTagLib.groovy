@@ -51,13 +51,15 @@ class CommonTagLib {
     }
 
     def classroom = { attrs ->
-        List classrooms = requestService.mergedClassrooms() as List
+        final String classroomCode = attrs.classroomCode
 
-        out << classrooms.find { it.code == attrs.room }.name
+        out << appService.getClassroomCodeOrName(classroomCode)
     }
 
     def isAdmin = {attrs, body ->
-        if (session?.user?.role == "admin") {
+        User currentUser = userService.getCurrentUser()
+
+        if (currentUser.role == "admin") {
             out << body()
         }
     }
