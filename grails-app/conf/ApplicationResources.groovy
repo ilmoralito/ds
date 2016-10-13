@@ -62,4 +62,9 @@ modules = {
         resource url: "js/updateUserSchools.js"
         resource url: "js/updateUserEnabledProperty.js"
     }
+
+    requestShow {
+        dependsOn 'app'
+        resource url: 'js/cloneRequest.js'
+    }
 }
