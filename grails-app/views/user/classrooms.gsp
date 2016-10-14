@@ -12,7 +12,7 @@
         </div>
 
         <g:form action="classrooms" name="classrooms">
-            <g:render template="classrooms" model="[classrooms: allCls]"/>
+            <g:render template="classrooms" model="[classrooms: allCls, userClassrooms: user?.classrooms]"/>
         </g:form>
     </content>
 </g:applyLayout>

@@ -190,8 +190,8 @@ class CommonTagLib {
 
     def createRequest = {
         MarkupBuilder mb = new MarkupBuilder(out)
-        User currentUser = userService.getCurrentUser()
-        List<String> currentUserSchools = currentUser.schools.toList()
+        User currentUser = session?.user?.refresh()
+        List<String> currentUserSchools = currentUser.schools as List
         Map<String, String> parameters = [:]
 
         if (currentUser.role in ['coordinador', 'asistente', 'administrativo']) {

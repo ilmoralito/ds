@@ -296,12 +296,10 @@ class UserController {
     }
 
     def classrooms() {
-        def user = User.findByEmail(session?.user?.email)
-        def departments = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments.departments
-        def userSchoolsOrDepartments = user.schools as List
+        User user = session?.user?.refresh()
 
         if (request.method == "POST") {
-            def classrooms = params.list("classrooms")
+            List<String> classrooms = params.list("classrooms")
 
             if (classrooms) {
                 userService.addClassrooms(classrooms, user)
@@ -310,8 +308,7 @@ class UserController {
 
         [
             user: user,
-            allCls: userService.getClassrooms(session?.user?.email),
-            userClassrooms: user?.classrooms
+            allCls: userService.getClassrooms(session?.user?.email)
         ]
     }
 

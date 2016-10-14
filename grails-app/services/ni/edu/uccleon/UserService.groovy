@@ -12,7 +12,9 @@ class UserService {
     }
 
     List getCurrentUserSchools() {
-        this.getCurrentUser()?.schools as List
+        def session = RequestContextHolder.currentRequestAttributes().getSession()
+
+        session?.user?.schools as List
     }
 
     List<User> getUsersBySchool(String school) {
