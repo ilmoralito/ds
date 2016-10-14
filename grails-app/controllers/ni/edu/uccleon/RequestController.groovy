@@ -2,6 +2,7 @@ package ni.edu.uccleon
 
 import static java.util.Calendar.*
 import grails.gorm.DetachedCriteria
+import org.springframework.web.context.request.RequestContextHolder
 
 class RequestController {
     def userService
@@ -574,15 +575,42 @@ class RequestController {
     }
 }
 
-class BuildRequestCommand {
-    def userService
+class CloneRequestCommand {
+    List<Date> dates
 
+    static constraints = {
+        dates validator: { dates ->
+            Date today = new Date().clearTime()
+            List<Date> dateList = dates.clone()
+
+            // All dates must be greater than or equal to today
+            Boolean stage1 = dates.every { date ->
+                date >= today
+            }
+
+            // All dates must be unique
+            Boolean stage2 = dates.unique() == dateList
+
+            if (!stage1) {
+                return 'some.date.its.lower.than.today'
+            }
+
+            if (!stage2) {
+                return 'some.dates.are.equal'
+            }
+        }
+    }
+}
+
+class BuildRequestCommand {
     String school
     String dateOfApplication
 
     static constraints = {
         school blank: false, validator: { school, obj ->
-            school in obj.userService.getCurrentUserSchools()
+            def session = RequestContextHolder.currentRequestAttributes().getSession()
+
+            school in session.user.refresh().schools
         }
         dateOfApplication blank: false, validator: { dateOfApplication ->
             Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
