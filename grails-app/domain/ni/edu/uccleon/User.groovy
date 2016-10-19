@@ -4,8 +4,8 @@ import grails.util.Holders
 
 class User implements Serializable {
     String email
-    String password = "123"
-    String role = "user"
+    String password = '123'
+    String role = 'user'
     String fullName
     Boolean enabled = true
 
@@ -15,15 +15,15 @@ class User implements Serializable {
     static constraints = {
         email email: true, unique: true, blank: false, validator: { email, user ->
             List<String> roles = Holders.config.ni.edu.uccleon.roles as List
-            List<String> institutionalRoles = roles - "user"
+            List<String> institutionalRoles = roles - 'user'
 
             if (user.role in institutionalRoles) {
                 List<String> emailTokenized = email.tokenize("@")
-                Boolean validUsername = emailTokenized[0].tokenize(".").size() == 2
-                Boolean validDomainName = emailTokenized[1] == "ucc.edu.ni"
+                Boolean validUsername = emailTokenized[0].tokenize('.').size() == 2
+                Boolean validDomainName = emailTokenized[1] == 'ucc.edu.ni'
 
                 if (!validUsername || !validDomainName) {
-                    "not.valid.email"
+                    'not.valid.email'
                 }
             }
         }
@@ -36,22 +36,22 @@ class User implements Serializable {
 
     static namedQueries = {
         login { email, password ->
-            eq "email", email
-            eq "password", password.encodeAsSHA1()
+            eq 'email', email
+            eq 'password', password.encodeAsSHA1()
         }
 
         listByRole { role ->
-            eq "role", role
+            eq 'role', role
         }
 
         isEnabled { enabled ->
-            eq "enabled", true
+            eq 'enabled', true
         }
 
         search { criteria ->
             or {
-                ilike "fullName", criteria
-                ilike "email",  criteria
+                ilike 'fullName', criteria
+                ilike 'email',  criteria
             }
         }
     }
@@ -59,13 +59,15 @@ class User implements Serializable {
     static hasMany = [schools: String, requests: Request, classrooms: String]
 
     static mapping = {
-        sort "dateCreated"
-        role column: "user_role"
-        enabled column: "user_status"
-        requests sort: "dateOfApplication", order: "desc"
         version false
-        schools joinTable: [name: "user_schools"]
-        classrooms joinTable: [name: "user_classrooms"]
+        sort 'dateCreated'
+        schools lazy: false
+        classrooms lazy: false
+        role column: 'user_role'
+        enabled column: 'user_status'
+        schools joinTable: [name: 'user_schools']
+        classrooms joinTable: [name: 'user_classrooms']
+        requests sort: 'dateOfApplication', order: 'desc'
     }
 
     def beforeInsert() {
@@ -73,7 +75,7 @@ class User implements Serializable {
     }
 
     def beforeUpdate() {
-        if (isDirty("password")) {
+        if (isDirty('password')) {
             password = password.encodeAsSHA1()
         }
     }
