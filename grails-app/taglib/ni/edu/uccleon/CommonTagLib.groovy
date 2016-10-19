@@ -245,7 +245,9 @@ class CommonTagLib {
             mb.input(type: 'hidden', name: 'user', value: currentUser.id)
         } else {
             mb.div(class: 'form-group') {
-                label(for: 'user') { mkp.yield 'Solicitado por' }
+                label(for: 'user') {
+                    mkp.yield 'Solicitado por'
+                }
 
                 delegate.select(id: 'user', name: 'user', class: 'form-control') {
                     users.each { user ->
@@ -458,10 +460,15 @@ class CommonTagLib {
     }
 
     private Boolean hasClassroomWIFI(String classroom) {
+        Map classrooms = grailsApplication.config.ni.edu.uccleon.cls
         String letter = classroom[0]
 
+        if (classroom in classrooms.undefined.code) {
+            return false
+        }
+
         if (letter in ['B', 'C', 'D', 'E', 'K']) {
-            Map room = grailsApplication.config.ni.edu.uccleon.cls[letter].find {
+            Map room = classrooms[letter].find {
                 it.code == classroom
             }
 
