@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 import org.springframework.web.context.request.RequestContextHolder
+import grails.gorm.DetachedCriteria
 
 class UserService {
     def grailsApplication
@@ -24,6 +25,14 @@ class UserService {
         }.sort { it.fullName }
 
         users
+    }
+
+    List<User> getCoordinators() {
+        DetachedCriteria coordinatiors = User.where {
+            role == 'coordinador' && enabled == true
+        }
+
+        coordinatiors.list()
     }
 
     def addSchoolsAndDepartments(schools, User user) {

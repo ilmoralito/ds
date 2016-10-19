@@ -238,31 +238,38 @@ class CommonTagLib {
     def usersBySchool = { attrs ->
         MarkupBuilder mb = new MarkupBuilder(out)
         User currentUser = userService.getCurrentUser()
-        List<User> users = userService.getUsersBySchool(attrs.school)
         Map<String, String> parameters = [:]
 
-        if (currentUser.role == 'administrativo') {
-            mb.input(type: 'hidden', name: 'user', value: currentUser.id)
-        } else {
-            mb.div(class: 'form-group') {
-                label(for: 'user') {
-                    mkp.yield 'Solicitado por'
-                }
+        Closure userList = {
+            def userCoordinations = userService.getUsersBySchool(attrs.school)
 
-                delegate.select(id: 'user', name: 'user', class: 'form-control') {
-                    users.each { user ->
-                        if (currentUser == user) {
-                            parameters.selected = true
-                        } else {
-                            parameters.remove('selected')
-                        }
+            if ('Direccion Academica' in currentUser.schools) {
+                List<String> coordinatiors = userService.getCoordinators()
 
-                        parameters.value = user.id
-                        parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList().sort()))
+                return coordinatiors + userCoordinations
+            }
 
-                        option(parameters) {
-                            mkp.yield user.fullName
-                        }
+            userCoordinations
+        }
+
+        mb.div(class: 'form-group') {
+            label(for: 'user') {
+                mkp.yield 'Solicitado por'
+            }
+
+            delegate.select(id: 'user', name: 'user', class: 'form-control') {
+                userList().each { user ->
+                    if (currentUser == user) {
+                        parameters.selected = true
+                    } else {
+                        parameters.remove('selected')
+                    }
+
+                    parameters.value = user.id
+                    parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList().sort()))
+
+                    option(parameters) {
+                        mkp.yield user.fullName
                     }
                 }
             }
