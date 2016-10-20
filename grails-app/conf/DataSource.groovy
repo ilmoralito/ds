@@ -20,8 +20,8 @@ environments {
             url = 'jdbc:mysql://localhost:3306/cleardb'
             driverClassName = 'com.mysql.jdbc.Driver'
             dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-            formatSql = true
-            logSql = true
+            // formatSql = true
+            // logSql = true
         }
     }
     test {

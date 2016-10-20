@@ -45,10 +45,10 @@ environments {
 }
 
 log4j = {
-    trace 'org.hibernate.type.descriptor.sql.BasicBinder'
+    // trace 'org.hibernate.type.descriptor.sql.BasicBinder'
 
-    debug 'org.hibernate.SQL',
-          'grails.app.controllers'
+    // debug 'org.hibernate.SQL',
+    //      'grails.app.controllers'
 
     error  'org.codehaus.groovy.grails.web.servlet',
            'org.codehaus.groovy.grails.web.pages',
