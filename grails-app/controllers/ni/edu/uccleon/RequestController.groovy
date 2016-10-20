@@ -102,7 +102,7 @@ class RequestController {
 
         if (!newRequest.save()) {
             newRequest.errors.allErrors.each { error ->
-                log.error "[field: $error.field, message: $error.defaultMessage]"
+                log.error "$error.field: $error.defaultMessage"
             }
 
             flash.message = 'Datos incorrectos'
