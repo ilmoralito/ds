@@ -366,7 +366,7 @@ ni {
             specialization.sunday.blocks = 6
 
             saturday.blocks = 3
-            sunday.blocks = 2
+            sunday.blocks = 3
             blocks = 6
 
             computers = 1
