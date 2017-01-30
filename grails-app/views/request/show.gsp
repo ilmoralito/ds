@@ -1,4 +1,4 @@
-<g:applyLayout name="threeColumns">
+<g:applyLayout name="twoColumns">
     <head>
         <title>Detalle</title>
     <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, requestShow"/>
