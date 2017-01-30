@@ -315,13 +315,13 @@ ni {
                     model: "H430A",
                     serialNumber: "PSPK2302433",
                     code: 7,
-                    enabled: false
+                    enabled: true
                 ],[
                     trademark: "BENQ",
                     model: "MS504",
                     serialNumber: "PDCCD01507000",
                     code: 8,
-                    enabled: true
+                    enabled: false
                 ],[
                     trademark: "BENQ",
                     model: "MS521P",
