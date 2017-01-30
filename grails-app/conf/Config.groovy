@@ -206,7 +206,7 @@ ni {
                     [code: "C109A", wifi: true],
                     [code: "C109B"],
                     [code: "C201", name: "Biblioteca", wifi: true],
-                    [code: "C202"],
+                    [code: "C202", wifi: true],
                     [code: "C203"],
                     [code: "C204"],
                     [code: "C205", wifi: true],
