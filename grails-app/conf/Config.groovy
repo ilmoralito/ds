@@ -1,4 +1,4 @@
-grails.project.groupId = "ni.edu.uccleon"
+grails.project.groupId = 'ni.edu.uccleon'
 grails.mime.file.extensions = true
 grails.mime.use.accept.header = false
 grails.mime.types = [
@@ -16,12 +16,12 @@ grails.mime.types = [
     xml:           ['text/xml', 'application/xml']
 ]
 
-grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*', '/components/*']
-grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/*', '/plugins/**', '/components/**']
+grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*', '/components/*', '/libs/*']
+grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/*', '/plugins/**', '/components/**', '/libs/**']
 
-grails.views.default.codec = "html"
-grails.views.gsp.encoding = "UTF-8"
-grails.converters.encoding = "UTF-8"
+grails.views.default.codec = 'html'
+grails.views.gsp.encoding = 'UTF-8'
+grails.converters.encoding = 'UTF-8'
 grails.views.gsp.sitemesh.preprocess = true
 grails.scaffolding.templates.domainSuffix = 'Instance'
 
@@ -67,40 +67,40 @@ ni {
     edu {
         uccleon {
             firstUserInformation = [
-                fullName: "FirstName LastName",
-                schools: ["school1", "school2"],
-                classrooms: ["classroom1", "classroom2"]
+                fullName: 'FirstName LastName',
+                schools: ['school1', 'school2'],
+                classrooms: ['classroom1', 'classroom2']
             ]
 
-            roles = ["admin", "user", "coordinador", "asistente", "administrativo"]
+            roles = ['admin', 'user', 'coordinador', 'asistente', 'administrativo']
 
             data = [
                 [
-                    coordination: "Industrial",
+                    coordination: 'Industrial',
                     datashow: [1, 1, 1, 1, 1, 1, 1]
                 ],[
-                    coordination: "CPF, EG, MP",
+                    coordination: 'CPF, EG, MP',
                     datashow: [2, 2, 2, 2, 2, 2, 2]
                 ],[
-                    coordination: "AE, AETH, CI, D",
+                    coordination: 'AE, AETH, CI, D',
                     datashow: [3, 3, 3, 3, 3, 3, 3]
                 ],[
-                    coordination: "Arquitectura y civil",
+                    coordination: 'Arquitectura y civil',
                     datashow: [4, 4, 4, 4, 4, 4, 4]
                 ],[
-                    coordination: "Sistemas y diseno grafico",
+                    coordination: 'Sistemas y diseno grafico',
                     datashow: [5, 5, 5, 5, 5, 5, 5]
                 ],[
-                    coordination: "Ingles",
+                    coordination: 'Ingles',
                     datashow: [6, 6, 6, 6, 6, 6, 6]
                 ],[
-                    coordination: "Agronomia",
+                    coordination: 'Agronomia',
                     datashow: [7, 7, 7, 7, 7, 7, 7]
                 ],[
-                    coordination: "FESE",
+                    coordination: 'FESE',
                     datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
                 ],[
-                    coordination: "Especializacion",
+                    coordination: 'Especializacion',
                     datashow: [
                         [4, 5, 6, 7, 8, 9, 10, 11, 12],
                         [8, 9, 10, 11, 12],
@@ -111,7 +111,7 @@ ni {
                         [4, 5, 6, 7, 8, 9, 10, 11, 12],
                     ]
                 ],[
-                    coordination: "Educacion continua",
+                    coordination: 'Educacion continua',
                     datashow: [
                         [4, 5, 6, 7, 8, 9, 10, 11, 12],
                         [8, 9, 10, 11, 12],
@@ -122,232 +122,235 @@ ni {
                         [4, 5, 6, 7, 8, 9, 10, 11, 12],
                     ]
                 ],[
-                    coordination: "Administracion",
+                    coordination: 'Administracion',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Protocolo",
+                    coordination: 'Protocolo',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Promotoria",
+                    coordination: 'Promotoria',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Direccion Academica",
+                    coordination: 'Direccion Academica',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Vice Rectoria General",
+                    coordination: 'Vice Rectoria General',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Registro",
+                    coordination: 'Registro',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Recursos humanos",
+                    coordination: 'Recursos humanos',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Vida Estudiantil",
+                    coordination: 'Vida Estudiantil',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Desarrollo Proyeccion",
+                    coordination: 'Desarrollo Proyeccion',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Transporte",
+                    coordination: 'Transporte',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ],[
-                    coordination: "Escuela de manejo",
+                    coordination: 'Escuela de manejo',
                     datashow: [6, 6, 6, 6, 6, 6, 6]
                 ],[
-                    coordination: "Direccion Financiera",
+                    coordination: 'Direccion Financiera',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
                 ]
             ]
 
             schoolsAndDepartments = [
                 schools: [
-                    "Industrial",
-                    "CPF, EG, MP",
-                    "AE, AETH, CI, D",
-                    "Arquitectura y civil",
-                    "Sistemas y diseno grafico",
-                    "Ingles",
-                    "Agronomia",
-                    "FESE"
+                    'Industrial',
+                    'CPF, EG, MP',
+                    'AE, AETH, CI, D',
+                    'Arquitectura y civil',
+                    'Sistemas y diseno grafico',
+                    'Ingles',
+                    'Agronomia',
+                    'FESE'
                 ],
                 departments: [
-                    "Especializacion",
-                    "Educacion continua",
-                    "Administracion",
-                    "Protocolo",
-                    "Promotoria",
-                    "Direccion academica",
-                    "Vice rectoria general",
-                    "Registro",
-                    "Recursos humanos",
-                    "Vida estudiantil",
-                    "Desarrollo y proyeccion",
-                    "Transporte",
-                    "Escuela de manejo",
-                    "Direccion financiera",
-                    "Soporte tecnico"
+                    'Especializacion',
+                    'Educacion continua',
+                    'Administracion',
+                    'Protocolo',
+                    'Promotoria',
+                    'Direccion academica',
+                    'Vice rectoria general',
+                    'Registro',
+                    'Recursos humanos',
+                    'Vida estudiantil',
+                    'Desarrollo y proyeccion',
+                    'Transporte',
+                    'Escuela de manejo',
+                    'Direccion financiera',
+                    'Soporte tecnico'
                 ]
             ]
 
             cls = [
                 B: [
-                    [code: "B101", name: "Auditorio mayor"],
-                    [code: "B201", name: "Mesanini B201", wifi: true],
-                    [code: "B202", name: "Mesanini B202", wifi: true]
+                    [code: 'B101', name: 'Auditorio mayor'],
+                    [code: 'B201', name: 'Mesanini B201', wifi: true],
+                    [code: 'B202', name: 'Mesanini B202', wifi: true]
                 ],
                 C: [
-                    [code: "C101", name: "Auditorio menor", wifi: true],
-                    [code: "C102", name: "Desarrollo y proyeccion"],
-                    [code: "C103"],
-                    [code: "C104"],
-                    [code: "C105"],
-                    [code: "C106"],
-                    [code: "C109A", wifi: true],
-                    [code: "C109B"],
-                    [code: "C201", name: "Biblioteca", wifi: true],
-                    [code: "C202", wifi: true],
-                    [code: "C203"],
-                    [code: "C204"],
-                    [code: "C205", wifi: true],
-                    [code: "C206", name: "Lab 4"],
-                    [code: "C207", name: "Lab 3"],
-                    [code: "C208", name: "Lab 2"]
+                    [code: 'C101', name: 'Auditorio menor', wifi: true],
+                    [code: 'C102', name: 'Desarrollo y proyeccion'],
+                    [code: 'C103'],
+                    [code: 'C104'],
+                    [code: 'C105'],
+                    [code: 'C106'],
+                    [code: 'C109A', wifi: true],
+                    [code: 'C109B'],
+                    [code: 'C201', name: 'Biblioteca', wifi: true],
+                    [code: 'C202', wifi: true],
+                    [code: 'C203'],
+                    [code: 'C204'],
+                    [code: 'C205', wifi: true],
+                    [code: 'C206', name: 'Lab 4'],
+                    [code: 'C207', name: 'Lab 3'],
+                    [code: 'C208', name: 'Lab 2']
                 ],
                 D: [
-                    [code: "D101"],
-                    [code: "D102"],
-                    [code: "D103"],
-                    [code: "D104"],
-                    [code: "D105"],
-                    [code: "D109", name: "Sala de audiovisuales", wifi: true],
-                    [code: "D201"],
-                    [code: "D202"],
-                    [code: "D203"],
-                    [code: "D204"],
-                    [code: "D205"],
-                    [code: "D206"],
-                    [code: "D207"],
-                    [code: "D208", name: "Lab 1"]
+                    [code: 'D101'],
+                    [code: 'D102'],
+                    [code: 'D103'],
+                    [code: 'D104'],
+                    [code: 'D105'],
+                    [code: 'D109', name: 'Sala de audiovisuales', wifi: true],
+                    [code: 'D201'],
+                    [code: 'D202'],
+                    [code: 'D203'],
+                    [code: 'D204'],
+                    [code: 'D205'],
+                    [code: 'D206'],
+                    [code: 'D207'],
+                    [code: 'D208', name: 'Lab 1']
                 ],
                 E: [
-                    [code: "E108"],
-                    [code: "E112", wifi: true],
-                    [code: "E113", name: "Finanzas"],
-                    [code: "E114", name: "Administracion"],
-                    [code: "E115"],
-                    [code: "E116"],
-                    [code: "E117"],
-                    [code: "E118"],
-                    [code: "E119", name: "Sala de maestros", wifi: true],
-                    [code: "E204", name: "Sala de reuniones", wifi: true],
-                    [code: "E208"],
-                    [code: "E209"],
-                    [code: "E210"],
-                    [code: "E211"],
-                    [code: "E212"],
-                    [code: "E213", name: "Proyecto", wifi: true],
-                    [code: "E214"],
-                    [code: "E215"],
-                    [code: "E216"],
-                    [code: "E217"],
-                    [code: "E218"],
-                    [code: "E219"],
-                    [code: "E220", name: "Escuela de manejo"]
+                    [code: 'E108'],
+                    [code: 'E112', wifi: true],
+                    [code: 'E113', name: 'Finanzas'],
+                    [code: 'E114', name: 'Administracion'],
+                    [code: 'E115'],
+                    [code: 'E116'],
+                    [code: 'E117'],
+                    [code: 'E118'],
+                    [code: 'E119', name: 'Sala de maestros', wifi: true],
+                    [code: 'E204', name: 'Sala de reuniones', wifi: true],
+                    [code: 'E208'],
+                    [code: 'E209'],
+                    [code: 'E210'],
+                    [code: 'E211'],
+                    [code: 'E212'],
+                    [code: 'E213', name: 'Proyecto', wifi: true],
+                    [code: 'E214'],
+                    [code: 'E215'],
+                    [code: 'E216'],
+                    [code: 'E217'],
+                    [code: 'E218'],
+                    [code: 'E219'],
+                    [code: 'E220', name: 'Escuela de manejo']
                 ],
                 K: [
-                    [code: "K103"],
-                    [code: "K104"],
-                    [code: "K105"],
-                    [code: "K201"],
-                    [code: "K202"],
-                    [code: "K203"]
+                    [code: 'K103'],
+                    [code: 'K104'],
+                    [code: 'K105'],
+                    [code: 'K201'],
+                    [code: 'K202'],
+                    [code: 'K203']
                 ],
                 undefined: [
-                    [code: "Afuera de UCC"],
-                    [code: "Corredor registro"],
-                    [code: "Piscina"]
+                    [code: 'Afuera de UCC'],
+                    [code: 'Corredor registro'],
+                    [code: 'Piscina']
                 ]
             ]
 
             datashows = [
                 [
-                    trademark: "EPSON",
-                    model: "H430A",
-                    serialNumber: "PSPK2302463",
+                    trademark: 'EPSON',
+                    model: 'H430A',
+                    serialNumber: 'PSPK2302463',
                     code: 1,
                     enabled: true,
                 ],[
-                    trademark: "EPSON",
-                    model: "H573A",
-                    serialNumber: "U3SK4400328",
+                    trademark: 'EPSON',
+                    model: 'H573A',
+                    serialNumber: 'U3SK4400328',
                     code: 2,
                     hdmi: true,
                     wifi: true,
                     enabled: true,
                 ],[
-                    trademark: "EPSON",
-                    model: "H430A",
-                    serialNumber: "PSPK2302445",
+                    trademark: 'EPSON',
+                    model: 'H430A',
+                    serialNumber: 'PSPK2302445',
                     code: 3,
                     enabled: true
                 ],[
-                    trademark: "EPSON",
-                    model: "H430A",
-                    serialNumber: "PSPK2302494",
+                    trademark: 'EPSON',
+                    model: 'H430A',
+                    serialNumber: 'PSPK2302494',
                     code: 4,
                     enabled: true
                 ],[
-                    trademark: "BENQ",
-                    model: "MS521P",
-                    serialNumber: "PD6CD01995000",
+                    trademark: 'BENQ',
+                    model: 'MS521P',
+                    serialNumber: 'PD6CD01995000',
                     code: 5,
                     hdmi: true,
                     enabled: true
                 ],[
-                    trademark: "BENQ",
-                    model: "MS504",
-                    serialNumber: "PDCCD01514000",
+                    trademark: 'BENQ',
+                    model: 'MS504',
+                    serialNumber: 'PDCCD01514000',
                     code: 6,
                     enabled: true
                 ],[
-                    trademark: "EPSON",
-                    model: "H430A",
-                    serialNumber: "PSPK2302433",
+                    trademark: 'EPSON',
+                    model: 'H430A',
+                    serialNumber: 'PSPK2302433',
                     code: 7,
                     enabled: true
                 ],[
-                    trademark: "BENQ",
-                    model: "MS504",
-                    serialNumber: "PDCCD01507000",
+                    trademark: 'EPSON',
+                    model: 'H692A',
+                    serialNumber: 'VU3K6401282',
                     code: 8,
-                    enabled: false
+                    hdmi: true,
+                    wifi: true,
+                    ethernet: true,
+                    enabled: true
                 ],[
-                    trademark: "BENQ",
-                    model: "MS521P",
-                    serialNumber: "PD6CD02163000",
+                    trademark: 'BENQ',
+                    model: 'MS521P',
+                    serialNumber: 'PD6CD02163000',
                     code: 9,
                     hdmi: true,
                     enabled: true
                 ],[
-                    trademark: "BENQ",
-                    model: "MX662",
-                    serialNumber: "PDH8D02670000",
+                    trademark: 'BENQ',
+                    model: 'MX662',
+                    serialNumber: 'PDH8D02670000',
                     code: 10,
                     hdmi: true,
                     enabled: true
                 ],[
-                    trademark: "EPSON",
-                    model: "H573A",
-                    serialNumber: "U3SK4X07310",
+                    trademark: 'EPSON',
+                    model: 'H573A',
+                    serialNumber: 'U3SK4X07310',
                     code: 11,
                     hdmi: true,
                     wifi: true,
                     enabled: true
                 ],[
-                    trademark: "EPSON",
-                    model: "H573A",
-                    serialNumber: "U3SK4X07317",
+                    trademark: 'EPSON',
+                    model: 'H573A',
+                    serialNumber: 'U3SK4X07317',
                     code: 12,
                     hdmi: true,
                     wifi: true,
@@ -381,15 +384,15 @@ grails.mail.default.from=System.env.GMAIL_USERNAME
 
 grails {
     mail {
-        host = "smtp.gmail.com"
+        host = 'smtp.gmail.com'
         port = 465
         username = System.env.GMAIL_USERNAME
         password = System.env.GMAIL_PASSWORD
         props = [
-            "mail.smtp.auth":"true",
-            "mail.smtp.socketFactory.port":"465",
-            "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-            "mail.smtp.socketFactory.fallback":"false"
+            'mail.smtp.auth': 'true',
+            'mail.smtp.socketFactory.port': '465',
+            'mail.smtp.socketFactory.class': 'javax.net.ssl.SSLSocketFactory',
+            'mail.smtp.socketFactory.fallback': 'false'
         ]
     }
 }
