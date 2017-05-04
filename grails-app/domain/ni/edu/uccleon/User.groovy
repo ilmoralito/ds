@@ -36,6 +36,7 @@ class User implements Serializable {
 
     static namedQueries = {
         login { email, password ->
+            eq 'enabled', true
             eq 'email', email
             eq 'password', password.encodeAsSHA1()
         }
