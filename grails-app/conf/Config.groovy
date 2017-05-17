@@ -157,6 +157,17 @@ ni {
                 ],[
                     coordination: 'Direccion Financiera',
                     datashow: [[8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12], [8, 9, 10, 11, 12]]
+                ],[
+                    coordination: 'Delegacion de la sede',
+                    datashow: [
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12]
+                    ]
                 ]
             ]
 
@@ -186,7 +197,8 @@ ni {
                     'Transporte',
                     'Escuela de manejo',
                     'Direccion financiera',
-                    'Soporte tecnico'
+                    'Soporte tecnico',
+                    'Delegacion de la sede'
                 ]
             ]
 

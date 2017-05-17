@@ -14,14 +14,17 @@ hibernate {
 environments {
     development {
         dataSource {
-            username = 'root'
-            password = 'hotch'
-            dbCreate = 'update'
-            url = 'jdbc:mysql://localhost:3306/cleardb'
-            driverClassName = 'com.mysql.jdbc.Driver'
-            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            // username = 'root'
+            // password = 'hotch'
+            // dbCreate = 'update'
+            // url = 'jdbc:mysql://localhost:3306/cleardb'
+            // driverClassName = 'com.mysql.jdbc.Driver'
+            // dialect = org.hibernate.dialect.MySQL5InnoDBDialect
             // formatSql = true
             // logSql = true
+
+            dbCreate = 'create-drop'
+            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     test {

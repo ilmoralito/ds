@@ -9,7 +9,7 @@ class BootStrap {
 
     def init = { servletContext ->
         if (Environment.current == Environment.DEVELOPMENT) {
-            // development()
+            development()
         }
 
         if (Environment.current == Environment.PRODUCTION) {
@@ -38,6 +38,7 @@ class BootStrap {
         String soporteTecnico = config.schoolsAndDepartments.departments[14]
         String especializacion = config.schoolsAndDepartments.departments[0]
         String educacionContinua = config.schoolsAndDepartments.departments[1]
+        String delegacionDeLaSede = config.schoolsAndDepartments.departments[15]
 
         // Schools and offices
         // B
@@ -59,6 +60,22 @@ class BootStrap {
         builder.classNameResolver = "ni.edu.uccleon"
 
         users << builder.user(
+            email: "guissella.gonzalez@ucc.edu.ni",
+            role: "administrativo",
+            fullName: "Guissella Gonzales",
+            schools: [delegacionDeLaSede],
+            classrooms: [mesanini1, mesanini2]
+        )
+
+        users << builder.user(
+            email: "marcia.sandino@ucc.edu.ni",
+            role: "administrativo",
+            fullName: "Marcia Sandino",
+            schools: [delegacionDeLaSede],
+            classrooms: [mesanini1, mesanini2]
+        )
+
+        users << builder.user(
             email: "admin.user@ucc.edu.ni",
             role: "admin",
             fullName: "admin user",
@@ -72,6 +89,15 @@ class BootStrap {
             fullName: 'Karen Alonso',
             schools: [especializacion, educacionContinua],
             classrooms: [mesanini1, mesanini2, d109, e112]
+        )
+
+        users << builder.user(
+            email: 'firstname.lastname@ucc.edu.ni',
+            role: 'asistente',
+            fullName: 'FirstName LastName',
+            schools: [especializacion, educacionContinua],
+            classrooms: [mesanini1, mesanini2, e112],
+            enabled: false
         )
 
         users << builder.user(
