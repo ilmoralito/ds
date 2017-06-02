@@ -32,6 +32,15 @@ class BootStrap {
         String cpfegmp = config.schoolsAndDepartments.schools[1]
         String aeaethcid = config.schoolsAndDepartments.schools[2]
         String fese = config.schoolsAndDepartments.schools[7]
+        String agronomy = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Agronomia'
+        }
+        String systemsAndGraphicDesign = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Sistemas y diseno grafico'
+        }
+        String law = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Derecho'
+        }
 
         // administrative
         String administracion = config.schoolsAndDepartments.departments[2]
@@ -57,7 +66,7 @@ class BootStrap {
         String e112 = config.cls["E"][1]["code"]
         String e113 = config.cls["E"][2]["code"]
 
-        builder.classNameResolver = "ni.edu.uccleon"
+        builder.classNameResolver = 'ni.edu.uccleon'
 
         users << builder.user(
             email: "guissella.gonzalez@ucc.edu.ni",
@@ -76,9 +85,25 @@ class BootStrap {
         )
 
         users << builder.user(
-            email: "admin.user@ucc.edu.ni",
-            role: "admin",
-            fullName: "admin user",
+            email: 'rosalia.navarro@ucc.edu.ni',
+            role: 'coordinador',
+            fullName: 'Rosalia Navarro',
+            schools: [law],
+            classrooms: [d101, d102, d103, d104]
+        )
+
+        users << builder.user(
+            email: 'azucena.delgado@ucc.edu.ni',
+            role: 'asistente',
+            fullName: 'Azucena Delgado',
+            schools: [law, agronomy, systemsAndGraphicDesign],
+            classrooms: [d101, d102, d103, d104]
+        )
+
+        users << builder.user(
+            email: 'admin.user@ucc.edu.ni',
+            role: 'admin',
+            fullName: 'admin user',
             schools: [soporteTecnico],
             classrooms: [mesanini1, mesanini2]
         )
