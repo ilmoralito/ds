@@ -28,10 +28,12 @@ class BootStrap {
 
         // Coordinations
         // academic
-        String industrial = config.schoolsAndDepartments.schools[0]
-        String cpfegmp = config.schoolsAndDepartments.schools[1]
-        String aeaethcid = config.schoolsAndDepartments.schools[2]
-        String fese = config.schoolsAndDepartments.schools[7]
+        String industrial = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Industrial'
+        }
+        String ccee = config.schoolsAndDepartments.schools.find { school ->
+            school == 'CCEE'
+        }
         String agronomy = config.schoolsAndDepartments.schools.find { school ->
             school == 'Agronomia'
         }
@@ -69,25 +71,25 @@ class BootStrap {
         builder.classNameResolver = 'ni.edu.uccleon'
 
         users << builder.user(
-            email: "guissella.gonzalez@ucc.edu.ni",
-            role: "administrativo",
-            fullName: "Guissella Gonzales",
+            email: 'guissella.gonzalez@ucc.edu.ni',
+            role: 'administrativo',
+            fullName: 'Guissella Gonzales',
             schools: [delegacionDeLaSede],
             classrooms: [mesanini1, mesanini2]
         )
 
         users << builder.user(
-            email: "marcia.sandino@ucc.edu.ni",
-            role: "administrativo",
-            fullName: "Marcia Sandino",
+            email: 'marcia.sandino@ucc.edu.ni',
+            role: 'administrativo',
+            fullName: 'Marcia Sandino',
             schools: [delegacionDeLaSede],
             classrooms: [mesanini1, mesanini2]
         )
 
         users << builder.user(
-            email: 'rosalia.navarro@ucc.edu.ni',
+            email: 'rosalia.prado@ucc.edu.ni',
             role: 'coordinador',
-            fullName: 'Rosalia Navarro',
+            fullName: 'Rosalia Prado',
             schools: [law],
             classrooms: [d101, d102, d103, d104]
         )
@@ -101,9 +103,9 @@ class BootStrap {
         )
 
         users << builder.user(
-            email: 'admin.user@ucc.edu.ni',
+            email: 'mario.martinez@ucc.edu.ni',
             role: 'admin',
-            fullName: 'admin user',
+            fullName: 'Mario Martinez',
             schools: [soporteTecnico],
             classrooms: [mesanini1, mesanini2]
         )
@@ -126,51 +128,25 @@ class BootStrap {
         )
 
         users << builder.user(
-            email: 'yendri.iglesias@ucc.edu.ni',
-            role: 'asistente',
-            fullName: 'Yendri Iglesias',
-            schools: [especializacion, educacionContinua],
-            classrooms: [mesanini1, mesanini2, d109, e112]
-        )
-
-        users << builder.user(
-            email: "administrative.user@ucc.edu.ni",
-            role: "administrativo",
-            fullName: "administrative user",
+            email: 'administrative.user@ucc.edu.ni',
+            role: 'administrativo',
+            fullName: 'administrative user',
             schools: [administracion],
             classrooms: [mesanini1, mesanini2]
         )
 
         users << builder.user(
-            email: "someuser@domain.com",
-            role: "user",
-            fullName: "someuser user",
-            schools: [fese],
-            classrooms: [e108, e112, e113],
-            enabled: false
-        )
-
-        users << builder.user(
-            email: 'yetanotheruser@domain.com',
-            role: 'user',
-            fullName: 'Abigail Castellon',
-            schools: [fese],
-            classrooms: [e108, e112],
-            enabled: true
-        )
-
-        users << builder.user(
-            email: "user.user@domain.com",
-            fullName: "user user",
-            schools: [industrial, cpfegmp, aeaethcid, fese],
+            email: 'user.user@domain.com',
+            fullName: 'user user',
+            schools: [industrial, ccee],
             classrooms: [d101, d102, d103, d104]
         ) {
             request(
                 dateOfApplication: today,
                 classroom: d102,
-                school: cpfegmp,
-                datashow: requestService.getDatashow(cpfegmp, dayOfWeek)[0],
-                description: "Lorem ipsum dolor sit amet",
+                school: industrial,
+                datashow: requestService.getDatashow(industrial, dayOfWeek)[0],
+                description: 'Lorem ipsum dolor sit amet',
                 audio: true,
                 internet: true
             ) {
@@ -180,9 +156,9 @@ class BootStrap {
             request(
                 dateOfApplication: today,
                 classroom: d101,
-                school: cpfegmp,
-                datashow: requestService.getDatashow(cpfegmp, dayOfWeek)[0],
-                description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+                school: ccee,
+                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
             ) {
                 hour(block: 1)
                 hour(block: 2)
@@ -190,18 +166,18 @@ class BootStrap {
         }
 
         users << builder.user(
-            email: "assistant.user@ucc.edu.ni",
-            fullName: "assistant user",
-            role: "asistente",
-            schools: [fese],
+            email: 'assistant.user@ucc.edu.ni',
+            fullName: 'assistant user',
+            role: 'asistente',
+            schools: [ccee],
             classrooms: [e108, e112, e113]
         ) {
             request(
                 dateOfApplication: today,
                 classroom: e108,
-                school: fese,
-                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
-                description: "!very important"
+                school: ccee,
+                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                description: '!very important'
             ) {
                 hour(block: 1)
                 hour(block: 2)
@@ -210,35 +186,35 @@ class BootStrap {
             request(
                 dateOfApplication: today,
                 classroom: e108,
-                school: fese,
-                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
-                description: "!important"
+                school: ccee,
+                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                description: '!important'
             ) {
                 hour(block: 0)
             }
         }
 
         users << builder.user(
-            email: "anotherassistant.user@ucc.edu.ni",
-            fullName: "another assistant user",
-            role: "asistente",
-            schools: [fese, industrial],
+            email: 'anotherassistant.user@ucc.edu.ni',
+            fullName: 'another assistant user',
+            role: 'asistente',
+            schools: [ccee, industrial, law],
             classrooms: [e108, e112, e113]
         )
 
         users << builder.user(
-            email: "coordinator.user@ucc.edu.ni",
-            fullName: "coordinador user",
-            role: "coordinador",
-            schools: [fese],
+            email: 'coordinator.user@ucc.edu.ni',
+            fullName: 'coordinador user',
+            role: 'coordinador',
+            schools: [ccee],
             classrooms: [d109, e108, e112, e113]
         ) {
             request(
                 dateOfApplication: today,
                 classroom: d109,
-                school: fese,
-                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
-                status: "attended",
+                school: ccee,
+                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                status: 'attended',
                 audio: true
             ) {
                 hour(block: 0)
@@ -249,10 +225,10 @@ class BootStrap {
             request(
                 dateOfApplication: today,
                 classroom: e113,
-                school: fese,
-                datashow: requestService.getDatashow(fese, dayOfWeek)[0],
-                status: "canceled",
-                description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+                school: ccee,
+                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                status: 'canceled',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
             ) {
                 hour(block: 1)
             }

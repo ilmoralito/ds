@@ -79,11 +79,8 @@ ni {
                     coordination: 'Industrial',
                     datashow: [1, 1, 1, 1, 1, 1, 1]
                 ],[
-                    coordination: 'CPF, EG, MP',
-                    datashow: [2, 2, 2, 2, 2, 2, 2]
-                ],[
-                    coordination: 'AE, AETH, CI, D',
-                    datashow: [3, 3, 3, 3, 3, 3, 3]
+                    coordination: 'CCEE',
+                    datashow: [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]]
                 ],[
                     coordination: 'Arquitectura y civil',
                     datashow: [4, 4, 4, 4, 4, 4, 4]
@@ -101,7 +98,7 @@ ni {
                     datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
                 ],[
                     coordination: 'Derecho',
-                    datashow: [9, 9, 9, 9, 9, 9, 9]
+                    datashow: [1, 9, 9, 9, 9, 9, 9]
                 ],[
                     coordination: 'Especializacion',
                     datashow: [
@@ -265,8 +262,7 @@ ni {
             schoolsAndDepartments = [
                 schools: [
                     'Industrial',
-                    'CPF, EG, MP',
-                    'AE, AETH, CI, D',
+                    'CCEE',
                     'Arquitectura y civil',
                     'Sistemas y diseno grafico',
                     'Ingles',
