@@ -31,18 +31,28 @@ class BootStrap {
         String industrial = config.schoolsAndDepartments.schools.find { school ->
             school == 'Industrial'
         }
+
         String ccee = config.schoolsAndDepartments.schools.find { school ->
             school == 'CCEE'
         }
+
         String agronomy = config.schoolsAndDepartments.schools.find { school ->
             school == 'Agronomia'
         }
+
         String systemsAndGraphicDesign = config.schoolsAndDepartments.schools.find { school ->
             school == 'Sistemas y diseno grafico'
         }
+
         String law = config.schoolsAndDepartments.schools.find { school ->
             school == 'Derecho'
         }
+
+        String architectureAndCivil = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Arquitectura y civil'
+        }
+
+        println architectureAndCivil
 
         // administrative
         String administracion = config.schoolsAndDepartments.departments[2]
@@ -98,7 +108,7 @@ class BootStrap {
             email: 'azucena.delgado@ucc.edu.ni',
             role: 'asistente',
             fullName: 'Azucena Delgado',
-            schools: [law, agronomy, systemsAndGraphicDesign],
+            schools: [law, agronomy, systemsAndGraphicDesign, architectureAndCivil],
             classrooms: [d101, d102, d103, d104]
         )
 

@@ -83,7 +83,7 @@ ni {
                     datashow: [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]]
                 ],[
                     coordination: 'Arquitectura y civil',
-                    datashow: [4, 4, 4, 4, 4, 4, 4]
+                    datashow: [1, 4, 4, 4, 4, 4, 4]
                 ],[
                     coordination: 'Sistemas y diseno grafico',
                     datashow: [5, 5, 5, 5, 5, 5, 5]
