@@ -189,10 +189,10 @@ class CommonTagLib {
     }
 
     def createRequest = {
+        Map<String, String> parameters = [:]
         MarkupBuilder mb = new MarkupBuilder(out)
         User currentUser = session?.user?.refresh()
         List<String> currentUserSchools = currentUser.schools as List
-        Map<String, String> parameters = [:]
 
         if (currentUser.role in ['coordinador', 'asistente', 'administrativo']) {
             mb.form(action: g.createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {

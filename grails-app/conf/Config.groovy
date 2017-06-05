@@ -83,19 +83,16 @@ ni {
                     datashow: [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]]
                 ],[
                     coordination: 'Arquitectura y civil',
-                    datashow: [1, 4, 4, 4, 4, 4, 4]
+                    datashow: [null, 4, 4, 4, 4, 4, 4]
                 ],[
                     coordination: 'Sistemas y diseno grafico',
-                    datashow: [5, 5, 5, 5, 5, 5, 5]
+                    datashow: [null, 5, 5, 5, 5, 5, 5]
                 ],[
                     coordination: 'Ingles',
-                    datashow: [6, 6, 6, 6, 6, 6, 6]
+                    datashow: [null, 6, 6, 6, 6, 6, 6]
                 ],[
                     coordination: 'Agronomia',
-                    datashow: [7, 7, 7, 7, 7, 7, 7]
-                ],[
-                    coordination: 'FESE',
-                    datashow: [[1, 2, 3], 8, 8, 8, 8, 8, 8]
+                    datashow: [null, 7, 7, 7, 7, 7, 7]
                 ],[
                     coordination: 'Derecho',
                     datashow: [1, 9, 9, 9, 9, 9, 9]
@@ -233,7 +230,7 @@ ni {
                     ]
                 ],[
                     coordination: 'Escuela de manejo',
-                    datashow: [6, 6, 6, 6, 6, 6, 6]
+                    datashow: [null, 6, 6, 6, 6, 6, 6]
                 ],[
                     coordination: 'Direccion Financiera',
                     datashow: [

@@ -2,7 +2,7 @@ package ni.edu.uccleon
 
 import static java.util.Calendar.*
 import grails.gorm.DetachedCriteria
-import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.RequestContextHolder as RCH
 
 class RequestController {
     def userService
@@ -62,12 +62,9 @@ class RequestController {
 
     def buildRequest(BuildRequestCommand command) {
         if (command.hasErrors()) {
-            command.errors.allErrors.each { error ->
-                log.error "[field: $error.field, message: $error.defaultMessage]"
-            }
+            flash.errors = command
+            redirect action: 'listOfPendingApplications'
 
-            flash.message = "Parametros incorrectos"
-            redirect uri: request.getHeader('referer')
             return
         }
 
@@ -605,17 +602,33 @@ class CloneRequestCommand {
 class BuildRequestCommand {
     String school
     String dateOfApplication
+    def grailsApplication
 
     static constraints = {
         school blank: false, validator: { school, obj ->
-            def session = RequestContextHolder.currentRequestAttributes().getSession()
+            def session = RCH.currentRequestAttributes().getSession()
+            List<String> currentUserSchools = session.user.refresh().schools as List
+            Integer dayOfWeek = obj.dateOfApplication ? new Date().parse('yyyy-MM-dd', obj.dateOfApplication)[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
+            Map coordination = obj.grailsApplication.config.ni.edu.uccleon.data.find { it.coordination == school }
 
-            school in session.user.refresh().schools
+            if (!(school in currentUserSchools)) {
+                return ['notValidSchool']
+            }
+
+            if (coordination.datashow[dayOfWeek -1] == null) {
+                return ['notValidSchoolInDay']
+            }
+
+            true
         }
-        dateOfApplication blank: false, validator: { dateOfApplication ->
-            Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
 
-            date >= new Date().clearTime()
+        dateOfApplication blank: false, validator: { dateOfApplication, obj ->
+            Date today = new Date()
+            Date date = today.parse('yyyy-MM-dd', dateOfApplication)
+
+            if (date < today) {
+                return ['outOfRange']
+            }
         }
     }
 }

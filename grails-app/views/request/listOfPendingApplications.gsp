@@ -7,6 +7,12 @@
     <content tag="main">
         <g:render template="toolbar"/>
 
+        <g:if test="${flash.errors}">
+            <g:hasErrors bean="${flash.errors}">
+                <g:renderErrors bean="${flash.errors}"/>
+            </g:hasErrors>
+        </g:if>
+
         <g:if test="${dataSet}">
             <table class="table table-hover">
                 <tbody>

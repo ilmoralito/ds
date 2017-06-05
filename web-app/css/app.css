@@ -29,11 +29,10 @@ section {
 }
 
 .create-request {
-    background: #F6F6F6;
-    border-radius: 3px;
     box-sizing: border-box;
-    padding: 7px;
     margin-bottom: 10px;
+    background: #F7F7F7;
+    padding: 10px;
 }
 
 .input-block-level {
