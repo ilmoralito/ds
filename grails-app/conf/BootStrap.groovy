@@ -52,8 +52,6 @@ class BootStrap {
             school == 'Arquitectura y civil'
         }
 
-        println architectureAndCivil
-
         // administrative
         String administracion = config.schoolsAndDepartments.departments[2]
         String soporteTecnico = config.schoolsAndDepartments.departments[14]
@@ -109,6 +107,14 @@ class BootStrap {
             role: 'asistente',
             fullName: 'Azucena Delgado',
             schools: [law, agronomy, systemsAndGraphicDesign, architectureAndCivil],
+            classrooms: [d101, d102, d103, d104]
+        )
+
+        users << builder.user(
+            email: 'yesenia.valverde@ucc.edu.ni',
+            role: 'asistente',
+            fullName: 'Azucena Delgado',
+            schools: [industrial],
             classrooms: [d101, d102, d103, d104]
         )
 

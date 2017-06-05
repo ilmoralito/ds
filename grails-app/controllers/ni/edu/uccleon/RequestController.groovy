@@ -623,7 +623,7 @@ class BuildRequestCommand {
         }
 
         dateOfApplication blank: false, validator: { dateOfApplication, obj ->
-            Date today = new Date()
+            Date today = new Date().clearTime()
             Date date = today.parse('yyyy-MM-dd', dateOfApplication)
 
             if (date < today) {
