@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs">
-    <li class="${params.type == 'schools' ? 'active' : 'not-active'}">
-        <g:link action="requestsBy" params="[type:'schools']">Por Facultades</g:link>
+    <li class="${actionName == 'reportBySchool' ? 'active' : 'not-active'}">
+        <g:link action="reportBySchool">Facultades</g:link>
     </li>
     <li class="${params.type == 'classrooms' ? 'active' : 'not-active'}">
         <g:link action="requestsBy" params="[type:'classrooms']">Por aulas</g:link>

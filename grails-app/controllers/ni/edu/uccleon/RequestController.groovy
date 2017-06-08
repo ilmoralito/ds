@@ -5,12 +5,13 @@ import grails.gorm.DetachedCriteria
 import org.springframework.web.context.request.RequestContextHolder as RCH
 
 class RequestController {
-    def userService
-    def requestService
+    def grailsApplication
     def classroomService
+    def requestService
+    def userService
     def appService
 
-    static defaultAction = "list"
+    static defaultAction = 'list'
     static allowedMethods = [
         buildRequest: 'GET',
         storeRequest: 'POST',
@@ -33,22 +34,12 @@ class RequestController {
         requestsByCoordination: 'GET',
         userStatistics: 'GET',
         userStatisticsDetail: 'GET',
-        listOfPendingApplications: 'GET'
+        listOfPendingApplications: 'GET',
+        reportBySchool: ['GET', 'POST']
     ]
 
     private static final MONTHS = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre"
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
 
     private getRequestStatus() {
@@ -472,9 +463,6 @@ class RequestController {
       def totalRequestInYears
 
       switch(type) {
-        case "schools":
-          results = (request.get) ? Request.requestsBy("school").list() : Request.requestsBy("school").requestFromTo(from, to).list()
-          break
         case "classrooms":
           results = Request.list().groupBy({ it.dateOfApplication[Calendar.YEAR]}, { it.classroom }).collectEntries { d ->
             [d.key, d.value.collectEntries { o ->
@@ -544,6 +532,32 @@ class RequestController {
         [requests: requests]
     }
 
+    def reportBySchool() {
+        List results = []
+
+        if (request.method == 'POST') {
+            Date firstDayOfTheYear = new Date().clearTime()
+            Date lastDayOfTheYear = firstDayOfTheYear.clone()
+
+            firstDayOfTheYear.set(year: params.int('year'), month: 0, date: 1)
+            lastDayOfTheYear.set(year: params.int('year'),  month: 11, date: 31)
+
+            results = Request.executeQuery('''
+                SELECT Month(r.dateOfApplication), Count(*)
+                FROM Request AS r
+                WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear AND r.school = :school
+                GROUP BY Month(r.dateOfApplication)
+                ORDER BY MONTH(r.dateOfApplication) DESC'''
+            , [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear, school: params?.school])
+        }
+
+        List<Map> data = results.collect {
+            [month: MONTHS[it[0]], quantity: it[1]]
+        }
+
+        [schoolsFilter: createSchoolsFilter(), data: data]
+    }
+
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {
         Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
         Integer dayOfWeek = date[Calendar.DAY_OF_WEEK]
@@ -569,6 +583,13 @@ class RequestController {
         }
 
         requestStatus[index].english
+    }
+
+    private SchoolsFilter createSchoolsFilter() {
+        new SchoolsFilter(
+            schools: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,
+            years: Request.executeQuery('SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR FROM Request AS r')
+        )
     }
 }
 
@@ -637,4 +658,9 @@ class BlockWidget {
     Integer blocks
     List<Integer> datashows
     List<Request> requests
+}
+
+class SchoolsFilter {
+    Map schools
+    List<String> years
 }

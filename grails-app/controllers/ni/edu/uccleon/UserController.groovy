@@ -124,34 +124,38 @@ class UserController {
         Closure users = {
             if (request.post) {
                 List<User> users = []
-                def c = User.createCriteria()
-                    List<User> result = c.list {
+
+                List<User> userList = User.createCriteria().list {
                     if (params?.fullName) {
-                        like "fullName", "%$params.fullName%"
+                        like 'fullName', "%$params.fullName%"
                     }
 
                     if (enabled) {
-                        "in" "enabled", enabled
+                        'in' 'enabled', enabled
                     }
 
                     if (roles) {
-                        "in" "role", roles
+                        'in' 'role', roles
                     }
+
+                    order 'fullName', 'asc'
                 }
 
                 if (schools || departments) {
-                    users = result.findAll { user ->
-                        user.schools.any { school -> school in schools || school in departments }
+                    users = userList.findAll { user ->
+                        user.schools.any { school ->
+                            school in schools || school in departments
+                        }
                     }
                 }
 
-                (!schools && !departments) ? result : users
+                (!schools && !departments) ? userList : users
             } else {
-                User.findAllByEnabled(true)
+                User.findAllByEnabled(true, [sort: 'fullName', order: 'asc'])
             }
         }
 
-        [ users: users() ]
+        [users: users()]
     }
 
     def create() {
