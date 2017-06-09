@@ -588,7 +588,7 @@ class RequestController {
     private SchoolsFilter createSchoolsFilter() {
         new SchoolsFilter(
             schools: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,
-            years: Request.executeQuery('SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR FROM Request AS r')
+            years: Request.executeQuery('SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR FROM Request AS r ORDER BY YEAR(r.dateOfApplication) DESC')
         )
     }
 }
