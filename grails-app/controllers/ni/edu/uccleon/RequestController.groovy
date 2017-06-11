@@ -37,6 +37,7 @@ class RequestController {
         listOfPendingApplications: 'GET',
         reportBySchool: ['GET', 'POST'],
         reportByClassrooms: ['GET', 'POST'],
+        reportByDatashows: ['GET', 'POST']
     ]
 
     private static final MONTHS = [
@@ -467,9 +468,6 @@ class RequestController {
         case "users":
           results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(from, to).list()
           break
-        case "datashows":
-          results = (request.get) ? Request.requestsBy("datashow").list() : Request.requestsBy("datashow").requestFromTo(from, to).list()
-          break
         case "blocks":
           results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
           break
@@ -552,8 +550,7 @@ class RequestController {
         [schoolsFilter: createSchoolsFilter(), data: data]
     }
 
-    def reportByClassrooms()
-    {
+    def reportByClassrooms() {
         List results = []
         if (request.method == 'POST') {
             Date firstDayOfTheYear = new Date().clearTime()
@@ -579,6 +576,20 @@ class RequestController {
 
         [yearFilter: createYearFilter(), results: results.collect {
             [classroom: it[0], quantity: it[1]]
+        }]
+    }
+
+    def reportByDatashows() {
+        List results = []
+
+        if (request.method == 'GET') {
+            results = requestService.getProjectorReport()
+        } else {
+            results = requestService.getProjectorReportByYear(params.int('year'))
+        }
+
+        [yearFilter: createYearFilter(), results: results.collect {
+            [datashow: it[0], quantity: it[1]]
         }]
     }
 

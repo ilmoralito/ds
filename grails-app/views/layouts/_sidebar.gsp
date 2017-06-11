@@ -9,7 +9,7 @@
 
 <section>
     <ul class="nav nav-tabs nav-stacked">
-        <li class="${(controllerName == 'request' && !(actionName in ['reportBySchool', 'reportByClassrooms', 'requestsBy', 'report', 'detail'])) ? 'active' : 'no-active'}">
+        <li class="${(controllerName == 'request' && !(actionName in ['reportBySchool', 'reportByClassrooms', 'reportByDatashows', 'requestsBy', 'report', 'detail'])) ? 'active' : 'no-active'}">
             <g:link controller="request" action="${session?.user?.role == 'admin' ? 'list' : 'listOfPendingApplications'}">
                 Solicitudes
             </g:link>
@@ -20,7 +20,7 @@
                     Usuarios
                 </g:link>
             </li>
-            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'requestsBy', 'report', 'detail'] ? 'active' : ''}">
+            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByDatashows', 'requestsBy', 'report', 'detail'] ? 'active' : ''}">
                 <g:link controller="request" action="requestsBy" params="[type:'resumen']">
                     Reportes
                 </g:link>

@@ -130,4 +130,29 @@ class RequestService {
             ORDER BY YEAR(r.dateOfApplication) DESC'''
         )
     }
+
+    List getProjectorReport() {
+        Request.executeQuery('''
+            SELECT r.datashow AS datashow, count(*) AS count
+            FROM Request AS r
+            GROUP BY r.datashow
+            ORDER BY count(*) DESC
+        ''')
+    }
+
+    List getProjectorReportByYear(final Integer year) {
+        Date firstDayOfTheYear = new Date().clearTime()
+        Date lastDayOfTheYear = firstDayOfTheYear.clone()
+
+        firstDayOfTheYear.set(year: year, month: 0, date: 1)
+        lastDayOfTheYear.set(year: year,  month: 11, date: 31)
+
+        Request.executeQuery('''
+            SELECT r.datashow AS datashow, count(*) AS count
+            FROM Request AS r
+            WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
+            GROUP BY r.datashow
+            ORDER BY count(*) DESC''',
+            [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+    }
 }

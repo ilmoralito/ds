@@ -8,8 +8,8 @@
     <li class="${params.type == 'users' ? 'active' : 'not-active'}">
         <g:link action="requestsBy" params="[type:'users']">Por usuarios</g:link>
     </li>
-    <li class="${params.type == 'datashows' ? 'active' : 'not-active'}">
-        <g:link action="requestsBy" params="[type:'datashows']">Por datashow</g:link>
+    <li class="${actionName == 'reportByDatashows' ? 'active' : 'not-active'}">
+        <g:link action="reportByDatashows">Datashow</g:link>
     </li>
     <li class="${params.type == 'blocks' ? 'active' : 'not-active'}">
         <g:link action="requestsBy" params="[type:'blocks']">Por bloque</g:link>
