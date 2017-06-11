@@ -2,8 +2,8 @@
     <li class="${actionName == 'reportBySchool' ? 'active' : 'not-active'}">
         <g:link action="reportBySchool">Facultades</g:link>
     </li>
-    <li class="${params.type == 'classrooms' ? 'active' : 'not-active'}">
-        <g:link action="requestsBy" params="[type:'classrooms']">Por aulas</g:link>
+    <li class="${actionName == 'reportByClassrooms' ? 'active' : 'no-active'}">
+        <g:link action="reportByClassrooms">Aulas</g:link>
     </li>
     <li class="${params.type == 'users' ? 'active' : 'not-active'}">
         <g:link action="requestsBy" params="[type:'users']">Por usuarios</g:link>

@@ -35,7 +35,8 @@ class RequestController {
         userStatistics: 'GET',
         userStatisticsDetail: 'GET',
         listOfPendingApplications: 'GET',
-        reportBySchool: ['GET', 'POST']
+        reportBySchool: ['GET', 'POST'],
+        reportByClassrooms: ['GET', 'POST'],
     ]
 
     private static final MONTHS = [
@@ -463,13 +464,6 @@ class RequestController {
       def totalRequestInYears
 
       switch(type) {
-        case "classrooms":
-          results = Request.list().groupBy({ it.dateOfApplication[Calendar.YEAR]}, { it.classroom }).collectEntries { d ->
-            [d.key, d.value.collectEntries { o ->
-              [o.key, o.value.size()]
-            }]
-          }
-          break
         case "users":
           results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(from, to).list()
           break
@@ -558,6 +552,36 @@ class RequestController {
         [schoolsFilter: createSchoolsFilter(), data: data]
     }
 
+    def reportByClassrooms()
+    {
+        List results = []
+        if (request.method == 'POST') {
+            Date firstDayOfTheYear = new Date().clearTime()
+            Date lastDayOfTheYear = firstDayOfTheYear.clone()
+
+            firstDayOfTheYear.set(year: params.int('year'), month: 0, date: 1)
+            lastDayOfTheYear.set(year: params.int('year'),  month: 11, date: 31)
+            
+            results = Request.executeQuery('''
+                SELECT r.classroom AS classroom, count(*) AS count
+                FROM Request AS r
+                WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
+                GROUP BY r.classroom
+                ORDER BY count(*) DESC''', [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+        } else {
+            results = Request.executeQuery('''
+                SELECT r.classroom AS classroom, count(*) AS count
+                FROM Request AS r
+                GROUP BY r.classroom
+                ORDER BY count(*) DESC
+            ''')
+        }
+
+        [yearFilter: createYearFilter(), results: results.collect {
+            [classroom: it[0], quantity: it[1]]
+        }]
+    }
+
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {
         Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
         Integer dayOfWeek = date[Calendar.DAY_OF_WEEK]
@@ -588,7 +612,13 @@ class RequestController {
     private SchoolsFilter createSchoolsFilter() {
         new SchoolsFilter(
             schools: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments,
-            years: Request.executeQuery('SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR FROM Request AS r ORDER BY YEAR(r.dateOfApplication) DESC')
+            years: requestService.getYearsOfApplications()
+        )
+    }
+
+    private YearFilter createYearFilter() {
+        new YearFilter (
+            years: requestService.getYearsOfApplications()
         )
     }
 }
@@ -658,6 +688,10 @@ class BlockWidget {
     Integer blocks
     List<Integer> datashows
     List<Request> requests
+}
+
+class YearFilter {
+    List<String> years
 }
 
 class SchoolsFilter {

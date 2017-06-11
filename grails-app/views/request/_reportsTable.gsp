@@ -1,4 +1,4 @@
-<g:if test="${type in ['resumen', 'classrooms']}">
+<g:if test="${type in ['resumen']}">
 	<g:each in="${results.sort { -it.key }}" var="result">
 		<h4>${result.key}</h4>
 		<table class="table">

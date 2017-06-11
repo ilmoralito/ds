@@ -122,4 +122,12 @@ class RequestService {
 
         request
     }
+
+    List<String> getYearsOfApplications() {
+        Request.executeQuery('''
+            SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR
+            FROM Request AS r
+            ORDER BY YEAR(r.dateOfApplication) DESC'''
+        )
+    }
 }

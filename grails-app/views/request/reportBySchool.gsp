@@ -51,8 +51,7 @@
                 </g:each>
             </select>
 
-            <label for="year">Años</label>
-            <g:select name="year" from="${schoolsFilter.years}" value="${params?.year}" class="span2"/>
+            <g:render template="years" model="[years: schoolsFilter.years]"/>
 
             <g:submitButton name="send" value="Aplicar" class="btn btn-primary btn-block"/>
         </g:form>
