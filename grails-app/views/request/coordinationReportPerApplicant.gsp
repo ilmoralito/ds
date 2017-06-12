@@ -1,6 +1,6 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>Reporte por soliciantes</title>
+        <title>Reporte de coordinaciones por solicitante</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
@@ -8,6 +8,8 @@
         <g:render template="reportNavBar"/>
 
         <g:if test="${results}">
+            <p>${params.applicant}</p>
+
             <table class="table">
                 <colgroup>
                     <col span="1" style="width: 45%;">
@@ -16,7 +18,7 @@
 
                 <thead>
                     <tr>
-                        <th>Solicitante</th>
+                        <th>Coordinacion</th>
                         <th>Cantidad</th>
                     </tr>
                 </thead>
@@ -24,18 +26,7 @@
                 <tbody>
                     <g:each in="${results}" var="data">
                         <tr>
-                            <td>
-                                <g:if test="${params?.year}">
-                                    <g:link action="coordinationReportPerApplicant" params="[applicant: data.applicant, year: params.year]">
-                                        ${data.applicant}
-                                    </g:link>
-                                </g:if>
-                                <g:else>
-                                    <g:link action="coordinationReportPerApplicant" params="[applicant: data.applicant]">
-                                        ${data.applicant}
-                                    </g:link>
-                                </g:else>
-                            </td>
+                            <td>${data.coordination}</td>
                             <td>${data.quantity}</td>
                         </tr>
                     </g:each>
@@ -45,6 +36,7 @@
                     </tr>
                 </tbody>
             </table>
+
         </g:if>
         <g:else>
             <p>Sin datos que mostrar</p>

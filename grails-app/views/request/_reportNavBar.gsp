@@ -5,7 +5,7 @@
     <li class="${actionName == 'reportByClassrooms' ? 'active' : 'no-active'}">
         <g:link action="reportByClassrooms">Aulas</g:link>
     </li>
-    <li class="${actionName == 'reportByApplicant' ? 'active' : 'not-active'}">
+    <li class="${actionName == 'reportByApplicant' || actionName == 'coordinationReportPerApplicant' ? 'active' : 'not-active'}">
         <g:link action="reportByApplicant">Solicitantes</g:link>
     </li>
     <li class="${actionName == 'reportByDatashows' ? 'active' : 'not-active'}">

@@ -39,7 +39,8 @@ class RequestController {
         reportBySchool: ['GET', 'POST'],
         reportByClassrooms: ['GET', 'POST'],
         reportByDatashows: ['GET', 'POST'],
-        reportByApplicant: ['GET', 'POST']
+        reportByApplicant: ['GET', 'POST'],
+        coordinationReportPerApplicant: 'GET'
     ]
 
     private static final MONTHS = [
@@ -582,7 +583,7 @@ class RequestController {
 
                 projections {
                     user {
-                        property 'fullName', 'member'
+                        property 'fullName', 'applicant'
                     }
                     count 'id', 'quantity'
                     groupProperty 'user'
@@ -596,13 +597,57 @@ class RequestController {
 
                 projections {
                     user {
-                        property 'fullName', 'member'
+                        property 'fullName', 'applicant'
                     }
                     count 'id', 'quantity'
                     groupProperty 'user'
                 }
 
                 order 'quantity', 'desc'
+            }
+        }
+
+        [yearFilter: createYearFilter(), results: results]
+    }
+
+    def coordinationReportPerApplicant(final Integer year) {
+        List results = []
+
+        if (year) {
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
+
+            results = Request.createCriteria().list {
+                between 'dateOfApplication', firstDayOfTheYear, lastDayOfTheYear
+
+                user {
+                    eq 'fullName', params?.applicant
+                }
+
+                projections {
+                    property 'school', 'coordination'
+                    count 'id', 'quantity'
+                    groupProperty 'school'
+                }
+
+                order 'quantity', 'desc'
+
+                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
+            }
+        } else {
+            results = Request.createCriteria().list {
+                user {
+                    eq 'fullName', params?.applicant
+                }
+
+                projections {
+                    property 'school', 'coordination'
+                    count 'id', 'quantity'
+                    groupProperty 'school'
+                }
+
+                order 'quantity', 'desc'
+
+                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
             }
         }
 
