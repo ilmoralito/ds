@@ -5,8 +5,8 @@
     <li class="${actionName == 'reportByClassrooms' ? 'active' : 'no-active'}">
         <g:link action="reportByClassrooms">Aulas</g:link>
     </li>
-    <li class="${params.type == 'users' ? 'active' : 'not-active'}">
-        <g:link action="requestsBy" params="[type:'users']">Por usuarios</g:link>
+    <li class="${actionName == 'reportByApplicant' ? 'active' : 'not-active'}">
+        <g:link action="reportByApplicant">Solicitantes</g:link>
     </li>
     <li class="${actionName == 'reportByDatashows' ? 'active' : 'not-active'}">
         <g:link action="reportByDatashows">Datashow</g:link>

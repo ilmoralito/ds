@@ -9,6 +9,11 @@
 
         <g:if test="${results}">
             <table class="table">
+                <colgroup>
+                    <col span="1" style="width: 45%;">
+                    <col span="1" style="width: 55%;">
+                </colgroup>
+            
                 <thead>
                     <tr>
                         <th>Datashow</th>

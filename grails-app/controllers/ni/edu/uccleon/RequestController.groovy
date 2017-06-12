@@ -2,6 +2,7 @@ package ni.edu.uccleon
 
 import static java.util.Calendar.*
 import grails.gorm.DetachedCriteria
+import org.hibernate.transform.AliasToEntityMapResultTransformer
 import org.springframework.web.context.request.RequestContextHolder as RCH
 
 class RequestController {
@@ -37,7 +38,8 @@ class RequestController {
         listOfPendingApplications: 'GET',
         reportBySchool: ['GET', 'POST'],
         reportByClassrooms: ['GET', 'POST'],
-        reportByDatashows: ['GET', 'POST']
+        reportByDatashows: ['GET', 'POST'],
+        reportByApplicant: ['GET', 'POST']
     ]
 
     private static final MONTHS = [
@@ -465,9 +467,6 @@ class RequestController {
       def totalRequestInYears
 
       switch(type) {
-        case "users":
-          results = (request.get) ? Request.requestsBy("user").listByRole("user").list() : Request.requestsBy("user").listByRole("user").requestFromTo(from, to).list()
-          break
         case "blocks":
           results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
           break
@@ -528,11 +527,7 @@ class RequestController {
         List results = []
 
         if (request.method == 'POST') {
-            Date firstDayOfTheYear = new Date().clearTime()
-            Date lastDayOfTheYear = firstDayOfTheYear.clone()
-
-            firstDayOfTheYear.set(year: params.int('year'), month: 0, date: 1)
-            lastDayOfTheYear.set(year: params.int('year'),  month: 11, date: 31)
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
 
             results = Request.executeQuery('''
                 SELECT Month(r.dateOfApplication), Count(*)
@@ -553,12 +548,8 @@ class RequestController {
     def reportByClassrooms() {
         List results = []
         if (request.method == 'POST') {
-            Date firstDayOfTheYear = new Date().clearTime()
-            Date lastDayOfTheYear = firstDayOfTheYear.clone()
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
 
-            firstDayOfTheYear.set(year: params.int('year'), month: 0, date: 1)
-            lastDayOfTheYear.set(year: params.int('year'),  month: 11, date: 31)
-            
             results = Request.executeQuery('''
                 SELECT r.classroom AS classroom, count(*) AS count
                 FROM Request AS r
@@ -577,6 +568,45 @@ class RequestController {
         [yearFilter: createYearFilter(), results: results.collect {
             [classroom: it[0], quantity: it[1]]
         }]
+    }
+
+    def reportByApplicant() {
+        List results = []
+
+        if (request.method == 'POST') {
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
+
+            results = Request.createCriteria().list {
+                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
+                between 'dateOfApplication', firstDayOfTheYear, lastDayOfTheYear
+
+                projections {
+                    user {
+                        property 'fullName', 'member'
+                    }
+                    count 'id', 'quantity'
+                    groupProperty 'user'
+                }
+
+                order 'quantity', 'desc'
+            }
+        } else {
+            results = Request.createCriteria().list {
+                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
+
+                projections {
+                    user {
+                        property 'fullName', 'member'
+                    }
+                    count 'id', 'quantity'
+                    groupProperty 'user'
+                }
+
+                order 'quantity', 'desc'
+            }
+        }
+
+        [yearFilter: createYearFilter(), results: results]
     }
 
     def reportByDatashows() {
@@ -631,6 +661,17 @@ class RequestController {
         new YearFilter (
             years: requestService.getYearsOfApplications()
         )
+    }
+
+    private def getFirstAndLastDayOfTheYear(final Integer year) {
+        Date date = new Date().clearTime()
+        Date firstDayOfTheYear = date.clone()
+        Date lastDayOfTheYear = date.clone()
+
+        firstDayOfTheYear.set(year: year, month: 0, date: 1)
+        lastDayOfTheYear.set(year: year,  month: 11, date: 31)
+
+        [firstDayOfTheYear, lastDayOfTheYear]
     }
 }
 
