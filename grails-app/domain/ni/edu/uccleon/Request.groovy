@@ -101,15 +101,16 @@ class Request implements Serializable {
         }
 
         requestsByBlocks {
+            resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
+
             projections {
                 hours {
-                    groupProperty "block", "property"
-                    count "block", "count"
+                    groupProperty 'block', 'block'
+                    count 'block', 'quantity'
                 }
             }
 
-            order("count", "desc")
-            resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
+            order('quantity', 'desc')
         }
     }
 

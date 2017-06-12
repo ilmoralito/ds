@@ -40,7 +40,8 @@ class RequestController {
         reportByClassrooms: ['GET', 'POST'],
         reportByDatashows: ['GET', 'POST'],
         reportByApplicant: ['GET', 'POST'],
-        coordinationReportPerApplicant: 'GET'
+        coordinationReportPerApplicant: 'GET',
+        reportByBlock: ['GET', 'POST']
     ]
 
     private static final MONTHS = [
@@ -49,10 +50,7 @@ class RequestController {
 
     private getRequestStatus() {
         [
-            pending: "Pendiente",
-            attended: "Atendido",
-            absent: "Sin retirar",
-            canceled: "Cancelado"
+            pending: 'Pendiente', attended: 'Atendido', absent: 'Sin retirar', canceled: 'Cancelado'
         ]
     }
 
@@ -468,9 +466,6 @@ class RequestController {
       def totalRequestInYears
 
       switch(type) {
-        case "blocks":
-          results = (request.get) ? Request.requestsByBlocks().list() : Request.requestsByBlocks().requestFromTo(from, to).list()
-          break
         case "resumen":
           results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] + 1 }.collectEntries {
             [it.key, it.value.collectEntries { d ->
@@ -666,6 +661,20 @@ class RequestController {
         [yearFilter: createYearFilter(), results: results.collect {
             [datashow: it[0], quantity: it[1]]
         }]
+    }
+
+    def reportByBlock() {
+        List results = []
+
+        if (request.method == 'POST') {
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
+
+            results = Request.requestsByBlocks().requestFromTo(firstDayOfTheYear, lastDayOfTheYear).list()
+        } else {
+            results = Request.requestsByBlocks().list()
+        }
+
+        [yearFilter: createYearFilter(), results: results]
     }
 
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {

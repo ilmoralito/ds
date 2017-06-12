@@ -9,10 +9,10 @@
         <g:link action="reportByApplicant">Solicitantes</g:link>
     </li>
     <li class="${actionName == 'reportByDatashows' ? 'active' : 'not-active'}">
-        <g:link action="reportByDatashows">Datashow</g:link>
+        <g:link action="reportByDatashows">Datashows</g:link>
     </li>
-    <li class="${params.type == 'blocks' ? 'active' : 'not-active'}">
-        <g:link action="requestsBy" params="[type:'blocks']">Por bloque</g:link>
+    <li class="${actionName == 'reportByBlock' ? 'active' : 'not-active'}">
+        <g:link action="reportByBlock">Bloques</g:link>
     </li>
     <li class="${params.type == 'day' ? 'active' : 'not-active'}">
         <g:link action="requestsBy" params="[type:'day']">Dia</g:link>
