@@ -705,15 +705,35 @@ class RequestController {
             ''')
         }
 
-        println results
-
         [yearFilter: createYearFilter(), results: results.collect { result ->
             [month: result[0], monthName: MONTHS[result[0] - 1], quantity: result[1]]
         }]
     }
 
-    def coordinationReportPerMonth() {
+    def coordinationReportPerMonth(final Integer month, final Integer year) {
+        List results = []
 
+        if (year) {
+            results = Request.executeQuery('''
+                SELECT r.school AS school, count(*) AS quantity
+                FROM Request as r
+                WHERE MONTH(r.dateOfApplication) = :month AND YEAR(r.dateOfApplication) = :year
+                GROUP BY r.school
+                ORDER BY quantity DESC
+            ''',[month: month, year: year])
+        } else {
+            results = Request.executeQuery('''
+                SELECT r.school AS school, count(*) AS quantity
+                FROM Request as r
+                WHERE MONTH(r.dateOfApplication) = :month
+                GROUP BY r.school
+                ORDER BY quantity DESC
+            ''',[month: month])
+        }
+
+        [results: results.collect { result ->
+            [school: result[0], quantity: result[1]]
+        }]
     }
 
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {

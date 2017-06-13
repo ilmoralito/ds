@@ -18,7 +18,7 @@
         <g:link action="reportPerDay">Dias</g:link>
     </li>
     </li>
-    <li class="${actionName == 'reportPerMonth' ? 'active' : ''}">
+    <li class="${actionName == 'reportPerMonth' || actionName == 'coordinationReportPerMonth' ? 'active' : ''}">
         <g:link action="reportPerMonth">Reporte</g:link>
     </li>
     <li class="${params.type == 'resumen' ? 'active' : ''}">
