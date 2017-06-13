@@ -41,11 +41,22 @@ class RequestController {
         reportByDatashows: ['GET', 'POST'],
         reportByApplicant: ['GET', 'POST'],
         coordinationReportPerApplicant: 'GET',
-        reportByBlock: ['GET', 'POST']
+        reportByBlock: ['GET', 'POST'],
+        reportPerDay: ['GET', 'POST']
     ]
 
-    private static final MONTHS = [
+    private final MONTHS = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ]
+
+    private final DAYS = [
+        [english: 'Sunday', spanish: 'Domingo'],
+        [english: 'Monday', spanish: 'Lunes'],
+        [english: 'Tuesday', spanish: 'Martes'],
+        [english: 'Wednesday', spanish: 'Miercoles'],
+        [english: 'Thursday', spanish: 'Jueves'],
+        [english: 'Friday', spanish: 'Viernes'],
+        [english: 'Saturday', spanish: 'Sabado']
     ]
 
     private getRequestStatus() {
@@ -478,15 +489,6 @@ class RequestController {
           }
 
           break
-        case "day":
-          def quantityByYear = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] }.collectEntries { [it.key, it.value.size()] }
-
-          results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.DAY_OF_WEEK] }.collectEntries {
-            [it.key, it.value.collectEntries { d ->
-              [d.key, ["size":d.value.size(), "percent":(d.value.size() / quantityByYear[it.key]) * 100]]
-            }]
-          }
-        break
       }
 
       [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms', 'day']) ? results.count.sum() : 0, type:type]
@@ -675,6 +677,32 @@ class RequestController {
         }
 
         [yearFilter: createYearFilter(), results: results]
+    }
+
+    def reportPerDay() {
+        List results = []
+
+        if (request.method == 'POST') {
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
+
+            results = Request.executeQuery('''
+                SELECT DAYNAME(r.dateOfApplication), count(*) AS quantity
+                FROM Request as r
+                WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
+                GROUP BY DAYNAME(r.dateOfApplication)
+                ORDER BY quantity DESC''',
+                [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+        } else {
+            results = Request.executeQuery('''
+                SELECT DAYNAME(r.dateOfApplication), count(*) AS quantity
+                FROM Request as r
+                GROUP BY DAYNAME(r.dateOfApplication)
+                ORDER BY quantity DESC''')
+        }
+
+        [yearFilter: createYearFilter(), results: results.collect { set ->
+            [day: DAYS.find { day -> day.english == set[0] }.spanish, quantity: set[1]]
+        }]
     }
 
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {
