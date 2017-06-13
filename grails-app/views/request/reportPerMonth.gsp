@@ -1,6 +1,6 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>Reporte por datashow</title>
+        <title>Reporte por mes</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
@@ -16,15 +16,19 @@
             
                 <thead>
                     <tr>
-                        <th>Datashow</th>
-                        <th>Cantidad por datashow</th>
+                        <th>Mes</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <g:each in="${results}" var="data">
                         <tr>
-                            <td>${data.datashow}</td>
+                            <td>
+                                <g:link action="coordinationReportPerMonth" params="${params?.year ? [month: data.month, year: params.year] : [month: data.month]}">
+                                    ${data.monthName}
+                                </g:link>
+                            </td>
                             <td>${data.quantity}</td>
                         </tr>
                     </g:each>
@@ -41,7 +45,7 @@
     </content>
 
     <content tag="col1">
-        <g:form action="reportByDatashows" autocomplete="off">
+        <g:form action="reportPerMonth" autocomplete="off">
             <g:render template="years" model="[years: yearFilter.years]"/>
 
             <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>

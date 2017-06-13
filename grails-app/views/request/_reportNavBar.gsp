@@ -18,10 +18,8 @@
         <g:link action="reportPerDay">Dias</g:link>
     </li>
     </li>
-    <li class="${params.type == 'report' || actionName == 'reportDetail' ? 'active' : ''}">
-        <g:link action="report" params="[type: 'report']">
-            Reporte
-        </g:link>
+    <li class="${actionName == 'reportPerMonth' ? 'active' : ''}">
+        <g:link action="reportPerMonth">Reporte</g:link>
     </li>
     <li class="${params.type == 'resumen' ? 'active' : ''}">
         <g:link action="requestsBy" params="[type:'resumen']">Resumen</g:link>

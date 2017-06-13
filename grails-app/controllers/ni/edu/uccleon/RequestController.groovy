@@ -42,7 +42,8 @@ class RequestController {
         reportByApplicant: ['GET', 'POST'],
         coordinationReportPerApplicant: 'GET',
         reportByBlock: ['GET', 'POST'],
-        reportPerDay: ['GET', 'POST']
+        reportPerDay: ['GET', 'POST'],
+        reportPerMonth: ['GET', 'POST']
     ]
 
     private final MONTHS = [
@@ -207,30 +208,6 @@ class RequestController {
         }
 
         [results: results]
-    }
-
-    def report() {
-        Date date = new Date()
-        List months = MONTHS
-        List<Request> requests = Request.list()
-        List data = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.school }.collect { o ->
-            [
-                year: o.key,
-                months: o.value.collect { t ->
-                    [
-                        month: MONTHS[t.key],
-                        coordinations: t.value.collect { c ->
-                            [
-                                coordination: c.key,
-                                size: c.value.size()
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-
-        [data: data.sort { -it.year }]
     }
 
     def reportDetail(Integer y, String m, String s) {
@@ -702,6 +679,33 @@ class RequestController {
 
         [yearFilter: createYearFilter(), results: results.collect { set ->
             [day: DAYS.find { day -> day.english == set[0] }.spanish, quantity: set[1]]
+        }]
+    }
+
+    def reportPerMonth() {
+        List results = []
+
+        if (request.method == 'POST') {
+            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
+
+            results = Request.executeQuery('''
+                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS COUNT
+                FROM Request AS r
+                WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
+                GROUP BY MONTH(r.dateOfApplication)
+                ORDER BY MONTH(r.dateOfApplication) DESC
+            ''', [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+        } else {
+            results = Request.executeQuery('''
+                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS COUNT
+                FROM Request AS r
+                GROUP BY MONTH(r.dateOfApplication)
+                ORDER BY MONTH(r.dateOfApplication) DESC
+            ''')
+        }
+
+        [yearFilter: createYearFilter(), results: results.collect { result ->
+            [month: result[0], monthName: MONTHS[result[0]], quantity: result[1]]
         }]
     }
 
