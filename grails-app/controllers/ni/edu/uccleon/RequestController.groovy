@@ -43,7 +43,8 @@ class RequestController {
         coordinationReportPerApplicant: 'GET',
         reportByBlock: ['GET', 'POST'],
         reportPerDay: ['GET', 'POST'],
-        reportPerMonth: ['GET', 'POST']
+        reportPerMonth: ['GET', 'POST'],
+        coordinationReportPerMonth: 'GET'
     ]
 
     private final MONTHS = [
@@ -514,7 +515,7 @@ class RequestController {
         }
 
         List<Map> data = results.collect {
-            [month: MONTHS[it[0]], quantity: it[1]]
+            [month: MONTHS[it[0] - 1], quantity: it[1]]
         }
 
         [schoolsFilter: createSchoolsFilter(), data: data]
@@ -677,8 +678,8 @@ class RequestController {
                 ORDER BY quantity DESC''')
         }
 
-        [yearFilter: createYearFilter(), results: results.collect { set ->
-            [day: DAYS.find { day -> day.english == set[0] }.spanish, quantity: set[1]]
+        [yearFilter: createYearFilter(), results: results.collect { result ->
+            [day: DAYS.find { day -> day.english == result[0] }.spanish, quantity: result[1]]
         }]
     }
 
@@ -704,9 +705,15 @@ class RequestController {
             ''')
         }
 
+        println results
+
         [yearFilter: createYearFilter(), results: results.collect { result ->
-            [month: result[0], monthName: MONTHS[result[0]], quantity: result[1]]
+            [month: result[0], monthName: MONTHS[result[0] - 1], quantity: result[1]]
         }]
+    }
+
+    def coordinationReportPerMonth() {
+
     }
 
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {
