@@ -690,18 +690,18 @@ class RequestController {
             def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
 
             results = Request.executeQuery('''
-                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS COUNT
+                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS quantity
                 FROM Request AS r
                 WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
                 GROUP BY MONTH(r.dateOfApplication)
-                ORDER BY MONTH(r.dateOfApplication) DESC
+                ORDER BY quantity DESC
             ''', [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
         } else {
             results = Request.executeQuery('''
-                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS COUNT
+                SELECT MONTH(r.dateOfApplication) AS MONTH, count(*) AS quantity
                 FROM Request AS r
                 GROUP BY MONTH(r.dateOfApplication)
-                ORDER BY MONTH(r.dateOfApplication) DESC
+                ORDER BY quantity DESC
             ''')
         }
 
