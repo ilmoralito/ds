@@ -22,7 +22,7 @@
                 </g:link>
             </li>
             <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'requestsBy'] ? 'active' : ''}">
-                <g:link controller="request" action="requestsBy" params="[type:'resumen']">
+                <g:link controller="request" action="resumen">
                     Reportes
                 </g:link>
             </li>

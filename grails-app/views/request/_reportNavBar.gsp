@@ -21,7 +21,7 @@
     <li class="${actionName == 'reportPerMonth' || actionName == 'coordinationReportPerMonth' ? 'active' : ''}">
         <g:link action="reportPerMonth">Reporte</g:link>
     </li>
-    <li class="${params.type == 'resumen' ? 'active' : ''}">
-        <g:link action="requestsBy" params="[type:'resumen']">Resumen</g:link>
+    <li class="${actionName == 'resumen' ? 'active' : ''}">
+        <g:link action="resumen">Resumen</g:link>
     </li>
 </ul>

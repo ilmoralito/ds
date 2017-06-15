@@ -29,8 +29,6 @@ class RequestController {
         activity: 'GET',
         todo: 'POST',
         createRequestFromActivity: ['GET', 'POST'],
-        report: 'GET',
-        reportDetail: 'GET',
         getUserClassroomsAndSchools: 'GET',
         requestsByCoordination: 'GET',
         userStatistics: 'GET',
@@ -44,7 +42,8 @@ class RequestController {
         reportByBlock: ['GET', 'POST'],
         reportPerDay: ['GET', 'POST'],
         reportPerMonth: ['GET', 'POST'],
-        coordinationReportPerMonth: 'GET'
+        coordinationReportPerMonth: 'GET',
+        resumen: ['GET', 'POST']
     ]
 
     private final MONTHS = [
@@ -450,28 +449,6 @@ class RequestController {
       [userClassrooms:userService.transformUserClassrooms(session?.user?.refresh().classrooms as List)]
     }
 
-    def requestsBy(Date from, Date to, String type) {
-      def results
-      def totalRequestInYears
-
-      switch(type) {
-        case "resumen":
-          results = Request.list().groupBy { it.dateOfApplication[Calendar.YEAR] } { it.dateOfApplication[Calendar.MONTH] + 1 }.collectEntries {
-            [it.key, it.value.collectEntries { d ->
-              [d.key, d.value.size()]
-            }]
-          }
-
-          totalRequestInYears = results.collectEntries { year ->
-            [year.key, year.value.collect { it.value }.sum()]
-          }
-
-          break
-      }
-
-      [results:results, totalRequestInYears:totalRequestInYears, total:!(type in ['resumen', 'classrooms', 'day']) ? results.count.sum() : 0, type:type]
-    }
-
     def changeRequestsStatus() {
         if (params.requests) {
             DetachedCriteria<Request> query = Request.where {
@@ -708,6 +685,10 @@ class RequestController {
         [yearFilter: createYearFilter(), results: results.collect { result ->
             [month: result[0], monthName: MONTHS[result[0] - 1], quantity: result[1]]
         }]
+    }
+
+    def resumen() {
+        
     }
 
     def coordinationReportPerMonth(final Integer month, final Integer year) {
