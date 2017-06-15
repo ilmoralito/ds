@@ -23,8 +23,13 @@
                 <tbody>
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td>${result.monthName}</td>
-                            <td>${result.quantity}</td>
+                            <td style="vertical-align: middle;">${result.monthName}</td>
+                            <td>
+                                <div
+                                    style="background: #DA1B15; width: ${result.quantity}px; padding: 5px; color: #FFF;">
+                                    ${result.quantity}
+                                </div>
+                            </td>
                         </tr>
                     </g:each>
 
