@@ -8,6 +8,32 @@
         <g:render template="reportNavBar"/>
 
         <g:if test="${results}">
+            <table class="table">
+                <colgroup>
+                    <col span="1" style="width: 45%;">
+                    <col span="1" style="width: 55%;">
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <g:each in="${results}" var="result">
+                        <tr>
+                            <td>${result.monthName}</td>
+                            <td>${result.quantity}</td>
+                        </tr>
+                    </g:each>
+
+                    <tr>
+                        <td>TOTAL</td>
+                        <td>${results.quantity.sum()}</td>
+                    </tr>
+                </tbody>
+            </table>
         </g:if>
         <g:else>
             <p>Sin datos que mostrar</p>
@@ -15,6 +41,10 @@
     </content>
 
     <content tag="col1">
-        
+        <g:form action="resumen" autocomplete="off">
+            <g:render template="years" model="[years: yearFilter.years]"/>
+
+            <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>
+        </g:form>
     </content>
 </g:applyLayout>

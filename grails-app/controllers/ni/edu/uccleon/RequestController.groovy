@@ -698,7 +698,34 @@ class RequestController {
     }
 
     def resumen() {
-        
+        List results = []
+
+        if (request.method == 'POST') {
+            results = Request.executeQuery('''
+                SELECT
+                    MONTH(date_of_application),
+                    MONTHNAME(date_of_application),
+                    COUNT(*)
+                FROM Request AS r
+                WHERE
+                    YEAR(r.dateOfApplication) = :year
+                GROUP BY 1, 2
+                ORDER BY 1 DESC
+            ''',[year: params.int('year')])
+        } else {
+            results = Request.executeQuery('''
+                SELECT
+                    MONTH(date_of_application),
+                    MONTHNAME(date_of_application),
+                    COUNT(*)
+                FROM Request AS r
+                GROUP BY 1, 2
+                ORDER BY 1 DESC''')
+        }
+
+        [yearFilter: createYearFilter(), results: results.collect { result ->
+            [month: result[0], monthName: MONTHS[result[0] - 1], quantity: result[2]]
+        }]
     }
 
     def coordinationReportPerMonth(final Integer month, final Integer year) {
