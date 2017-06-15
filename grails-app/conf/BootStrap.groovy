@@ -113,7 +113,7 @@ class BootStrap {
         users << builder.user(
             email: 'yesenia.valverde@ucc.edu.ni',
             role: 'asistente',
-            fullName: 'Azucena Delgado',
+            fullName: 'Yesenia Valverde',
             schools: [industrial],
             classrooms: [d101, d102, d103, d104]
         )

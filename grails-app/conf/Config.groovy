@@ -370,9 +370,12 @@ ni {
             datashows = [
                 [
                     trademark: 'EPSON',
-                    model: 'H430A',
-                    serialNumber: 'PSPK2302463',
+                    model: 'H692A',
+                    serialNumber: 'VU3K6402339',
                     code: 1,
+                    hdmi: true,
+                    wifi: true,
+                    ethernet: true,
                     enabled: true,
                 ],[
                     trademark: 'EPSON',
