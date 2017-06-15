@@ -638,25 +638,35 @@ class RequestController {
         List results = []
 
         if (request.method == 'POST') {
-            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
-
-            results = Request.executeQuery('''
-                SELECT DAYNAME(r.dateOfApplication), count(*) AS quantity
+            results = Request.executeQuery("""
+                SELECT
+                    DAYNAME(r.dateOfApplication),
+                    count(*) AS quantity,
+                    CONCAT(ROUND((COUNT(*) / (SELECT COUNT(*) FROM Request AS req WHERE YEAR(req.dateOfApplication) = :year) * 100), 2), '%') AS percentage
                 FROM Request as r
-                WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
+                WHERE YEAR(r.dateOfApplication) = :year
                 GROUP BY DAYNAME(r.dateOfApplication)
-                ORDER BY quantity DESC''',
-                [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+                ORDER BY quantity DESC""",
+                [year: params.int('year')])
         } else {
-            results = Request.executeQuery('''
-                SELECT DAYNAME(r.dateOfApplication), count(*) AS quantity
-                FROM Request as r
+            results = Request.executeQuery("""
+                SELECT
+                    DAYNAME(r.dateOfApplication) AS day,
+                    COUNT(*) AS quantity,
+                    CONCAT(ROUND((COUNT(*) / (SELECT COUNT(*) FROM Request) * 100), 2), '%') AS percentage
+                FROM Request AS r
                 GROUP BY DAYNAME(r.dateOfApplication)
-                ORDER BY quantity DESC''')
+                ORDER BY quantity DESC""")
         }
 
         [yearFilter: createYearFilter(), results: results.collect { result ->
-            [day: DAYS.find { day -> day.english == result[0] }.spanish, quantity: result[1]]
+            [
+                day: DAYS.find { day ->
+                    day.english == result[0]
+                }.spanish,
+                quantity: result[1],
+                percentage: result[2]
+            ]
         }]
     }
 

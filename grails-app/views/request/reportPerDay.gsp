@@ -10,14 +10,16 @@
         <g:if test="${results}">
             <table class="table">
                 <colgroup>
-                    <col span="1" style="width: 45%;">
-                    <col span="1" style="width: 55%;">
+                    <col span="1" style="width: 33.3%;">
+                    <col span="1" style="width: 33.3%;">
+                    <col span="1" style="width: 33.3%;">
                 </colgroup>
             
                 <thead>
                     <tr>
                         <th>Dia</th>
                         <th>Cantidad</th>
+                        <th>Porcentaje</th>
                     </tr>
                 </thead>
 
@@ -26,11 +28,13 @@
                         <tr>
                             <td>${data.day}</td>
                             <td>${data.quantity}</td>
+                            <td>${data.percentage}</td>
                         </tr>
                     </g:each>
                     <tr>
                         <td>TOTAL</td>
                         <td>${results.quantity.sum()}</td>
+                        <td>100%</td>
                     </tr>
                 </tbody>
             </table>
