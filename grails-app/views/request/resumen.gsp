@@ -26,7 +26,7 @@
                             <td style="vertical-align: middle;">${result.monthName}</td>
                             <td>
                                 <div
-                                    style="background: #DA1B15; width: ${result.quantity}px; padding: 5px; color: #FFF;">
+                                    style="background: #DA1B15; width: ${!params?.year ? result.quantity / 3 : result.quantity}px; padding: 5px; color: #FFF;">
                                     ${result.quantity}
                                 </div>
                             </td>
