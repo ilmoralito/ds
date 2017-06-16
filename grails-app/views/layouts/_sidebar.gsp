@@ -9,7 +9,7 @@
 
 <section>
     <ul class="nav nav-tabs nav-stacked">
-        <li class="${(controllerName == 'request' && !(actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', 'reportByBlock', 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'requestsBy'])) ? 'active' : 'no-active'}">
+        <li class="${(controllerName == 'request' && !(actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', 'reportByBlock', 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'resumen', 'reportSummary'])) ? 'active' : 'no-active'}">
             <g:link controller="request" action="${session?.user?.role == 'admin' ? 'list' : 'listOfPendingApplications'}">
                 Solicitudes
             </g:link>
@@ -21,7 +21,7 @@
                     Usuarios
                 </g:link>
             </li>
-            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'requestsBy'] ? 'active' : ''}">
+            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'resumen', 'reportSummary'] ? 'active' : ''}">
                 <g:link controller="request" action="resumen">
                     Reportes
                 </g:link>

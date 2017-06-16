@@ -23,10 +23,14 @@
                 <tbody>
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td style="vertical-align: middle;">${result.monthName}</td>
+                            <td style="vertical-align: middle;">
+                                <g:link action="reportSummary" params="${params?.year ? [month: result.month, year: params.year] : [month: result.month]}">
+                                    ${result.monthName}
+                                </g:link>
+                            </td>
                             <td>
                                 <div
-                                    style="background: #DA1B15; width: ${!params?.year ? result.quantity / 3 : result.quantity}px; padding: 5px; color: #FFF;">
+                                    style="background: #222; width: ${!params?.year ? result.quantity / 3 : result.quantity}px; padding: 5px; color: #FFF;">
                                     ${result.quantity}
                                 </div>
                             </td>

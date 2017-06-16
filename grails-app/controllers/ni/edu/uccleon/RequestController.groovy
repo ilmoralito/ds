@@ -43,7 +43,8 @@ class RequestController {
         reportPerDay: ['GET', 'POST'],
         reportPerMonth: ['GET', 'POST'],
         coordinationReportPerMonth: 'GET',
-        resumen: ['GET', 'POST']
+        resumen: ['GET', 'POST'],
+        reportSummary: 'GET'
     ]
 
     private final MONTHS = [
@@ -725,6 +726,52 @@ class RequestController {
 
         [yearFilter: createYearFilter(), results: results.collect { result ->
             [month: result[0], monthName: MONTHS[result[0] - 1], quantity: result[2]]
+        }]
+    }
+
+    def reportSummary(final Integer month, final Integer year) {
+        List results = []
+
+        if (year) {
+            results = Request.executeQuery("""
+                SELECT
+                    r.school,
+                    SUM( CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END)
+                FROM Request AS r
+                WHERE
+                    MONTH(r.dateOfApplication) = :month
+                AND
+                    YEAR(r.dateOfApplication) = :year
+                GROUP BY  1
+            """,[month: month, year: year])
+
+        } else {
+            results = Request.executeQuery("""
+                SELECT
+                    r.school,
+                    SUM( CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END),
+                    SUM( CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END)
+                FROM Request AS r
+                WHERE
+                    MONTH(r.dateOfApplication) = :month
+                GROUP BY  1
+            """,[month: month])
+        }
+
+        [
+            results: results.collect { result ->
+            [
+                school: result[0],
+                pending: result[1],
+                attended: result[2],
+                absent: result[3],
+                canceled: result[4]
+            ]
         }]
     }
 
