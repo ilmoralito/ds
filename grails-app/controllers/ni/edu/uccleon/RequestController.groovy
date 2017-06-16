@@ -540,7 +540,7 @@ class RequestController {
                 WHERE
                     YEAR(r.dateOfApplication) = :year
                 GROUP BY 1, 2
-                ORDER BY 2 DESC
+                ORDER BY 3 DESC
             ''',[year: params.int('year')])
         } else {
             results = Request.executeQuery('''
@@ -551,7 +551,7 @@ class RequestController {
                         LEFT JOIN
                     r.user u
                 GROUP BY 1, 2
-                ORDER BY 2 DESC
+                ORDER BY 3 DESC
             ''')
         }
 
