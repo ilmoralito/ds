@@ -44,7 +44,7 @@ class RequestController {
         reportPerMonth: ['GET', 'POST'],
         coordinationReportPerMonth: 'GET',
         resumen: ['GET', 'POST'],
-        reportSummary: 'GET'
+        reportSummary: 'GET',
     ]
 
     private final MONTHS = [
@@ -484,12 +484,14 @@ class RequestController {
             def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
 
             results = Request.executeQuery('''
-                SELECT Month(r.dateOfApplication), Count(*)
+                SELECT
+                    MONTH(r.dateOfApplication),
+                    COUNT(*)
                 FROM Request AS r
                 WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear AND r.school = :school
-                GROUP BY Month(r.dateOfApplication)
-                ORDER BY MONTH(r.dateOfApplication) DESC'''
-            , [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear, school: params?.school])
+                GROUP BY 1
+                ORDER BY 1 DESC
+            ''', [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear, school: params?.school])
         }
 
         List<Map> data = results.collect {
@@ -528,83 +530,67 @@ class RequestController {
         List results = []
 
         if (request.method == 'POST') {
-            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
-
-            results = Request.createCriteria().list {
-                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-                between 'dateOfApplication', firstDayOfTheYear, lastDayOfTheYear
-
-                projections {
-                    user {
-                        property 'fullName', 'applicant'
-                    }
-                    count 'id', 'quantity'
-                    groupProperty 'user'
-                }
-
-                order 'quantity', 'desc'
-            }
+            results = Request.executeQuery('''
+                SELECT
+                    u.fullName, u.id, COUNT(r.id)
+                FROM
+                    Request r
+                        LEFT JOIN
+                    r.user u
+                WHERE
+                    YEAR(r.dateOfApplication) = :year
+                GROUP BY 1, 2
+                ORDER BY 2 DESC
+            ''',[year: params.int('year')])
         } else {
-            results = Request.createCriteria().list {
-                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-
-                projections {
-                    user {
-                        property 'fullName', 'applicant'
-                    }
-                    count 'id', 'quantity'
-                    groupProperty 'user'
-                }
-
-                order 'quantity', 'desc'
-            }
+            results = Request.executeQuery('''
+                SELECT
+                    u.fullName, u.id, COUNT(r.id)
+                FROM
+                    Request r
+                        LEFT JOIN
+                    r.user u
+                GROUP BY 1, 2
+                ORDER BY 2 DESC
+            ''')
         }
 
-        [yearFilter: createYearFilter(), results: results]
+        [yearFilter: createYearFilter(), results: results.collect { result ->
+            [applicant: result[0], applicantID: result[1], quantity: result[2]]
+        }]
     }
 
-    def coordinationReportPerApplicant(final Integer year) {
+    def coordinationReportPerApplicant(final Long applicantID, final Integer year) {
         List results = []
 
         if (year) {
-            def (Date firstDayOfTheYear, Date lastDayOfTheYear) = getFirstAndLastDayOfTheYear(params.int('year'))
-
-            results = Request.createCriteria().list {
-                between 'dateOfApplication', firstDayOfTheYear, lastDayOfTheYear
-
-                user {
-                    eq 'fullName', params?.applicant
-                }
-
-                projections {
-                    property 'school', 'coordination'
-                    count 'id', 'quantity'
-                    groupProperty 'school'
-                }
-
-                order 'quantity', 'desc'
-
-                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-            }
+            results = Request.executeQuery('''
+                SELECT
+                    r.school, COUNT(r.id)
+                FROM
+                    Request r
+                WHERE
+                    r.user.id = :applicantID
+                        AND YEAR(r.dateOfApplication) = :year
+                GROUP BY 1
+                ORDER BY 1
+            ''',[applicantID: applicantID, year: params.int('year')])
         } else {
-            results = Request.createCriteria().list {
-                user {
-                    eq 'fullName', params?.applicant
-                }
-
-                projections {
-                    property 'school', 'coordination'
-                    count 'id', 'quantity'
-                    groupProperty 'school'
-                }
-
-                order 'quantity', 'desc'
-
-                resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-            }
+            results = Request.executeQuery('''
+                SELECT
+                    r.school, COUNT(r.id)
+                FROM
+                    Request r
+                WHERE
+                    r.user.id = :applicantID
+                GROUP BY 1
+                ORDER BY 1
+            ''',[applicantID: applicantID])
         }
 
-        [yearFilter: createYearFilter(), results: results]
+        [yearFilter: createYearFilter(), results: results.collect { result ->
+            [coordination: result[0], quantity: result[1]]
+        }]
     }
 
     def reportByDatashows() {

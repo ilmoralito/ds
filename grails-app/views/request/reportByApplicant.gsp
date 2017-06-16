@@ -22,21 +22,16 @@
                 </thead>
 
                 <tbody>
-                    <g:each in="${results}" var="data">
+                    <g:each in="${results}" var="result">
                         <tr>
                             <td>
-                                <g:if test="${params?.year}">
-                                    <g:link action="coordinationReportPerApplicant" params="[applicant: data.applicant, year: params.year]">
-                                        ${data.applicant}
-                                    </g:link>
-                                </g:if>
-                                <g:else>
-                                    <g:link action="coordinationReportPerApplicant" params="[applicant: data.applicant]">
-                                        ${data.applicant}
-                                    </g:link>
-                                </g:else>
+                                <g:link
+                                    action="coordinationReportPerApplicant"
+                                    params="${params?.year ? [applicantID: result.applicantID, applicant: result.applicant, year: params.year] : [applicantID: result.applicantID, applicant: result.applicant]}">
+                                    ${result.applicant}
+                                </g:link>
                             </td>
-                            <td>${data.quantity}</td>
+                            <td>${result.quantity}</td>
                         </tr>
                     </g:each>
                     <tr>

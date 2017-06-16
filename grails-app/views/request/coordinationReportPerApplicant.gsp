@@ -19,7 +19,7 @@
                 <thead>
                     <tr>
                         <th>Coordinacion</th>
-                        <th>Cantidad</th>
+                        <th>Cantidad de veces solicitado</th>
                     </tr>
                 </thead>
 
