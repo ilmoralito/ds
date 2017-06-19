@@ -1,10 +1,12 @@
 package ni.edu.uccleon
 
 import static java.util.Calendar.*
+import grails.util.Environment
 
 class RequestService {
     def grailsApplication
     def userService
+    def mailService
 
     static transactional = false
 
@@ -154,5 +156,61 @@ class RequestService {
             GROUP BY r.datashow
             ORDER BY count(*) DESC''',
             [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+    }
+
+    void sendSummaryToManagers() {
+        Date date = new Date()
+        Integer year = date[YEAR]
+        Integer month = date[MONTH] + 1
+        String monthName = new java.text.DateFormatSymbols(new Locale('es')).months[month]
+        List<String> targetEmails = []
+
+        if (Environment.current == Environment.DEVELOPMENT) {
+            targetEmails = ['mario.martinez@ucc.edu.ni', 'sergio@lopez.ucc.edu.ni']
+        } else {
+            targetEmails = ['guissella.gonzalez@ucc.edu.ni', 'marta.torres@ucc.edu.ni']
+        }
+
+        List<User> recipients =  User.findAllByEmailInList(targetEmails)
+
+        List summary = Request.executeQuery("""
+            SELECT 
+                r.school,
+                SUM(CASE
+                    WHEN r.status = 'pending' THEN 1
+                    ELSE 0
+                END) AS pending,
+                SUM(CASE
+                    WHEN r.status = 'attended' THEN 1
+                    ELSE 0
+                END) AS attended,
+                SUM(CASE
+                    WHEN r.status = 'absent' THEN 1
+                    ELSE 0
+                END) AS absent,
+                SUM(CASE
+                    WHEN r.status = 'canceled' THEN 1
+                    ELSE 0
+                END) AS canceled,
+                COUNT(r.status) AS total
+            FROM
+                Request r
+                    LEFT JOIN
+                r.user u
+            WHERE
+                YEAR(r.dateOfApplication) = :year
+                    AND MONTH(r.dateOfApplication) = :month
+            GROUP BY 1
+            ORDER BY count(r.status) DESC
+        """,[year: year, month: month])
+
+        mailService.sendMail {
+            to recipients.email.toArray()
+            from 'mario.martinez@ucc.edu.ni'
+            subject "Reporte de solicitudes de medios audiovisuales del mes de $monthName del $year"
+            body view: '/mails/summary', model: [monthName: monthName, year: year, summary: summary.collect { s ->
+                [school: s[0], pending: s[1], attended: s[2], absent: s[3], canceled: s[4], total: s[5] ]
+            }]
+        }
     }
 }
