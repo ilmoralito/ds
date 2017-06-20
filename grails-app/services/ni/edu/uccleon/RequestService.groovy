@@ -166,13 +166,12 @@ class RequestService {
         List<String> targetEmails = []
 
         if (Environment.current == Environment.DEVELOPMENT) {
-            targetEmails = ['mario.martinez@ucc.edu.ni', 'sergio@lopez.ucc.edu.ni']
+            targetEmails = User.findAllByRole('admin').email
         } else {
-            targetEmails = ['guissella.gonzalez@ucc.edu.ni', 'marta.torres@ucc.edu.ni']
+            [System.env.EMAIL_DELEGATE_RECTORY, System.env.EMAIL_ACADEMIC_DIRECTOR]
         }
 
         List<User> recipients =  User.findAllByEmailInList(targetEmails)
-
         List summary = Request.executeQuery("""
             SELECT 
                 r.school,

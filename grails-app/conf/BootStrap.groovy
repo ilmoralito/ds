@@ -52,6 +52,10 @@ class BootStrap {
             school == 'Arquitectura y civil'
         }
 
+        String academicDirection = config.schoolsAndDepartments.schools.find { school ->
+            school == 'Direccion academica'
+        }
+
         // administrative
         String administracion = config.schoolsAndDepartments.departments[2]
         String soporteTecnico = config.schoolsAndDepartments.departments[14]
@@ -80,9 +84,17 @@ class BootStrap {
 
         users << builder.user(
             email: 'guissella.gonzalez@ucc.edu.ni',
-            role: 'administrativo',
+            role: 'coordinador',
             fullName: 'Guissella Gonzales',
             schools: [delegacionDeLaSede],
+            classrooms: [mesanini1, mesanini2]
+        )
+
+        users << builder.user(
+            email: 'marta.torres@ucc.edu.ni',
+            role: 'coordinador',
+            fullName: 'Marta Torrez',
+            schools: [academicDirection],
             classrooms: [mesanini1, mesanini2]
         )
 
@@ -122,6 +134,14 @@ class BootStrap {
             email: 'mario.martinez@ucc.edu.ni',
             role: 'admin',
             fullName: 'Mario Martinez',
+            schools: [soporteTecnico],
+            classrooms: [mesanini1, mesanini2]
+        )
+
+        users << builder.user(
+            email: 'sergio.lopez@ucc.edu.ni',
+            role: 'admin',
+            fullName: 'Sergio Lopez',
             schools: [soporteTecnico],
             classrooms: [mesanini1, mesanini2]
         )
