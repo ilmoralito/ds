@@ -253,6 +253,17 @@ ni {
                         [8, 9, 10, 11, 12],
                         [8, 9, 10, 11, 12]
                     ]
+                ],[
+                    coordination: 'Desarrollo Curricular',
+                    datashow: [
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12],
+                        [8, 9, 10, 11, 12]
+                    ]
                 ]
             ]
 
@@ -283,7 +294,8 @@ ni {
                     'Escuela de manejo',
                     'Direccion financiera',
                     'Soporte tecnico',
-                    'Delegacion de la sede'
+                    'Delegacion de la sede',
+                    'Desarrollo Curricular'
                 ]
             ]
 

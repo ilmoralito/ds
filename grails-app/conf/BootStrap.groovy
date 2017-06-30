@@ -63,6 +63,10 @@ class BootStrap {
         String educacionContinua = config.schoolsAndDepartments.departments[1]
         String delegacionDeLaSede = config.schoolsAndDepartments.departments[15]
 
+        String curriculumDevelopment = config.schoolsAndDepartments.departments.find { department ->
+            department == 'Desarrollo Curricular'
+        }
+
         // Schools and offices
         // B
         String mesanini1 = config.cls["B"][1]["code"]
@@ -81,6 +85,14 @@ class BootStrap {
         String e113 = config.cls["E"][2]["code"]
 
         builder.classNameResolver = 'ni.edu.uccleon'
+
+        users << builder.user(
+            email: 'marilex.rojas@ucc.edu.ni',
+            role: 'coordinador',
+            fullName: 'Marilex Rojas',
+            schools: [curriculumDevelopment],
+            classrooms: [mesanini1, mesanini2]
+        )
 
         users << builder.user(
             email: 'guissella.gonzalez@ucc.edu.ni',
