@@ -95,7 +95,7 @@ ni {
                     datashow: [null, 7, 7, 7, 7, 7, 7]
                 ],[
                     coordination: 'Derecho',
-                    datashow: [1, 9, 9, 9, 9, 9, 9]
+                    datashow: [1, null, null, null, null, null, 9]
                 ],[
                     coordination: 'Especializacion',
                     datashow: [
