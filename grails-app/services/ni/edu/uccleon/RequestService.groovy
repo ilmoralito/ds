@@ -238,7 +238,7 @@ class RequestService {
                         AND MONTH(r.date_of_application) = :month
                         AND YEAR(r.date_of_application) = :year
                 GROUP BY id, fullName
-                ORDER BY fullName"""
+                ORDER BY total DESC"""
         } else {
             query = """
                 SELECT
@@ -257,7 +257,7 @@ class RequestService {
                     r.school = :school
                         AND MONTH(r.date_of_application) = :month
                 GROUP BY id, fullName
-                ORDER BY fullName"""
+                ORDER BY total DESC"""
         }
 
         final sqlQuery = session.createSQLQuery(query)

@@ -732,7 +732,8 @@ class RequestController {
                     MONTH(r.dateOfApplication) = :month
                 AND
                     YEAR(r.dateOfApplication) = :year
-                GROUP BY  1
+                GROUP BY 1
+                ORDER BY 6 DESC
             """,[month: month, year: year])
 
         } else {
@@ -747,7 +748,8 @@ class RequestController {
                 FROM Request AS r
                 WHERE
                     MONTH(r.dateOfApplication) = :month
-                GROUP BY  1
+                GROUP BY 1
+                ORDER BY 6 DESC
             """,[month: month])
         }
 
