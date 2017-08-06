@@ -24,7 +24,9 @@
                     <g:each in="${results}" var="result">
                         <tr>
                             <td style="vertical-align: middle;">
-                                <g:link action="reportSummary" params="${params?.year ? [month: result.month, year: params.year] : [month: result.month]}">
+                                <g:link
+                                    action="reportSummary"
+                                    params="${params?.year ? [month: result.month, year: params.year] : [month: result.month]}">
                                     ${result.monthName}
                                 </g:link>
                             </td>

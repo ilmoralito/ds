@@ -1,5 +1,7 @@
 package ni.edu.uccleon
 
+import org.hibernate.transform.AliasToEntityMapResultTransformer
+import org.hibernate.SessionFactory
 import static java.util.Calendar.*
 import grails.util.Environment
 
@@ -7,6 +9,7 @@ class RequestService {
     def grailsApplication
     def userService
     def mailService
+    SessionFactory sessionFactory
 
     static transactional = false
 
@@ -173,7 +176,7 @@ class RequestService {
 
         List<User> recipients =  User.findAllByEmailInList(targetEmails)
         List summary = Request.executeQuery("""
-            SELECT 
+            SELECT
                 r.school,
                 SUM(CASE
                     WHEN r.status = 'pending' THEN 1
@@ -211,5 +214,112 @@ class RequestService {
                 [school: s[0], pending: s[1], attended: s[2], absent: s[3], canceled: s[4], total: s[5] ]
             }]
         }
+    }
+
+    List<Map> summaryByCoordination(final String school, final Integer month, final Integer year) {
+        final session = sessionFactory.currentSession
+        final String query
+        if (year) {
+            query = """
+                SELECT
+                    u.id AS id,
+                    u.full_name AS fullName,
+                    SUM(CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                    SUM(CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END) AS attended,
+                    SUM(CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END) AS absent,
+                    SUM(CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END) AS canceled,
+                    COUNT(r.status) AS total
+                FROM
+                    user u
+                        INNER JOIN
+                    request r ON u.id = r.user_id
+                WHERE
+                    r.school = :school
+                        AND MONTH(r.date_of_application) = :month
+                        AND YEAR(r.date_of_application) = :year
+                GROUP BY id, fullName
+                ORDER BY fullName"""
+        } else {
+            query = """
+                SELECT
+                    u.id AS id,
+                    u.full_name AS fullName,
+                    SUM(CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                    SUM(CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END) AS attended,
+                    SUM(CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END) AS absent,
+                    SUM(CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END) AS canceled,
+                    COUNT(r.status) AS total
+                FROM
+                    user u
+                        INNER JOIN
+                    request r ON u.id = r.user_id
+                WHERE
+                    r.school = :school
+                        AND MONTH(r.date_of_application) = :month
+                GROUP BY id, fullName
+                ORDER BY fullName"""
+        }
+
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setString('school', school)
+            setInteger('month', month)
+            if (year) {
+                setInteger('year', year)
+            }
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map> summaryByUser(final Long userId, final String school, final Integer month, final Integer year) {
+        final session = sessionFactory.currentSession
+        final String query
+        if (year) {
+            query = '''
+                SELECT
+                    r.id AS id, r.date_of_application AS date
+                FROM
+                    request r
+                        INNER JOIN
+                    user u ON r.user_id = u.id
+                WHERE
+                    u.id = :userId AND r.school = :school
+                        AND MONTH(r.date_of_application) = :month
+                        AND YEAR(r.date_of_application) = :year
+                ORDER BY date DESC'''
+        } else {
+            query = '''
+                SELECT
+                    r.id AS id, r.date_of_application AS date
+                FROM
+                    request r
+                        INNER JOIN
+                    user u ON r.user_id = u.id
+                WHERE
+                    u.id = :userId AND r.school = :school
+                        AND MONTH(r.date_of_application) = :month
+                ORDER BY date DESC'''
+        }
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setLong('userId', userId)
+            setString('school', school)
+            setInteger('month', month)
+
+            if (year) {
+                setInteger('year', year)
+            }
+
+            list()
+        }
+
+        results
     }
 }

@@ -1,6 +1,6 @@
 <g:applyLayout name="twoColumns">
     <head>
-        <title>Detalle</title>
+        <title>Detalle de solicitud</title>
     <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, requestShow"/>
     </head>
 
@@ -8,9 +8,11 @@
         <section class="clearfix">
             <g:link url="${request.getHeader('referer')}" class="btn">Regresar</g:link>
 
+            %{--
             <g:link action="edit" id="${requestInstance.id}" class="btn btn-primary pull-right">
                 Editar
             </g:link>
+            --}%
         </section>
 
         <table class="table table-hover">

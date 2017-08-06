@@ -332,7 +332,7 @@ class RequestController {
         [results: results]
     }
 
-    def show(Long id) {
+    def show(final Long id) {
         Request requestInstance = Request.get(id)
 
         if (!requestInstance) {
@@ -722,10 +722,11 @@ class RequestController {
             results = Request.executeQuery("""
                 SELECT
                     r.school,
-                    SUM( CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END),
-                    SUM( CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END),
-                    SUM( CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END),
-                    SUM( CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END)
+                    SUM(CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END),
+                    COUNT(r.status)
                 FROM Request AS r
                 WHERE
                     MONTH(r.dateOfApplication) = :month
@@ -741,7 +742,8 @@ class RequestController {
                     SUM( CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END),
                     SUM( CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END),
                     SUM( CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END),
-                    SUM( CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END)
+                    SUM( CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END),
+                    COUNT(r.status)
                 FROM Request AS r
                 WHERE
                     MONTH(r.dateOfApplication) = :month
@@ -756,9 +758,18 @@ class RequestController {
                 pending: result[1],
                 attended: result[2],
                 absent: result[3],
-                canceled: result[4]
+                canceled: result[4],
+                total: result[5]
             ]
         }]
+    }
+
+    def summaryByCoordination(final String school, final Integer month, final Integer year) {
+        [results: requestService.summaryByCoordination(school, month, year)]
+    }
+
+    def summaryByUser(final Long userId, final String school, final Integer month, final Integer year) {
+        [results: requestService.summaryByUser(userId, school, month, year)]
     }
 
     def coordinationReportPerMonth(final Integer month, final Integer year) {

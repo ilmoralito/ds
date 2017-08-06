@@ -1,6 +1,6 @@
 <g:applyLayout name="twoColumns">
     <head>
-        <title>Detalle de reporte</title>
+        <title>Detalle de reporte por coordinacion</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
@@ -33,9 +33,9 @@
                         <tr>
                             <td>
                                 <g:link
-                                    action="summaryByCoordination"
-                                    params="${params.year ? [school: result.school, month: params.month, year: params.year] : [school: result.school, month: params.month]}">
-                                    ${result.school}
+                                    action="summaryByUser"
+                                    params="${params.year ? [userId: result.id, school: params.school, month: params.month, year: params.year] : [userId: result.id, school: params.school, month: params.month, year: params.year]}">
+                                    ${result.fullName}
                                 </g:link>
                             </td>
                             <td>${result.pending}</td>
