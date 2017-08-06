@@ -72,7 +72,7 @@ ni {
                 classrooms: ['classroom1', 'classroom2']
             ]
 
-            roles = ['admin', 'user', 'coordinador', 'asistente', 'administrativo']
+            roles = ['admin', 'user', 'coordinador', 'asistente', 'administrativo', 'supervisor']
 
             data = [
                 [

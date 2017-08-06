@@ -96,7 +96,7 @@ class BootStrap {
 
         users << builder.user(
             email: 'guissella.gonzalez@ucc.edu.ni',
-            role: 'coordinador',
+            role: 'supervisor',
             fullName: 'Guissella Gonzales',
             schools: [delegacionDeLaSede],
             classrooms: [mesanini1, mesanini2]
@@ -104,7 +104,7 @@ class BootStrap {
 
         users << builder.user(
             email: 'marta.torres@ucc.edu.ni',
-            role: 'coordinador',
+            role: 'supervisor',
             fullName: 'Marta Torrez',
             schools: [academicDirection],
             classrooms: [mesanini1, mesanini2]

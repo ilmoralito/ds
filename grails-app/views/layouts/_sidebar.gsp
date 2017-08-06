@@ -27,19 +27,31 @@
                 </g:link>
             </li>
         </ds:isAdmin>
+
         <ds:isAcademic>
             <li class="${actionName == 'coordsAndRooms' ? 'active' : ''}">
                 <g:link controller="user" action="admin">Roster</g:link>
             </li>
         </ds:isAcademic>
+
+        <ds:isSupervisor>
+            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'resumen', 'reportSummary'] ? 'active' : ''}">
+                <g:link controller="request" action="resumen">
+                    Reportes
+                </g:link>
+            </li>
+        </ds:isSupervisor>
+
         <li class="${(controllerName == 'user' && actionName in ['profile', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
             <g:link controller="user" action="profile">Perfil</g:link>
         </li>
+
         <ds:isNotAdmin>
             <li class="${(!controllerName) ? 'active' : 'no-active'}">
                 <g:link uri="/normas">Normas de uso</g:link>
             </li>
         </ds:isNotAdmin>
+
         <li><g:link controller="logout">Salir</g:link></li>
     </ul>
 </section>

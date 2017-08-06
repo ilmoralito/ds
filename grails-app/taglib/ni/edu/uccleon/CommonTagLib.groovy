@@ -194,7 +194,7 @@ class CommonTagLib {
         User currentUser = session?.user?.refresh()
         List<String> currentUserSchools = currentUser.schools as List
 
-        if (currentUser.role in ['coordinador', 'asistente', 'administrativo']) {
+        if (currentUser.role in ['coordinador', 'asistente', 'administrativo', 'supervisor']) {
             mb.form(action: g.createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {
                 if (currentUserSchools.size() > 1) {
                     div(class: 'form-group') {
@@ -456,6 +456,12 @@ class CommonTagLib {
                     }
                 }
             }
+        }
+    }
+
+    def isSupervisor = { attrs, body ->
+        if (session?.user?.role == 'supervisor') {
+            out << body()
         }
     }
 
