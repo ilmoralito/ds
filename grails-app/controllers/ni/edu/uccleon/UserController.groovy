@@ -3,7 +3,7 @@ package ni.edu.uccleon
 class UserController {
     def userService
 
-    static defaultAction = "profile"
+    static defaultAction = 'profile'
     static allowedMethods = [
         list: ["GET", "POST"],
         create: ["GET", "POST"],
