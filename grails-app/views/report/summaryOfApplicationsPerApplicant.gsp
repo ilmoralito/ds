@@ -1,14 +1,15 @@
 <g:applyLayout name="twoColumns">
     <head>
-        <title>Detalle de reporte por coordinacion</title>
+        <title>Resumen de solicitudes por solicitante</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
     <content tag="main">
-        <g:render template="reportNavBar"/>
+        <g:render template="nav"/>
 
         <g:if test="${results}">
-            <table class="table">
+            <table class="table table-hover">
+                <caption>Solicitado por: ${params.fullName}</caption>
                 <colgroup>
                     <col span="1" style="width: 35%;">
                     <col span="1" style="width: 15%;">
@@ -31,13 +32,7 @@
                 <tbody>
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td>
-                                <g:link
-                                    action="summaryByUser"
-                                    params="${params.year ? [userId: result.id, school: params.school, month: params.month, year: params.year] : [userId: result.id, school: params.school, month: params.month, year: params.year]}">
-                                    ${result.fullName}
-                                </g:link>
-                            </td>
+                            <td>${result.school}</td>
                             <td>${result.pending}</td>
                             <td>${result.attended}</td>
                             <td>${result.absent}</td>

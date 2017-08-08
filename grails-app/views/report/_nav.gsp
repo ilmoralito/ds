@@ -1,12 +1,12 @@
 <ul class="nav nav-tabs">
-    <li class="${actionName == 'reportBySchool' ? 'active' : ''}">
+    <li class="${actionName in ['reportBySchool', 'coordinationSummary', 'coordinationSummaryInMonth'] ? 'active' : ''}">
         <g:link action="reportBySchool">Facultades</g:link>
     </li>
     <li class="${actionName == 'reportByClassrooms' ? 'active' : ''}">
         <g:link action="reportByClassrooms">Aulas</g:link>
     </li>
-    <li class="${actionName == 'reportByApplicant' || actionName == 'coordinationReportPerApplicant' ? 'active' : ''}">
-        <g:link action="reportByApplicant">Solicitantes</g:link>
+    <li class="${actionName in ['summaryOfApplicants', 'summaryOfApplicationsPerApplicant'] ? 'active' : ''}">
+        <g:link action="summaryOfApplicants">Solicitantes</g:link>
     </li>
     <li class="${actionName == 'reportByDatashows' ? 'active' : ''}">
         <g:link action="reportByDatashows">Datashows</g:link>
@@ -17,9 +17,6 @@
     <li class="${actionName == 'reportPerDay' ? 'active' : ''}">
         <g:link action="reportPerDay">Dias</g:link>
     </li>
-    </li>
-    <li class="${actionName == 'reportPerMonth' || actionName == 'coordinationReportPerMonth' ? 'active' : ''}">
-        <g:link action="reportPerMonth">Reporte</g:link>
     </li>
     <li class="${actionName in ['resumen', 'reportSummary', 'summaryByCoordination', 'summaryByUser'] ? 'active' : ''}">
         <g:link action="resumen">Resumen</g:link>

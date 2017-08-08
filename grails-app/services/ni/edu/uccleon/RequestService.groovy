@@ -128,37 +128,40 @@ class RequestService {
         request
     }
 
-    List<String> getYearsOfApplications() {
-        Request.executeQuery('''
-            SELECT DISTINCT YEAR(r.dateOfApplication) AS YEAR
-            FROM Request AS r
-            ORDER BY YEAR(r.dateOfApplication) DESC'''
-        )
+    List<Integer> getYearsOfApplications() {
+        List<Integer> yearList = Request.executeQuery('''
+            SELECT DISTINCT
+                (YEAR(r.dateOfApplication)) AS year
+            FROM
+                Request r
+            ORDER BY year DESC
+        ''')
+
+        yearList
     }
 
     List getProjectorReport() {
         Request.executeQuery('''
-            SELECT r.datashow AS datashow, count(*) AS count
-            FROM Request AS r
-            GROUP BY r.datashow
-            ORDER BY count(*) DESC
+            SELECT
+                new map (r.datashow AS datashow, COUNT(*) AS count)
+            FROM
+                Request r
+            GROUP BY 1
+            ORDER BY 2 DESC
         ''')
     }
 
     List getProjectorReportByYear(final Integer year) {
-        Date firstDayOfTheYear = new Date().clearTime()
-        Date lastDayOfTheYear = firstDayOfTheYear.clone()
-
-        firstDayOfTheYear.set(year: year, month: 0, date: 1)
-        lastDayOfTheYear.set(year: year,  month: 11, date: 31)
-
         Request.executeQuery('''
-            SELECT r.datashow AS datashow, count(*) AS count
-            FROM Request AS r
-            WHERE r.dateOfApplication BETWEEN :firstDayOfTheYear AND :lastDayOfTheYear
-            GROUP BY r.datashow
-            ORDER BY count(*) DESC''',
-            [firstDayOfTheYear: firstDayOfTheYear, lastDayOfTheYear: lastDayOfTheYear])
+            SELECT
+                new map (r.datashow AS datashow, COUNT(*) AS count)
+            FROM
+                Request r
+            WHERE
+                YEAR(r.dateOfApplication) = :year
+            GROUP BY 1
+            ORDER BY 2 DESC
+        ''', [year: year])
     }
 
     void sendSummaryToManagers() {
@@ -216,7 +219,7 @@ class RequestService {
         }
     }
 
-    List<Map> summaryByCoordination(final String school, final Integer month, final Integer year) {
+    List<Map<String, Object>> summaryByCoordination(final String school, final Integer month, final Integer year) {
         final session = sessionFactory.currentSession
         final String query
         if (year) {
@@ -276,13 +279,13 @@ class RequestService {
         results
     }
 
-    List<Map> summaryByUser(final Long userId, final String school, final Integer month, final Integer year) {
+    List<Map<String, Object>> summaryByUser(final Long userId, final String school, final Integer month, final Integer year) {
         final session = sessionFactory.currentSession
         final String query
         if (year) {
             query = '''
                 SELECT
-                    r.id AS id, r.date_of_application AS date
+                    r.id AS id, r.date_of_application AS date, r.status AS status
                 FROM
                     request r
                         INNER JOIN
@@ -295,7 +298,7 @@ class RequestService {
         } else {
             query = '''
                 SELECT
-                    r.id AS id, r.date_of_application AS date
+                    r.id AS id, r.date_of_application AS date, r.status AS status
                 FROM
                     request r
                         INNER JOIN
@@ -316,6 +319,402 @@ class RequestService {
             if (year) {
                 setInteger('year', year)
             }
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> resumen(final Integer year) {
+        List<Map> results = []
+
+        if (year) {
+            results = Request.executeQuery('''
+                SELECT new map (
+                    MONTH(date_of_application) AS month,
+                    MONTHNAME(date_of_application) as monthName,
+                    COUNT(*) as quantity
+                )
+                FROM Request AS r
+                WHERE
+                    YEAR(r.dateOfApplication) = :year
+                GROUP BY 1, 2
+                ORDER BY 1 DESC
+            ''',[year: year])
+        } else {
+            results = Request.executeQuery('''
+                SELECT new map (
+                    MONTH(date_of_application) AS month,
+                    MONTHNAME(date_of_application) AS monthName,
+                    COUNT(*) AS quantity
+                )
+                FROM Request AS r
+                GROUP BY 1, 2
+                ORDER BY 1 DESC
+            ''')
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> reportSummary(final Integer month, final Integer year) {
+        List results = []
+
+        if (year) {
+            results = Request.executeQuery("""
+                SELECT new map (
+                    r.school AS school,
+                    SUM(CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                    SUM(CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END) AS attended,
+                    SUM(CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END) AS absent,
+                    SUM(CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END) AS canceled,
+                    COUNT(r.status) as total
+                )
+                FROM Request AS r
+                WHERE
+                    MONTH(r.dateOfApplication) = :month
+                AND
+                    YEAR(r.dateOfApplication) = :year
+                GROUP BY 1
+                ORDER BY 6 DESC
+            """,[month: month, year: year])
+        } else {
+            results = Request.executeQuery("""
+                SELECT new map (
+                    r.school AS school,
+                    SUM(CASE WHEN r.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                    SUM(CASE WHEN r.status = 'attended' THEN 1 ELSE 0 END) AS attended,
+                    SUM(CASE WHEN r.status = 'absent' THEN 1 ELSE 0 END) AS absent,
+                    SUM(CASE WHEN r.status = 'canceled' THEN 1 ELSE 0 END) AS canceled,
+                    COUNT(r.status) AS total
+                )
+                FROM Request AS r
+                WHERE
+                    MONTH(r.dateOfApplication) = :month
+                GROUP BY 1
+                ORDER BY 6 DESC
+            """,[month: month])
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> reportPerDay(final Integer year) {
+        List results = []
+
+        if (year) {
+            results = Request.executeQuery("""
+                SELECT new map (
+                    DAYNAME(r.dateOfApplication) AS day,
+                    count(*) AS quantity,
+                    CONCAT(ROUND((COUNT(*) / (SELECT COUNT(*) FROM Request AS req WHERE YEAR(req.dateOfApplication) = :year) * 100), 2), '%') AS percentage
+                )
+                FROM Request as r
+                WHERE YEAR(r.dateOfApplication) = :year
+                GROUP BY DAYNAME(r.dateOfApplication)
+                ORDER BY quantity DESC
+            """, [year: year])
+        } else {
+            results = Request.executeQuery("""
+                SELECT new map (
+                    DAYNAME(r.dateOfApplication) AS day,
+                    COUNT(*) AS quantity,
+                    CONCAT(ROUND((COUNT(*) / (SELECT COUNT(*) FROM Request) * 100), 2), '%') AS percentage
+                )
+                FROM Request AS r
+                GROUP BY DAYNAME(r.dateOfApplication)
+                ORDER BY quantity DESC
+            """)
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> reportByBlock(final Integer year) {
+        final session = sessionFactory.currentSession
+        final String queryWithYear = '''
+            SELECT
+                h.block AS block, COUNT(*) AS count
+            FROM
+                request r
+                    INNER JOIN
+                hour h ON r.id = h.request_id
+            WHERE
+                YEAR(r.date_of_application) = :year
+            GROUP BY 1
+            ORDER BY 2 DESC;
+        '''
+        final String query = '''
+            SELECT
+                h.block AS block, COUNT(*) AS count
+            FROM
+                request r
+                    INNER JOIN
+                hour h ON r.id = h.request_id
+            GROUP BY 1
+            ORDER BY 2 DESC;
+        '''
+        final sqlQuery = session.createSQLQuery(year ? queryWithYear : query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            if (year) {
+                setInteger('year', year)
+            }
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> classReportPerYear(final Integer year) {
+        Request.executeQuery('''
+            SELECT
+                new map(r.classroom AS classroom, COUNT(*) AS count)
+            FROM
+                Request r
+            WHERE
+                YEAR(r.dateOfApplication) = :year
+            GROUP BY 1
+            ORDER BY 2 DESC
+        ''', [year: year])
+    }
+
+    List<Map<String, Object>> classReport() {
+        Request.executeQuery('''
+            SELECT
+                new map(r.classroom AS classroom, COUNT(*) AS count)
+            FROM
+                Request r
+            GROUP BY 1
+            ORDER BY 2 DESC
+        ''')
+    }
+
+    List<Map<String, Object>> coordinationReportByYear(final Integer year) {
+        Request.executeQuery('''
+            SELECT
+                new map (r.school AS school, COUNT(*) AS count)
+            FROM
+                Request r
+            WHERE
+                YEAR(r.dateOfApplication) = :year
+            GROUP BY 1
+            ORDER BY 2 DESC
+        ''', [year: year])
+    }
+
+    List<Map<String, Object>> coordinationReport() {
+        Request.executeQuery('''
+            SELECT
+                new map (r.school AS school, COUNT(*) AS count)
+            FROM
+                Request r
+            GROUP BY 1
+            ORDER BY 2 DESC
+        ''')
+    }
+
+    List<Map<String, Object>> coordinationSummaryInYear(final String school, final Integer year) {
+        Request.executeQuery('''
+            SELECT new map (
+                MONTH(r.dateOfApplication) AS month,
+                MONTHNAME(r.dateOfApplication) AS monthName,
+                COUNT(*) AS count
+            )
+            FROM
+                Request r
+            WHERE
+                r.school = :school
+                    AND YEAR(r.dateOfApplication) = :year
+            GROUP BY 1 , 2
+            ORDER BY 1 DESC
+        ''', [school: school, year: year])
+    }
+
+    List<Map<String, Object>> coordinationSummary(final String school) {
+        Request.executeQuery('''
+            SELECT new map (
+                MONTH(r.dateOfApplication) AS month,
+                MONTHNAME(r.dateOfApplication) AS monthName,
+                COUNT(*) AS count
+            )
+            FROM
+                Request r
+            WHERE
+                r.school = :school
+            GROUP BY 1 , 2
+            ORDER BY 1 DESC
+        ''', [school: school])
+    }
+
+    List<Map<String, Object>> summaryByApplicant() {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                u.id AS id,
+                u.full_name AS fullName,
+                SUM(CASE
+                    WHEN r.status = 'pending' THEN 1
+                    ELSE 0
+                END) AS pending,
+                SUM(CASE
+                    WHEN r.status = 'attended' THEN 1
+                    ELSE 0
+                END) AS attended,
+                SUM(CASE
+                    WHEN r.status = 'absent' THEN 1
+                    ELSE 0
+                END) AS absent,
+                SUM(CASE
+                    WHEN r.status = 'canceled' THEN 1
+                    ELSE 0
+                END) AS canceled,
+                COUNT(r.status) AS total
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+            GROUP BY id, fullName
+            ORDER BY total DESC
+        """
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> summaryByApplicantInYear(final Integer year) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                u.id AS id,
+                u.full_name AS fullName,
+                SUM(CASE
+                    WHEN r.status = 'pending' THEN 1
+                    ELSE 0
+                END) AS pending,
+                SUM(CASE
+                    WHEN r.status = 'attended' THEN 1
+                    ELSE 0
+                END) AS attended,
+                SUM(CASE
+                    WHEN r.status = 'absent' THEN 1
+                    ELSE 0
+                END) AS absent,
+                SUM(CASE
+                    WHEN r.status = 'canceled' THEN 1
+                    ELSE 0
+                END) AS canceled,
+                COUNT(r.status) AS total
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+            WHERE
+                YEAR(r.date_of_application) = :year
+            GROUP BY id, fullName
+            ORDER BY total DESC
+        """
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setInteger('year', year)
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> summaryOfApplicationsPerApplicant(final Long id) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT 
+                r.school AS school,
+                SUM(CASE
+                    WHEN r.status = 'pending' THEN 1
+                    ELSE 0
+                END) AS pending,
+                SUM(CASE
+                    WHEN r.status = 'attended' THEN 1
+                    ELSE 0
+                END) AS attended,
+                SUM(CASE
+                    WHEN r.status = 'absent' THEN 1
+                    ELSE 0
+                END) AS absent,
+                SUM(CASE
+                    WHEN r.status = 'canceled' THEN 1
+                    ELSE 0
+                END) AS canceled,
+                COUNT(r.status) AS total
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+            WHERE
+                u.id = :id
+            GROUP BY school
+            ORDER BY total DESC
+        """
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setLong('id', id)
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> summaryOfApplicationsPerApplicantInYear(final Long id, final Integer year) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT 
+                r.school AS school,
+                SUM(CASE
+                    WHEN r.status = 'pending' THEN 1
+                    ELSE 0
+                END) AS pending,
+                SUM(CASE
+                    WHEN r.status = 'attended' THEN 1
+                    ELSE 0
+                END) AS attended,
+                SUM(CASE
+                    WHEN r.status = 'absent' THEN 1
+                    ELSE 0
+                END) AS absent,
+                SUM(CASE
+                    WHEN r.status = 'canceled' THEN 1
+                    ELSE 0
+                END) AS canceled,
+                COUNT(r.status) AS total
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+            WHERE
+                u.id = :id
+                    AND YEAR(r.date_of_application) = :year
+            GROUP BY school
+            ORDER BY total DESC
+        """
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setLong('id', id)
+            setInteger('year', year)
 
             list()
         }

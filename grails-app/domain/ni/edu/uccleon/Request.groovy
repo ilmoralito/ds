@@ -99,19 +99,6 @@ class Request implements Serializable {
             order("count", "desc")
             resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
         }
-
-        requestsByBlocks {
-            resultTransformer(AliasToEntityMapResultTransformer.INSTANCE)
-
-            projections {
-                hours {
-                    groupProperty 'block', 'block'
-                    count 'block', 'quantity'
-                }
-            }
-
-            order('quantity', 'desc')
-        }
     }
 
     static belongsTo = [user: User]

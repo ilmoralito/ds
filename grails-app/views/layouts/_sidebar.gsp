@@ -21,8 +21,8 @@
                     Usuarios
                 </g:link>
             </li>
-            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'resumen', 'reportSummary'] ? 'active' : ''}">
-                <g:link controller="request" action="resumen">
+            <li class="${controllerName == 'report' ? 'active' : ''}">
+                <g:link controller="report" action="resumen">
                     Reportes
                 </g:link>
             </li>
@@ -35,8 +35,8 @@
         </ds:isAcademic>
 
         <ds:isSupervisor>
-            <li class="${controllerName == 'request' && actionName in ['reportBySchool', 'reportByClassrooms', 'reportByApplicant', 'coordinationReportPerApplicant', 'reportByDatashows', reportByBlock, 'reportPerDay', 'reportPerMonth', 'coordinationReportPerMonth', 'resumen', 'reportSummary'] ? 'active' : ''}">
-                <g:link controller="request" action="resumen">
+            <li class="${controllerName == 'report' ? 'active' : ''}">
+                <g:link controller="report" action="resumen">
                     Reportes
                 </g:link>
             </li>

@@ -1,42 +1,43 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>Reporte de coordinaciones por solicitante</title>
+        <title>Reporte de dia</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
     <content tag="main">
-        <g:render template="reportNavBar"/>
+        <g:render template="nav"/>
 
         <g:if test="${results}">
-            <p>${params.applicant}</p>
-
-            <table class="table">
+            <table class="table table-hover">
                 <colgroup>
                     <col span="1" style="width: 45%;">
-                    <col span="1" style="width: 55%;">
+                    <col span="1" style="width: 27.5%;">
+                    <col span="1" style="width: 27.5%;">
                 </colgroup>
 
                 <thead>
                     <tr>
-                        <th>Coordinacion</th>
-                        <th>Cantidad de veces solicitado</th>
+                        <th>Dia</th>
+                        <th>Cantidad</th>
+                        <th>Porcentaje</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <g:each in="${results}" var="data">
                         <tr>
-                            <td>${data.coordination}</td>
+                            <td>${data.day}</td>
                             <td>${data.quantity}</td>
+                            <td>${data.percentage}</td>
                         </tr>
                     </g:each>
                     <tr>
                         <td>TOTAL</td>
                         <td>${results.quantity.sum()}</td>
+                        <td>100%</td>
                     </tr>
                 </tbody>
             </table>
-
         </g:if>
         <g:else>
             <p>Sin datos que mostrar</p>
@@ -44,10 +45,6 @@
     </content>
 
     <content tag="col1">
-        <g:form action="reportByApplicant" autocomplete="off">
-            <g:render template="years" model="[years: yearFilter.years]"/>
-
-            <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>
-        </g:form>
+        <g:render template="yearList" model="[yearList: yearFilter.years]"/>
     </content>
 </g:applyLayout>

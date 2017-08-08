@@ -1,14 +1,14 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>Reporte por soliciantes</title>
+        <title>Resumen</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
     <content tag="main">
-        <g:render template="reportNavBar"/>
+        <g:render template="nav"/>
 
         <g:if test="${results}">
-            <table class="table">
+            <table class="table table-hover">
                 <colgroup>
                     <col span="1" style="width: 45%;">
                     <col span="1" style="width: 55%;">
@@ -16,24 +16,29 @@
 
                 <thead>
                     <tr>
-                        <th>Solicitante</th>
+                        <th>Mes</th>
                         <th>Cantidad</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td>
+                            <td style="vertical-align: middle;">
                                 <g:link
-                                    action="coordinationReportPerApplicant"
-                                    params="${params?.year ? [applicantID: result.applicantID, applicant: result.applicant, year: params.year] : [applicantID: result.applicantID, applicant: result.applicant]}">
-                                    ${result.applicant}
+                                    action="reportSummary"
+                                    params="${params?.year ? [month: result.month, year: params.year] : [month: result.month]}">
+                                    ${result.monthName}
                                 </g:link>
                             </td>
-                            <td>${result.quantity}</td>
+                            <td>
+                                <div
+                                    style="background: #222; width: ${!params?.year ? result.quantity / 3 : result.quantity}px; padding: 5px; color: #FFF;">
+                                    ${result.quantity}
+                                </div>
+                            </td>
                         </tr>
                     </g:each>
+
                     <tr>
                         <td>TOTAL</td>
                         <td>${results.quantity.sum()}</td>
@@ -47,10 +52,6 @@
     </content>
 
     <content tag="col1">
-        <g:form action="reportByApplicant" autocomplete="off">
-            <g:render template="years" model="[years: yearFilter.years]"/>
-
-            <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>
-        </g:form>
+        <g:render template="yearList" model="[yearList: yearFilter.years]"/>
     </content>
 </g:applyLayout>

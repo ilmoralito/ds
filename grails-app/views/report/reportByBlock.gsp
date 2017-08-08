@@ -1,14 +1,14 @@
 <g:applyLayout name="threeColumns">
     <head>
-        <title>Reporte por aulas</title>
+        <title>Reporte por bloques</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
     <content tag="main">
-        <g:render template="reportNavBar"/>
+        <g:render template="nav"/>
 
         <g:if test="${results}">
-            <table class="table">
+            <table class="table table-hover">
                 <colgroup>
                     <col span="1" style="width: 45%;">
                     <col span="1" style="width: 55%;">
@@ -16,21 +16,21 @@
 
                 <thead>
                     <tr>
-                        <th>Aula</th>
-                        <th>Cantidad en aula</th>
+                        <th>Bloque</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <g:each in="${results}" var="data">
                         <tr>
-                            <td>${data.classroom}</td>
-                            <td>${data.quantity}</td>
+                            <td>${data.block}</td>
+                            <td>${data.count}</td>
                         </tr>
                     </g:each>
                     <tr>
                         <td>TOTAL</td>
-                        <td>${results.quantity.sum()}</td>
+                        <td>${results.count.sum()}</td>
                     </tr>
                 </tbody>
             </table>
@@ -41,10 +41,6 @@
     </content>
 
     <content tag="col1">
-        <g:form action="reportByClassrooms" autocomplete="off">
-            <g:render template="years" model="[years: yearFilter.years]"/>
-
-            <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>
-        </g:form>
+        <g:render template="yearList" model="[yearList: yearFilter.years]"/>
     </content>
 </g:applyLayout>

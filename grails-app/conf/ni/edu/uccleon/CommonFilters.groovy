@@ -3,14 +3,14 @@ package ni.edu.uccleon
 class CommonFilters {
 
   def filters = {
-    security(controller: "*", action: "*") {
-      before = {
-        if (controllerName == "request" && actionName != "activity" && !session?.user) {
-          flash.message = "Acceso denegado"
-          redirect controller: "request", action: "activity"
-          return false
+    security(controller: '*', action: '*') {
+        before = {
+            if (controllerName == 'request' && actionName != 'activity' && !session?.user) {
+                flash.message = 'Acceso denegado'
+                redirect controller: 'request', action: 'activity'
+                return false
+            }
         }
-      }
     }
 
     requestOnlyAdmin(controller:"request", action:"(requestsBy|listBy|show|updateStatus|updStatus)") {

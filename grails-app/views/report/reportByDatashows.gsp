@@ -5,10 +5,10 @@
     </head>
 
     <content tag="main">
-        <g:render template="reportNavBar"/>
+        <g:render template="nav"/>
 
         <g:if test="${results}">
-            <table class="table">
+            <table class="table table-hover">
                 <colgroup>
                     <col span="1" style="width: 45%;">
                     <col span="1" style="width: 55%;">
@@ -17,20 +17,20 @@
                 <thead>
                     <tr>
                         <th>Datashow</th>
-                        <th>Cantidad por datashow</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <g:each in="${results}" var="data">
+                    <g:each in="${results}" var="result">
                         <tr>
-                            <td>${data.datashow}</td>
-                            <td>${data.quantity}</td>
+                            <td>${result.datashow}</td>
+                            <td>${result.count}</td>
                         </tr>
                     </g:each>
                     <tr>
                         <td>TOTAL</td>
-                        <td>${results.quantity.sum()}</td>
+                        <td>${results.count.sum()}</td>
                     </tr>
                 </tbody>
             </table>
@@ -41,10 +41,6 @@
     </content>
 
     <content tag="col1">
-        <g:form action="reportByDatashows" autocomplete="off">
-            <g:render template="years" model="[years: yearFilter.years]"/>
-
-            <g:submitButton name="send" value="Filtrar" class="btn btn-primary btn-block"/>
-        </g:form>
+        <g:render template="yearList" model="[yearList: yearFilter.years]"/>
     </content>
 </g:applyLayout>
