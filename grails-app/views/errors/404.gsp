@@ -11,9 +11,5 @@
     <div class="well well-small text-center">
         El recurso que solicitastes no existe
     </div>
-
-    <p class="text-center">
-        <g:link controller="request" class="btn btn-primary">Regresas</g:link>
-    </p>
 </body>
 </html>

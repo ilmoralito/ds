@@ -13,7 +13,7 @@
     </g:if>
     <g:else>
         <div class="well well-small">
-            Ha ocurrido un error en el sistema. Porfavor informa a soporte técnico para poder asistirte
+            Ha ocurrido un error en el sistema
         </div>
     </g:else>
 </body>

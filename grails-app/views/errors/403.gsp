@@ -11,9 +11,5 @@
     <div class="well well-small text-center">
         Acceso prohibido al recurso solicitado
     </div>
-
-    <p class="text-center">
-        <g:link controller="request" class="btn btn-primary">Regresas</g:link>
-    </p>
 </body>
 </html>
