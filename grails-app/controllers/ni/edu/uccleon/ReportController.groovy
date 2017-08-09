@@ -57,11 +57,31 @@ class ReportController {
         [results: year ? requestService.summaryOfApplicationsPerApplicantInYear(id, year) : requestService.summaryOfApplicationsPerApplicant(id)]
     }
 
+    def coordinationList() {
+        [coordinationList: session.user.schools]
+    }
+
+    def facultySummary(final String school, final Integer year) {
+        [results: year ? requestService.annualFacultySummary(school, year) : requestService.globalFacultySummary(school), schoolYearFilter: createSchoolYearFilter(school)]
+    }
+
+    def summaryOfTeacherApplicationsInMonth(final String school, final Integer month, final Integer year) {
+        [results: requestService.summaryByCoordination(school, month, year)]
+    }
+
     private YearFilter createYearFilter() {
         new YearFilter(years: requestService.getYearsOfApplications())
+    }
+
+    private SchoolYearFilter createSchoolYearFilter(final String school) {
+        new SchoolYearFilter(yearList: requestService.getYearListByFaculty(school))
     }
 }
 
 class YearFilter {
     List<Integer> years
+}
+
+class SchoolYearFilter {
+    List<Integer> yearList
 }

@@ -476,6 +476,12 @@ class CommonTagLib {
         }
     }
 
+    def isCoordinator = { attrs, body ->
+        if (session?.user?.role == 'coordinador') {
+            out << body()
+        }
+    }
+
     private Boolean hasClassroomWIFI(String classroom) {
         Map classrooms = grailsApplication.config.ni.edu.uccleon.cls
         String letter = classroom[0]

@@ -36,11 +36,24 @@
 
         <ds:isSupervisor>
             <li class="${controllerName == 'report' ? 'active' : ''}">
-                <g:link controller="report" action="resumen">
-                    Reportes
-                </g:link>
+                <g:link controller="report" action="resumen">Reportes</g:link>
             </li>
         </ds:isSupervisor>
+
+        <ds:isCoordinator>
+            <li class="${controllerName == 'report' ? 'active' : ''}">
+                <g:if test="${session.user.schools.size() > 1}">
+                    <g:link controller="report" action="coordinationList">
+                        Reporte
+                    </g:link>
+                </g:if>
+                <g:else>
+                    <g:link controller="report" action="facultySummary" params="[school: session.user.schools.toArray()[0]]">
+                        Reporte
+                    </g:link>
+                </g:else>
+            </li>
+        </ds:isCoordinator>
 
         <li class="${(controllerName == 'user' && actionName in ['profile', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
             <g:link controller="user" action="profile">Perfil</g:link>

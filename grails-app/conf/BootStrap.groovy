@@ -135,6 +135,14 @@ class BootStrap {
         )
 
         users << builder.user(
+            email: 'cesar.valladares@ucc.edu.ni',
+            role: 'coordinador',
+            fullName: 'Cesar Valladares',
+            schools: [industrial, architectureAndCivil],
+            classrooms: [d101, d102]
+        )
+
+        users << builder.user(
             email: 'yesenia.valverde@ucc.edu.ni',
             role: 'asistente',
             fullName: 'Yesenia Valverde',

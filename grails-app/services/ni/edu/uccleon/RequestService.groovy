@@ -129,15 +129,25 @@ class RequestService {
     }
 
     List<Integer> getYearsOfApplications() {
-        List<Integer> yearList = Request.executeQuery('''
+        Request.executeQuery('''
             SELECT DISTINCT
                 (YEAR(r.dateOfApplication)) AS year
             FROM
                 Request r
             ORDER BY year DESC
         ''')
+    }
 
-        yearList
+    List<Integer> getYearListByFaculty(final String school) {
+        Request.executeQuery('''
+            SELECT DISTINCT
+                (YEAR(r.dateOfApplication))
+            FROM
+                Request r
+            WHERE
+                r.school = :school
+            ORDER BY 1 DESC
+        ''', [school: school])
     }
 
     List getProjectorReport() {
@@ -720,5 +730,38 @@ class RequestService {
         }
 
         results
+    }
+
+    List<Map<String, Object>> globalFacultySummary(final String school) {
+        Request.executeQuery('''
+            SELECT new map (
+                MONTH(r.dateOfApplication) AS month,
+                MONTHNAME(r.dateOfApplication) AS monthName,
+                COUNT(*) AS count
+            )
+            FROM
+                Request r
+            WHERE
+                r.school = :school
+            GROUP BY 1 , 2
+            ORDER BY 1 DESC
+        ''', [school: school])
+    }
+
+    List<Map<String, Object>> annualFacultySummary(final String school, final Integer year) {
+        Request.executeQuery('''
+            SELECT new map (
+                MONTH(r.dateOfApplication) AS month,
+                MONTHNAME(r.dateOfApplication) AS monthName,
+                COUNT(*) AS count
+            )
+            FROM
+                Request r
+            WHERE
+                r.school = :school
+                    AND YEAR(r.dateOfApplication) = :year
+            GROUP BY 1 , 2
+            ORDER BY 1 DESC
+        ''', [school: school, year: year])
     }
 }
