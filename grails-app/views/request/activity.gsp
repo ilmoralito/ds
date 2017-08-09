@@ -7,7 +7,7 @@
     </head>
 
     <content tag="main">
-        <ds:activitiesTable requests="${requests}" datashows="${datashows}" blocks="${blocks}" dateOfApplication="${dateOfApplication}"/>
+        <ds:activitiesTable requests="${requests}" datashows="${datashows}" dateOfApplication="${dateOfApplication}"/>
     </content>
 
     <content tag="col1">

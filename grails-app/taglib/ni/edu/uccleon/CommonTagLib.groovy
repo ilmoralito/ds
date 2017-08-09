@@ -314,7 +314,7 @@ class CommonTagLib {
                 thead {
                     datashows.eachWithIndex { datashow, index ->
                         if (index == 0) {
-                            th(width: 1)
+                            th(width: 40)
                         }
 
                         th {
@@ -332,8 +332,14 @@ class CommonTagLib {
                 tbody {
                     (0..blocks).eachWithIndex { block, index ->
                         tr {
-                            td {
-                                mkp.yield block + 1
+                            td(style: 'text-align: center;') {
+                                if (index == 3 && blocks > 3) {
+                                    p(style: 'font-size: 0.6em; margin: 0; padding: 0;') {
+                                        mkp 'Medio dia'
+                                    }
+                                } else {
+                                    mkp.yield block + 1
+                                }
                             }
                             datashows.each { datashow ->
                                 if (requests.find { it.datashow ==  datashow && block in it.hours.block }) {
@@ -382,7 +388,6 @@ class CommonTagLib {
         Date dateOfApplication = attrs.dateOfApplication
         List<Request> requests = attrs.requests
         Integer datashows = attrs.datashows
-        Integer blocks = attrs.blocks
         User currentUser = userService.getCurrentUser()
         List requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus.findAll { it.english != 'pending' }
 
@@ -393,7 +398,7 @@ class CommonTagLib {
                 thead {
                     (1..datashows).eachWithIndex { datashow, index ->
                         if (index == 0) {
-                            th(width: 10) {}
+                            th(width: 40) {}
                         }
 
                         th(style: 'font-weight: normal; text-align: center;') {
@@ -403,10 +408,16 @@ class CommonTagLib {
                 }
 
                 tbody {
-                    (0..6).each { block ->
+                    (0..6).eachWithIndex { block, idx ->
                         tr {
-                            td(style: 'vertical-align: middle;') {
-                                mkp.yield block + 1
+                            td(style: 'vertical-align: middle; text-align: center;') {
+                                if (idx == 3) {
+                                    p(style: 'font-size: 0.6em; margin: 0; padding: 0;') {
+                                        mkp 'Medio dia'
+                                    }
+                                } else {
+                                    mkp.yield block + 1
+                                }
                             }
 
                             (1..datashows).each { datashow ->
