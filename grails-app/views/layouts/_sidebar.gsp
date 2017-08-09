@@ -65,6 +65,6 @@
             </li>
         </ds:isNotAdmin>
 
-        <li><g:link controller="logout">Salir</g:link></li>
+        <li><g:link controller="logout" action="getOut">Salir</g:link></li>
     </ul>
 </section>

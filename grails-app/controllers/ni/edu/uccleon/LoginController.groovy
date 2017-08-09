@@ -4,7 +4,7 @@ class LoginController {
 
     static allowedMethods = [index: 'POST']
 
-    def login(final String email, final String password) {
+    def auth(final String email, final String password) {
         User user = User.login(email, password).get()
 
         if (!user) {

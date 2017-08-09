@@ -3,7 +3,7 @@
         <div class="container">
             <a class="brand" href="#">SSMA</a>
 
-            <g:form controller="login" action="login" autocomplete="off" class="navbar-form pull-right">
+            <g:form controller="login" action="auth" autocomplete="off" class="navbar-form pull-right">
                 <input type="email" name="email" id="email" value="${params?.email}" placeholder="Email" />
                 <g:passwordField name="password" placeholder="Clave"/>
 

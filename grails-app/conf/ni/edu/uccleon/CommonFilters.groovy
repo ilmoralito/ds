@@ -5,7 +5,7 @@ class CommonFilters {
     def filters = {
         security(controller: '*', action: '*') {
             before = {
-                if (!session.user && !(actionName in ['activity', 'login', 'logout'])) {
+                if (!session.user && !(actionName in ['activity', 'auth', 'getOut'])) {
                     response.sendError 403
                     return false
                 }

@@ -2,7 +2,7 @@ package ni.edu.uccleon
 
 class LogoutController {
 
-    def index() {
+    def getOut() {
         session.user = null
         redirect controller: 'request', action: 'activity'
     }
