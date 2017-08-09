@@ -27,8 +27,7 @@
                                 </g:link>
                             </td>
                             <td>
-                                <div
-                                    style="background: #222; width: ${!params?.year ? result.count / 3 : result.count}px; padding: 5px; color: #FFF;">
+                                <div style="background: #222; width: ${result.count}px; padding: 5px; color: #FFF;">
                                     ${result.count}
                                 </div>
                             </td>
