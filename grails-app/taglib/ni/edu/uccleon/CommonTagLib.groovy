@@ -139,11 +139,13 @@ class CommonTagLib {
         MarkupBuilder mb = new MarkupBuilder(out)
         String area = attrs.area
         List<String> coordinations = grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments[area]
-        Map<String, String> params = [type: "checkbox", name: area]
+        Map<String, String> params = [type: 'checkbox', name: area]
         List<String> list = attrs.list
 
         mb.div {
-            label area == "schools" ? "Academia" : "Administrativa"
+            label(style: 'margin: 10px 0;') {
+                mkp area == 'schools' ? 'Academia' : 'Administrativa'
+            }
 
             coordinations.each { coordination ->
                 params.value = coordination
@@ -151,10 +153,10 @@ class CommonTagLib {
                 if (coordination in list) {
                     params.checked = true
                 } else {
-                    params.remove("checked")
+                    params.remove('checked')
                 }
 
-                div(class: "checkbox") {
+                div(class: 'checkbox') {
                     input(params)
                     label { mkp.yield coordination }
                 }
@@ -165,11 +167,11 @@ class CommonTagLib {
     def rol = { attrs ->
         MarkupBuilder mb = new MarkupBuilder(out)
         List<String> roles = grailsApplication.config.ni.edu.uccleon.roles
-        Map<String, String> params = [type: "checkbox", name: "roles"]
+        Map<String, String> params = [type: 'checkbox', name: 'roles']
         List<String> listOfRoles = attrs?.listOfRoles
 
         mb.div {
-            p "Roles"
+            label(style: 'margin: 10px 0;') { mkp 'Roles' }
 
             roles.each { rol ->
                 params.value = rol
@@ -177,12 +179,12 @@ class CommonTagLib {
                 if (rol in listOfRoles) {
                     params.checked = true
                 } else {
-                    params.remove("checked")
+                    params.remove('checked')
                 }
 
-                div(class: "checkbox") {
+                label(class: 'checkbox') {
                     input(params)
-                    label { mkp.yield rol }
+                    label { mkp.yield rol.capitalize() }
                 }
             }
         }

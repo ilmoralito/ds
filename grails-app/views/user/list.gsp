@@ -1,25 +1,29 @@
-<g:applyLayout name="threeColumns">
+<g:applyLayout name="twoColumns">
     <head>
-        <title>Usuarios</title>
+        <title>Lista de usuarios</title>
         <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, users"/>
     </head>
 
     <content tag="main">
+        <div class="clearfix">
+            <div class="pull-right">
+                <g:link action="create" class="btn btn-primary">Crear usuario</g:link>
+                <g:link action="filter" class="btn btn-default">
+                    <i class="icon-filter"></i> Filtrar
+                </g:link>
+            </div>
+        </div>
+
         <g:if test="${users}">
             <table class="table table-hover">
                 <colgroup>
-                    <col span="1" style="width: 95%;">
-                    <col span="1" style="width: 5%;">
+                    <col span="1" style="width: 99%;">
+                    <col span="1" style="width: 1%;">
                 </colgroup>
                 <thead>
                     <tr>
                         <th>
-                            <input
-                                id="rosterFilterBox"
-                                name="rosterFilterBox"
-                                type="text"
-                                style="margin-bottom: 0;"
-                                placeholder="Filtrar">
+                            <input id="rosterFilterBox" name="rosterFilterBox" type="text" style="margin-bottom: 0;" placeholder="Filtrar">
                         </th>
                         <th></th>
                     </tr>
@@ -28,11 +32,9 @@
                     <g:each in="${users}" var="user">
                         <tr>
                             <td>
-                                <g:link action="show" id="${user.id}" class="target">
-                                    ${user.fullName}
-                                </g:link>
+                                <g:link action="show" id="${user.id}" class="target">${user.fullName}</g:link>
                             </td>
-                            <td style="text-align: center;">
+                            <td>
                                 <g:link action="delete" id="${user.id}" class="action-delete">
                                     <i class="icon-trash"></i>
                                 </g:link>
@@ -45,36 +47,5 @@
         <g:else>
             <p>Nada que mostrar</p>
         </g:else>
-    </content>
-
-    <content tag="col1">
-        <section>
-            <g:link action="create" class="btn btn-block btn-primary">Crear usuario</g:link>
-        </section>
-
-        <section>
-            <g:form action="list">
-                <g:textField name="fullName" value="${params?.fullName}" class="span2" placeholder="Nombre"/>
-
-                <label>Estado</label>
-                <label class="checkbox">
-                    <g:checkBox name="enabled" value="true" checked="${params.list('enabled').contains('true')}"/>
-                    Activos
-                </label>
-
-                <label class="checkbox">
-                    <g:checkBox name="enabled" value="false" checked="${params.list('enabled').contains('false')}"/>
-                    Inactivos
-                </label>
-
-                <ds:rol listOfRoles="${params.list('roles')}"/>
-
-                <ds:coordinations area="schools" list="${params.list('schools')}"/>
-
-                <ds:coordinations area="departments" list="${params.list('departments')}"/>
-
-                <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
-            </g:form>
-        </section>
     </content>
 </g:applyLayout>

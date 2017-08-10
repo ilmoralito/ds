@@ -5,19 +5,19 @@ class UserController {
 
     static defaultAction = 'profile'
     static allowedMethods = [
-        list: ["GET", "POST"],
-        create: ["GET", "POST"],
-        show: ["GET", "POST"],
-        updateUserEnabledProperty: "GET",
-        notification: "POST",
-        delete: "GET",
-        updatePassword: "POST",
-        resetPassword: "GET",
-        profile: ["GET", "POST"],
-        classrooms: ["GET", "POST"],
-        updateUserRole: "GET",
-        updateUserSchools: "GET",
-        admin: "GET"
+        list: ['GET', 'POST'],
+        create: ['GET', 'POST'],
+        show: ['GET', 'POST'],
+        updateUserEnabledProperty: 'GET',
+        notification: 'POST',
+        delete: 'GET',
+        updatePassword: 'POST',
+        resetPassword: 'GET',
+        profile: ['GET', 'POST'],
+        classrooms: ['GET', 'POST'],
+        updateUserRole: 'GET',
+        updateUserSchools: 'GET',
+        admin: 'GET'
     ]
 
     def admin() {
@@ -115,47 +115,39 @@ class UserController {
     }
 
     def list() {
-        String fullName = params?.fullName
-        List<Boolean> enabled = params.list("enabled")*.toBoolean()
-        List<String> roles = params.list("roles")
-        List<String> schools = params.list("schools")
-        List<String> departments = params.list("departments")
+        [users: User.findAllByEnabled(true, [sort: 'fullName'])]
+    }
 
-        Closure users = {
-            if (request.post) {
-                List<User> users = []
+    def filter() {}
 
-                List<User> userList = User.createCriteria().list {
-                    if (params?.fullName) {
-                        like 'fullName', "%$params.fullName%"
-                    }
+    def applyFilter() {
+        List<Boolean> enabled = params.list('enabled')*.toBoolean()
+        List<String> departments = params.list('departments')
+        List<String> schools = params.list('schools')
+        List<String> roles = params.list('roles')
+        List<User> users = []
 
-                    if (enabled) {
-                        'in' 'enabled', enabled
-                    }
+        List<User> userList = User.createCriteria().list {
+            if (enabled) {
+                'in' 'enabled', enabled
+            }
 
-                    if (roles) {
-                        'in' 'role', roles
-                    }
+            if (roles) {
+                'in' 'role', roles
+            }
 
-                    order 'fullName', 'asc'
+            order 'fullName', 'asc'
+        }
+
+        if (schools || departments) {
+            users = userList.findAll { user ->
+                user.schools.any { school ->
+                    school in schools || school in departments
                 }
-
-                if (schools || departments) {
-                    users = userList.findAll { user ->
-                        user.schools.any { school ->
-                            school in schools || school in departments
-                        }
-                    }
-                }
-
-                (!schools && !departments) ? userList : users
-            } else {
-                User.findAllByEnabled(true, [sort: 'fullName', order: 'asc'])
             }
         }
 
-        [users: users()]
+        render view: 'list', model: [users: users ?: userList]
     }
 
     def create() {
