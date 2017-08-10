@@ -13,6 +13,19 @@ class RequestService {
 
     static transactional = false
 
+    List<Map<String, Object>> groupRequestListByBlock(List<Request> requestList) {
+        Integer blocks = getDayOfWeekBlocks(new Date()[Calendar.DAY_OF_WEEK])
+        List<Map<String, Object>> results = []
+
+        (0..blocks).collect { block ->
+            Map<String, Object> node = [block: block, requests: requestList.findAll { r -> r.hours.block.min() == block }]
+
+            results.add node
+        }
+
+        results.findAll { it.requests }
+    }
+
     def getTotal(Date date, opt) {
         def criteria = Request.createCriteria()
         def total = criteria.count() {

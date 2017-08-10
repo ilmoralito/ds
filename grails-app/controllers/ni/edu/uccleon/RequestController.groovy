@@ -7,7 +7,7 @@ import static java.util.Calendar.*
 class RequestController {
     def grailsApplication
     def classroomService
-    def requestService
+    RequestService requestService
     def userService
     def appService
 
@@ -233,47 +233,38 @@ class RequestController {
     }
 
     def list() {
-        ConfigObject config = grailsApplication.config.ni.edu.uccleon
-        Map schoolsAndDepartments = config.schoolsAndDepartments
-        List requestStatus = config.requestStatus
-        def requests
-        def users = params.list('users')
-        def schools = params.list('schools')
-        def departments = params.list('departments')
-        def classrooms = params.list('classrooms')
-        def types = params.list('types')
-        def status = params.list('status')
-        def requestFromDate = params.date('requestFromDate', 'yyyy-MM-dd')
-        def requestToDate = params.date('requestToDate', 'yyyy-MM-dd')
-        def userInstance = session?.user
-        def role = userInstance?.role
-        Date today = new Date()
-        Date from = requestFromDate ?: today
-        Date to = requestToDate ?: today
-
-        if (users || schools || departments || classrooms || types || status || requestFromDate || requestToDate) {
-            requests = Request.filter(users, schools, departments, classrooms, types, status, from, to).requestFromTo(from, to).list()
-        } else {
-            requests = Request.todayRequest().list()
-        }
-
-        def blocks = requestService.getDayOfWeekBlocks(today[Calendar.DAY_OF_WEEK])
-        def requestsByBlock = []
-
-        //group requests by starting block
-        (0..blocks).collect { block ->
-            def node = [block: block, requests: requests.findAll { r -> r.hours.block.min() == block }]
-
-            requestsByBlock.add node
-        }
+        List<Request> requestList = Request.todayRequest().list()
 
         [
-            requestStatus: requestStatus,
-            schoolsAndDepartments: schoolsAndDepartments,
-            classrooms: requestService.mergedClassrooms(),
-            requestsByBlock: requestsByBlock.findAll { it.requests },
-            users: User.findAllByRoleAndEnabled('user', true, [sort: 'fullName'])
+            results: requestService.groupRequestListByBlock(requestList),
+            requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
         ]
+    }
+
+    def filter() {
+        ConfigObject config = grailsApplication.config.ni.edu.uccleon
+
+        [
+            departments: config.schoolsAndDepartments.departments.sort(),
+            users: User.findAllByEnabled(true, [sort: 'fullName']),
+            schools: config.schoolsAndDepartments.schools.sort(),
+            classrooms: requestService.mergedClassrooms(),
+            requestStatus: config.requestStatus
+        ]
+    }
+
+    def applyFilter() {
+        Date from = params.requestFromDate ? params.date('requestFromDate', 'yyyy-MM-dd') : new Date()
+        Date to = params.requestToDate ? params.date('requestToDate', 'yyyy-MM-dd') : new Date()
+        List<String> departments = params.list('departments')
+        List<String> classrooms = params.list('classrooms')
+        List<String> schools = params.list('schools')
+        List<String> status = params.list('status')
+        List<String> users = params.list('users')
+
+        List<Request> requestList = Request.filter(users, schools, departments, classrooms, status).requestFromTo(from, to).list()
+
+        render view: 'list', model: [results: requestService.groupRequestListByBlock(requestList), requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus]
     }
 
     def getUserClassroomsAndSchools(String userEmail) {
