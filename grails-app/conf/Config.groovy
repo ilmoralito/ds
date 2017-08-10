@@ -487,7 +487,7 @@ ni {
             computers = 1
             speakers = 2
             pointers = 2
-            screens = 3
+            screens = 2
         }
     }
 }
