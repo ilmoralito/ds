@@ -22,7 +22,16 @@ class CommonFilters {
             }
         }
 
-        administratorOnly(controller: 'user', action: '(list|show|create|notification|updateUserRole|updateUserSchools|updateUserEnabledProperty|delete|filter|applyFilter)') {
+        userAdministratorOnly(controller: 'user', action: '(list|show|create|notification|updateUserRole|updateUserSchools|updateUserEnabledProperty|delete|filter|applyFilter)') {
+            before = {
+                if (session.user.role != 'admin') {
+                    response.sendError 403
+                    return false
+                }
+            }
+        }
+
+        requestAdministratorOnly(controller: 'request', action: '(list|filter|applyFilter|changeRequestsStatus|updateStatus)') {
             before = {
                 if (session.user.role != 'admin') {
                     response.sendError 403
