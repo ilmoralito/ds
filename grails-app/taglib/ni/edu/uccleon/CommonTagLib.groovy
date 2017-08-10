@@ -414,7 +414,7 @@ class CommonTagLib {
                     (0..6).eachWithIndex { block, idx ->
                         tr {
                             td(style: 'vertical-align: middle; text-align: center;') {
-                                if (idx == 3 && dateOfApplication[Calendar.DAY_OF_WEEK] != 7) {
+                                if (idx == 3 && !(dateOfApplication[Calendar.DAY_OF_WEEK] in [1, 7])) {
                                     p(style: 'font-size: 0.6em; margin: 0; padding: 0;') {
                                         mkp 'Medio dia'
                                     }
