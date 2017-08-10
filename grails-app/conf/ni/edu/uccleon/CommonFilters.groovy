@@ -6,7 +6,8 @@ class CommonFilters {
         security(controller: '*', action: '*') {
             before = {
                 if (!session.user && !(actionName in ['activity', 'auth', 'getOut'])) {
-                    response.sendError 403
+                    flash.message = 'Acceso denegado'
+                    redirect controller: 'request', action: 'activity'
                     return false
                 }
             }
