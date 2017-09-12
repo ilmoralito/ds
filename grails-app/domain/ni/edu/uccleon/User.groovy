@@ -49,6 +49,11 @@ class User implements Serializable {
             eq 'enabled', true
         }
 
+        hasAcademyAuthority {
+            isEnabled()
+            'in' 'role', ['asistente', 'coordinador']
+        }
+
         search { criteria ->
             or {
                 ilike 'fullName', criteria

@@ -130,7 +130,7 @@ class BootStrap {
             email: 'azucena.delgado@ucc.edu.ni',
             role: 'asistente',
             fullName: 'Azucena Delgado',
-            schools: [law, agronomy, systemsAndGraphicDesign, architectureAndCivil],
+            schools: [agronomy],
             classrooms: [d101, d102, d103, d104]
         )
 

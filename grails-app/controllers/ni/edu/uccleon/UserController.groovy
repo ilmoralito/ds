@@ -1,5 +1,7 @@
 package ni.edu.uccleon
 
+import grails.util.Environment
+
 class UserController {
     def userService
 
@@ -151,43 +153,46 @@ class UserController {
     }
 
     def create() {
-        if (request.post) {
-            List schools = params.list('schools')
-            List classrooms = params.list('classrooms')
+        [
+            roles: grailsApplication.config.ni.edu.uccleon.roles,
+            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
+            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+        ]
+    }
 
-            User user = new User(
-                email: params?.email,
-                fullName: params?.fullName,
-                role: params?.role,
-                schools: schools,
-                classrooms: classrooms
-            )
+    def save() {
+        List schools = params.list('schools')
+        List classrooms = params.list('classrooms')
 
-            if (!user.save()) {
-                user.errors.allErrors.each { error ->
-                    log.error "[field: ${error.field}, message: ${error.defaultMessage}]"
-                }
+        User user = new User(
+            email: params.email,
+            fullName: params.fullName,
+            role: params.role,
+            schools: schools,
+            classrooms: classrooms
+        )
 
-                flash.message = "A ocurrido un error"
-                return [user: user]
-            }
+        if (!user.save()) {
+            flash.message = 'A ocurrido un error'
 
-            List<User> authorities = User.list().findAll {
-                it.enabled == true &&
-                it.role in ['asistente', 'coordinador'] &&
-                it.schools.toList().any { it in params.list('schools') }
-            }
+            render model: [
+                user: user,
+                roles: grailsApplication.config.ni.edu.uccleon.roles,
+                classrooms: grailsApplication.config.ni.edu.uccleon.cls,
+                schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+            ], view: 'create'
 
-            authorities.each { authority ->
-                sendMail {
-                    to authority.email
-                    subject "Notificacion de datashow"
-                    html g.render(template: "email", model: [authority: authority.fullName, fullName: params.fullName, schools: schools, classrooms: classrooms])
-                }
-            }
-
-            flash.message = "Usuario creado y notificacion enviada"
+            return
         }
+
+        if (Environment.current == Environment.PRODUCTION) {
+            List<User> authorities = getAuthoritiesInSchools(schools)
+
+            sendNotification(authorities, user)
+        }
+
+        flash.message = 'Usuario creado y notificacion enviada'
+        redirect action: 'create'
     }
 
     def show(Integer id) {
@@ -351,6 +356,37 @@ class UserController {
 
     private String getServerURL() {
         grailsApplication.config.grails.serverURL
+    }
+
+    private List<User> getAuthoritiesInSchools(List<String> schoolList) {
+        List<User> authorities = getAcademicAuthorities().inject([]) { accumulator, currentValue ->
+            if (currentValue.schools.toList().any { school -> school in schoolList }) {
+                accumulator << currentValue
+            }
+
+            accumulator
+        }
+
+        authorities
+    }
+
+    private List<User> getAcademicAuthorities() {
+        User.hasAcademyAuthority.list()
+    }
+
+    private void sendNotification(final List<User> authorities, final User user) {
+        authorities.each { authority ->
+            sendMail {
+                to authority.email
+                subject 'Notificacion de datashow'
+                html g.render (template: 'email', model: [
+                    authority: authority.fullName,
+                    fullName: user.fullName,
+                    schools: user.schools.toList(),
+                    classrooms: user.classrooms.toList()
+                ])
+            }
+        }
     }
 }
 
