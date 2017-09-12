@@ -434,6 +434,21 @@ class CommonTagLib {
 
                                     td(class: 'cell hasActivity') {
                                         if (index == 0) {
+                                            if (attrs.layout == 'oneColumn') {
+                                                if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
+                                                    List<String> props = ['audio', 'screen', 'internet', 'pointer', 'cpu', 'description']
+                                                    Map<String, Object> properties = request.properties.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
+                                                        accumulator["data-${currentValue.key}"] = currentValue.value
+
+                                                        accumulator
+                                                    }
+
+                                                    a(href: '#', class: 'show-modal', *:properties) {
+                                                        mkp.yield '+'
+                                                    }
+                                                }
+                                            }
+
                                             if (currentUser?.role == 'admin') {
                                                 div(class: 'dropdown') {
                                                     a(class: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#') {

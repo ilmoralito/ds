@@ -355,13 +355,7 @@ class RequestController {
         Closure layout = {
             User currentUser = userService.getCurrentUser()
 
-            if (!currentUser) {
-                return 'oneColumn'
-            } else if (currentUser.role != 'admin') {
-                return 'twoColumns'
-            } else {
-                return 'threeColumns'
-            }
+            !currentUser ? 'oneColumn': currentUser.role != 'admin' ? 'twoColumns' : 'threeColumns'
         }
 
         [
