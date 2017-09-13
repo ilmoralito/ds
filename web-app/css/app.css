@@ -4,29 +4,13 @@
     }
 }
 
-.main {
-    margin-top: 25px;
-}
+.main { margin-top: 25px; }
 
-.errors {
-    background: red;
-}
+.errors { background: red; }
 
-/*charts*/
-.bar-chart {
-    background:#444;
-    padding:5px;
-    text-align:right;
-    color:#FFF;
-}
+summary { cursor: pointer; }
 
-summary {
-    cursor: pointer;
-}
-
-section {
-    margin-bottom: 10px;
-}
+section { margin-bottom: 10px; }
 
 .create-request {
     box-sizing: border-box;
@@ -42,9 +26,7 @@ section {
     box-sizing: border-box;
 }
 
-section form {
-    margin: 0;
-}
+section form { margin: 0; }
 
 textarea#description {
     resize: none;
@@ -57,9 +39,7 @@ textarea#description {
     font-weight: normal;
 }
 
-table.fixed {
-    table-layout: fixed;
-}
+table.fixed { table-layout: fixed; }
 
 .cell {
     width:20%;
@@ -70,9 +50,7 @@ table.fixed {
     position:relative;
 }
 
-.hasActivity {
-    background: #DDD;
-}
+.hasActivity { background: #DDD; }
 
 label.tag {
     font-size: .7em;

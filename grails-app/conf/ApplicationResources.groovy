@@ -1,5 +1,7 @@
 modules = {
     application {
+        resource url: 'css/application.css'
+        resource url: 'js/Chart.min.js'
         resource url: 'js/application.js'
     }
 

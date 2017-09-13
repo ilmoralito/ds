@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
     <head>
         <title>Resumen</title>
-        <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, application"/>
     </head>
 
     <content tag="main">
@@ -30,7 +30,7 @@
                                     ${result.monthName}
                                 </g:link>
                             </td>
-                            <td>
+                            <td class="data" data-month="${result.month}" data-quantity="${result.quantity}">
                                 <div
                                     style="background: #222; width: ${!params?.year ? result.quantity / 3 : result.quantity}px; padding: 5px; color: #FFF;">
                                     ${result.quantity}
@@ -45,6 +45,8 @@
                     </tr>
                 </tbody>
             </table>
+
+            <canvas id="chart" width="400" height="400"></canvas>
         </g:if>
         <g:else>
             <p>Sin datos que mostrar</p>
