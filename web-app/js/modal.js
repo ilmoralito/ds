@@ -10,7 +10,7 @@
                                 key === 'internet'      ? 'Internet'    :
                                 key === 'pointer'       ? 'Puntero'     :
                                 key === 'cpu'           ? 'Computador'  :
-                                key === 'description'   ? this.dataset.description         :
+                                key === 'description'   ? this.dataset.description :
                                                           '';
 
             return `

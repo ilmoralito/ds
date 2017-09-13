@@ -9,7 +9,7 @@
     <content tag="main">
         <ds:activitiesTable requests="${requests}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
 
-        <div id="modal" class="modal hide fade">
+        <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3>Requerimientos</h3>
