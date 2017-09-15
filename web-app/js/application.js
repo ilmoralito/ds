@@ -20,6 +20,8 @@
         data.push(obj ? obj.quantity : 0);
     }
 
+    // This set the canvas background to white for when trying save chart image
+    // More info: https://github.com/chartjs/Chart.js/issues/2830
     Chart.plugins.register({
         beforeDraw: function(chartInstance) {
             const ctx = chartInstance.chart.ctx;
