@@ -1,6 +1,6 @@
 (() => {
     const context = document.querySelector('#chart');
-    const queryType = document.querySelector('.nav-pills li.active a').textContent;
+    const label = document.querySelector('.nav-pills li.active a').textContent;
     const data = [];
 
     const dataset = [...document.querySelectorAll('.data')].reduce((accumulator, currentValue) => {
@@ -33,7 +33,7 @@
         data: {
             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             datasets: [{
-                label: `Resultado ${queryType}`,
+                label: `Resultado ${label}`,
                 data: data,
                 backgroundColor: [
                     'rgba(113, 240, 50, 1)',
