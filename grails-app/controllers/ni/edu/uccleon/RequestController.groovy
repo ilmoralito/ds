@@ -236,6 +236,7 @@ class RequestController {
         List<Request> requestList = Request.todayRequest().list()
 
         [
+            requestCount: requestList.size(),
             results: requestService.groupRequestListByBlock(requestList),
             requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
         ]
@@ -264,7 +265,11 @@ class RequestController {
 
         List<Request> requestList = Request.filter(users, schools, departments, classrooms, status).requestFromTo(from, to).list()
 
-        render view: 'list', model: [results: requestService.groupRequestListByBlock(requestList), requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus]
+        render view: 'list', model: [
+            requestCount: requestList.size(),
+            results: requestService.groupRequestListByBlock(requestList),
+            requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
+        ]
     }
 
     def getUserClassroomsAndSchools(String userEmail) {

@@ -13,6 +13,9 @@
 
         <g:if test="${results}">
             <table class="table table-hover">
+                <caption style="text-align: left;">
+                    ${requestCount} resultado${requestCount > 1 ? 's' : ''}
+                </caption>
                 <thead>
                     <th colspan="3">
                         <input type="checkbox" name="trigger" id="trigger">
