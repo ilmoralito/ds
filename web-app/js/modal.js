@@ -1,10 +1,14 @@
 (() => {
-    const triggers = document.querySelectorAll('.show-modal');
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('show-modal')) {
+            showModal.call(event.target);
+        }
+    });
 
-    function showModal(e) {
+    function showModal() {
         $('#modal').modal();
 
-        const result = Object.keys(this.dataset).map((key, value) => {
+        const result = Object.keys(this.dataset).map(key => {
             const displayText = key === 'audio'         ? 'Parlante'    :
                                 key === 'screen'        ? 'Pantalla'    :
                                 key === 'internet'      ? 'Internet'    :
@@ -20,6 +24,4 @@
 
         document.querySelector('#requirement').innerHTML = result;
     }
-
-    triggers.forEach(trigger => trigger.addEventListener('click', showModal));
 })();
