@@ -445,6 +445,12 @@ class RequestController {
         [requests: requests]
     }
 
+    def listTodayActivities() {
+        render(contentType: 'application/json') {
+            requestService.listTodayActivities()
+        }
+    }
+
     private BlockWidget createBlockWidget(String school, String dateOfApplication) {
         Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
         Integer dayOfWeek = date[Calendar.DAY_OF_WEEK]

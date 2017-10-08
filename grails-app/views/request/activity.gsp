@@ -2,8 +2,11 @@
     <head>
         <title>Actividades</title>
         <g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, activity"/>
-        <g:set var="activityStyle" value="bootstrap-css, bootstrap-modal, app"/>
+        <g:set var="activityStyle" value="bootstrap-css, bootstrap-modal, publicActivity"/>
         <r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
+        <script>
+            listTodayActivitiesURL = "${createLink(controller: 'request', action: 'listTodayActivities')}";
+        </script>
     </head>
 
     <content tag="main">
@@ -18,6 +21,8 @@
                 <ul id="requirement"></ul>
             </div>
         </div>
+
+        <div id="target"></div>
     </content>
 
     <content tag="col1">

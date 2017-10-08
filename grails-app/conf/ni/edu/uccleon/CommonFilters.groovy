@@ -5,7 +5,7 @@ class CommonFilters {
     def filters = {
         security(controller: '*', action: '*') {
             before = {
-                if (!session.user && !(actionName in ['activity', 'auth', 'getOut'])) {
+                if (!session.user && !(actionName in ['activity', 'auth', 'getOut', 'listTodayActivities'])) {
                     flash.message = 'Acceso denegado'
                     redirect controller: 'request', action: 'activity'
                     return false

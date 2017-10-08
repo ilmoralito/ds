@@ -397,7 +397,7 @@ class CommonTagLib {
         mb.section {
             p "${requests.size()} actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
 
-            table(class: 'table table-bordered fixed') {
+            table(id: 'activity-table', class: 'table table-bordered fixed') {
                 thead {
                     (1..datashows).eachWithIndex { datashow, index ->
                         if (index == 0) {
@@ -432,7 +432,7 @@ class CommonTagLib {
                                     List<Hour> hours = request.hours.sort { it.block }
                                     Integer index = hours.findIndexOf { hour -> hour.block == block }
 
-                                    td(class: 'cell hasActivity') {
+                                    td(class: 'cell hasActivity', 'data-datashow': datashow, 'data-block': block) {
                                         if (index == 0) {
                                             if (attrs.layout == 'oneColumn') {
                                                 if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
@@ -478,7 +478,7 @@ class CommonTagLib {
                                         }
                                     }
                                 } else {
-                                    td(class: 'cell') {}
+                                    td(class: 'cell', 'data-datashow': datashow, 'data-block': block) {}
                                 }
                             }
                         }

@@ -13,6 +13,37 @@ class RequestService {
 
     static transactional = false
 
+    def listTodayActivities() {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                u.full_name fullName,
+                r.datashow datashow,
+                r.classroom classroom,
+                r.audio audio,
+                r.cpu cpu,
+                r.internet internet,
+                r.pointer pointer,
+                r.screen screen,
+                r.description description,
+                GROUP_CONCAT(h.block) blocks
+            FROM
+                request r INNER JOIN user u ON r.user_id = u.id INNER JOIN hour h ON h.request_id = r.id
+            WHERE
+                r.date_of_application = curdate() AND r.status = 'pending'
+            GROUP BY r.id
+        """
+
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            list()
+        }
+
+        results
+    }
+
     List<Map<String, Object>> groupRequestListByBlock(List<Request> requestList) {
         Integer blocks = getDayOfWeekBlocks(new Date()[Calendar.DAY_OF_WEEK])
         List<Map<String, Object>> results = []
@@ -703,7 +734,7 @@ class RequestService {
     List<Map<String, Object>> summaryOfApplicationsPerApplicantInYear(final Long id, final Integer year) {
         final session = sessionFactory.currentSession
         final String query = """
-            SELECT 
+            SELECT
                 r.school AS school,
                 SUM(CASE
                     WHEN r.status = 'pending' THEN 1

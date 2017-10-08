@@ -212,8 +212,8 @@ class BootStrap {
             request(
                 dateOfApplication: today,
                 classroom: d101,
-                school: ccee,
-                datashow: requestService.getDatashow(ccee, dayOfWeek)[0],
+                school: industrial,
+                datashow: requestService.getDatashow(industrial, dayOfWeek)[0],
                 description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
             ) {
                 hour(block: 1)

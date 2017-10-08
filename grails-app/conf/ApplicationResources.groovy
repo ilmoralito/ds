@@ -8,6 +8,12 @@ modules = {
     app {
         dependsOn 'jquery'
         resource url: 'css/app.css'
+    }
+
+    publicActivity {
+        dependsOn 'app'
+        resource url: 'js/axios.min.js'
+        resource url: 'js/check.js'
         resource url: 'js/modal.js'
     }
 
@@ -28,7 +34,7 @@ modules = {
         resource url: 'js/requestList.js'
     }
 
-      activity {
+    activity {
         resource url: 'js/users.js'
         resource url: 'js/requestDetails.js'
     }
