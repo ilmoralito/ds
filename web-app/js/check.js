@@ -18,7 +18,7 @@
                         if (!target.classList.contains('hasActivity')) {
                             if (index === 0) {
                                 target.innerHTML = `
-                                    ${requirements ? buildAnchor(requirements) : ''}
+                                    ${!isEmpty(requirements) ? buildAnchor(requirements) : ''}
                                     <p>${activity.fullName}</p>
                                     <p>${activity.classroom}</p>
                                 `;
