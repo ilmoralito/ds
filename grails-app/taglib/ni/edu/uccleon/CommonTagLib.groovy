@@ -395,7 +395,13 @@ class CommonTagLib {
         List requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus.findAll { it.english != 'pending' }
 
         mb.section {
-            p "${requests.size()} actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
+            p {
+                span(id: 'activity-count') {
+                    mkp.yield requests.size()
+                }
+
+                mkp.yield " actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
+            }
 
             table(id: 'activity-table', class: 'table table-bordered fixed') {
                 thead {

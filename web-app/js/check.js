@@ -1,12 +1,14 @@
 (() => {
-    const intervalID = window.setInterval(callback, 5000)
     const listTodayActivitiesURL = window.listTodayActivitiesURL;
 
     function callback() {
         const activityTable = document.querySelector('#activity-table');
+        const activityCount = document.querySelector('#activity-count');
 
         axios.get(`${listTodayActivitiesURL}`)
             .then(response => {
+                activityCount.innerHTML = response.data.length;
+
                 response.data.forEach(activity => {
                     const datashow = activity.datashow;
                     const blocks = parseBlocks(activity.blocks);
