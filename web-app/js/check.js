@@ -9,8 +9,8 @@
             .then(response => {
                 response.data.forEach(activity => {
                     const datashow = activity.datashow;
+                    const blocks = parseBlocks(activity.blocks);
                     const requirements = getRequirements(activity);
-                    const blocks = activity.blocks.split(',').map(block => parseInt(block, 10)).sort();
 
                     blocks.forEach((block, index, self) => {
                         const target = activityTable.querySelector(`[data-datashow="${datashow}"][data-block="${block}"]`);
@@ -34,15 +34,23 @@
             });
     }
 
+    function isEmpty(requirements) {
+        return Object.keys(requirements).length === 0;
+    }
+
+    function parseBlocks(blocks) {
+        return blocks.split(',').map(block => parseInt(block, 10)).sort();
+    }
+
     function getRequirements(activity) {
         const excludeKeys = ['fullName', 'datashow', 'blocks', 'classroom'];
 
-        const mappedObj = Object.keys(activity).reduce((o, item) => {
-            if(!excludeKeys.includes(item) && activity[item]) {
-                o[item] = activity[item];
+        const mappedObj = Object.keys(activity).reduce((accumulator, currentValue) => {
+            if(!excludeKeys.includes(currentValue) && activity[currentValue]) {
+                accumulator[currentValue] = activity[currentValue];
             }
 
-            return o;
+            return accumulator;
         }, {});
 
         return mappedObj;
@@ -64,15 +72,12 @@
 
         anchor.setAttribute('class', 'show-modal');
         anchor.setAttribute('href', '#');
+        anchor.textContent = '+';
 
         Object.keys(dataset).forEach(data => {
             anchor.setAttribute(data, dataset[data]);
         });
 
-        anchor.textContent = '+';
-
-        const anchorHTML = anchor.outerHTML
-
-        return anchorHTML;
+        return anchor.outerHTML;
     }
 })();
