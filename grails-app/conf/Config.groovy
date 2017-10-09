@@ -302,12 +302,12 @@ ni {
             cls = [
                 B: [
                     [code: 'B101', name: 'Auditorio mayor'],
-                    [code: 'B201', name: 'Mesanini B201', wifi: true],
-                    [code: 'B202', name: 'Mesanini B202', wifi: true]
+                    [code: 'B201', name: 'Mesanini 1', wifi: true],
+                    [code: 'B202', name: 'Mesanini 2', wifi: true]
                 ],
                 C: [
                     [code: 'C101', name: 'Auditorio menor', wifi: true],
-                    [code: 'C102', name: 'Desarrollo y proyeccion'],
+                    [code: 'C102', name: 'Especializacion'],
                     [code: 'C103'],
                     [code: 'C104'],
                     [code: 'C105'],
@@ -329,7 +329,7 @@ ni {
                     [code: 'D103'],
                     [code: 'D104'],
                     [code: 'D105'],
-                    [code: 'D109', name: 'Sala de audiovisuales', wifi: true],
+                    [code: 'D109', name: 'Audiovisuales', wifi: true],
                     [code: 'D201'],
                     [code: 'D202'],
                     [code: 'D203'],
@@ -342,8 +342,8 @@ ni {
                 E: [
                     [code: 'E108'],
                     [code: 'E112', wifi: true],
-                    [code: 'E113', name: 'Finanzas'],
-                    [code: 'E114', name: 'Administracion'],
+                    [code: 'E113', name: 'CCEE'],
+                    [code: 'E114', name: 'CCEE'],
                     [code: 'E115'],
                     [code: 'E116'],
                     [code: 'E117'],
