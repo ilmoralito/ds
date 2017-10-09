@@ -1,4 +1,5 @@
 (() => {
+    const intervalID = window.setInterval(callback, 60000)
     const listTodayActivitiesURL = window.listTodayActivitiesURL;
 
     function callback() {
