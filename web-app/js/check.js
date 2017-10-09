@@ -2,35 +2,39 @@
     const intervalID = window.setInterval(callback, 120000)
     const listTodayActivitiesURL = window.listTodayActivitiesURL;
 
-    function callback() {
-        axios.get(`${listTodayActivitiesURL}`)
-            .then(response => {
-                updateCount(response.data.length);
+    async function callback() {
+        try {
+            const activityList = await getActivityList();
 
-                cleanBlocks();
+            updateCount(activityList.data.length);
 
-                response.data.forEach(activity => {
-                    const blocks = sortBlocks(activity.blocks);
-                    const requirements = getRequirements(activity);
+            cleanBlocks();
 
-                    blocks.forEach((block, index, self) => {
-                        const target = getTarget(activity.datashow, block);
+            activityList.data.forEach(activity => {
+                const blocks = sortBlocks(activity.blocks);
+                const requirements = getRequirements(activity);
 
-                        if (index === 0) {
-                            target.innerHTML = `
-                                ${!isEmpty(requirements) ? buildAnchor(requirements) : ''}
-                                <p>${activity.fullName}</p>
-                                <p>${activity.classroom}</p>
-                            `;
-                        }
+                blocks.forEach((block, index, self) => {
+                    const target = getTarget(activity.datashow, block);
 
-                        target.classList.add('hasActivity');
-                    });
+                    if (index === 0) {
+                        target.innerHTML = `
+                            ${!isEmpty(requirements) ? buildAnchor(requirements) : ''}
+                            <p>${activity.fullName}</p>
+                            <p>${activity.classroom}</p>
+                        `;
+                    }
+
+                    target.classList.add('hasActivity');
                 });
-            })
-            .catch(error => {
-                console.log(error);
             });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function getActivityList() {
+        return axios.get(`${listTodayActivitiesURL}`);
     }
 
     function sortBlocks(blocks) {
