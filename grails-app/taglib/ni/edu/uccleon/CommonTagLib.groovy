@@ -438,7 +438,7 @@ class CommonTagLib {
                                     List<Hour> hours = request.hours.sort { it.block }
                                     Integer index = hours.findIndexOf { hour -> hour.block == block }
 
-                                    td(class: 'cell hasActivity', 'data-datashow': datashow, 'data-block': block) {
+                                    td(class: 'block hasActivity', 'data-datashow': datashow, 'data-block': block) {
                                         if (index == 0) {
                                             if (attrs.layout == 'oneColumn') {
                                                 if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
@@ -484,7 +484,7 @@ class CommonTagLib {
                                         }
                                     }
                                 } else {
-                                    td(class: 'cell', 'data-datashow': datashow, 'data-block': block) {}
+                                    td(class: 'block', 'data-datashow': datashow, 'data-block': block) {}
                                 }
                             }
                         }

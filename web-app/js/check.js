@@ -1,34 +1,30 @@
 (() => {
-    const intervalID = window.setInterval(callback, 60000)
+    const intervalID = window.setInterval(callback, 120000)
     const listTodayActivitiesURL = window.listTodayActivitiesURL;
 
     function callback() {
-        const activityTable = document.querySelector('#activity-table');
-        const activityCount = document.querySelector('#activity-count');
-
         axios.get(`${listTodayActivitiesURL}`)
             .then(response => {
-                activityCount.innerHTML = response.data.length;
+                updateCount(response.data.length);
+
+                cleanBlocks();
 
                 response.data.forEach(activity => {
-                    const datashow = activity.datashow;
-                    const blocks = parseBlocks(activity.blocks);
+                    const blocks = sortBlocks(activity.blocks);
                     const requirements = getRequirements(activity);
 
                     blocks.forEach((block, index, self) => {
-                        const target = activityTable.querySelector(`[data-datashow="${datashow}"][data-block="${block}"]`);
+                        const target = getTarget(activity.datashow, block);
 
-                        if (!target.classList.contains('hasActivity')) {
-                            if (index === 0) {
-                                target.innerHTML = `
-                                    ${!isEmpty(requirements) ? buildAnchor(requirements) : ''}
-                                    <p>${activity.fullName}</p>
-                                    <p>${activity.classroom}</p>
-                                `;
-                            }
-
-                            target.classList.add('hasActivity');
+                        if (index === 0) {
+                            target.innerHTML = `
+                                ${!isEmpty(requirements) ? buildAnchor(requirements) : ''}
+                                <p>${activity.fullName}</p>
+                                <p>${activity.classroom}</p>
+                            `;
                         }
+
+                        target.classList.add('hasActivity');
                     });
                 });
             })
@@ -37,12 +33,27 @@
             });
     }
 
-    function isEmpty(requirements) {
-        return Object.keys(requirements).length === 0;
+    function sortBlocks(blocks) {
+        return blocks.split(',').sort();
     }
 
-    function parseBlocks(blocks) {
-        return blocks.split(',').map(block => parseInt(block, 10)).sort();
+    function getTarget(datashow, block) {
+        return document.querySelector(`[data-datashow="${datashow}"][data-block="${block}"]`);
+    }
+
+    function updateCount(count) {
+        document.querySelector('#activity-count').innerHTML = count;
+    }
+
+    function cleanBlocks() {
+        document.querySelectorAll('td.hasActivity').forEach(td => {
+            td.textContent = ''
+            td.classList.remove('hasActivity');
+        });
+    }
+
+    function isEmpty(requirements) {
+        return Object.keys(requirements).length === 0;
     }
 
     function getRequirements(activity) {
