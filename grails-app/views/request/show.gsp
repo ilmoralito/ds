@@ -8,11 +8,18 @@
         <section class="clearfix">
             <g:link url="${request.getHeader('referer')}" class="btn">Regresar</g:link>
 
-            %{--
-            <g:link action="edit" id="${requestInstance.id}" class="btn btn-primary pull-right">
-                Editar
-            </g:link>
-            --}%
+            <ds:isNotAdmin>
+                <a
+                    href="#"
+                    action="delete"
+                    class="btn btn-danger pull-right"
+                    onclick="if (confirm('Are you sure?')) document.querySelector('#deleteForm').submit();">
+                    Eliminar
+                </a>
+                <g:form name="deleteForm" action="delete" id="${requestInstance.id}">
+                    <g:hiddenField name="_method" value="DELETE"/>
+                </g:form>
+            </ds:isNotAdmin>
         </section>
 
         <table class="table table-hover">

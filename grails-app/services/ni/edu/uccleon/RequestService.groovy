@@ -163,13 +163,7 @@ class RequestService {
 
     // Request that could be edited or removed
     Request getAdministrableRequest(Long id) {
-        Request request = Request.where {
-            id == id &&
-            status == 'pending' &&
-            school in userService.getCurrentUserSchools()
-        }.get()
-
-        request
+        Request.where { id == id && status == 'pending' && school in userService.getCurrentUserSchools() }.get()
     }
 
     List<Integer> getYearsOfApplications() {
