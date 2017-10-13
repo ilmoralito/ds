@@ -351,24 +351,32 @@ class RequestController {
     }
 
     def activity(String date) {
-        Date today = new Date()
-        Date dateOfApplication = date ? today.parse('yyyy-MM-dd', date) : today
-        List<Request> requestsBetweenDates = requestService.getRequestsBetweenDates(dateOfApplication, dateOfApplication)
-        List<Request> requests = requestService.getRequestStatus(requestsBetweenDates)
-        Integer datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
+        try {
+            Date today = new Date()
+            Date dateOfApplication = date ? today.parse('yyyy-MM-dd', date) : today
 
-        Closure layout = {
-            User currentUser = userService.getCurrentUser()
+            List<Request> requestsBetweenDates = requestService.getRequestsBetweenDates(dateOfApplication, dateOfApplication)
+            List<Request> requests = requestService.getRequestStatus(requestsBetweenDates)
+            Integer datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
 
-            !currentUser ? 'oneColumn': currentUser.role != 'admin' ? 'twoColumns' : 'threeColumns'
+            Closure layout = {
+                User currentUser = userService.getCurrentUser()
+
+                !currentUser ? 'oneColumn': currentUser.role != 'admin' ? 'twoColumns' : 'threeColumns'
+            }
+
+            [
+                requests: requests,
+                datashows: datashows,
+                dateOfApplication: dateOfApplication,
+                layout: layout()
+            ]
+        } catch(Exception e) {
+            flash.message = 'Fecha no parseable. What are you trying to do? ;^)'
+
+            redirect controller: 'request', action: 'activity'
+            return
         }
-
-        [
-            requests: requests,
-            datashows: datashows,
-            dateOfApplication: dateOfApplication,
-            layout: layout()
-        ]
     }
 
     def todo(Integer id, Integer datashow, Integer block) {
