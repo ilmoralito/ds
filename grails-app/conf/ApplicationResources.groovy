@@ -35,7 +35,10 @@ modules = {
     }
 
     activity {
+        dependsOn 'app'
+
         resource url: 'js/users.js'
+        resource url: 'css/animate.css'
         resource url: 'js/requestDetails.js'
     }
 

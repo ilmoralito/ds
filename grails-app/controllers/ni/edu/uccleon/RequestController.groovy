@@ -93,7 +93,7 @@ class RequestController {
         }
 
         flash.message = 'Solicitud creada correctamente'
-        redirect action: 'activity', params: [date: params.dateOfApplication]
+        redirect action: 'activity', params: [ date: params.dateOfApplication, datashow: params.datashow, blocks: params.hours ]
     }
 
     def edit(Long id) {

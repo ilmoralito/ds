@@ -438,7 +438,7 @@ class CommonTagLib {
                                     List<Hour> hours = request.hours.sort { it.block }
                                     Integer index = hours.findIndexOf { hour -> hour.block == block }
 
-                                    td(class: 'block hasActivity', 'data-datashow': datashow, 'data-block': block) {
+                                    td(class: "block hasActivity animated ${animate(datashow, block, params.int('datashow'), params.list('blocks')*.toInteger())}", 'data-datashow': datashow, 'data-block': block) {
                                         if (index == 0) {
                                             if (attrs.layout == 'oneColumn') {
                                                 if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
@@ -545,5 +545,9 @@ class CommonTagLib {
         }
 
         cannon.hdmi ?: false
+    }
+
+    private String animate(Integer currentDatashow, Integer currentBlock, Integer datashow, List<Integer> blocks) {
+        currentDatashow == datashow && currentBlock in blocks ? 'bounce' : ''
     }
 }

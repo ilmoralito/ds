@@ -1,14 +1,16 @@
 <g:applyLayout name="${layout}">
     <head>
         <title>Actividades</title>
-        <g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app, activity"/>
+        <g:set var="mainStyle" value="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, activity"/>
         <g:set var="activityStyle" value="bootstrap-css, bootstrap-modal, publicActivity"/>
         <r:require modules = "${!session?.user ? activityStyle : mainStyle}"/>
-        <script>
-            listTodayActivitiesURL = "${createLink(controller: 'request', action: 'listTodayActivities')}";
-        </script>
-    </head>
 
+        <g:if test="${!session.user}">
+            <script>
+                listTodayActivitiesURL = "${createLink(controller: 'request', action: 'listTodayActivities')}";
+            </script>
+        </g:if>
+    </head>
     <content tag="main">
         <ds:activitiesTable requests="${requests}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
 
