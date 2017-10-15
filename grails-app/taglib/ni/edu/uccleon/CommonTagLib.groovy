@@ -407,7 +407,7 @@ class CommonTagLib {
                 thead {
                     (1..datashows).eachWithIndex { datashow, index ->
                         if (index == 0) {
-                            th(width: 40) {}
+                            th(width: 15) {}
                         }
 
                         th(style: 'font-weight: normal; text-align: center;') {
@@ -420,10 +420,8 @@ class CommonTagLib {
                     (0..6).eachWithIndex { block, idx ->
                         tr {
                             td(style: 'vertical-align: middle; text-align: center;') {
-                                if (idx == 3 && !(dateOfApplication[Calendar.DAY_OF_WEEK] in [1, 7])) {
-                                    p(style: 'font-size: 0.6em; margin: 0; padding: 0;') {
-                                        mkp 'Medio dia'
-                                    }
+                                if (idx == 3) {
+                                    i(class: 'fa fa-sun-o', 'aria-hidden': true)
                                 } else {
                                     mkp.yield block + 1
                                 }

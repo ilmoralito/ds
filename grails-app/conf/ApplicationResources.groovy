@@ -15,6 +15,7 @@ modules = {
         resource url: 'js/axios.min.js'
         resource url: 'js/check.js'
         resource url: 'js/modal.js'
+        resource url: 'css/vendors/font-awesome/css/font-awesome.min.css'
     }
 
     overrides {
