@@ -6,12 +6,41 @@ import static java.util.Calendar.*
 import grails.util.Environment
 
 class RequestService {
-    def grailsApplication
-    def userService
-    def mailService
+    UserService userService
     SessionFactory sessionFactory
+    def grailsApplication
+    def mailService
 
     static transactional = false
+
+    Request save(Date date, String classroom,String school, String description, Integer datashow, Boolean audio, Boolean screen, Boolean internet, Boolean pointer, Boolean cpu, Serializable userId, List<Integer> blockList) {
+        User user = userService.find(userId)
+
+        Request request = new Request(
+            dateOfApplication: date,
+            classroom: classroom,
+            school: school,
+            description: description,
+            datashow: datashow,
+            audio: audio,
+            screen: screen,
+            internet: internet,
+            pointer: pointer,
+            cpu: cpu
+        )
+
+        blockList.each { block ->
+            request.addToHours(new Hour(block: block))
+        }
+
+        user.addToRequests(request)
+
+        if (!request.save(failOnError: true)) {
+            throw new Exception('Whoops')
+        }
+
+        request
+    }
 
     def listTodayActivities() {
         final session = sessionFactory.currentSession
@@ -685,7 +714,7 @@ class RequestService {
     List<Map<String, Object>> summaryOfApplicationsPerApplicant(final Long id) {
         final session = sessionFactory.currentSession
         final String query = """
-            SELECT 
+            SELECT
                 r.school AS school,
                 SUM(CASE
                     WHEN r.status = 'pending' THEN 1

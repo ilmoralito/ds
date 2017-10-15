@@ -1,51 +1,49 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="layout" content="main">
-    <title>Crear solicitud</title>
-    <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, getUserClassroomsAndSchools"/>
-</head>
-<body>
-    <g:form controller="request" action="storeRequest" autocomplete="off">
-        <g:hiddenField name="school" value="${school}"/>
-        <g:hiddenField name="dateOfApplication" value="${dateOfApplication}"/>
-        <g:hiddenField name="datashow"/>
+<g:applyLayout name="twoColumns">
+    <head>
+        <title>Construir solicitud</title>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, getUserClassroomsAndSchools"/>
+    </head>
 
-        <ds:usersBySchool school="${school}"/>
+    <content tag="main">
+        <g:form controller="request" action="storeRequest" autocomplete="off">
+            <g:hiddenField name="dateOfApplication" value="${dateOfApplication.format('yyyy-MM-dd')}"/>
+            <g:hiddenField name="school" value="${school}"/>
+            <g:hiddenField name="datashow"/>
 
-        <ds:userClassrooms selectedClassroom="${params?.classroom}"/>
+            <ds:usersBySchool school="${school}"/>
 
-        <section id="media">
-            <label>Medios</label>
+            <ds:userClassrooms selectedClassroom="${params?.classroom}"/>
 
-            <label class="checkbox inline">
-                <g:checkBox name="audio" value="true" checked="false"/> Parlante
-            </label>
+            <section id="media">
+                <label>Medios</label>
 
-            <label class="checkbox inline">
-                <g:checkBox name="screen" value="true" checked="false"/> Pantalla
-            </label>
+                <label class="checkbox inline">
+                    <g:checkBox name="audio" value="true" checked="false"/> Parlante
+                </label>
 
-            <label class="checkbox inline">
-                <g:checkBox name="pointer" value="true" checked="false"/> Puntero
-            </label>
+                <label class="checkbox inline">
+                    <g:checkBox name="screen" value="true" checked="false"/> Pantalla
+                </label>
 
-            <label class="checkbox inline">
-                <g:checkBox name="cpu" value="true" checked="false"/> Computadora
-            </label>
+                <label class="checkbox inline">
+                    <g:checkBox name="pointer" value="true" checked="false"/> Puntero
+                </label>
 
-            <label class="checkbox inline">
-                <g:checkBox id="internet" name="internet" value="true" checked="false"/> Internet
-            </label>
-        </section>
+                <label class="checkbox inline">
+                    <g:checkBox name="cpu" value="true" checked="false"/> Computadora
+                </label>
 
-        <div class="form-group">
-            <label for="description">Observacion</label>
-            <g:textArea name="description" class="form-control input-block-level"/>
-        </div>
+                <label class="checkbox inline">
+                    <g:checkBox id="internet" name="internet" value="true" checked="false"/> Internet
+                </label>
+            </section>
 
-        <ds:blockWidget blockWidget="${blockWidget}"/>
-    </g:form>
-</body>
-</html>
+            <div class="form-group">
+                <label for="description">Observacion</label>
+                <g:textArea name="description" class="form-control input-block-level"/>
+            </div>
+
+            <ds:blockWidget blockWidget="${blockWidget}"/>
+        </g:form>
+    </content>
+</g:applyLayout>

@@ -1,28 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="layout" content="main">
-    <title>Cambiar clave</title>
-    <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
-</head>
-<body>
-    <g:render template="navbar"/>
+<g:applyLayout name="twoColumns">
+    <head>
+        <title>Clave</title>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+    </head>
 
-    <g:form action="updatePassword">
-        <g:hiddenField name="id" value="${session?.user?.id}"/>
+    <content tag="main">
+        <g:render template="navbar"/>
 
-        <label for="password">Clave actual</label>
-        <g:passwordField name="password"/>
+        <g:form action="updatePassword">
+            <g:hiddenField name="id" value="${session?.user?.id}"/>
 
-        <label for="npassword">Nueva clave</label>
-        <g:passwordField name="npassword"/>
+            <label for="password">Clave actual</label>
+            <g:passwordField name="password"/>
 
-        <label for="rpassword">Repetir nueva clave</label>
-        <g:passwordField name="rpassword"/>
+            <label for="npassword">Nueva clave</label>
+            <g:passwordField name="npassword"/>
 
-        <br>
-        <g:submitButton name="send" value="Confirmar" class="btn btn-primary"/>
-    </g:form>
-</body>
-</html>
+            <label for="rpassword">Repetir nueva clave</label>
+            <g:passwordField name="rpassword"/>
+
+            <br>
+            <g:submitButton name="send" value="Confirmar" class="btn btn-primary"/>
+        </g:form>
+    </content>
+</g:applyLayout>

@@ -1,4 +1,4 @@
-    <g:applyLayout name="twoColumns">
+<g:applyLayout name="twoColumns">
     <head>
         <title>Estadisticas de solicitudes</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>

@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 import org.springframework.web.context.request.RequestContextHolder as RCH
+import grails.validation.ValidationException
 import grails.gorm.DetachedCriteria
 import static java.util.Calendar.*
 
@@ -12,43 +13,24 @@ class RequestController {
     def appService
 
     static defaultAction = 'list'
+
     static allowedMethods = [
-        buildRequest: 'GET',
-        storeRequest: 'POST',
-        edit: 'GET',
+        todo: 'POST',
         update: 'POST',
-        list: ['GET', 'POST'],
-        show: 'GET',
         delete: 'DELETE',
-        updateStatus: 'GET',
+        storeRequest: 'POST',
+        list: ['GET', 'POST'],
+        changeRequestsStatus: 'POST',
+        requestsByUsers: ['GET', 'POST'],
         requestsBySchools: ['GET', 'POST'],
         requestsByClassrooms: ['GET', 'POST'],
-        requestsByUsers: ['GET', 'POST'],
-        changeRequestsStatus: 'POST',
-        activity: 'GET',
-        todo: 'POST',
         createRequestFromActivity: ['GET', 'POST'],
-        getUserClassroomsAndSchools: 'GET',
-        requestsByCoordination: 'GET',
-        userStatistics: 'GET',
-        userStatisticsDetail: 'GET',
-        listOfPendingApplications: 'GET'
     ]
-
-    private final MONTHS = [
-        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ]
-
-    private getRequestStatus() {
-        [
-            pending: 'Pendiente', attended: 'Atendido', absent: 'Sin retirar', canceled: 'Cancelado'
-        ]
-    }
 
     def buildRequest(BuildRequestCommand command) {
         if (command.hasErrors()) {
-            flash.errors = command
-            redirect action: 'listOfPendingApplications'
+            flash.errors = command.errors
+            redirect uri: request.getHeader('referer')
 
             return
         }
@@ -60,40 +42,44 @@ class RequestController {
         ]
     }
 
-    def storeRequest() {
-        Request newRequest = new Request(
-            dateOfApplication: params.date('dateOfApplication', 'yyyy-MM-dd'),
-            classroom: params.classroom,
-            school: params.school,
-            description: params.description,
-            datashow: params.int('datashow'),
-            audio: params.boolean('audio'),
-            screen: params.boolean('screen'),
-            internet: params.boolean('internet'),
-            pointer: params.boolean('pointer'),
-            cpu: params.boolean('cpu')
-        )
-
-        params.list('hours').each { block ->
-            newRequest.addToHours(new Hour(block: block))
-        }
-
-        User user = User.get(params.int('user'))
-
-        user.addToRequests(newRequest)
-
-        if (!newRequest.save()) {
-            newRequest.errors.allErrors.each { error ->
-                log.error "$error.field: $error.defaultMessage"
-            }
-
-            flash.message = 'Datos incorrectos'
+    def storeRequest(StoreRequestCommand command) {
+        if (command.hasErrors()) {
+            flash.message = 'Parametros incorrectos'
             redirect uri: request.getHeader('referer')
+
             return
         }
 
-        flash.message = 'Solicitud creada correctamente'
-        redirect action: 'activity', params: [ date: params.dateOfApplication, datashow: params.datashow, blocks: params.hours ]
+        try {
+            Request request = requestService.save(
+                command.dateOfApplication,
+                command.classroom,
+                command.school,
+                command.description,
+                command.datashow,
+                command.audio,
+                command.screen,
+                command.internet,
+                command.pointer,
+                command.cpu,
+                command.user,
+                command.hours
+            )
+
+            flash.message = 'Solicitud creada'
+            redirect action: 'activity', params: [
+                date: params.dateOfApplication,
+                datashow: params.datashow,
+                blocks: params.hours
+            ]
+        } catch(ValidationException e) {
+            render model: [
+                errors: e.errors,
+                school: command.school,
+                dateOfApplication: command.dateOfApplication,
+                blockWidget: createBlockWidget(command.school, command.dateOfApplication)],
+            view: 'buildRequest'
+        }
     }
 
     def edit(Long id) {
@@ -108,7 +94,7 @@ class RequestController {
             requestInstance: requestInstance,
             blockWidget: createBlockWidget(
                 requestInstance.school,
-                requestInstance.dateOfApplication.format('yyyy-MM-dd')
+                requestInstance.dateOfApplication
             )
         ]
     }
@@ -145,15 +131,14 @@ class RequestController {
     }
 
     def userStatistics() {
-        def requestStatus = this.getRequestStatus()
         def results = Request.findAllByUser(session?.user).groupBy { it.dateOfApplication[Calendar.YEAR] } { it.status }.collectEntries { d ->
             [d.key, d.value.collectEntries { o ->
-                [requestStatus[o.key], o.value.size()]
+                [Utility.STATUS[o.key], o.value.size()]
             }]
         }
 
         results.each { key, value ->
-            requestStatus.each { k, v ->
+            Utility.STATUS.each { k, v ->
                 if (!(v in value.keySet())) {
                     value[v] = 0
                 }
@@ -166,20 +151,18 @@ class RequestController {
     }
 
     def userStatisticsDetail(Integer y) {
-        List months = MONTHS
-        def requestStatus = this.getRequestStatus()
         def query = Request.where {
             user == session?.user && year(dateOfApplication) == y
         }
 
         def results = query.list().groupBy { it.dateOfApplication[Calendar.MONTH] } { it.status }.collectEntries { d ->
-            [months[d.key], d.value.collectEntries { o ->
-                [requestStatus[o.key], o.value.size()]
+            [Utility.MONTHLIST[d.key], d.value.collectEntries { o ->
+                [Utility.STATUS[o.key], o.value.size()]
             }]
         }
 
         results.values().each { instance ->
-            requestStatus.each { status ->
+            Utility.STATUS.each { status ->
                 if (!(status.value in instance.keySet())) {
                     instance[status.value] = 0
                 }
@@ -187,49 +170,6 @@ class RequestController {
         }
 
         [results: results]
-    }
-
-    def reportDetail(Integer y, String m, String s) {
-        List<Request> requests = Request.where {
-            school == s &&
-            month(dateOfApplication) == MONTHS.indexOf(m) + 1 &&
-            year(dateOfApplication) == y
-        }.list()
-
-        List data = requests.groupBy { it.user.fullName } { it.status }.collect { o ->
-            [
-                user: o.key,
-                pending: o?.value?.pending?.size() ?: 0,
-                attended: o?.value?.attended?.size() ?: 0,
-                absent: o?.value?.absent?.size() ?: 0,
-                canceled: o?.value?.canceled?.size() ?: 0,
-                total: o.value*.value.flatten().size()
-            ]
-        }.sort { -it.total }
-
-        [data: data]
-    }
-
-    def summary() {
-        List<Request> requests = Request.list()
-        Map group = requests.groupBy { it.dateOfApplication[YEAR] } { it.dateOfApplication[MONTH] } { it.status }
-        List data = group.collect { o ->
-            [
-                year: o.key,
-                months: (0..11).collect { t ->
-                    [
-                        month: MONTHS[t],
-                        pending: o.value.find { it.key == t }.find { it.value },
-                        attended: o.value.find { it.key == t && it.value.attended }?.value?.size() ?: 0,
-                        absent: o.value.find { it.key == t && it.value.absent }?.value?.size() ?: 0,
-                        canceled: o.value.find { it.key == t && it.value.canceled }?.value?.size() ?: 0,
-                        total: o.value.find { it.key == t }?.value ?: 0
-                    ]
-                }
-            ]
-        }
-
-        [data: data]
     }
 
     def list() {
@@ -293,12 +233,10 @@ class RequestController {
             "in" "school", userSchools
         }
 
-        List<String> months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-
         def results = result.groupBy { it.dateOfApplication[Calendar.YEAR] } { it.school } { it.dateOfApplication[Calendar.MONTH] }.collectEntries { d ->
             [d.key, d.value.collectEntries { o ->
                 [o.key, o.value.collectEntries { x ->
-                    [months[x.key], x.value.size()]
+                    [Utility.MONTHLIST[x.key], x.value.size()]
                 }]
             }]
         }
@@ -366,9 +304,9 @@ class RequestController {
             }
 
             [
-                requests: requests,
-                datashows: datashows,
                 dateOfApplication: dateOfApplication,
+                datashows: datashows,
+                requests: requests,
                 layout: layout()
             ]
         } catch(Exception e) {
@@ -459,14 +397,13 @@ class RequestController {
         }
     }
 
-    private BlockWidget createBlockWidget(String school, String dateOfApplication) {
-        Date date = new Date().parse('yyyy-MM-dd', dateOfApplication)
-        Integer dayOfWeek = date[Calendar.DAY_OF_WEEK]
+    private BlockWidget createBlockWidget(String school, Date dateOfApplication) {
+        Integer dayOfWeek = Utility.getDayOfWeek(dateOfApplication)
 
         new BlockWidget(
             blocks: requestService.getDayOfWeekBlocks(dayOfWeek, school),
             datashows: requestService.getDatashow(school, dayOfWeek),
-            requests: Request.requestFromTo(date, date).list()
+            requests: Request.requestFromTo(dateOfApplication, dateOfApplication).list()
         )
     }
 
@@ -487,43 +424,20 @@ class RequestController {
     }
 }
 
-class CloneRequestCommand {
-    List<Date> dates
-
-    static constraints = {
-        dates validator: { dates ->
-            Date today = new Date().clearTime()
-            List<Date> dateList = dates.clone()
-
-            // All dates must be greater than or equal to today
-            Boolean stage1 = dates.every { date ->
-                date >= today
-            }
-
-            // All dates must be unique
-            Boolean stage2 = dates.unique() == dateList
-
-            if (!stage1) {
-                return 'some.date.its.lower.than.today'
-            }
-
-            if (!stage2) {
-                return 'some.dates.are.equal'
-            }
-        }
-    }
-}
-
 class BuildRequestCommand {
     String school
-    String dateOfApplication
+    Date dateOfApplication
     def grailsApplication
 
     static constraints = {
-        school blank: false, validator: { school, obj ->
+        school nullable: false, blank: false, validator: { school, obj ->
+            if (obj.dateOfApplication == null) {
+                return false
+            }
+
             def session = RCH.currentRequestAttributes().getSession()
+            Integer dayOfWeek = Utility.getDayOfWeek(obj.dateOfApplication)
             List<String> currentUserSchools = session.user.refresh().schools as List
-            Integer dayOfWeek = obj.dateOfApplication ? new Date().parse('yyyy-MM-dd', obj.dateOfApplication)[Calendar.DAY_OF_WEEK] : new Date()[Calendar.DAY_OF_WEEK]
             Map coordination = obj.grailsApplication.config.ni.edu.uccleon.data.find { it.coordination == school }
 
             if (!(school in currentUserSchools)) {
@@ -533,18 +447,34 @@ class BuildRequestCommand {
             if (coordination.datashow[dayOfWeek -1] == null) {
                 return ['notValidSchoolInDay']
             }
-
-            true
         }
 
-        dateOfApplication blank: false, validator: { dateOfApplication, obj ->
-            Date today = new Date().clearTime()
-            Date date = today.parse('yyyy-MM-dd', dateOfApplication)
-
-            if (date < today) {
+        dateOfApplication nullable: false, validator: { dateOfApplication ->
+            if (dateOfApplication < new Date().clearTime()) {
                 return ['outOfRange']
             }
         }
+    }
+}
+
+class StoreRequestCommand {
+    Date dateOfApplication
+    String classroom
+    String school
+    String description
+    Integer datashow
+    String type
+    Boolean audio
+    Boolean screen
+    Boolean internet
+    Boolean pointer
+    Boolean cpu
+    String status
+    Long user
+    List<Integer> hours
+
+    static constraints = {
+        hours nullable: false, min: 1
     }
 }
 

@@ -9,6 +9,7 @@
     <body>
         <div class="span12">
             <g:pageProperty name="page.main"/>
+
             <ds:flashMessage>${flash.message}</ds:flashMessage>
         </div>
     </body>

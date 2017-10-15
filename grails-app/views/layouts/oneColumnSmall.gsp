@@ -9,6 +9,7 @@
     <body>
         <div class="offset2 span8">
             <g:pageProperty name="page.main"/>
+
             <ds:flashMessage>${flash.message}</ds:flashMessage>
         </div>
     </body>

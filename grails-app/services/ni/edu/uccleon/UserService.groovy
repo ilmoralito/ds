@@ -5,6 +5,10 @@ import org.springframework.web.context.request.RequestContextHolder
 class UserService {
     def grailsApplication
 
+    User find(Serializable id) {
+        User.get(id)
+    }
+
     User getCurrentUser() {
         def session = RequestContextHolder.currentRequestAttributes().getSession()
 
