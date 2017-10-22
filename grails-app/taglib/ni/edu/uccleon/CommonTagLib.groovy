@@ -304,13 +304,13 @@ class CommonTagLib {
     }
 
     def blockWidget = { attrs ->
-        MarkupBuilder mb = new MarkupBuilder(out)
+        MarkupBuilder markupBuilder = new MarkupBuilder(out)
         List<Integer> datashows = attrs.blockWidget.datashows
         List<Request> requests = attrs.blockWidget.requests
         Integer blocks = attrs.blockWidget.blocks
         Map<String, String> parameters = [:]
 
-        mb.section {
+        markupBuilder.section {
             label 'Bloques'
 
             table(class: 'table table-hover table-bordered') {
@@ -327,6 +327,16 @@ class CommonTagLib {
                                 small(style: 'font-weight: normal; font-size: .6em;') {
                                     mkp.yield 'HDMI'
                                 }
+                            }
+
+                            if (this.hasObservations(datashow)) {
+                                i(
+                                    class: 'icon-info-sign',
+                                    style: 'float: right; margin-top: 4px;',
+                                    'data-title': 'Observacion',
+                                    'data-content': getObservation(datashow).join(', '),
+                                    'data-placement': 'top'
+                                )
                             }
                         }
                     }
@@ -536,13 +546,25 @@ class CommonTagLib {
     }
 
     private Boolean hasHDMI(Integer datashow) {
-        List cannons = grailsApplication.config.ni.edu.uccleon.datashows
+        Map<String, Object> datashowMap = getDatashow(datashow)
 
-        Map cannon = cannons.find { c ->
-            c.code == datashow
-        }
+        datashowMap.hdmi ?: false
+    }
 
-        cannon.hdmi ?: false
+    private Boolean hasObservations(final Integer datashow) {
+        Map<String, Object> datashowMap = getDatashow(datashow)
+
+        datashowMap.containsKey('observation')
+    }
+
+    private List<String> getObservation(final Integer datashow) {
+        Map<String, Object> datashowMap = getDatashow(datashow)
+
+        datashowMap.observation
+    }
+
+    private Map<String, Object> getDatashow(final Integer datashow) {
+        grailsApplication.config.ni.edu.uccleon.datashows.find { it.code == datashow }
     }
 
     private String animate(Integer currentDatashow, Integer currentBlock, Integer datashow, List<Integer> blocks) {

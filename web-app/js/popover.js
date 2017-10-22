@@ -1,0 +1,3 @@
+{
+    $('.icon-info-sign').popover();
+}

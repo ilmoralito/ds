@@ -50,8 +50,9 @@ modules = {
         resource url: 'js/FilterBox.js'
     }
 
-    getUserClassroomsAndSchools {
+    buildRequest {
         dependsOn 'app'
+        resource url: 'js/popover.js'
         resource url: 'js/getUserClassroomsAndSchools.js'
     }
 

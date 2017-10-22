@@ -443,7 +443,10 @@ ni {
                     serialNumber: 'PD6CD02163000',
                     code: 9,
                     hdmi: true,
-                    enabled: true
+                    enabled: true,
+                    observation: [
+                        'Este equipo presenta suciedad en la imagen'
+                    ]
                 ],[
                     trademark: 'BENQ',
                     model: 'MX662',

@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
     <head>
         <title>Construir solicitud</title>
-        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, getUserClassroomsAndSchools"/>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, bootstrap-tooltip, bootstrap-popover, jquery-ui, datepicker, buildRequest"/>
     </head>
 
     <content tag="main">
