@@ -1,6 +1,7 @@
 package ni.edu.uccleon
 
 class ReportController {
+
     RequestService requestService
 
     static defaultAction = 'resumen'
@@ -31,6 +32,14 @@ class ReportController {
 
     def reportByDatashows(final Integer year) {
         [results: year ? requestService.getProjectorReportByYear(year) : requestService.getProjectorReport(), yearFilter: createYearFilter()]
+    }
+
+    def datashowReportSummary(final Integer datashow) {
+        [results: requestService.datashowReportSummary(datashow), yearFilter: createYearFilter()]
+    }
+
+    def datashowReportSummaryPerYear(final Integer year, final Integer datashow) {
+        render view: 'datashowReportSummary', model: [results: requestService.datashowReportSummaryPerYear(year, datashow), yearFilter: createYearFilter()]
     }
 
     def reportByClassrooms(final Integer year) {

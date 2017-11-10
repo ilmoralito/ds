@@ -1,6 +1,6 @@
-<g:applyLayout name="threeColumns">
+<g:applyLayout name="twoColumns">
     <head>
-        <title>Reporte por datashow</title>
+        <title>Sumario de uso de datashow</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 
@@ -16,7 +16,7 @@
             
                 <thead>
                     <tr>
-                        <th>Datashow</th>
+                        <th>Coordinacion</th>
                         <th>Cantidad</th>
                     </tr>
                 </thead>
@@ -24,20 +24,7 @@
                 <tbody>
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td>
-                                <g:if test="${params.year}">
-                                    <g:link
-                                        controller="report"
-                                        action="datashowReportSummaryPerYear"
-                                        params="[year: params.year, datashow: result.datashow]">${result.datashow}</g:link>
-                                </g:if>
-                                <g:else>
-                                    <g:link
-                                        controller="report"
-                                        action="datashowReportSummary"
-                                        params="[datashow: result.datashow]">${result.datashow}</g:link>
-                                </g:else>
-                            </td>
+                            <td>${result.school}</td>
                             <td>${result.count}</td>
                         </tr>
                     </g:each>
@@ -51,9 +38,5 @@
         <g:else>
             <p>Sin datos que mostrar</p>
         </g:else>
-    </content>
-
-    <content tag="col1">
-        <g:render template="yearList" model="[yearList: yearFilter.years]"/>
     </content>
 </g:applyLayout>
