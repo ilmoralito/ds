@@ -51,20 +51,7 @@ class RequestController {
         }
 
         try {
-            Request request = requestService.save(
-                command.dateOfApplication,
-                command.classroom,
-                command.school,
-                command.description,
-                command.datashow,
-                command.audio,
-                command.screen,
-                command.internet,
-                command.pointer,
-                command.cpu,
-                command.user,
-                command.hours
-            )
+            Request request = requestService.save(command)
 
             flash.message = 'Solicitud creada'
             redirect action: 'activity', params: [
@@ -463,13 +450,13 @@ class StoreRequestCommand {
     String school
     String description
     Integer datashow
-    String type
+    String type = 'express'
     Boolean audio
     Boolean screen
     Boolean internet
     Boolean pointer
     Boolean cpu
-    String status
+    String status = 'pending'
     Long user
     List<Integer> hours
 

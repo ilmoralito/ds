@@ -13,23 +13,13 @@ class RequestService {
 
     static transactional = false
 
-    Request save(Date date, String classroom,String school, String description, Integer datashow, Boolean audio, Boolean screen, Boolean internet, Boolean pointer, Boolean cpu, Serializable userId, List<Integer> blockList) {
-        User user = userService.find(userId)
+    Request save(StoreRequestCommand command) {
+        User user = userService.find(command.user)
+        Request request = new Request()
 
-        Request request = new Request(
-            dateOfApplication: date,
-            classroom: classroom,
-            school: school,
-            description: description,
-            datashow: datashow,
-            audio: audio,
-            screen: screen,
-            internet: internet,
-            pointer: pointer,
-            cpu: cpu
-        )
+        request.properties = command.properties.findAll { !(it.key in ['user', 'hours']) }
 
-        blockList.each { block ->
+        command.hours.each { block ->
             request.addToHours(new Hour(block: block))
         }
 
