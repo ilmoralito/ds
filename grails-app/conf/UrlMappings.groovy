@@ -12,6 +12,8 @@ class UrlMappings {
 
         "/normas"(view:"/normas")
 
+        '/requests/pending'(controller: 'request', action: 'listOfPendingApplications')
+
         "/request/create/$type?"(controller:"request", action:"create") {
             constraints {
                 type nullable:true
