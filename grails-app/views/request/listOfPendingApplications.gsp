@@ -18,7 +18,7 @@
                         </tr>
                         <g:each in="${data.details}" var="detail">
                             <tr>
-                                <td>
+                                <td style="vertical-align: middle;">
                                     <g:link action="show" id="${detail.id}">
                                         Por ${detail.userFullName} en ${detail.classroom}
                                     </g:link>
