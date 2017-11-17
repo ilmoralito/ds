@@ -91,26 +91,6 @@ class CommonTagLib {
         }
     }
 
-    def renderTitle = { attrs ->
-        switch(attrs.title) {
-            case "schools":
-                out << "Facultades"
-            break
-            case "classrooms":
-                out << "Aulas"
-            break
-            case "users":
-                out << "Usuarios"
-            break
-            case "datashows":
-                out << "Datashows"
-            break
-            case "blocks":
-                out << "Bloques"
-            break
-        }
-    }
-
     def message = { attrs, body ->
         def req = attrs.request
         def blocks = attrs.blocks
@@ -120,20 +100,6 @@ class CommonTagLib {
         } else {
             out << "${req.dateOfApplication.format('yyyy-MM-dd')}, ${req.classroom}, ${blocks}"
         }
-    }
-
-    def countByStatus = { attrs ->
-        def result = Request.listByUser(session?.user).countByStatusNotEqual(attrs.status)
-
-        if (result) {
-            out << result
-        }
-    }
-
-    def dayOfWeek = { attrs ->
-        def days = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"]
-
-        out << days[attrs.int("index") - 1]
     }
 
     def coordinations = { attrs ->
@@ -192,13 +158,12 @@ class CommonTagLib {
     }
 
     def createRequest = {
-        Map<String, String> parameters = [:]
-        MarkupBuilder mb = new MarkupBuilder(out)
-        User currentUser = session?.user?.refresh()
-        List<String> currentUserSchools = currentUser.schools as List
+        MarkupBuilder builder = new MarkupBuilder(out)
+        Map<String, String> schoolParameters = [:]
+        List<String> currentUserSchools = userService.getCurrentUserSchools()
 
-        if (currentUser.role in ['coordinador', 'asistente', 'administrativo', 'supervisor']) {
-            mb.form(action: g.createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {
+        if (hasValidRole()) {
+            builder.form(action: createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {
                 if (currentUserSchools.size() > 1) {
                     div(class: 'form-group') {
                         label(for: 'school') {
@@ -208,14 +173,14 @@ class CommonTagLib {
                         delegate.select(name: 'school', class: 'form-control input-block-level') {
                             currentUserSchools.each { school ->
                                 if (school == params?.school) {
-                                    parameters.selected = true
+                                    schoolParameters.selected = true
                                 } else {
-                                    parameters.remove('selected')
+                                    schoolParameters.remove('selected')
                                 }
 
-                                parameters.value = school
+                                schoolParameters.value = school
 
-                                option(parameters) {
+                                option(schoolParameters) {
                                     mkp.yield school
                                 }
                             }
@@ -240,21 +205,20 @@ class CommonTagLib {
 
     def usersBySchool = { attrs ->
         Map<String, String> parameters = [:]
-        MarkupBuilder mb = new MarkupBuilder(out)
-        User currentUser = userService.getCurrentUser()
+        MarkupBuilder markupBuilder = new MarkupBuilder(out)
         List<User> userList = userService.getUsersBySchool(attrs.school)
 
         if (userList.size() == 1) {
-            mb.input(type: 'hidden', name: 'user', value: userList[0].id)
+            markupBuilder.input(type: 'hidden', name: 'user', value: userList[0].id)
         } else {
-            mb.div(class: 'form-group') {
+            markupBuilder.div(class: 'form-group') {
                 label(for: 'user') {
                     mkp.yield 'Solicitado por'
                 }
 
                 delegate.select(id: 'user', name: 'user', class: 'form-control') {
                     userList.each { user ->
-                        if (currentUser == user) {
+                        if (userService.getCurrentUser() == user) {
                             parameters.selected = true
                         } else {
                             parameters.remove('selected')
@@ -534,6 +498,12 @@ class CommonTagLib {
         if (session?.user?.role == 'coordinador') {
             out << body()
         }
+    }
+
+    private Boolean hasValidRole() {
+        User currentUser = userService.getCurrentUser()
+
+        currentUser.role in ['coordinador', 'asistente', 'administrativo', 'supervisor']
     }
 
     private Boolean hasClassroomWIFI(String classroom) {
