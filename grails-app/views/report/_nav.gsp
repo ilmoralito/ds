@@ -8,8 +8,8 @@
     <li class="${actionName in ['summaryOfApplicants', 'summaryOfApplicationsPerApplicant'] ? 'active' : ''}">
         <g:link action="summaryOfApplicants">Solicitantes</g:link>
     </li>
-    <li class="${actionName == 'reportByDatashows' ? 'active' : ''}">
-        <g:link action="reportByDatashows">Datashows</g:link>
+    <li class="${actionName in ['reportByDatashows', 'datashowReportSummary', 'datashowReportSummaryPerYear'] ? 'active' : ''}">
+        <g:link action="reportByDatashows">Projectores</g:link>
     </li>
     <li class="${actionName == 'reportByBlock' ? 'active' : ''}">
         <g:link action="reportByBlock">Bloques</g:link>

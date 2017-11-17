@@ -821,4 +821,56 @@ class RequestService {
             ORDER BY 1 DESC
         ''', [school: school, year: year])
     }
+
+    List<Map<String, Object>> datashowReportSummary(final Integer datashow) {
+        final session = sessionFactory.currentSession
+        final String query = '''
+            SELECT
+                us.schools_string AS school, COUNT(r.id) AS count
+            FROM
+                request r
+                    INNER JOIN
+                user_schools us ON r.user_id = us.user_id
+            where
+                r.datashow = :datashow
+            GROUP BY 1
+            ORDER BY 2 DESC'''
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setInteger('datashow', datashow)
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map<String, Object>> datashowReportSummaryPerYear(final Integer year, final Integer datashow) {
+        final session = sessionFactory.currentSession
+        final String query = '''
+            SELECT
+                us.schools_string AS school, COUNT(r.id) AS count
+            FROM
+                request r
+                    INNER JOIN
+                user_schools us ON r.user_id = us.user_id
+            where
+                r.datashow = :datashow
+                    AND YEAR(r.date_of_application) = :year
+            GROUP BY 1
+            ORDER BY 2 DESC'''
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setInteger('year', year)
+            setInteger('datashow', datashow)
+
+            list()
+        }
+
+        results
+    }
 }
