@@ -273,30 +273,52 @@ class CommonTagLib {
     }
 
     def userClassrooms = { attrs ->
-        Map<String, String> parameters = [:]
-        MarkupBuilder mb = new MarkupBuilder(out)
-        User currentUser = userService.getCurrentUser()
-        String selectedClassroom = attrs.selectedClassroom
-        List<String> currentUserClassrooms = currentUser.classrooms.toList().sort()
+        MarkupBuilder markupBuilder = new MarkupBuilder(out)
+        List noClassroomList = getUndefinedClassroomList()
+        List classroomList = getGroupedClassroomList()
+        String selected = attrs.selected
+        Map parameters = [:]
 
-        mb.div(class: 'form-group') {
+        markupBuilder.div(class: 'form-group') {
             label(for: 'classroom') {
                 mkp.yield 'Aula'
             }
 
             delegate.select(id: 'classroom', name: 'classroom', class: 'form-group') {
-                currentUserClassrooms.each { classroom ->
-                    parameters.value = classroom
-                    parameters['data-wifi'] = this.hasClassroomWIFI(classroom)
+                classroomList.each { classroomObject ->
+                    optGroup(label: classroomObject.code) {
+                        classroomObject.classrooms.each { classroom ->
+                            parameters.value = classroom
+                            parameters['data-wifi'] = this.hasClassroomWIFI(classroom)
 
-                    if (classroom == selectedClassroom) {
-                        parameters.selected = true
-                    } else {
-                        parameters.remove('selected')
+                            if (classroom == selected) {
+                                parameters.selected = true
+                            } else {
+                                parameters.remove('selected')
+                            }
+
+                            option(parameters) {
+                                mkp.yield appService.getClassroomCodeOrName(classroom)
+                            }
+                        }
                     }
+                }
 
-                    option(parameters) {
-                        mkp.yield appService.getClassroomCodeOrName(classroom)
+                if (noClassroomList) {
+                    optGroup(label: 'De uso externo') {
+                        noClassroomList.each { place ->
+                            parameters.value = place
+
+                            if (place == selected) {
+                                parameters.selected = true
+                            } else {
+                                parameters.remove('selected')
+                            }
+
+                            option(parameters) {
+                                mkp.yield place
+                            }
+                        }
                     }
                 }
             }
@@ -569,5 +591,32 @@ class CommonTagLib {
 
     private String animate(Integer currentDatashow, Integer currentBlock, Integer datashow, List<Integer> blocks) {
         currentDatashow == datashow && currentBlock in blocks ? 'bounce' : ''
+    }
+
+    private List<String> undefinedClassroomList() {
+        grailsApplication.config.ni.edu.uccleon.cls.undefined.code
+    }
+
+    private List<Map> getGroupedClassroomList() {
+        getCurrentUserClassroomList()
+            .findAll { classroom ->
+                classroom[0] in classroomCodes() && !(classroom in undefinedClassroomList())
+            }
+            .groupBy { it[0] }
+            .collect { [ code: it.key, classrooms: it.value ] }
+    }
+
+    private List<Map> getUndefinedClassroomList() {
+        getCurrentUserClassroomList().findAll { it in undefinedClassroomList() }
+    }
+
+    private List<String> getCurrentUserClassroomList() {
+        User currentUser = userService.getCurrentUser()
+
+        currentUser.classrooms.toList().sort()
+    }
+
+    private List<String> classroomCodes() {
+        ['B', 'C', 'D', 'E', 'K']
     }
 }

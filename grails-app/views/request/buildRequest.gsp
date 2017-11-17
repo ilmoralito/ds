@@ -12,7 +12,7 @@
 
             <ds:usersBySchool school="${school}"/>
 
-            <ds:userClassrooms selectedClassroom="${params?.classroom}"/>
+            <ds:userClassrooms selected="${params?.classroom}"/>
 
             <section id="media">
                 <label>Medios</label>
