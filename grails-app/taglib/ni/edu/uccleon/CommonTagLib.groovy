@@ -230,7 +230,7 @@ class CommonTagLib {
                         mkp.yield 'Fecha de solicitud'
                     }
 
-                    input(type: 'date', id: 'dateOfApplication', name: 'dateOfApplication', class: 'form-control input-block-level', value: params?.dateOfApplication)
+                    input(type: 'text', id: 'dateOfApplication', name: 'dateOfApplication', class: 'form-control input-block-level', value: params?.dateOfApplication)
                 }
 
                 input(type: 'submit', value: 'Crear solicitud', class: 'btn btn-primary btn-block')
