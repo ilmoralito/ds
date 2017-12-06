@@ -12,31 +12,6 @@ class CommonTagLib {
 
     static namespace = "ds"
 
-    def roles = { attrs ->
-        List roles = grailsApplication.config.ni.edu.uccleon.roles
-        User user = attrs.user
-        String userRole = user.role
-        MarkupBuilder builder = new MarkupBuilder(out)
-        Map radioParams = [type: "radio", name: "role", "data-id": user.id]
-
-        builder.div {
-            roles.each { rol ->
-                label(class: "radio") {
-                    radioParams.value = rol
-                    radioParams["data-role"] = rol
-                    if (userRole == rol) {
-                        radioParams.checked = true
-                    } else {
-                        radioParams.remove "checked"
-                    }
-
-                    input(radioParams)
-                    builder.yield rol?.capitalize()
-                }
-            }
-        }
-    }
-
     def flashMessage = {attrs, body ->
         if (flash.message) {
             out << body()

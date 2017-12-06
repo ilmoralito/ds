@@ -1,6 +1,6 @@
 <g:applyLayout name="oneColumnSmall">
     <head>
-        <title>Usuario</title>
+        <title>Editar usuario</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, app"/>
     </head>
 

@@ -10,16 +10,10 @@ class UserController {
         list: ['GET', 'POST'],
         create: ['GET', 'POST'],
         show: ['GET', 'POST'],
-        updateUserEnabledProperty: 'GET',
         notification: 'POST',
-        delete: 'GET',
         updatePassword: 'POST',
-        resetPassword: 'GET',
         profile: ['GET', 'POST'],
         classrooms: ['GET', 'POST'],
-        updateUserRole: 'GET',
-        updateUserSchools: 'GET',
-        admin: 'GET'
     ]
 
     def admin() {
@@ -197,14 +191,10 @@ class UserController {
 
     def show(Integer id) {
         User user = User.get(id)
-        List roles = grailsApplication.config.ni.edu.uccleon.roles
-        List coordinations = grailsApplication.config.ni.edu.uccleon.data*.coordination
 
-        if (!user) {
-            response.sendError 404
-        }
+        if (!user) response.sendError 404
 
-        [user: user, roles: roles, coordinations: coordinations]
+        [user: user]
     }
 
     def edit(final Long id) {
@@ -248,39 +238,6 @@ class UserController {
         redirect action: 'edit', id: id
     }
 
-    def updateUserRole(Integer id, String role) {
-        User user = User.get id
-
-        if (user) {
-            user.properties["role"] = role
-            user.save(flush: true)
-        }
-
-        render(contentType: "application/json") {
-            success = user ? true : false
-        }
-    }
-
-    def updateUserSchools(Integer id, String coordination, Boolean checked) {
-        User user = User.get id
-
-        if (checked) {
-            user.addToSchools coordination
-        } else {
-            user.removeFromSchools coordination
-        }
-
-        if (user.save(flush: true)) {
-            user.errors.allErrors.each {
-                error -> log.error "[$error.field: $error.defaultMessage]"
-            }
-        }
-
-        render(contentType: "application/json") {
-            delegate.coordination = coordination
-        }
-    }
-
     def updateUserEnabledProperty(Integer id) {
         User user = User.get(id)
 
@@ -296,18 +253,16 @@ class UserController {
     def notification(Integer id) {
         def user = User.get id
 
-        if (!user) {
-            response.sendError 404
-        }
+        if (!user) response.sendError 404
 
         sendMail {
             to user.email
-            subject "Sobre solicitudes de datashow"
-            html g.render(template: "email", model : [user: user, host: getServerURL()])
+            subject 'Sobre solicitudes de datashow'
+            html g.render(template: 'email', model : [user: user, host: getServerURL()])
         }
 
-        flash.message = "Notificacion enviada"
-        redirect action: "show", id: id
+        flash.message = 'Notificacion enviada'
+        redirect action: 'show', id: id
     }
 
     def delete(Integer id) {
@@ -376,23 +331,17 @@ class UserController {
     }
 
     def resetPassword(Integer id) {
-        def user = User.get(id)
+        User user = User.get(id)
 
-        if (!user) {
-          response.sendError 404
+        if (!user) response.sendError 404
+
+        user.with {
+            password = '1234567'
+            save(flush: true)
         }
 
-        //TODO:generate token of 7 values
-        user.properties["password"] = "1234567"
-
-        if (!user.save()) {
-            flash.message = "something.when.wrong"
-            redirect action:"show", params:[id:id]
-            return false
-        }
-
-        flash.message = "dato.guardado"
-        redirect action:"show", params:[id:id]
+        flash.message = 'Clave resumida'
+        redirect action:'show', id: id
     }
 
     private String getServerURL() {

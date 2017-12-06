@@ -73,8 +73,6 @@ modules = {
         dependsOn 'app'
         resource url: 'components/clipboard/dist/clipboard.min.js'
         resource url: 'js/copy.js'
-        resource url: 'js/updateUserRole.js'
-        resource url: 'js/updateUserSchools.js'
         resource url: 'js/updateUserEnabledProperty.js'
     }
 

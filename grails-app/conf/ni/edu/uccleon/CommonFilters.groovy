@@ -22,7 +22,7 @@ class CommonFilters {
             }
         }
 
-        userAdministratorOnly(controller: 'user', action: '(list|show|create|notification|updateUserRole|updateUserSchools|updateUserEnabledProperty|delete|filter|applyFilter)') {
+        userAdministratorOnly(controller: 'user', action: '(list|show|create|notification|updateUserEnabledProperty|delete|filter|applyFilter)') {
             before = {
                 if (session.user.role != 'admin') {
                     response.sendError 403
