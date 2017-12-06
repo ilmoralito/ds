@@ -6,8 +6,9 @@ import static java.util.Calendar.*
 import grails.util.Environment
 
 class RequestService {
-    UserService userService
     SessionFactory sessionFactory
+    UserService userService
+    AppService appService
     def grailsApplication
     def mailService
 
@@ -60,7 +61,19 @@ class RequestService {
             list()
         }
 
-        results
+        List<Map> data = results.inject([]){ accumulator, currentValue ->
+            Map newMap = [:]
+
+            currentValue.each { item ->
+                newMap[item.key] = item.key == 'classroom' ? appService.getClassroomCodeOrName(item.value) : item.value
+            }
+
+            accumulator << newMap
+
+            accumulator
+        }
+
+        data
     }
 
     List<Map<String, Object>> groupRequestListByBlock(List<Request> requestList) {
