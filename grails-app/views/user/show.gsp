@@ -80,12 +80,14 @@
             </div>
         </g:form>
 
-        <g:form action="notification">
+        <g:form action="notification" style="margin-bottom: 6px;">
             <g:hiddenField name="id" value="${user?.id}"/>
             <button type="submit" class="btn btn-block">Notificar</button>
         </g:form>
 
         <g:link action="resetPassword" id="${params?.id}" class="btn btn-warning btn-block">Resetear clave</g:link>
+
+        <g:link action="edit" id="${user.id}" class="btn btn-primary btn-block">Editar</g:link>
 
         <g:javascript>
             window.ajaxURL = "${createLink(controller: 'user', action: 'updateUserRole')}"

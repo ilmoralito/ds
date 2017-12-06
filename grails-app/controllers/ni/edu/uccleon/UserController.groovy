@@ -207,6 +207,47 @@ class UserController {
         [user: user, roles: roles, coordinations: coordinations]
     }
 
+    def edit(final Long id) {
+        [
+            user: User.get(id) ?: null,
+            roles: grailsApplication.config.ni.edu.uccleon.roles,
+            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
+            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+        ]
+    }
+
+    def update(final Long id) {
+        User user = User.get(id)
+
+        if (user) {
+            user.with {
+                email = params.email
+                fullName = params.fullName
+                role = params.role
+            }
+
+            userService.addSchoolsAndDepartments(params.list('schools'), user)
+            userService.addClassrooms(params.list('classrooms'), user)
+
+            if (!user.save()) {
+                flash.message = 'A ocurrido un error'
+
+                render model: [
+                    user: user,
+                    roles: grailsApplication.config.ni.edu.uccleon.roles,
+                    classrooms: grailsApplication.config.ni.edu.uccleon.cls,
+                    schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+                ], view: 'edit'
+
+                return
+            }
+
+            flash.message = 'Usuario actualizado'
+        }
+
+        redirect action: 'edit', id: id
+    }
+
     def updateUserRole(Integer id, String role) {
         User user = User.get id
 
