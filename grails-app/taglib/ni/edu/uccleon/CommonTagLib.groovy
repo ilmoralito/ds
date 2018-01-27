@@ -475,6 +475,16 @@ class CommonTagLib {
         }
     }
 
+    def medias = { attrs ->
+        List<String> medias = attrs.inject([]) { accumulator, currentValue ->
+            if (currentValue.value) accumulator << currentValue.key
+
+            accumulator
+        }
+
+        out << medias.join(', ')
+    }
+
     private Boolean hasValidRole() {
         User currentUser = userService.getCurrentUser()
 

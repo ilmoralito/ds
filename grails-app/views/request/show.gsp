@@ -43,7 +43,9 @@
                 </tr>
                 <tr>
                     <td>Aula</td>
-                    <td><ds:classroom classroomCode="${requestInstance.classroom}"/></td>
+                    <td>
+                        <ds:classroom classroomCode="${requestInstance.classroom}"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>Datashow</td>
@@ -51,42 +53,37 @@
                 </tr>
                 <tr>
                     <td>Fecha de solicitud</td>
-                    <td><g:formatDate format="yyyy-MM-dd" date="${requestInstance.dateOfApplication}"/></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <strong>Medios</strong>
+                    <td>
+                        <g:formatDate format="yyyy-MM-dd" date="${requestInstance.dateOfApplication}"/>
                     </td>
                 </tr>
-                <tr>
-                    <td>Internet</td>
-                    <td>${requestInstance.internet ? 'Si' : 'No'}</td>
-                </tr>
-                <tr>
-                    <td>Parlantes</td>
-                    <td>${requestInstance.audio ? 'Si' : 'No'}</td>
-                </tr>
-                <tr>
-                    <td>Pantalla</td>
-                    <td>${requestInstance.screen ? 'Si' : 'No'}</td>
-                </tr>
-                <tr>
-                    <td>Puntero</td>
-                    <td>${requestInstance.pointer ? 'Si' : 'No'}</td>
-                </tr>
-                <tr>
-                    <td>Computadora</td>
-                    <td>${requestInstance.cpu ? 'Si' : 'No'}</td>
-                </tr>
+
+                <g:set var="keys" value="['internet', 'audio', 'screen', 'pointer', 'cpu']" />
+
+                <g:if test="${requestInstance.properties.subMap(keys).any { it.value } }">
+                    <tr>
+                        <td>Requerimientos</td>
+                        <td>
+                            <ds:medias
+                                Internet="${requestInstance.internet}"
+                                Parlantes="${requestInstance.audio}"
+                                Pantalla="${requestInstance.screen}"
+                                Puntero="${requestInstance.pointer}"
+                                Computadora="${requestInstance.cpu}"/>
+                        </td>
+                    </tr>
+                </g:if>
                 <tr>
                     <td colspan="2">
                         <strong>Informacion</strong>
                     </td>
                 </tr>
-                <tr>
-                    <td>Observacion</td>
-                    <td>${requestInstance.description}</td>
-                </tr>
+                <g:if test="${requestInstance.description}">
+                    <tr>
+                        <td>Observacion</td>
+                        <td>${requestInstance.description}</td>
+                    </tr>
+                </g:if>
                 <tr>
                     <td>Bloques</td>
                     <td>${requestInstance.hours.collect { it.block + 1 }.sort().join(', ')}</td>
@@ -99,11 +96,15 @@
                     </tr>
                     <tr>
                         <td>Creacion de solicitud</td>
-                        <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.dateCreated}"/></td>
+                        <td>
+                            <g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.dateCreated}"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>Ultima actualizacion</td>
-                        <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.lastUpdated}"/></td>
+                        <td>
+                            <g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.lastUpdated}"/>
+                        </td>
                     </tr>
                 </ds:isAdmin>
             </tbody>
@@ -111,6 +112,6 @@
     </content>
 
     <content tag="col1">
-        
+
     </content>
 </g:applyLayout>
