@@ -346,8 +346,8 @@ class CommonTagLib {
                             td {
                                 input(
                                     type: 'submit',
-                                    value: 'Confirmar',
-                                    class: 'btn btn-small btn-primary trigger',
+                                    value: 'Enviar',
+                                    class: 'btn btn-small btn-primary btn-block trigger',
                                     'data-datashow': datashow)
                             }
                         }
