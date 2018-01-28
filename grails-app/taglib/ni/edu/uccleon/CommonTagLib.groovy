@@ -347,7 +347,7 @@ class CommonTagLib {
                                 input(
                                     type: 'submit',
                                     value: 'Enviar',
-                                    class: 'btn btn-small btn-primary btn-block trigger',
+                                    class: 'btn btn-small btn-primary trigger',
                                     'data-datashow': datashow)
                             }
                         }
