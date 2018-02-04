@@ -44,10 +44,15 @@ modules = {
     }
 
     users {
-        dependsOn 'jquery'
         dependsOn 'app'
+
         resource url: 'js/users.js'
         resource url: 'js/FilterBox.js'
+    }
+
+    players {
+        resource url: 'css/app.css'
+        resource url: 'js/filter.js'
     }
 
     buildRequest {

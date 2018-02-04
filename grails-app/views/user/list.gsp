@@ -1,7 +1,7 @@
 <g:applyLayout name="twoColumns">
     <head>
         <title>Lista de usuarios</title>
-        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, users"/>
+        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, players"/>
     </head>
 
     <content tag="main">
@@ -15,7 +15,7 @@
         </div>
 
         <g:if test="${users}">
-            <table class="table table-hover">
+            <table id="users" class="table table-hover">
                 <colgroup>
                     <col span="1" style="width: 99%;">
                     <col span="1" style="width: 1%;">
@@ -23,19 +23,22 @@
                 <thead>
                     <tr>
                         <th>
-                            <input id="rosterFilterBox" name="rosterFilterBox" type="text" style="margin-bottom: 0;" placeholder="Filtrar">
+                            <input id="filter" placeholder="Filtrar">
                         </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <g:each in="${users}" var="user">
-                        <tr>
+                        <tr data-user-id="${user.id}" data-user-fullName="${user.fullName}">
                             <td>
                                 <g:link action="show" id="${user.id}" class="target">${user.fullName}</g:link>
                             </td>
                             <td>
-                                <g:link action="delete" id="${user.id}" class="action-delete">
+                                <g:link
+                                    action="delete"
+                                    id="${user.id}"
+                                    onclick="if (!confirm('Seguro?')) return false;">
                                     <i class="icon-trash"></i>
                                 </g:link>
                             </td>
