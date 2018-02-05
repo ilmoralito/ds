@@ -30,8 +30,9 @@ modules = {
     }
 
     requestList {
-        dependsOn 'jquery'
-        resource url: 'js/users.js'
+        dependsOn 'app'
+
+        resource url: 'js/requestListFilter.js'
         resource url: 'js/requestList.js'
     }
 
