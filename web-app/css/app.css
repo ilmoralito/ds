@@ -12,6 +12,8 @@ summary { cursor: pointer; }
 
 section { margin-bottom: 10px; }
 
+caption { text-align: left; }
+
 .create-request {
     box-sizing: border-box;
     margin-bottom: 10px;

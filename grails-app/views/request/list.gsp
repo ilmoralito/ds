@@ -5,6 +5,10 @@
     </head>
 
     <content tag="main">
+        <script>
+            serverURL = "${grailsApplication.config.grails.serverURL}"
+        </script>
+
         <div class="clearfix">
             <g:link action="filter" class="btn btn-default pull-right">
                 <i class="icon-filter"></i> Filtrar
@@ -17,9 +21,7 @@
                 <col width="99%">
                 <col width="1%">
 
-                <caption style="text-align: left;">
-                    ${requestCount} resultado${requestCount > 1 ? 's' : ''}
-                </caption>
+                <caption id="requestCount">${requestCount} resultado${requestCount > 1 ? 's' : ''}</caption>
 
                 <thead>
                     <tr>

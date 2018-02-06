@@ -37,10 +37,12 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        grails.serverURL = System.env.DEVELOPMENT_SERVER_URL
     }
+
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = System.env.SERVER_URL
+        grails.serverURL = System.env.PRODUCTION_SERVER_URL
     }
 }
 

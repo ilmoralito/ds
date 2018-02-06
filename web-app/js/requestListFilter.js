@@ -1,7 +1,5 @@
 function getData() {
-  const data = Array.from(document.querySelectorAll('.filtrable')).map(item => Object.assign({}, item.dataset));
-
-  return data;
+  return Array.from(document.querySelectorAll('.filtrable')).map(item => Object.assign({}, item.dataset));
 }
 
 const data = getData();
@@ -25,20 +23,32 @@ function applyFilter(event) {
 
   const ordered = results.sort((a, b) => a.requestBlocks[0] > b.requestBlocks[0] ? 1 : -1)
 
+  updateRequestCount({count: results.length});
+
   drawResult(ordered);
 }
 
 function drawResult(results) {
   const rows = [];
-  const rowLastTitle = null;
+  let title = null;
 
   results.forEach((result, index) => {
+    const blocks = JSON.parse(result.requestBlocks);
+    const block = parseInt(blocks[0], 10);
+
+    if (index === 0 || title !== block) {
+      rows.push(createRowTitle({block: block}));
+
+      title = block;
+    }
+
     const row = createRow({
       id: result.requestId,
       user: result.requestUser,
       classroom: result.requestClassroom,
       school: result.requestSchool,
-      status: result.requestStatus
+      status: result.requestStatus,
+      blocks: result.requestBlocks
     });
 
     rows.push(row);
@@ -47,31 +57,42 @@ function drawResult(results) {
   render(rows.join(''));
 }
 
+function updateRequestCount({count}) {
+  document.querySelector('#requestCount').textContent = `${count} resultado${count > 1 ? 's' : ''}`;
+}
+
 function render(rows) {
-  document.querySelector('tbody').innerHTML = rows;
+  document.querySelector('#tbody').innerHTML = rows;
 }
 
 function createRowTitle({block}) {
   return `<tr>
     <td colspan="3">Bloque ${block + 1}</td>
-  </tr>
-  `
+  </tr>`;
 }
 
-function createRow({id, user, school, classroom, status}) {
-  return `<tr>
+function createRow({id, user, school, classroom, status, blocks}) {
+  return `<tr
+    class="filtrable"
+    data-request-id="${id}"
+    data-request-user="${user}"
+    data-request-school="${school}"
+    data-request-classroom="${classroom}"
+    data-request-status="${status}"
+    data-request-blocks="${blocks}">
+
     <td>
       <input type="checkbox" name="requests" value="${id}" form="status" class="requests">
     </td>
 
     <td>
-      <a href="/ds/request/show/${id}">
+      <a href="${window.serverURL}/request/show/${id}">
         ${buildText({user: user, school: school, classroom: classroom})}
       </a>
     </td>
 
     <td>
-      <a href="/ds/request/updateStatus/${id}">
+      <a href="${window.serverURL}/request/updateStatus/${id}">
         ${translateStatus(status)}
       </a>
     </td>
