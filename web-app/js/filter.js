@@ -28,11 +28,11 @@
       return `
         <tr data-user-id="${result.userId}" data-user-fullName="${result.userFullname}">
           <td>
-            <a href="/ds/user/show/${result.userId}" class="target">${result.userFullname}</a>
+            <a href="${window.serverURL}/user/show/${result.userId}" class="target">${result.userFullname}</a>
           </td>
 
           <td>
-            <a href="/ds/user/delete/${result.userId}" onclick="if (!confirm('Seguro?')) return false;">
+            <a href="${window.serverURL}/user/delete/${result.userId}" onclick="if (!confirm('Seguro?')) return false;">
                 <i class="icon-trash"></i>
             </a>
           </td>

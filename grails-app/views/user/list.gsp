@@ -5,6 +5,10 @@
     </head>
 
     <content tag="main">
+        <script>
+            serverURL = "${grailsApplication.config.grails.serverURL}"
+        </script>
+
         <div class="clearfix">
             <div class="pull-right">
                 <g:link action="create" class="btn btn-primary">Crear usuario</g:link>
