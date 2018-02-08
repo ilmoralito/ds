@@ -38,24 +38,24 @@
                     <g:each in="${results}" var="result">
                         <tr>
                             <td colspan="3">
-                                Bloque ${result.block + 1}
+                                Bloque ${result.block}
                             </td>
                         </tr>
                         <g:each in="${result.requests}" var="request">
                             <tr
                                 data-request-id="${request.id}"
-                                data-request-user="${request.user}"
+                                data-request-user="${request.fullName}"
                                 data-request-classroom="${request.classroom}"
                                 data-request-school="${request.school}"
                                 data-request-status="${request.status}"
-                                data-request-blocks="${request.hours.block.sort()}"
+                                data-request-blocks="${request.blocks}"
                                 class="filtrable">
                                 <td>
                                     <g:checkBox name="requests" value="${request.id}" checked="false" class="requests" form="status"/>
                                 </td>
                                 <td>
                                     <g:link action="show" id="${request.id}">
-                                        Por ${request.user} de ${request.school} en ${request.classroom}
+                                        Por ${request.fullName} de ${request.school} en ${request.classroom}
                                     </g:link>
                                 </td>
                                 <td>

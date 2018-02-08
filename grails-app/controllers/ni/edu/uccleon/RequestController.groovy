@@ -160,11 +160,11 @@ class RequestController {
     }
 
     def list() {
-        List<Request> requestList = Request.todayRequest().list()
+        List<Map> requestList = requestService.getTodayRequestList()
 
         [
             requestCount: requestList.size(),
-            results: requestService.groupRequestListByBlock(requestList),
+            results: requestService.getRequestListGroupedByBlock(requestList),
             requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
         ]
     }

@@ -49,9 +49,14 @@ class RequestService {
                 r.description description,
                 GROUP_CONCAT(h.block ORDER BY block) blocks
             FROM
-                request r INNER JOIN user u ON r.user_id = u.id INNER JOIN hour h ON h.request_id = r.id
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+                    INNER JOIN
+                hour h ON h.request_id = r.id
             WHERE
-                r.date_of_application = curdate() AND r.status = 'pending'
+                r.date_of_application = curdate()
+                    AND r.status = 'pending'
             GROUP BY r.id"""
         final sqlQuery = session.createSQLQuery(query)
         final results = sqlQuery.with {
@@ -79,15 +84,49 @@ class RequestService {
                 r.description description,
                 GROUP_CONCAT(h.block ORDER BY block) blocks
             FROM
-                request r INNER JOIN user u ON r.user_id = u.id INNER JOIN hour h ON h.request_id = r.id
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+                    INNER JOIN
+                hour h ON h.request_id = r.id
             WHERE
-                r.date_of_application = :date AND r.status = 'pending'
+                r.date_of_application = :date
+                    AND r.status = 'pending'
             GROUP BY r.id"""
         final sqlQuery = session.createSQLQuery(query)
         final results = sqlQuery.with {
             resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
 
             setDate('date', date)
+            list()
+        }
+
+        results
+    }
+
+    List<Map> getTodayRequestList() {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                r.id id,
+                u.full_name fullName,
+                r.classroom classroom,
+                r.school school,
+                r.status status,
+                GROUP_CONCAT(h.block ORDER BY block) blocks
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+                    INNER JOIN
+                hour h ON h.request_id = r.id
+            WHERE
+                r.date_of_application = curdate()
+            GROUP BY 1"""
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
             list()
         }
 
@@ -111,17 +150,22 @@ class RequestService {
         data
     }
 
-    List<Map<String, Object>> groupRequestListByBlock(List<Request> requestList) {
-        Integer blocks = getDayOfWeekBlocks(new Date()[Calendar.DAY_OF_WEEK])
-        List<Map<String, Object>> results = []
-
-        (0..blocks).collect { block ->
-            Map<String, Object> node = [block: block, requests: requestList.findAll { r -> r.hours.block.min() == block }]
-
-            results.add node
-        }
-
-        results.findAll { it.requests }
+    List<Map> getRequestListGroupedByBlock(final List<Map> requestList) {
+        requestList.groupBy { it.blocks[0] }.collect {
+            [
+                block: it.key.toInteger() + 1,
+                requests: it.value.collect { Map request ->
+                    [
+                        id: request.id,
+                        fullName: request.fullName,
+                        classroom: request.classroom,
+                        school: request.school,
+                        status: request.status,
+                        blocks: request.blocks.tokenize(',')
+                    ]
+                }
+            ]
+        }.sort { a, b -> a.block <=> b.block }
     }
 
     def getTotal(Date date, opt) {
