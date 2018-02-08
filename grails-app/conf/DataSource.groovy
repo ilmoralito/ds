@@ -20,8 +20,8 @@ environments {
             dbCreate = 'create-drop'
             username = 'root'
             password = 'hotch'
-            // formatSql = true
-            // logSql = true
+            formatSql = true
+            logSql = true
         }
     }
     test {

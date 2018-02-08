@@ -277,12 +277,8 @@ class RequestController {
 
     def activity(String date) {
         try {
-            Date today = new Date()
-            Date dateOfApplication = date ? today.parse('yyyy-MM-dd', date) : today
-
-            List<Request> requestsBetweenDates = requestService.getRequestsBetweenDates(dateOfApplication, dateOfApplication)
-            List<Request> requests = requestService.getRequestStatus(requestsBetweenDates)
-            Integer datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
+            Date dateOfApplication = date ? Date.parse('yyyy-MM-dd', date) : new Date()
+            List<Map> requestList = date ? requestService.getRequestListInDate(dateOfApplication) : requestService.getCurrentDateRequestList()
 
             Closure layout = {
                 User currentUser = userService.getCurrentUser()
@@ -291,10 +287,10 @@ class RequestController {
             }
 
             [
+                layout: layout(),
                 dateOfApplication: dateOfApplication,
-                datashows: datashows,
-                requests: requests,
-                layout: layout()
+                requestList: tranformToRequestList(requestList),
+                datashows: grailsApplication.config.ni.edu.uccleon.datashows.size(),
             ]
         } catch(Exception e) {
             flash.message = 'Fecha no parseable. What are you trying to do? ;^)'
@@ -408,6 +404,24 @@ class RequestController {
         }
 
         requestStatus[index].english
+    }
+
+    private List<Map> tranformToRequestList(final List<Map> requestList) {
+        requestList.collect { Map request ->
+            [
+                id: request.id,
+                fullName: request.fullName,
+                datashow: request.datashow,
+                classroom: request.classroom,
+                audio: request.audio,
+                cpu: request.cpu,
+                internet: request.internet,
+                pointer: request.pointer,
+                screen: request.screen,
+                description: request.description,
+                blocks: request.blocks.tokenize(',')*.toInteger()
+            ]
+        }
     }
 }
 

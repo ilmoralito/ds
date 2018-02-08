@@ -12,7 +12,7 @@
         </g:if>
     </head>
     <content tag="main">
-        <ds:activitiesTable requests="${requests}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
+        <ds:activitiesTable requests="${requestList}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
 
         <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">

@@ -399,20 +399,17 @@ class CommonTagLib {
                             }
 
                             (1..datashows).each { datashow ->
-                                Request request = requests.find {
-                                    it.datashow == datashow && block in it.hours.block
-                                }
+                                Map request = requests.find { it.datashow == datashow && block in it.blocks }
 
                                 if (request) {
-                                    List<Hour> hours = request.hours.sort { it.block }
-                                    Integer index = hours.findIndexOf { hour -> hour.block == block }
+                                    Integer index = request.blocks.findIndexOf { hour -> hour == block }
 
                                     td(class: "block hasActivity animated ${animate(datashow, block, params.int('datashow'), params.list('blocks')*.toInteger())}", 'data-datashow': datashow, 'data-block': block) {
                                         if (index == 0) {
                                             if (attrs.layout == 'oneColumn') {
                                                 if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
                                                     List<String> props = ['audio', 'screen', 'internet', 'pointer', 'cpu', 'description']
-                                                    Map<String, Object> properties = request.properties.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
+                                                    Map<String, Object> properties = request.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
                                                         accumulator["data-${currentValue.key}"] = currentValue.value
 
                                                         accumulator
@@ -448,7 +445,7 @@ class CommonTagLib {
                                                 }
                                             }
 
-                                            p request.user.fullName
+                                            p request.fullName
                                             p appService.getClassroomCodeOrName(request.classroom)
                                         }
                                     }

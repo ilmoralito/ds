@@ -33,10 +33,11 @@ class RequestService {
         request
     }
 
-    def listTodayActivities() {
+    List<Map> getCurrentDateRequestList() {
         final session = sessionFactory.currentSession
         final String query = """
             SELECT
+                r.id id,
                 u.full_name fullName,
                 r.datashow datashow,
                 r.classroom classroom,
@@ -46,14 +47,12 @@ class RequestService {
                 r.pointer pointer,
                 r.screen screen,
                 r.description description,
-                GROUP_CONCAT(h.block) blocks
+                GROUP_CONCAT(h.block ORDER BY block) blocks
             FROM
                 request r INNER JOIN user u ON r.user_id = u.id INNER JOIN hour h ON h.request_id = r.id
             WHERE
                 r.date_of_application = curdate() AND r.status = 'pending'
-            GROUP BY r.id
-        """
-
+            GROUP BY r.id"""
         final sqlQuery = session.createSQLQuery(query)
         final results = sqlQuery.with {
             resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
@@ -61,6 +60,42 @@ class RequestService {
             list()
         }
 
+        results
+    }
+
+    List<Map> getRequestListInDate(final Date date) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                r.id id,
+                u.full_name fullName,
+                r.datashow datashow,
+                r.classroom classroom,
+                r.audio audio,
+                r.cpu cpu,
+                r.internet internet,
+                r.pointer pointer,
+                r.screen screen,
+                r.description description,
+                GROUP_CONCAT(h.block ORDER BY block) blocks
+            FROM
+                request r INNER JOIN user u ON r.user_id = u.id INNER JOIN hour h ON h.request_id = r.id
+            WHERE
+                r.date_of_application = :date AND r.status = 'pending'
+            GROUP BY r.id"""
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setDate('date', date)
+            list()
+        }
+
+        results
+    }
+
+    def listTodayActivities() {
+        List<Map> results = getCurrentDateRequestList()
         List<Map> data = results.inject([]){ accumulator, currentValue ->
             Map newMap = [:]
 
