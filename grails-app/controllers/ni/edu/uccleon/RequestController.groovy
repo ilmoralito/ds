@@ -6,11 +6,11 @@ import grails.gorm.DetachedCriteria
 import static java.util.Calendar.*
 
 class RequestController {
-    def grailsApplication
-    def classroomService
+
     RequestService requestService
-    def userService
-    def appService
+    UserService userService
+    AppService appService
+    def grailsApplication
 
     static defaultAction = 'list'
 
@@ -174,7 +174,7 @@ class RequestController {
 
         [
             departments: config.schoolsAndDepartments.departments.sort(),
-            users: User.findAllByEnabled(true, [sort: 'fullName']),
+            users: userService.getUserList(),
             schools: config.schoolsAndDepartments.schools.sort(),
             classrooms: requestService.mergedClassrooms(),
             requestStatus: config.requestStatus

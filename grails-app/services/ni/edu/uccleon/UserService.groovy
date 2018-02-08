@@ -5,6 +5,19 @@ import org.springframework.web.context.request.RequestContextHolder
 class UserService {
     def grailsApplication
 
+    def getUserList() {
+        String query = """
+            SELECT
+                new map (u.fullName AS fullName, u.email AS email)
+            FROM
+                User u
+            WHERE
+                u.enabled = true
+            ORDER BY u.fullName"""
+
+        User.executeQuery(query)
+    }
+
     User find(Serializable id) {
         User.get(id)
     }
