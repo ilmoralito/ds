@@ -174,27 +174,21 @@ class RequestController {
 
         [
             departments: config.schoolsAndDepartments.departments.sort(),
-            users: userService.getUserList(),
             schools: config.schoolsAndDepartments.schools.sort(),
             classrooms: requestService.mergedClassrooms(),
-            requestStatus: config.requestStatus
+            requestStatus: config.requestStatus,
+            users: userService.getUserList(),
         ]
     }
 
     def applyFilter() {
-        Date from = params.requestFromDate ? params.date('requestFromDate', 'yyyy-MM-dd') : new Date()
-        Date to = params.requestToDate ? params.date('requestToDate', 'yyyy-MM-dd') : new Date()
-        List<String> departments = params.list('departments')
-        List<String> classrooms = params.list('classrooms')
-        List<String> schools = params.list('schools')
-        List<String> status = params.list('status')
-        List<String> users = params.list('users')
-
-        List<Request> requestList = Request.filter(users, schools, departments, classrooms, status).requestFromTo(from, to).list()
+        Date since = params.requestFromDate ? params.date('requestFromDate', 'yyyy-MM-dd') : new Date()
+        Date till = params.requestToDate ? params.date('requestToDate', 'yyyy-MM-dd') : new Date()
+        List<Map> requestList = requestService.getRequestListBetweenDates(since, till)
 
         render view: 'list', model: [
             requestCount: requestList.size(),
-            results: requestService.groupRequestListByBlock(requestList),
+            results: requestService.getRequestListGroupedByBlock(requestList),
             requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
         ]
     }

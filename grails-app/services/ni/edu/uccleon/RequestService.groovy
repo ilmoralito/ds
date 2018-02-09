@@ -133,7 +133,40 @@ class RequestService {
         results
     }
 
-    def listTodayActivities() {
+    List<Map> getRequestListBetweenDates(final Date since, final Date till) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                r.id id,
+                u.full_name fullName,
+                r.classroom classroom,
+                r.school school,
+                r.status status,
+                GROUP_CONCAT(h.block ORDER BY block) blocks
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+                    INNER JOIN
+                hour h ON h.request_id = r.id
+            WHERE
+                r.date_of_application >= :since
+                    and r.date_of_application <= :till
+            GROUP BY 1"""
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setDate 'since', since
+            setDate 'till', till
+
+            list()
+        }
+
+        results
+    }
+
+    List<Map> listTodayActivities() {
         List<Map> results = getCurrentDateRequestList()
         List<Map> data = results.inject([]){ accumulator, currentValue ->
             Map newMap = [:]

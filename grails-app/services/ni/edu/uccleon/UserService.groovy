@@ -8,7 +8,7 @@ class UserService {
     def getUserList() {
         String query = """
             SELECT
-                new map (u.fullName AS fullName, u.email AS email)
+                new map (u.fullName AS fullName)
             FROM
                 User u
             WHERE
