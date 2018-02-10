@@ -6,6 +6,7 @@ import static java.util.Calendar.*
 import grails.util.Environment
 
 class RequestService {
+
     SessionFactory sessionFactory
     UserService userService
     AppService appService
@@ -13,6 +14,43 @@ class RequestService {
     def mailService
 
     static transactional = false
+
+    Map getRequestDataset(final Long id) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                r.id,
+                u.full_name user,
+                r.school,
+                r.classroom,
+                r.datashow,
+                r.internet,
+                r.audio,
+                r.screen,
+                r.pointer,
+                r.cpu,
+                DATE_FORMAT(r.date_of_application, '%Y-%m-%d') dateOfApplication,
+                DATE_FORMAT(r.date_created, '%Y-%m-%d') dateCreated,
+                DATE_FORMAT(r.last_updated, '%Y-%m-%d') lastUpdated,
+                GROUP_CONCAT(h.block ORDER BY h.block) blocks
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+                    INNER JOIN
+                hour h ON h.request_id = r.id
+            WHERE r.id = :id"""
+        final sqlQuery = session.createSQLQuery(query)
+        final result = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setLong 'id', id
+
+            uniqueResult()
+        }
+
+        result
+    }
 
     Request save(StoreRequestCommand command) {
         User user = userService.find(command.user)

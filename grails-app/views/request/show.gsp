@@ -53,14 +53,12 @@
                 </tr>
                 <tr>
                     <td>Fecha de solicitud</td>
-                    <td>
-                        <g:formatDate format="yyyy-MM-dd" date="${requestInstance.dateOfApplication}"/>
-                    </td>
+                    <td>${requestInstance.dateOfApplication}</td>
                 </tr>
 
                 <g:set var="keys" value="['internet', 'audio', 'screen', 'pointer', 'cpu']" />
 
-                <g:if test="${requestInstance.properties.subMap(keys).any { it.value } }">
+                <g:if test="${requestInstance.subMap(keys).any { it.value } }">
                     <tr>
                         <td>Requerimientos</td>
                         <td>
@@ -73,6 +71,7 @@
                         </td>
                     </tr>
                 </g:if>
+
                 <tr>
                     <td colspan="2">
                         <strong>Informacion</strong>
@@ -86,7 +85,7 @@
                 </g:if>
                 <tr>
                     <td>Bloques</td>
-                    <td>${requestInstance.hours.collect { it.block + 1 }.sort().join(', ')}</td>
+                    <td>${requestInstance.blocks.tokenize(',').collect { it.toInteger() + 1 }.join(', ')}</td>
                 </tr>
                 <ds:isAdmin>
                     <tr>
@@ -96,15 +95,11 @@
                     </tr>
                     <tr>
                         <td>Creacion de solicitud</td>
-                        <td>
-                            <g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.dateCreated}"/>
-                        </td>
+                        <td>${requestInstance.dateCreated}</td>
                     </tr>
                     <tr>
                         <td>Ultima actualizacion</td>
-                        <td>
-                            <g:formatDate format="yyyy-MM-dd HH:mm" date="${requestInstance.lastUpdated}"/>
-                        </td>
+                        <td>${requestInstance.lastUpdated}</td>
                     </tr>
                 </ds:isAdmin>
             </tbody>

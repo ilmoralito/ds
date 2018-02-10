@@ -226,11 +226,9 @@ class RequestController {
     }
 
     def show(final Long id) {
-        Request requestInstance = Request.get(id)
+        Map requestInstance = requestService.getRequestDataset(id)
 
-        if (!requestInstance) {
-            response.sendError 404
-        }
+        if (!requestInstance.user) response.sendError 404
 
         [requestInstance: requestInstance]
     }
