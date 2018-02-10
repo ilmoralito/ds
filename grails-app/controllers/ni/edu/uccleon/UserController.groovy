@@ -111,7 +111,16 @@ class UserController {
     }
 
     def list() {
-        [users: User.findAllByEnabled(true, [sort: 'fullName'])]
+        final String query = """
+            SELECT
+                new map (u.id AS id, u.fullName AS fullName)
+            FROM
+                User u
+            WHERE
+                u.enabled = true
+            ORDER BY u.fullName"""
+
+        [users: User.executeQuery(query)]
     }
 
     def filter() {}
