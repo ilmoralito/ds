@@ -309,10 +309,10 @@ class UserController {
     }
 
     def classrooms() {
-        User user = session?.user?.refresh()
+        User user = session?.user
 
-        if (request.method == "POST") {
-            List<String> classrooms = params.list("classrooms")
+        if (request.method == 'POST') {
+            List<String> classrooms = params.list('classrooms')
 
             if (classrooms) {
                 userService.addClassrooms(classrooms, user)
