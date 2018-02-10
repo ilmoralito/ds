@@ -290,14 +290,19 @@ class UserController {
     }
 
     def profile() {
-        User user = session?.user?.refresh()
+        User user = session.user
 
         if (request.post) {
-            user.properties["fullName"] = params
+            User.executeUpdate('''
+                UPDATE
+                    User
+                SET
+                    fullName = :fullName
+                WHERE
+                    id = :id''',
+                [fullName: params.fullName, id: user.id])
 
-            if (!user.save()) {
-                flash.message = "A ocurrido un error error. Intentalo de nuevo"
-            }
+            flash.message = 'Perfil actualizado. Reiniciar sesion para verificar cambio'
         }
 
         [user: user]
