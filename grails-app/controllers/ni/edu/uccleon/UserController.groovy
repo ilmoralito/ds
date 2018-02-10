@@ -327,23 +327,23 @@ class UserController {
 
     def password() {}
 
-    def updatePassword(updatePasswordCommand cmd) {
-        if (!cmd.validate()) {
-            cmd.errors.allErrors.each {
-                log.error "[$it.field:$it.defaultMessage]"
-            }
+    def updatePassword(UpdatePasswordCommand cmd) {
+        if (cmd.hasErrors()) {
+            render view: 'password', model: [errors: cmd.errors]
 
-            redirect action: "password"
             return
         }
 
-        User user = User.get(cmd.id)
+        User.executeUpdate('''
+            UPDATE
+                User
+            SET
+                password = :password
+            WHERE
+                id = :id''', [password: cmd.npassword.encodeAsSHA1(), id: cmd.id])
 
-        user.properties["password"] = cmd.npassword
-        user.save()
-
-        flash.message = "Clave actualizada"
-        redirect action: "password", params: [id: cmd.id]
+        flash.message = 'Clave actualizada'
+        redirect action: 'password', params: [id: cmd.id]
     }
 
     def resetPassword(Integer id) {
@@ -396,8 +396,8 @@ class UserController {
     }
 }
 
-class updatePasswordCommand {
-    Integer id
+class UpdatePasswordCommand {
+    Long id
     String password
     String npassword
     String rpassword
@@ -405,8 +405,6 @@ class updatePasswordCommand {
     static constraints = {
         password blank:false
         npassword blank:false
-        rpassword blank:false, validator:{rpassword, obj ->
-            return rpassword == obj.npassword
-        }
+        rpassword blank:false, validator:{rpassword, obj -> rpassword == obj.npassword }
     }
 }

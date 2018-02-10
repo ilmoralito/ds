@@ -22,5 +22,9 @@
             <br>
             <g:submitButton name="send" value="Confirmar" class="btn btn-primary"/>
         </g:form>
+
+        <g:hasErrors bean="${errors}">
+            <g:renderErrors bean="${errors}"/>
+        </g:hasErrors>
     </content>
 </g:applyLayout>
