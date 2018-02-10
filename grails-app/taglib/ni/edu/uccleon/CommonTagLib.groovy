@@ -35,7 +35,7 @@ class CommonTagLib {
     def isAdmin = {attrs, body ->
         User currentUser = userService.getCurrentUser()
 
-        if (currentUser.role == "admin") {
+        if (currentUser.role == 'admin') {
             out << body()
         }
     }
@@ -483,9 +483,7 @@ class CommonTagLib {
     }
 
     private Boolean hasValidRole() {
-        User currentUser = userService.getCurrentUser()
-
-        currentUser.role in ['coordinador', 'asistente', 'administrativo', 'supervisor']
+        session.user.role in ['coordinador', 'asistente', 'administrativo', 'supervisor']
     }
 
     private Boolean hasClassroomWIFI(String classroom) {

@@ -1,8 +1,11 @@
 package ni.edu.uccleon
 
 import org.springframework.web.context.request.RequestContextHolder
+import org.hibernate.SessionFactory
 
 class UserService {
+    SessionFactory sessionFactory
+
     def grailsApplication
 
     def getUserList() {
@@ -23,15 +26,21 @@ class UserService {
     }
 
     User getCurrentUser() {
-        def session = RequestContextHolder.currentRequestAttributes().getSession()
-
-        session?.user?.refresh()
+        RequestContextHolder.currentRequestAttributes().getSession().user
     }
 
-    List getCurrentUserSchools() {
-        def session = RequestContextHolder.currentRequestAttributes().getSession()
+    def getCurrentUserSchools() {
+        final Long userId = getCurrentUser().id
+        final session = sessionFactory.currentSession
+        final String query = "SELECT schools_string FROM user_schools WHERE user_id = :userId"
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            setLong 'userId', userId
 
-        session?.user?.schools as List
+            list()
+        }
+
+        results
     }
 
     List<User> getUsersBySchool(String school) {

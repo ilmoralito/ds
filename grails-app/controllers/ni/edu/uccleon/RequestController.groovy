@@ -87,19 +87,19 @@ class RequestController {
     }
 
     def listOfPendingApplications() {
-        User currentUser = userService.getCurrentUser()
-        String currentUserRole = currentUser.role
         List<Request> requests
-        DetachedCriteria query1 = Request.where { school in userService.getCurrentUserSchools() && status == 'pending' }
-        DetachedCriteria query2 = Request.where { user == currentUser && status == 'pending' }
+        User user = userService.getCurrentUser()
+        String userRole = user.role
+        DetachedCriteria query1 = Request.where { school in user.schools && status == 'pending' }
+        DetachedCriteria query2 = Request.where { user == user && status == 'pending' }
 
-        if (currentUserRole in ['coordinador', 'asistente']) {
+        if (userRole in ['coordinador', 'asistente']) {
             requests = query1.list()
-        } else if(currentUserRole in ['user', 'administrativo', 'supervisor']) {
+        } else if(userRole in ['user', 'administrativo', 'supervisor']) {
             requests = query2.list()
         }
 
-        List dataSet = requests.groupBy { it.dateOfApplication.format("yyyy-MM-dd") }.collect { a ->
+        List dataSet = requests.groupBy { it.dateOfApplication.format('yyyy-MM-dd') }.collect { a ->
             [
                 dateOfApplication: a.key,
                 details: a.value.collect { b ->
