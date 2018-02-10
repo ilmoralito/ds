@@ -235,18 +235,12 @@ class RequestController {
         [requestInstance: requestInstance]
     }
 
-    def delete() {
-        Request requestInstance = requestService.getAdministrableRequest(params.long('id'))
+    def delete(final Long id) {
+        Hour.executeUpdate('DELETE Hour WHERE request.id = :id', [id: id])
+        Request.executeUpdate('DELETE Request WHERE id = :id', [id: id])
 
-        if (!requestInstance || !(userService.getCurrentUser().role in ['coordinador', 'asistente', 'administrativo'])) {
-            response.sendError 404
-            return false
-        }
-
-        requestInstance.delete()
-
-        flash.message = "Solicitud eliminada"
-        redirect action: "listOfPendingApplications"
+        flash.message = 'Solicitud eliminada'
+        redirect action: 'listOfPendingApplications'
     }
 
     def updateStatus(Long id) {
