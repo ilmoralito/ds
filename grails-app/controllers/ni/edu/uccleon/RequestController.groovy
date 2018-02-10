@@ -378,8 +378,8 @@ class RequestController {
         Integer dayOfWeek = Utility.getDayOfWeek(dateOfApplication)
 
         new BlockWidget(
-            blocks: requestService.getDayOfWeekBlocks(dayOfWeek, school),
             datashows: requestService.getDatashow(school, dayOfWeek),
+            blocks: requestService.getDayOfWeekBlocks(dayOfWeek, school),
             requests: Request.requestFromTo(dateOfApplication, dateOfApplication).list()
         )
     }

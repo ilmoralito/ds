@@ -179,28 +179,30 @@ class CommonTagLib {
     }
 
     def usersBySchool = { attrs ->
-        Map<String, String> parameters = [:]
+        List<Map> userList = userService.getUserListBySchool(attrs.school)
         MarkupBuilder markupBuilder = new MarkupBuilder(out)
-        List<User> userList = userService.getUsersBySchool(attrs.school)
+        Map<String, String> parameters = [:]
 
         if (userList.size() == 1) {
             markupBuilder.input(type: 'hidden', name: 'user', value: userList[0].id)
         } else {
             markupBuilder.div(class: 'form-group') {
                 label(for: 'user') {
-                    mkp.yield 'Solicitado por'
+                    mkp.yield 'A nombre de'
                 }
 
                 delegate.select(id: 'user', name: 'user', class: 'form-control') {
                     userList.each { user ->
-                        if (userService.getCurrentUser() == user) {
+                        if (userService.getCurrentUser().id == user.id) {
                             parameters.selected = true
                         } else {
                             parameters.remove('selected')
                         }
 
+                        List<Map> classroomList = this.getClassrooms(user.classrooms.tokenize(','))
+
                         parameters.value = user.id
-                        parameters['data-classrooms'] = JsonOutput.toJson(this.getClassrooms(user.classrooms.toList().sort()))
+                        parameters['data-classrooms'] = JsonOutput.toJson(classroomList)
 
                         option(parameters) {
                             mkp.yield user.fullName
@@ -505,9 +507,9 @@ class CommonTagLib {
         false
     }
 
-    private List getClassrooms(List<String> classrooms) {
-        def result = classrooms.collect { classroom ->
-            String letter = classroom[0]
+    private List getClassrooms(final List<String> classrooms) {
+        List result = classrooms.collect { classroom ->
+            final String letter = classroom[0]
 
             grailsApplication.config.ni.edu.uccleon.cls[letter].find {
                 it.code == classroom

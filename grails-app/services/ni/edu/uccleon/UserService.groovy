@@ -75,13 +75,33 @@ class UserService {
         results
     }
 
-    List<User> getUsersBySchool(String school) {
-        List<User> notAdminUsers = User.where { enabled == true && role != 'admin' }.list()
-        List<User> users = notAdminUsers.findAll { user ->
-            school in user.schools
-        }.sort { it.fullName }
+    List<Map> getUserListBySchool(final String school) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                u.id id,
+                u.full_name fullName,
+                GROUP_CONCAT(uc.classrooms_string ORDER BY uc.classrooms_string) classrooms
+            FROM
+                user u
+                    INNER JOIN
+                user_classrooms uc ON uc.user_id = u.id
+                    INNER JOIN
+                user_schools us ON us.user_id = u.id
+            WHERE
+                us.schools_string = :school
+            GROUP BY 1
+            ORDER BY 2"""
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
 
-        users
+            setString 'school', school
+
+            list()
+        }
+
+        results
     }
 
     def addSchoolsAndDepartments(schools, User user) {
