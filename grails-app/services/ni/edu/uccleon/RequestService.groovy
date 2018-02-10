@@ -305,7 +305,6 @@ class RequestService {
         }
     }
 
-    // Request that could be edited or removed
     Request getAdministrableRequest(Long id) {
         Request.where { id == id && status == 'pending' && school in userService.getCurrentUserSchools() }.get()
     }

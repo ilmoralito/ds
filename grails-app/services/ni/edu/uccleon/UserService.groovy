@@ -61,7 +61,7 @@ class UserService {
         RequestContextHolder.currentRequestAttributes().getSession().user
     }
 
-    def getCurrentUserSchools() {
+    List<String> getCurrentUserSchools() {
         final Long userId = getCurrentUser().id
         final session = sessionFactory.currentSession
         final String query = "SELECT schools_string FROM user_schools WHERE user_id = :userId"

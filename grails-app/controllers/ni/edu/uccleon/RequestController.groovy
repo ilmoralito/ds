@@ -414,6 +414,9 @@ class RequestController {
 }
 
 class BuildRequestCommand {
+
+    UserService userService
+
     String school
     Date dateOfApplication
     def grailsApplication
@@ -424,9 +427,8 @@ class BuildRequestCommand {
                 return false
             }
 
-            def session = RCH.currentRequestAttributes().getSession()
             Integer dayOfWeek = Utility.getDayOfWeek(obj.dateOfApplication)
-            List<String> currentUserSchools = session.user.refresh().schools as List
+            List<String> currentUserSchools = obj.userService.getCurrentUserSchools()
             Map coordination = obj.grailsApplication.config.ni.edu.uccleon.data.find { it.coordination == school }
 
             if (!(school in currentUserSchools)) {
