@@ -2,7 +2,7 @@
     <li class="${actionName == 'profile' ? 'active' : ''}">
         <g:link action="profile">Perfil</g:link>
     </li>
-    <li class="${actionName == 'password' ? 'active' : ''}">
+    <li class="${actionName in ['password', 'updatePassword'] ? 'active' : ''}">
         <g:link action="password">Cambiar clave</g:link>
     </li>
     <li class="${actionName == 'classrooms' ? 'active' : ''}">

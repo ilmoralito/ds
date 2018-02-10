@@ -55,7 +55,7 @@
             </li>
         </ds:isCoordinator>
 
-        <li class="${(controllerName == 'user' && actionName in ['profile', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
+        <li class="${(controllerName == 'user' && actionName in ['profile', 'password', 'updatePassword', 'schoolsAndDepartments', 'classrooms']) ? 'active' : 'no-active'}">
             <g:link controller="user" action="profile">Perfil</g:link>
         </li>
 
