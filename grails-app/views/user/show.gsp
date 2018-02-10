@@ -32,14 +32,14 @@
             <tr>
                 <td>Coordinaciones</td>
                 <td>
-                    <g:join in="${user.schools.sort()}"/>
+                    <g:join in="${user.schools.tokenize(',')}"/>
                 </td>
             </tr>
 
             <tr>
                 <td>Aulas</td>
                 <td>
-                    <g:join in="${user.classrooms.sort()}"/>
+                    <g:join in="${user.classrooms.tokenize(',')}"/>
                 </td>
             </tr>
 

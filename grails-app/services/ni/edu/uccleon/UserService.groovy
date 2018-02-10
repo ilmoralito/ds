@@ -1,12 +1,44 @@
 package ni.edu.uccleon
 
 import org.springframework.web.context.request.RequestContextHolder
+import org.hibernate.transform.AliasToEntityMapResultTransformer
 import org.hibernate.SessionFactory
 
 class UserService {
-    SessionFactory sessionFactory
 
     def grailsApplication
+    SessionFactory sessionFactory
+
+    def getUserDataset(final Long userId) {
+        final session = sessionFactory.currentSession
+        final String query = """
+            SELECT
+                u.id id,
+                u.full_name fullName,
+                u.email email,
+                u.user_status enabled,
+                u.user_role role,
+                GROUP_CONCAT(us.schools_string ORDER BY us.schools_string) schools,
+                GROUP_CONCAT(uc.classrooms_string ORDER BY uc.classrooms_string) classrooms
+            FROM
+                user u
+                    INNER JOIN
+                user_schools us ON us.user_id = u.id
+                    INNER JOIN
+                user_classrooms uc on uc.user_id = u.id
+            WHERE
+                u.id = :userId"""
+        final sqlQuery = session.createSQLQuery(query)
+        final result = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setLong 'userId', userId
+
+            uniqueResult()
+        }
+
+        result
+    }
 
     def getUserList() {
         String query = """

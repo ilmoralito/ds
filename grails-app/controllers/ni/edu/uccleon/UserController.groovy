@@ -3,9 +3,11 @@ package ni.edu.uccleon
 import grails.util.Environment
 
 class UserController {
-    def userService
+
+    UserService userService
 
     static defaultAction = 'profile'
+
     static allowedMethods = [
         list: ['GET', 'POST'],
         create: ['GET', 'POST'],
@@ -199,9 +201,9 @@ class UserController {
     }
 
     def show(Integer id) {
-        User user = User.get(id)
+        Map user = userService.getUserDataset(id)
 
-        if (!user) response.sendError 404
+        if (!user.fullName) response.sendError 404
 
         [user: user]
     }
