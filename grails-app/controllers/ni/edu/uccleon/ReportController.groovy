@@ -35,7 +35,7 @@ class ReportController {
     }
 
     def datashowReportSummary(final Integer datashow) {
-        [results: requestService.datashowReportSummary(datashow), yearFilter: createYearFilter()]
+        [results: requestService.datashowReportSummary(datashow)]
     }
 
     def datashowReportSummaryPerYear(final Integer year, final Integer datashow) {
