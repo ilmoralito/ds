@@ -18,8 +18,8 @@ class UserService {
                 u.email email,
                 u.user_status enabled,
                 u.user_role role,
-                GROUP_CONCAT(us.schools_string ORDER BY us.schools_string) schools,
-                GROUP_CONCAT(uc.classrooms_string ORDER BY uc.classrooms_string) classrooms
+                GROUP_CONCAT(DISTINCT us.schools_string ORDER BY us.schools_string) schools,
+                GROUP_CONCAT(DISTINCT uc.classrooms_string ORDER BY uc.classrooms_string) classrooms
             FROM
                 user u
                     INNER JOIN
