@@ -212,11 +212,15 @@ class UserController {
             return
         }
 
-        userService.update(command)
+        try {
+            User user = userService.update(command)
+            flash.message = 'Datos actualizados'
 
-        flash.message = 'Datos actualizados'
-
-        render model: [user: userService.getUserDataset(command.id), userModel: makeUserModel()], view: 'edit'
+            redirect action: 'edit', id: command.id
+        }
+        catch(ValidationException e) {
+            render model: [user: userService.getUserDataset(command.id), userModel: makeUserModel()], view: 'edit'
+        }
     }
 
     def updateUserEnabledProperty(Integer id) {
