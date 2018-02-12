@@ -104,39 +104,56 @@ class UserService {
         results
     }
 
-    def addSchoolsAndDepartments(schools, User user) {
-        def tmpSchools = []
-        tmpSchools.addAll user.schools
+    User update(UpdateUserCommand command) {
+        User user = User.get(command.id)
 
-        tmpSchools.each { school ->
-            user.removeFromSchools(school)
-        }
-
-        schools.each { school ->
-            if (!user.schools.contains(school)) {
-                user.addToSchools(school)
+        if (user) {
+            user.with {
+                fullName = command.fullName
+                email = command.email
+                role = command.role
             }
+
+            addSchoolsAndDepartments(command.schools, user)
+            addClassrooms(command.classrooms, user)
+
+            user.save()
         }
+
+        user
     }
 
-    def addClassrooms(classrooms, User user) {
-        def tmpClassrooms = []
-        tmpClassrooms.addAll user.classrooms
+    void addSchoolsAndDepartments(schools, User user) {
+        user.schools.clear()
 
-        tmpClassrooms.each { classroom ->
-            user.removeFromClassrooms(classroom)
-        }
-
-        classrooms.each { classroom ->
-            if (!user.classrooms.contains(classroom)) {
-                user.addToClassrooms(classroom)
-            }
-        }
+        schools.each { school -> user.addToSchools(school) }
     }
 
-    def addSchoolsAndUserClassrooms(def schools, def classrooms, User user) {
-        addSchoolsAndDepartments(schools, user)
-        addClassrooms(classrooms, user)
+    void addClassrooms(classrooms, User user) {
+        user.classrooms.clear()
+
+        classrooms.each { classroom -> user.addToClassrooms(classroom) }
+    }
+
+    // TODO: Make a gist
+    Number deleteUserSchools(final Serializable userId) {
+        final session = sessionFactory.currentSession
+        final String query = 'DELETE FROM user_schools WHERE user_id = :userId'
+        final sqlQuery = session.createSQLQuery(query)
+
+        sqlQuery.setLong 'userId', userId
+
+        sqlQuery.executeUpdate()
+    }
+
+    Number deleteUserClassrooms(final Serializable userId) {
+        final session = sessionFactory.currentSession
+        final String query = 'DELETE FROM user_classrooms WHERE user_id = :userId'
+        final sqlQuery = session.createSQLQuery(query)
+
+        sqlQuery.setLong 'userId', userId
+
+        sqlQuery.executeUpdate()
     }
 
     def transformUserClassrooms(List userClassrooms) {

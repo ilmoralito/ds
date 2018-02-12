@@ -67,13 +67,13 @@ class User implements Serializable {
     static mapping = {
         version false
         sort 'dateCreated'
-        schools lazy: false
-        classrooms lazy: false
         role column: 'user_role'
         enabled column: 'user_status'
         schools joinTable: [name: 'user_schools']
         classrooms joinTable: [name: 'user_classrooms']
         requests sort: 'dateOfApplication', order: 'desc'
+        schools cascade: 'all-delete-orphan'
+        classrooms cascade: 'all-delete-orphan'
     }
 
     def beforeInsert() {

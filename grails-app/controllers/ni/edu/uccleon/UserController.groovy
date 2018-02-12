@@ -216,36 +216,22 @@ class UserController {
         [user: user, userModel: makeUserModel()]
     }
 
-    def update(final Long id) {
-        User user = User.get(id)
+    def update(UpdateUserCommand command) {
+        if (command.hasErrors()) {
+            render model: [
+                user: userService.getUserDataset(command.id),
+                userModel: makeUserModel(),
+                errors: command.errors
+            ], view: 'edit'
 
-        if (user) {
-            user.with {
-                email = params.email
-                fullName = params.fullName
-                role = params.role
-            }
-
-            userService.addSchoolsAndDepartments(params.list('schools'), user)
-            userService.addClassrooms(params.list('classrooms'), user)
-
-            if (!user.save()) {
-                flash.message = 'A ocurrido un error'
-
-                render model: [
-                    user: user,
-                    roles: grailsApplication.config.ni.edu.uccleon.roles,
-                    classrooms: grailsApplication.config.ni.edu.uccleon.cls,
-                    schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-                ], view: 'edit'
-
-                return
-            }
-
-            flash.message = 'Usuario actualizado'
+            return
         }
 
-        redirect action: 'edit', id: id
+        userService.update(command)
+
+        flash.message = 'Datos actualizados'
+
+        render model: [user: userService.getUserDataset(command.id), userModel: makeUserModel()], view: 'edit'
     }
 
     def updateUserEnabledProperty(Integer id) {
@@ -419,5 +405,23 @@ class UpdatePasswordCommand {
         password blank:false
         npassword blank:false
         rpassword blank:false, validator:{rpassword, obj -> rpassword == obj.npassword }
+    }
+}
+
+class UpdateUserCommand {
+
+    Long id
+    String fullName
+    String email
+    String role
+    List<String> schools
+    List<String> classrooms
+
+    static constraints = {
+        fullName blank: false
+        email blank: false, unique: true, email: true
+        role blank: false
+        schools nullable: false, min: 1
+        classrooms nullable: false, min: 1
     }
 }
