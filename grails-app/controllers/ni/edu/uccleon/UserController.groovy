@@ -148,8 +148,10 @@ class UserController {
         }
 
         if (schools || departments) {
-            users = userList.findAll { user ->
-                user.schools.any { school ->
+            users = userList.findAll { User user ->
+                List<String> schoolList = userService.getUserSchools(user.id)
+
+                schoolList.any { school ->
                     school in schools || school in departments
                 }
             }
