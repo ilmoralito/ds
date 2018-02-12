@@ -89,8 +89,9 @@ class RequestController {
     def listOfPendingApplications() {
         List<Request> requests
         User user = userService.getCurrentUser()
+        List<String> schools = userService.getCurrentUserSchools()
         String userRole = user.role
-        DetachedCriteria query1 = Request.where { school in user.schools && status == 'pending' }
+        DetachedCriteria query1 = Request.where { school in schools && status == 'pending' }
         DetachedCriteria query2 = Request.where { user == user && status == 'pending' }
 
         if (userRole in ['coordinador', 'asistente']) {
@@ -105,7 +106,7 @@ class RequestController {
                 details: a.value.collect { b ->
                     [
                         id: b.id,
-                        userFullName: b.user.fullName,
+                        userFullName: b.user.fullName, // <--
                         classroom: appService.getClassroomCodeOrName(b.classroom)
                     ]
                 }
@@ -191,19 +192,6 @@ class RequestController {
             results: requestService.getRequestListGroupedByBlock(requestList),
             requestStatus: grailsApplication.config.ni.edu.uccleon.requestStatus
         ]
-    }
-
-    def getUserClassroomsAndSchools(String userEmail) {
-        def user = User.findByEmail(userEmail)
-        def userClassrooms = userService.transformUserClassrooms(user.classrooms as List)
-        def userSchools = user.schools.findAll { s ->
-            s in session?.user?.schools
-        }
-
-        render(contentType: "application/json") {
-            classrooms = userClassrooms
-            schools = userSchools
-        }
     }
 
     def requestsByCoordination() {

@@ -1,5 +1,6 @@
 package ni.edu.uccleon
 
+import grails.validation.ValidationException
 import grails.util.Environment
 
 class UserController {
@@ -158,46 +159,30 @@ class UserController {
     }
 
     def create() {
-        [
-            roles: grailsApplication.config.ni.edu.uccleon.roles,
-            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
-            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-        ]
+        [userModel: makeUserModel()]
     }
 
-    def save() {
-        List schools = params.list('schools')
-        List classrooms = params.list('classrooms')
-
-        User user = new User(
-            email: params.email,
-            fullName: params.fullName,
-            role: params.role,
-            schools: schools,
-            classrooms: classrooms
-        )
-
-        if (!user.save()) {
-            flash.message = 'A ocurrido un error'
-
-            render model: [
-                user: user,
-                roles: grailsApplication.config.ni.edu.uccleon.roles,
-                classrooms: grailsApplication.config.ni.edu.uccleon.cls,
-                schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-            ], view: 'create'
+    def save(SaveUser command) {
+        if (command.hasErrors()) {
+            render model: [errors: command.errors, userModel: makeUserModel()], view: 'create'
 
             return
         }
 
-        if (Environment.current == Environment.PRODUCTION) {
-            List<User> authorities = getAuthoritiesInSchools(schools)
+        try {
+            User user = userService.save(command)
 
-            sendNotification(authorities, user)
+            if (Environment.current == Environment.PRODUCTION) {
+                List<User> authorities = getAuthoritiesInSchools(command.schools)
+
+                sendNotification(authorities, user)
+            }
+
+            flash.message = Environment.current == Environment.PRODUCTION ? 'Usuario creado y notificado' : 'Usuario creado'
+            redirect action: 'create', method: 'GET'
+        } catch(ValidationException e) {
+            render model: [errors: e.errors, userModel: makeUserModel()], view: 'create'
         }
-
-        flash.message = 'Usuario creado y notificacion enviada'
-        redirect action: 'create'
     }
 
     def show(Integer id) {
@@ -216,7 +201,7 @@ class UserController {
         [user: user, userModel: makeUserModel()]
     }
 
-    def update(UpdateUserCommand command) {
+    def update(UpdateUser command) {
         if (command.hasErrors()) {
             render model: [
                 user: userService.getUserDataset(command.id),
@@ -408,9 +393,7 @@ class UpdatePasswordCommand {
     }
 }
 
-class UpdateUserCommand {
-
-    Long id
+class SaveUser {
     String fullName
     String email
     String role
@@ -424,4 +407,8 @@ class UpdateUserCommand {
         schools nullable: false, min: 1
         classrooms nullable: false, min: 1
     }
+}
+
+class UpdateUser extends SaveUser {
+    Long id
 }

@@ -11,9 +11,9 @@
             <g:submitButton name="send" value="Confirmar y enviar notificacion" class="btn btn-primary"/>
             <g:link action="user" action="list" class="btn btn-default">Regresar</g:link>
 
-            <g:hasErrors bean="${user}">
+            <g:hasErrors bean="${errors}">
                 <p>
-                    <g:renderErrors bean="${user}"/>
+                    <g:renderErrors bean="${errors}"/>
                 </p>
             </g:hasErrors>
         </g:form>

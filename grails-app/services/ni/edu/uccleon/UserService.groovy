@@ -104,7 +104,23 @@ class UserService {
         results
     }
 
-    User update(UpdateUserCommand command) {
+    User save(SaveUser command) {
+        User user = new User()
+
+        user.with {
+            fullName = command.fullName
+            email = command.email
+            role = command.role
+            schools = command.schools
+            classrooms = command.classrooms
+
+            save(failOnError: true)
+        }
+
+        user
+    }
+
+    User update(UpdateUser command) {
         User user = User.get(command.id)
 
         if (user) {
@@ -117,7 +133,7 @@ class UserService {
             addSchoolsAndDepartments(command.schools, user)
             addClassrooms(command.classrooms, user)
 
-            user.save()
+            user.save(failOnError: true)
         }
 
         user

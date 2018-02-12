@@ -11,10 +11,10 @@
 
         <div class="clearfix">
             <div class="pull-right">
-                <g:link action="create" class="btn btn-primary">Crear usuario</g:link>
                 <g:link action="filter" class="btn btn-default">
                     <i class="icon-filter"></i> Filtrar
                 </g:link>
+                <g:link action="create" class="btn btn-primary">Crear usuario</g:link>
             </div>
         </div>
 
