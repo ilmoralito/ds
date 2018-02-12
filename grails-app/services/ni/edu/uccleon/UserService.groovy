@@ -63,16 +63,22 @@ class UserService {
 
     List<String> getCurrentUserSchools() {
         final Long userId = getCurrentUser().id
+
+        getUserSchools(userId)
+    }
+
+    List<String> getUserSchools(final Serializable id) {
         final session = sessionFactory.currentSession
         final String query = "SELECT schools_string FROM user_schools WHERE user_id = :userId"
         final sqlQuery = session.createSQLQuery(query)
-        final results = sqlQuery.with {
-            setLong 'userId', userId
+        final List<String> results = sqlQuery.with {
+            setLong 'userId', id
 
             list()
         }
 
         results
+
     }
 
     List<String> getUserClassrooms(final Serializable id) {

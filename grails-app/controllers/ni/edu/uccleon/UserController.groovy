@@ -363,8 +363,8 @@ class UserController {
                 html g.render (template: 'email', model: [
                     authority: authority.fullName,
                     fullName: user.fullName,
-                    schools: user.schools.toList(),
-                    classrooms: user.classrooms.toList()
+                    schools: userService.getUserSchools(user.id),
+                    classrooms: userService.getUserClassrooms(user.id)
                 ])
             }
         }
