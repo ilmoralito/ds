@@ -75,6 +75,19 @@ class UserService {
         results
     }
 
+    List<String> getUserClassrooms(final Serializable id) {
+        final session = sessionFactory.currentSession
+        final String query = "SELECT classrooms_string FROM user_classrooms WHERE user_id = :userId"
+        final sqlQuery = session.createSQLQuery(query)
+        final List<String> results = sqlQuery.with {
+            setLong 'userId', id
+
+            list()
+        }
+
+        results
+    }
+
     List<Map> getUserListBySchool(final String school) {
         final session = sessionFactory.currentSession
         final String query = """
@@ -146,9 +159,9 @@ class UserService {
     }
 
     void addClassrooms(classrooms, User user) {
-        user.classrooms.clear()
+        deleteUserClassrooms(user.id)
 
-        classrooms.each { classroom -> user.addToClassrooms(classroom) }
+        classrooms.each { String classroom -> addUserClassroom(user.id, classroom) }
     }
 
     // TODO: Make a gist
@@ -160,6 +173,21 @@ class UserService {
         sqlQuery.setLong 'userId', userId
 
         sqlQuery.executeUpdate()
+    }
+
+    Number addUserClassroom(final Serializable userId, final String classroom) {
+        final session = sessionFactory.currentSession
+        final String query = "INSERT INTO user_classrooms (user_id, classrooms_string) VALUES (:userId, :classroom)"
+        final sqlQuery = session.createSQLQuery(query)
+
+        final Number result = sqlQuery.with {
+            setLong 'userId', userId
+            setString 'classroom', classroom
+
+            executeUpdate()
+        }
+
+        result
     }
 
     Number deleteUserClassrooms(final Serializable userId) {
@@ -193,30 +221,30 @@ class UserService {
     def getClassrooms(String userEmail) {
         def classrooms = grailsApplication.config.ni.edu.uccleon.cls
         def c = [
-            [code:"C101", name:"Auditorio menor"],
-            [code:"C102", name:"Desarrollo y proyeccion"],
-            [code:"C201", name:"Biblioteca"]
+            [code: 'C101', name: 'Auditorio menor'],
+            [code: 'C102', name: 'Desarrollo y proyeccion'],
+            [code: 'C201', name: 'Biblioteca']
         ]
         def e = [
-            [code:"E113", name:"Finanzas"],
-            [code:"E114", name:"Administracion"],
-            [code:"E204", name:"Sala de reuniones"],
-            [code:"E219", name:"Sala de maestros"],
-            [code:"E220", name:"Escuela de manejo"],
-            [code: "E213", name: "Proyecto"]
+            [code: 'E113', name: 'Finanzas'],
+            [code: 'E114', name: 'Administracion'],
+            [code: 'E204', name: 'Sala de reuniones'],
+            [code: 'E219', name: 'Sala de maestros'],
+            [code: 'E220', name: 'Escuela de manejo'],
+            [code:  'E213', name:  'Proyecto']
         ]
         def allClassrooms = []
 
-        def isUserWithValidEmail = userEmail.tokenize("@")
+        def isUserWithValidEmail = userEmail.tokenize('@')
 
-        if (isUserWithValidEmail[1] != "ucc.edu.ni") {
-            allClassrooms = classrooms.subMap(["C", "D", "E", "K"])
+        if (isUserWithValidEmail[1] != 'ucc.edu.ni') {
+            allClassrooms = classrooms.subMap(['C', 'D', 'E', 'K'])
 
-            def validC = allClassrooms["C"].findAll { !(it in c) }
-            def validE = allClassrooms["E"].findAll { !(it in e) }
+            def validC = allClassrooms['C'].findAll { !(it in c) }
+            def validE = allClassrooms['E'].findAll { !(it in e) }
 
-            allClassrooms["C"] = validC
-            allClassrooms["E"] = validE
+            allClassrooms['C'] = validC
+            allClassrooms['E'] = validE
         }
 
         allClassrooms ?: classrooms

@@ -279,7 +279,7 @@ class UserController {
             flash.message = 'Perfil actualizado. Reiniciar sesion para verificar cambio'
         }
 
-        [user: user]
+        [user: user, schools: userService.getCurrentUserSchools()]
     }
 
     def classrooms() {
@@ -295,7 +295,8 @@ class UserController {
 
         [
             user: user,
-            allCls: userService.getClassrooms(session?.user?.email)
+            allCls: userService.getClassrooms(user.email),
+            classrooms: userService.getUserClassrooms(user.id),
         ]
     }
 

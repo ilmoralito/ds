@@ -26,7 +26,7 @@
 
                 <label>Coordinaciones</label>
                 <ul>
-                    <g:each in="${user?.schools}" var="coordination">
+                    <g:each in="${schools}" var="coordination">
                         <li>${coordination}</li>
                     </g:each>
                 </ul>
