@@ -5,11 +5,11 @@
     </head>
 
     <content tag="main">
-        <g:form action="update" id="${user.id}" autocomplete="off" name="form">
+        <g:form action="update" id="${user.id}" autocomplete="off">
             <g:render template="form"/>
 
             <g:submitButton name="send" value="Actualizar" class="btn btn-primary"/>
-            <g:link action="user" action="show" id="${user.id}" class="btn btn-default">Regresar</g:link>
+            <g:link action="show" id="${user.id}" class="btn btn-default">Regresar</g:link>
 
             <g:hasErrors bean="${user}">
                 <p>

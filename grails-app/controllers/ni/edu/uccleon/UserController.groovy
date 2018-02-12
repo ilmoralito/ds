@@ -209,12 +209,11 @@ class UserController {
     }
 
     def edit(final Long id) {
-        [
-            user: User.get(id) ?: null,
-            roles: grailsApplication.config.ni.edu.uccleon.roles,
-            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
-            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
-        ]
+        Map user = userService.getUserDataset(id)
+
+        if (!user.fullName) response.sendError 404
+
+        [user: user, userModel: makeUserModel()]
     }
 
     def update(final Long id) {
@@ -394,6 +393,20 @@ class UserController {
             }
         }
     }
+
+    private UserModel makeUserModel() {
+        new UserModel (
+            roles: grailsApplication.config.ni.edu.uccleon.roles,
+            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
+            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+        )
+    }
+}
+
+class UserModel {
+    List<String> roles
+    Map classrooms
+    Map schoolsAndDepartments
 }
 
 class UpdatePasswordCommand {

@@ -6,10 +6,10 @@ import org.hibernate.SessionFactory
 
 class UserService {
 
-    def grailsApplication
     SessionFactory sessionFactory
+    def grailsApplication
 
-    def getUserDataset(final Long userId) {
+    Map getUserDataset(final Long userId) {
         final session = sessionFactory.currentSession
         final String query = """
             SELECT
