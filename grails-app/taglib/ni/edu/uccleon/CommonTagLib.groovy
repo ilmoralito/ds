@@ -5,10 +5,11 @@ import groovy.json.JsonOutput
 import static java.util.Calendar.*
 
 class CommonTagLib {
-    def userService
-    def requestService
+
+    RequestService requestService
+    UserService userService
+    AppService appService
     def grailsApplication
-    def appService
 
     static namespace = "ds"
 
@@ -565,7 +566,7 @@ class CommonTagLib {
     private List<String> getCurrentUserClassroomList() {
         User currentUser = userService.getCurrentUser()
 
-        currentUser.classrooms.toList().sort()
+        userService.getUserClassrooms(currentUser.id)
     }
 
     private List<String> classroomCodes() {
