@@ -78,7 +78,6 @@ class UserService {
         }
 
         results
-
     }
 
     List<String> getUserClassrooms(final Serializable id) {

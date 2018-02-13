@@ -41,14 +41,16 @@
         </ds:isSupervisor>
 
         <ds:isCoordinator>
+            <g:set var="userService" bean="userService"/>
+
             <li class="${controllerName == 'report' ? 'active' : ''}">
-                <g:if test="${session.user.schools.size() > 1}">
+                <g:if test="${userService.getCurrentUserSchools().size() > 1}">
                     <g:link controller="report" action="coordinationList">
                         Reporte
                     </g:link>
                 </g:if>
                 <g:else>
-                    <g:link controller="report" action="facultySummary" params="[school: session.user.schools.toArray()[0]]">
+                    <g:link controller="report" action="facultySummary" params="[school: userService.getCurrentUserSchools().toArray()[0]]">
                         Reporte
                     </g:link>
                 </g:else>

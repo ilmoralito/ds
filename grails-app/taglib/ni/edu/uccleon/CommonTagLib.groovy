@@ -1,8 +1,8 @@
 package ni.edu.uccleon
 
-import groovy.xml.*
-import groovy.json.JsonOutput
 import static java.util.Calendar.*
+import groovy.json.JsonOutput
+import groovy.xml.*
 
 class CommonTagLib {
 
@@ -470,7 +470,9 @@ class CommonTagLib {
     }
 
     def isCoordinator = { attrs, body ->
-        if (session?.user?.role == 'coordinador') {
+        User currentUser = userService.getCurrentUser()
+
+        if (currentUser.role == 'coordinador') {
             out << body()
         }
     }
