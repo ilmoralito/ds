@@ -2,6 +2,8 @@ package ni.edu.uccleon
 
 class CommonFilters {
 
+    UserService userService
+
     def filters = {
         security(controller: '*', action: '*') {
             before = {
@@ -47,8 +49,7 @@ class CommonFilters {
                     return false
                 }
 
-                // Check if the school belongs to the current coordinator school list
-                if (actionName != 'coordinationList' && !(params.school in session.user.schools.toArray())) {
+                if (actionName != 'coordinationList' && !(params.school in userService.getUserSchools(session.user.id))) {
                     response.sendError 403
                     return false
                 }
