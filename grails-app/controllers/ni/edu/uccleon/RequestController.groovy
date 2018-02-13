@@ -360,7 +360,7 @@ class RequestController {
         new BlockWidget(
             datashows: requestService.getDatashow(school, dayOfWeek),
             blocks: requestService.getDayOfWeekBlocks(dayOfWeek, school),
-            requests: Request.requestFromTo(dateOfApplication, dateOfApplication).list()
+            requests: Request.requestFromTo(dateOfApplication, dateOfApplication).list(fetch: [hours: 'join'])
         )
     }
 

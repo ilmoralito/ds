@@ -318,6 +318,7 @@ class CommonTagLib {
                                     mkp.yield block + 1
                                 }
                             }
+
                             datashows.each { datashow ->
                                 if (requests.find { it.datashow ==  datashow && block in it.hours.block }) {
                                     parameters.checked = true
