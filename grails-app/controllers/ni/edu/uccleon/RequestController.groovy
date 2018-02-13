@@ -87,33 +87,29 @@ class RequestController {
     }
 
     def listOfPendingApplications() {
-        List<Request> requests
-        User user = userService.getCurrentUser()
-        List<String> schools = userService.getCurrentUserSchools()
-        String userRole = user.role
-        DetachedCriteria query1 = Request.where { school in schools && status == 'pending' }
-        DetachedCriteria query2 = Request.where { user == user && status == 'pending' }
+        def requests = {
+            User user = userService.getCurrentUser()
+            List<String> schools = userService.getUserSchools(user.id)
 
-        if (userRole in ['coordinador', 'asistente']) {
-            requests = query1.list()
-        } else if(userRole in ['user', 'administrativo', 'supervisor']) {
-            requests = query2.list()
-        }
+            if (user.role in ['coordinador', 'asistente']) {
+                return requestService.getPendingRequestsBySchools(schools)
+            }
 
-        List dataSet = requests.groupBy { it.dateOfApplication.format('yyyy-MM-dd') }.collect { a ->
+            requestService.getOwnRequests(user.id)
+        }()
+
+        List dataSet = requests.groupBy { it.dateOfApplication }.collect { a ->
             [
                 dateOfApplication: a.key,
-                details: a.value.collect { b ->
+                details: a.value.collect { Map map ->
                     [
-                        id: b.id,
-                        userFullName: b.user.fullName, // <--
-                        classroom: appService.getClassroomCodeOrName(b.classroom)
+                        id: map.id,
+                        userFullName: map.user,
+                        classroom: appService.getClassroomCodeOrName(map.classroom)
                     ]
                 }
             ]
-        }.sort { a, b ->
-            a.dateOfApplication <=> b.dateOfApplication
-        }
+        }.sort { a, b -> b.dateOfApplication <=> a.dateOfApplication }
 
         [dataSet: dataSet]
     }

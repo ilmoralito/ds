@@ -219,7 +219,43 @@ class RequestService {
         data
     }
 
+    List<Map> getPendingRequestsBySchools(final List<String> schools) {
+        Request.executeQuery("""
+            SELECT
+                new map (
+                    r.id AS id,
+                    r.school AS school,
+                    r.datashow AS datashow,
+                    r.classroom AS classroom,
+                    DATE_FORMAT(r.dateOfApplication, '%Y-%m-%d') AS dateOfApplication,
+                    u.fullName AS user
+                )
+            FROM
+                User u JOIN u.requests r
+            WHERE
+                r.school IN (:schools)
+                    AND r.status = 'pending'""",
+            [schools: schools])
+    }
 
+    List<Map> getOwnRequests(final Serializable userId) {
+        Request.executeQuery("""
+            SELECT
+                new map (
+                    r.id AS id,
+                    r.school AS school,
+                    r.datashow AS datashow,
+                    r.classroom AS classroom,
+                    DATE_FORMAT(r.dateOfApplication, '%Y-%m-%d') AS dateOfApplication,
+                    u.fullName AS user
+                )
+            FROM
+                User u JOIN u.requests r
+            WHERE
+                r.user.id = :userId
+                    AND r.status = 'pending'""",
+            [userId: userId])
+    }
 
     List<Map> getRequestListGroupedByBlock(final List<Map> requestList) {
         requestList.groupBy { it.blocks[0] }.collect {
