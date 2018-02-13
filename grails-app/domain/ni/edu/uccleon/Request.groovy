@@ -25,17 +25,10 @@ class Request implements Serializable {
 
             dateOfApplication >= today.clearTime()
         }
-        classroom blank: false, maxSize: 255, validator: { classroom, requestInstance ->
-            classroom in requestInstance.user.classrooms
-        }
-        school blank: false, validator: { school, requestInstance ->
-            school in requestInstance.user.schools
-        }
+        classroom blank: false, maxSize: 255
+        school blank: false
         description nullable: true, maxSize: 10000
-        datashow blank: false, validator: { datashow, obj ->
-            //datashow in obj.requestService.getDatashow(obj.school, obj.dateOfApplication[DAY_OF_WEEK])
-            true
-        }
+        datashow blank: false
         type inList: ["common", "express"], maxSize:255
         audio nullable: true
         screen nullable: true

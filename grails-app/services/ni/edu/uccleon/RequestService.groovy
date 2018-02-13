@@ -64,9 +64,7 @@ class RequestService {
 
         user.addToRequests(request)
 
-        if (!request.save(failOnError: true)) {
-            throw new Exception('Whoops')
-        }
+        request.save(failOnError: true)
 
         request
     }
