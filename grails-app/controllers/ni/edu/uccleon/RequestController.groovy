@@ -270,25 +270,6 @@ class RequestController {
         }
     }
 
-    def todo(Integer id, Integer datashow, Integer block) {
-      def req = Request.get id
-
-      req.datashow = datashow
-      req.hours.clear()
-      req.addToHours new Hour(block:block)
-
-      if (!req.save(flush:true)) {
-        render(contentType:"application/json") {
-          status = false
-        }
-      } else {
-        render(contentType:"application/json") {
-          fullName = req.user.fullName
-          classroom = req.classroom
-        }
-      }
-    }
-
     def createRequestFromActivity() {
       if (request.post) {
         def r = new Request (
@@ -330,18 +311,6 @@ class RequestController {
         }
 
         redirect action: 'list', params: [requestFromDate: params.fromDate, requestToDate: params.toDate]
-    }
-
-    def listBy(String type) {
-        def requests
-
-        switch(type) {
-            case "user":
-                requests = Request.listByUser(session?.user).list(params)
-            break
-        }
-
-        [requests: requests]
     }
 
     def listTodayActivities() {
