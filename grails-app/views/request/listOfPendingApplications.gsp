@@ -24,9 +24,12 @@
                                     </g:link>
                                 </td>
                                 <td width="1">
-                                    <g:form action="delete" style="margin: 0;">
+                                    <g:form
+                                        action="delete"
+                                        style="margin: 0;"
+                                        id="${detail.id}"
+                                        onSubmit="if (!confirm('Are you sure?')) return false;">
                                         <g:hiddenField name="_method" value="DELETE"/>
-                                        <g:hiddenField name="id" value="${detail.id}"/>
 
                                         <button type="submit" class="btn btn-link btn-small">
                                             <i class="icon-trash"></i>
