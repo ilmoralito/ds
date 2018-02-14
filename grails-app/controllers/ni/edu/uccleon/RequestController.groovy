@@ -191,20 +191,28 @@ class RequestController {
     }
 
     def requestsByCoordination() {
-        def user = session.user.refresh()
-        def userSchools = user?.schools
-        def criteria = Request.createCriteria()
-        def result = criteria {
-            "in" "school", userSchools
+        List<Request> requestList = Request.createCriteria().list {
+            "in" 'school', userService.getCurrentUserSchools()
         }
 
-        def results = result.groupBy { it.dateOfApplication[Calendar.YEAR] } { it.school } { it.dateOfApplication[Calendar.MONTH] }.collectEntries { d ->
-            [d.key, d.value.collectEntries { o ->
-                [o.key, o.value.collectEntries { x ->
-                    [Utility.MONTHLIST[x.key], x.value.size()]
-                }]
-            }]
-        }
+        Map group = requestList.groupBy { it.dateOfApplication[YEAR]} { it.school } { it.dateOfApplication[MONTH] }
+        List<Map> results = group.collect {
+            [
+                year: it.key,
+                schools: it.value.collect {
+                    [
+                        name: it.key,
+                        months: it.value.collect {
+                            [
+                                number: it.key,
+                                name: Utility.MONTHLIST[it.key],
+                                count: it.value.size()
+                            ]
+                        }.sort { Map a, Map b -> a.number <=> b.number }
+                    ]
+                }.sort { Map a, Map b -> a.name <=> b.name }
+            ]
+        }.sort { Map a, Map b -> b.year <=> a.year }
 
         [results: results]
     }

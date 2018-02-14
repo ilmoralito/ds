@@ -17,6 +17,8 @@ class UrlMappings {
 
         '/requests/pending'(controller: 'request', action: 'listOfPendingApplications')
 
+        '/requests/summary' (controller: 'request', action: 'requestsByCoordination')
+
         "/activities/$dateOfApplication?" {
             controller = 'request'
             action = 'activity'
