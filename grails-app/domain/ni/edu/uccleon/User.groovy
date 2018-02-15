@@ -31,7 +31,9 @@ class User implements Serializable {
         role maxSize: 255, inList: Holders.config.ni.edu.uccleon.roles as List
         fullName blank: false
         schools nullable: false, minSize: 1
-        classrooms nullable: false, minSize: 1
+        classrooms nullable: true, validator: { classrooms, obj ->
+            if (obj.role != 'admin' && classrooms == null) return false
+        }
     }
 
     static namedQueries = {

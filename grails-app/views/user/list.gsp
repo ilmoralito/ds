@@ -1,4 +1,4 @@
-<g:applyLayout name="twoColumns">
+<g:applyLayout name="threeColumns">
     <head>
         <title>Lista de usuarios</title>
         <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, players"/>
@@ -9,29 +9,19 @@
             serverURL = "${grailsApplication.config.grails.serverURL}"
         </script>
 
-        <div class="clearfix">
-            <div class="pull-right">
-                <g:link action="filter" class="btn btn-default">
-                    <i class="icon-filter"></i> Filtrar
-                </g:link>
-                <g:link action="create" class="btn btn-primary">Crear usuario</g:link>
-            </div>
-        </div>
-
         <g:if test="${users}">
             <table id="users" class="table table-hover">
-                <colgroup>
-                    <col span="1" style="width: 99%;">
-                    <col span="1" style="width: 1%;">
-                </colgroup>
+                <col width="99%">
+                <col width="1%">
+
                 <thead>
                     <tr>
-                        <th>
+                        <th colspan="2">
                             <input id="filter" placeholder="Filtrar">
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <g:each in="${users}" var="user">
                         <tr data-user-id="${user.id}" data-user-fullName="${user.fullName}">
@@ -54,5 +44,18 @@
         <g:else>
             <p>Nada que mostrar</p>
         </g:else>
+    </content>
+
+    <content tag="col1">
+        <g:form action="create" method="GET" autocomplete="off">
+            <label for="role">Rol</label>
+            <g:select name="role" from="${roles}" class="span2"/>
+
+            <button type="submit" class="btn btn-primary btn-block">Agregar</button>
+        </g:form>
+
+        <g:link action="filter" class="btn btn-default btn-block">
+            <i class="icon-filter"></i> Filtrar
+        </g:link>
     </content>
 </g:applyLayout>

@@ -11,9 +11,8 @@ class UrlMappings {
             }
         }
 
+        // REQUESTS
         '/'(controller: 'request', action: 'activity')
-
-        '/normas'(view: '/normas')
 
         '/requests/pending'(controller: 'request', action: 'listOfPendingApplications')
 
@@ -29,9 +28,20 @@ class UrlMappings {
             }
         }
 
+        // USERS
         '/profile'(controller: 'user', action: 'profile')
 
         '/password'(controller: 'user', action: 'password')
+
+        "/users/create/$role" {
+            controller = 'user'
+            action = 'create'
+            constraints {
+                role inList: grailsApplication.config.ni.edu.uccleon.roles
+            }
+        }
+
+        '/normas'(view: '/normas')
 
         '500'(view: '/errors/500')
         '404'(view: '/errors/404')

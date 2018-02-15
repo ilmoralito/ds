@@ -10,9 +10,7 @@ class UserController {
     static defaultAction = 'profile'
 
     static allowedMethods = [
-        list: ['GET', 'POST'],
-        create: ['GET', 'POST'],
-        show: ['GET', 'POST'],
+        save: 'POST',
         notification: 'POST',
         updatePassword: 'POST',
         profile: ['GET', 'POST'],
@@ -123,7 +121,7 @@ class UserController {
                 u.enabled = true
             ORDER BY u.fullName"""
 
-        [users: User.executeQuery(query)]
+        [users: User.executeQuery(query), roles: grailsApplication.config.ni.edu.uccleon.roles.sort()]
     }
 
     def filter() {}
@@ -160,13 +158,13 @@ class UserController {
         render view: 'list', model: [users: users ?: userList]
     }
 
-    def create() {
-        [userModel: makeUserModel()]
+    def create(final String role) {
+        [userModel: makeUserModel(role)]
     }
 
     def save(SaveUser command) {
         if (command.hasErrors()) {
-            render model: [errors: command.errors, userModel: makeUserModel()], view: 'create'
+            render model: [errors: command.errors, userModel: makeUserModel(command.role)], view: 'create'
 
             return
         }
@@ -181,9 +179,9 @@ class UserController {
             }
 
             flash.message = Environment.current == Environment.PRODUCTION ? 'Usuario creado y notificado' : 'Usuario creado'
-            redirect action: 'create', method: 'GET'
+            redirect action: 'create', method: 'GET', params: ['role': command.role]
         } catch(ValidationException e) {
-            render model: [errors: e.errors, userModel: makeUserModel()], view: 'create'
+            render model: [errors: e.errors, userModel: makeUserModel(command.role)], view: 'create'
         }
     }
 
@@ -372,19 +370,39 @@ class UserController {
         }
     }
 
-    private UserModel makeUserModel() {
+    private UserModel makeUserModel(final String role) {
+        ConfigObject config = grailsApplication.config.ni.edu.uccleon
+
+        List<String> schools = {
+            if (role == 'admin') {
+                return ['Soporte tecnico']
+            } else if (role in ['user', 'coordinador', 'asistente']) {
+                return config.schoolsAndDepartments.schools
+            } else {
+                return ['Administracion', 'Delegacion de la sede', 'Direccion academica']
+            }
+        }()
+
+        Map classrooms = {
+            if (role == 'user') {
+                return config.cls.subMap(['B', 'C', 'D', 'K'])
+            }
+
+            return config.cls
+        }()
+
         new UserModel (
-            roles: grailsApplication.config.ni.edu.uccleon.roles,
-            classrooms: grailsApplication.config.ni.edu.uccleon.cls,
-            schoolsAndDepartments: grailsApplication.config.ni.edu.uccleon.schoolsAndDepartments
+            role: role,
+            schools: schools,
+            classrooms: classrooms
         )
     }
 }
 
 class UserModel {
-    List<String> roles
+    String role
     Map classrooms
-    Map schoolsAndDepartments
+    List<String> schools
 }
 
 class UpdatePasswordCommand {
@@ -408,11 +426,7 @@ class SaveUser {
     List<String> classrooms
 
     static constraints = {
-        fullName blank: false
-        email blank: false, unique: true, email: true
-        role blank: false
-        schools nullable: false, min: 1
-        classrooms nullable: false, min: 1
+        importFrom User
     }
 }
 
