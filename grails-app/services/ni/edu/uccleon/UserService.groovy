@@ -142,42 +142,29 @@ class UserService {
         User user = User.get(command.id)
 
         if (user) {
+            deleteUserSchools(command.id)
+            deleteUserClassrooms(command.id)
+
             user.with {
                 fullName = command.fullName
                 email = command.email
                 role = command.role
             }
 
-            addSchoolsAndDepartments(command.schools, user)
-            addClassrooms(command.classrooms, user)
+            command.schools.each { String school -> user.addToSchools(school) }
 
-            user.save(failOnError: true)
+            command.classrooms.each { String school -> user.addToClassrooms(school) }
+
+            user.save(flush: true)
         }
 
         user
     }
 
-    void addSchoolsAndDepartments(schools, User user) {
-        user.schools.clear()
+    void addClassrooms(final List<String> classrooms, final User user) {
+        user.classrooms.clear()
 
-        schools.each { school -> user.addToSchools(school) }
-    }
-
-    void addClassrooms(classrooms, User user) {
-        deleteUserClassrooms(user.id)
-
-        classrooms.each { String classroom -> addUserClassroom(user.id, classroom) }
-    }
-
-    // TODO: Make a gist
-    Number deleteUserSchools(final Serializable userId) {
-        final session = sessionFactory.currentSession
-        final String query = 'DELETE FROM user_schools WHERE user_id = :userId'
-        final sqlQuery = session.createSQLQuery(query)
-
-        sqlQuery.setLong 'userId', userId
-
-        sqlQuery.executeUpdate()
+        classrooms.each { String classroom -> user.addToClassrooms(classroom) }
     }
 
     Number addUserClassroom(final Serializable userId, final String classroom) {
@@ -203,6 +190,17 @@ class UserService {
         sqlQuery.setLong 'userId', userId
 
         sqlQuery.executeUpdate()
+    }
+
+    Number deleteUserSchools(final Serializable userId) {
+        final session = sessionFactory.currentSession
+        final String query = 'DELETE FROM user_schools WHERE user_id = :userId'
+        final sqlQuery = session.createSQLQuery(query)
+
+        sqlQuery.setLong 'userId', userId
+
+        sqlQuery.executeUpdate()
+
     }
 
     def transformUserClassrooms(List userClassrooms) {

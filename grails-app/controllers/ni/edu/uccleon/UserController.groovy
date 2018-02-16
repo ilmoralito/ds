@@ -198,14 +198,14 @@ class UserController {
 
         if (!user.fullName) response.sendError 404
 
-        [user: user, userModel: makeUserModel()]
+        [user: user, userModel: makeUserModel(user.role)]
     }
 
     def update(UpdateUser command) {
         if (command.hasErrors()) {
             render model: [
                 user: userService.getUserDataset(command.id),
-                userModel: makeUserModel(),
+                userModel: makeUserModel(command.role),
                 errors: command.errors
             ], view: 'edit'
 
@@ -216,10 +216,9 @@ class UserController {
             User user = userService.update(command)
             flash.message = 'Datos actualizados'
 
-            redirect action: 'edit', id: command.id
-        }
-        catch(ValidationException e) {
-            render model: [user: userService.getUserDataset(command.id), userModel: makeUserModel()], view: 'edit'
+            redirect action: 'show', id: command.id
+        } catch(ValidationException e) {
+            render model: [user: userService.getUserDataset(command.id), userModel: makeUserModel(user.role)], view: 'edit'
         }
     }
 

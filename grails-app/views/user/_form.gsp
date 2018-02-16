@@ -1,10 +1,12 @@
-<g:hiddenField name="role" value="${params.role}"/>
+<g:set var="role" value="${params.role ?: user.role}"/>
+
+<g:hiddenField name="role" value="${role}"/>
 
 <section>
     <label for="fullName">Nombres y apellidos</label>
     <g:textField name="fullName" value="${user?.fullName}" class="span8"/>
 
-    <label for="email">${params.role == 'user' ? 'Correo' : 'Correo institucional'}</label>
+    <label for="email">${role == 'user' ? 'Correo' : 'Correo institucional'}</label>
     <g:textField name="email" value="${user?.email}" class="span8"/>
 </section>
 
@@ -25,7 +27,7 @@
         </g:each>
     </g:else>
 
-    <g:if test="${params.role != 'admin'}">
+    <g:if test="${role != 'admin'}">
         <section>
             <label>Aulas</label>
             <g:each in="${userModel.classrooms}" var="classroom">

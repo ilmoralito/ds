@@ -36,12 +36,14 @@
                 </td>
             </tr>
 
-            <tr>
-                <td>Aulas</td>
-                <td>
-                    <g:join in="${user.classrooms.tokenize(',')}"/>
-                </td>
-            </tr>
+            <g:if test="${user.role != 'admin'}">
+                <tr>
+                    <td>Aulas</td>
+                    <td>
+                        <g:join in="${user.classrooms.tokenize(',')}"/>
+                    </td>
+                </tr>
+            </g:if>
 
             <tr>
                 <td>Estado</td>
