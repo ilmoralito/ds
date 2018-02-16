@@ -51,7 +51,7 @@
 
     function cleanBlocks() {
         document.querySelectorAll('td.hasActivity').forEach(td => {
-            td.textContent = ''
+            td.textContent = '';
             td.classList.remove('hasActivity');
         });
     }
@@ -61,7 +61,7 @@
     }
 
     function getRequirements(activity) {
-        const excludeKeys = ['fullName', 'datashow', 'blocks', 'classroom'];
+        const excludeKeys = ['id', 'fullName', 'datashow', 'blocks', 'classroom'];
 
         const mappedObj = Object.keys(activity).reduce((accumulator, currentValue) => {
             if(!excludeKeys.includes(currentValue) && activity[currentValue]) {

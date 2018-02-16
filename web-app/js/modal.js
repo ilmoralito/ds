@@ -17,9 +17,7 @@
                                 key === 'description'   ? this.dataset.description :
                                                           '';
 
-            return `
-                <li>${displayText}</li>
-            `;
+            return `<li>${displayText}</li>`;
         }).join('');
 
         document.querySelector('#requirement').innerHTML = result;
