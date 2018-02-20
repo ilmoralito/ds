@@ -49,7 +49,12 @@
     <content tag="col1">
         <g:form action="create" method="GET" autocomplete="off">
             <label for="role">Rol</label>
-            <g:select name="role" from="${roles}" optionValue="${{ it == 'user' ? 'Profesor' : it.capitalize() }}" class="span2"/>
+            <g:select
+                name="role"
+                from="${roles}"
+                optionValue="${{ it == 'user' ? 'Profesor' : it.capitalize() }}"
+                noSelection="['': 'Selecciona un rol']"
+                class="span2"/>
 
             <button type="submit" class="btn btn-primary btn-block">Agregar</button>
         </g:form>

@@ -158,8 +158,15 @@ class UserController {
         render view: 'list', model: [users: users ?: userList]
     }
 
-    def create(final String role) {
-        [userModel: makeUserModel(role)]
+    def create(Role command) {
+        if (command.hasErrors()) {
+            redirect action: 'list', method: 'GET'
+
+            flash.message = 'Rol no valido'
+            return
+        }
+
+        [userModel: makeUserModel(command.role)]
     }
 
     def save(SaveUser command) {
@@ -397,6 +404,15 @@ class UserController {
             schools: schools,
             classrooms: classrooms
         )
+    }
+}
+
+class Role {
+    String role
+    def grailsApplication
+
+    static constraints = {
+        role validator: { role, obj -> role in obj.grailsApplication.config.ni.edu.uccleon.roles }
     }
 }
 

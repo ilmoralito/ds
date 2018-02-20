@@ -15,12 +15,16 @@
         <g:pageProperty name="page.main"/>
 
         <g:render template="/layouts/errors"/>
-
-        <ds:flashMessage>${flash.message}</ds:flashMessage>
     </div>
 
     <div class="span2">
         <g:pageProperty name="page.col1"/>
+
+        <ds:flashMessage>
+            <div class="alert alert-info" style="margin-top: 10px;">
+                ${flash.message}
+            </div>
+        </ds:flashMessage>
     </div>
 </body>
 </html>
