@@ -18,8 +18,8 @@ environments {
             dialect = org.hibernate.dialect.MySQL5InnoDBDialect
             driverClassName = 'com.mysql.jdbc.Driver'
             dbCreate = 'create-drop'
-            username = 'root'
-            password = 'hotch'
+            username = System.env.MYSQL_USERNAME
+            password = System.env.MYSQL_PASSWORD
             formatSql = true
             logSql = true
         }
