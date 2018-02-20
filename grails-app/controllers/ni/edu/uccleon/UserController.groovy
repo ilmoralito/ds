@@ -377,6 +377,8 @@ class UserController {
                 return ['Soporte tecnico']
             } else if (role in ['user', 'coordinador', 'asistente']) {
                 return config.schoolsAndDepartments.schools
+            } else if (role in ['administrativo']) {
+                return config.schoolsAndDepartments.departments
             } else {
                 return ['Administracion', 'Delegacion de la sede', 'Direccion academica']
             }
