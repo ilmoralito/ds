@@ -67,12 +67,13 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
 
         //app plugins
+        runtime 'org.grails.plugins:external-config-reload:1.4.1'
         compile ':twitter-bootstrap:2.3.0'
-        compile ':webxml:1.4.1'
         compile ':jquery-ui:1.8.24'
         compile ':webflow:2.0.8.1'
-        compile ':mail:1.0.6'
         runtime ':console:1.5.11'
         compile ':quartz:1.0.2'
+        compile ':webxml:1.4.1'
+        compile ':mail:1.0.6'
     }
 }
