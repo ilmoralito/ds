@@ -162,9 +162,11 @@ class UserService {
     }
 
     void addClassrooms(final List<String> classrooms, final User user) {
-        user.classrooms.clear()
+        deleteUserClassrooms(user.id)
 
-        classrooms.each { String classroom -> user.addToClassrooms(classroom) }
+        classrooms.each { String classroom ->
+            addUserClassroom(user.id, classroom)
+        }
     }
 
     Number addUserClassroom(final Serializable userId, final String classroom) {
@@ -200,7 +202,6 @@ class UserService {
         sqlQuery.setLong 'userId', userId
 
         sqlQuery.executeUpdate()
-
     }
 
     def transformUserClassrooms(List userClassrooms) {
