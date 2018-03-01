@@ -136,7 +136,7 @@ class CommonTagLib {
     def createRequest = {
         MarkupBuilder builder = new MarkupBuilder(out)
         Map<String, String> schoolParameters = [:]
-        List<String> currentUserSchools = userService.getCurrentUserSchools()
+        List<String> currentUserSchools = session.schools
 
         if (hasValidRole()) {
             builder.form(action: createLink(controller: 'request', action: 'buildRequest'), autocomplete: 'off', class: 'create-request') {

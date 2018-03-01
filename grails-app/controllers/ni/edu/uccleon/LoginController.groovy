@@ -2,6 +2,8 @@ package ni.edu.uccleon
 
 class LoginController {
 
+    UserService userService
+
     static allowedMethods = [index: 'POST']
 
     def auth(final String email, final String password) {
@@ -14,6 +16,10 @@ class LoginController {
         }
 
         session.user = user
+
+        if (user.role != 'admin') {
+            session.schools = userService.getUserSchools(user.id)
+        }
 
         redirect controller: 'request', action: user.role == 'admin' ? 'list' : 'listOfPendingApplications'
     }

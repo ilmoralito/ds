@@ -284,7 +284,7 @@ class UserController {
             flash.message = 'Perfil actualizado. Reiniciar sesion para verificar cambio'
         }
 
-        [user: user, schools: userService.getCurrentUserSchools()]
+        [user: user, schools: session.schools ?: userService.getCurrentUserSchools()]
     }
 
     def classrooms() {
