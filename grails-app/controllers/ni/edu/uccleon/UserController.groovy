@@ -14,7 +14,6 @@ class UserController {
         notification: 'POST',
         updatePassword: 'POST',
         profile: ['GET', 'POST'],
-        classrooms: ['GET', 'POST'],
     ]
 
     def admin() {
@@ -291,19 +290,23 @@ class UserController {
     def classrooms() {
         User user = session?.user
 
-        if (request.method == 'POST') {
-            List<String> classrooms = params.list('classrooms')
-
-            if (classrooms) {
-                userService.addClassrooms(classrooms, user)
-            }
-        }
-
         [
             user: user,
-            allCls: userService.getClassrooms(user.email),
-            classrooms: userService.getUserClassrooms(user.id),
+            userClassrooms: userService.getUserClassrooms(user.id),
+            classroomList: userService.getClassrooms(user.email).collect {[code: it.key, classrooms: it.value]}
         ]
+    }
+
+    def addClassroom(final Long userId, final String classroom) {
+        Number result = userService.addUserClassroom(userId, classroom)
+
+        render(status: result ? 200 : 500, contentType: 'application/json')
+    }
+
+    def removeClassroom(final Long userId, final String classroom) {
+        Number result = userService.deleteUserClassroom(userId, classroom)
+
+        render(status: result ? 200 : 500, contentType: 'application/json')
     }
 
     def password() {}

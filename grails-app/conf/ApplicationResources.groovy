@@ -10,6 +10,11 @@ modules = {
         resource url: 'css/app.css'
     }
 
+    base {
+        dependsOn 'jquery'
+        resource url: 'css/base.css'
+    }
+
     publicActivity {
         dependsOn 'app'
         resource url: 'js/axios.min.js'
@@ -70,9 +75,16 @@ modules = {
         resource url: 'js/FilterBox.js'
     }
 
+    // TODO: Try to use one solution for both cases
     classrooms {
         dependsOn 'app'
         resource url: 'js/classrooms.js'
+    }
+
+    adminUserClassrooms {
+        dependsOn 'app'
+        resource url: 'js/axios.min.js'
+        resource url: 'js/adminUserClassrooms.js'
     }
 
     userShow {

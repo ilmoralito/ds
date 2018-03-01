@@ -11,7 +11,6 @@ class UrlMappings {
             }
         }
 
-        // REQUESTS
         '/'(controller: 'request', action: 'activity')
 
         '/requests/pending'(controller: 'request', action: 'listOfPendingApplications')
@@ -28,8 +27,11 @@ class UrlMappings {
             }
         }
 
-        // USERS
         '/profile'(controller: 'user', action: 'profile')
+
+        '/add/classroom'(controller: 'user', action: 'addClassroom', method: 'POST')
+
+        '/delete/classroom'(controller: 'user', action: 'removeClassroom', method: 'POST')
 
         '/password'(controller: 'user', action: 'password')
 

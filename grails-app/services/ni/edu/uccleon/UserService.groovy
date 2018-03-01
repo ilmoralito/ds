@@ -184,6 +184,21 @@ class UserService {
         result
     }
 
+    Number deleteUserClassroom(final Serializable userId, final String classroom) {
+        final session = sessionFactory.currentSession
+        final String query = 'DELETE FROM user_classrooms WHERE user_id = :userId AND classrooms_string = :classroom'
+        final sqlQuery = session.createSQLQuery(query)
+
+        final Number result = sqlQuery.with {
+            setLong 'userId', userId
+            setString 'classroom', classroom
+
+            executeUpdate()
+        }
+
+        result
+    }
+
     Number deleteUserClassrooms(final Serializable userId) {
         final session = sessionFactory.currentSession
         final String query = 'DELETE FROM user_classrooms WHERE user_id = :userId'
