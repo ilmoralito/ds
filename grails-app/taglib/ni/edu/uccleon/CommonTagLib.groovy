@@ -216,8 +216,9 @@ class CommonTagLib {
 
     def userClassrooms = { attrs ->
         MarkupBuilder markupBuilder = new MarkupBuilder(out)
-        List noClassroomList = getUndefinedClassroomList()
-        List classroomList = getGroupedClassroomList()
+        List<String> currentUserClassroomList = getCurrentUserClassroomList()
+        List undefinedClassroomList = getUndefinedClassroomList(currentUserClassroomList)
+        List classroomList = getGroupedClassroomList(currentUserClassroomList)
         String selected = attrs.selected
         Map parameters = [:]
 
@@ -246,9 +247,9 @@ class CommonTagLib {
                     }
                 }
 
-                if (noClassroomList) {
+                if (undefinedClassroomList) {
                     optGroup(label: 'De uso externo') {
-                        noClassroomList.each { place ->
+                        undefinedClassroomList.each { place ->
                             parameters.value = place
 
                             if (place == selected) {
@@ -553,17 +554,14 @@ class CommonTagLib {
         grailsApplication.config.ni.edu.uccleon.cls.undefined.code
     }
 
-    private List<Map> getGroupedClassroomList() {
-        getCurrentUserClassroomList()
-            .findAll { classroom ->
-                classroom[0] in classroomCodes() && !(classroom in undefinedClassroomList())
-            }
+    private List<Map> getGroupedClassroomList(final List<String >classrooms) {
+        classrooms.findAll { classroom -> classroom[0] in classroomCodes() && !(classroom in undefinedClassroomList())}
             .groupBy { it[0] }
             .collect { [ code: it.key, classrooms: it.value ] }
     }
 
-    private List<Map> getUndefinedClassroomList() {
-        getCurrentUserClassroomList().findAll { it in undefinedClassroomList() }
+    private List<Map> getUndefinedClassroomList(final List<String> classrooms) {
+        classrooms.findAll { it in undefinedClassroomList() }
     }
 
     private List<String> getCurrentUserClassroomList() {

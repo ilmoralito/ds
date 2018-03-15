@@ -387,10 +387,9 @@ class BuildRequestCommand {
             }
 
             Integer dayOfWeek = Utility.getDayOfWeek(obj.dateOfApplication)
-            List<String> currentUserSchools = obj.userService.getCurrentUserSchools()
             Map coordination = obj.grailsApplication.config.ni.edu.uccleon.data.find { it.coordination == school }
 
-            if (!(school in currentUserSchools)) {
+            if (!(school in RCH.requestAttributes.session.schools)) {
                 return ['notValidSchool']
             }
 
