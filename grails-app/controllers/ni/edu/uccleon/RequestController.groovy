@@ -51,19 +51,19 @@ class RequestController {
         }
 
         try {
-            Request request = requestService.save(command)
+            requestService.save(command)
 
             flash.message = 'Solicitud creada'
             redirect action: 'activity', params: [
-                date: params.dateOfApplication,
-                datashow: params.datashow,
-                blocks: params.hours
+                date: command.dateOfApplication.format('yyyy-MM-dd'),
+                datashow: command.datashow,
+                blocks: command.hours
             ]
         } catch(ValidationException e) {
             render model: [
                 errors: e.errors,
                 school: command.school,
-                dateOfApplication: command.dateOfApplication,
+                dateOfApplication: command.dateOfApplication.format('yyyy-MM-dd'),
                 blockWidget: createBlockWidget(command.school, command.dateOfApplication)],
             view: 'buildRequest'
         }

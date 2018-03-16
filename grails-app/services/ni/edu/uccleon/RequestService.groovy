@@ -4,6 +4,7 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer
 import org.hibernate.SessionFactory
 import static java.util.Calendar.*
 import grails.util.Environment
+import groovy.sql.Sql
 
 class RequestService {
 
@@ -12,6 +13,7 @@ class RequestService {
     AppService appService
     def grailsApplication
     def mailService
+    def dataSource
 
     static transactional = false
 
@@ -52,21 +54,55 @@ class RequestService {
         result
     }
 
-    Request save(StoreRequestCommand command) {
-        User user = userService.find(command.user)
-        Request request = new Request()
+    void save(StoreRequestCommand command) {
+        final Sql sql = new Sql(dataSource)
+        final Date date = new Date()
+        String insert = 'INSERT INTO hour (block, date_created, last_updated, request_id) values'
+        final String insertQuery = """
+            INSERT INTO request (
+                audio,
+                classroom,
+                cpu,
+                datashow,
+                date_created,
+                date_of_application,
+                description,
+                internet,
+                last_updated,
+                pointer,
+                school,
+                screen,
+                status,
+                type,
+                user_id
+            ) VALUES (
+                ${command.audio},
+                '${command.classroom}',
+                ${command.cpu},
+                ${command.datashow},
+                '${date.toTimestamp()}',
+                '${command.dateOfApplication.toTimestamp()}',
+                '${command.description}',
+                ${command.internet},
+                '${date.toTimestamp()}',
+                ${command.pointer},
+                '${command.school}',
+                ${command.screen},
+                '${command.status}',
+                '${command.type}',
+                ${command.user}
+            )
+        """
 
-        request.properties = command.properties.findAll { !(it.key in ['user', 'hours']) }
+        List result = sql.executeInsert insertQuery
 
-        command.hours.each { block ->
-            request.addToHours(new Hour(block: block))
-        }
+        final String values = command.hours.collect { block ->
+            "($block, '${date.toTimestamp()}', '${date.toTimestamp()}', ${result[0][0]})"
+        }.join(',')
 
-        user.addToRequests(request)
+        final String query = "$insert $values"
 
-        request.save(failOnError: true)
-
-        request
+        sql.execute query
     }
 
     List<Map> getCurrentDateRequestList() {
