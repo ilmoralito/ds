@@ -1,0 +1,22 @@
+caption { text-align: left; }
+
+th { font-weight: normal; }
+
+td.datashow {
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+    padding: 5px;
+}
+
+td, th {
+    width: 4rem;
+    height: 2rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background: lightblue;
+    border-color: white;
+}
