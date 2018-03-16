@@ -31,6 +31,7 @@ class RequestService {
                 r.screen,
                 r.pointer,
                 r.cpu,
+                r.description,
                 DATE_FORMAT(r.date_of_application, '%Y-%m-%d') dateOfApplication,
                 DATE_FORMAT(r.date_created, '%Y-%m-%d') dateCreated,
                 DATE_FORMAT(r.last_updated, '%Y-%m-%d') lastUpdated,
