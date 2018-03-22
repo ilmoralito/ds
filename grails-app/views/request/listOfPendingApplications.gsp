@@ -7,21 +7,19 @@
     <content tag="main">
         <g:render template="toolbar"/>
 
-        <g:if test="${dataSet}">
+        <g:if test="${dataset}">
             <table class="table table-hover">
                 <tbody>
-                    <g:each in="${dataSet}" var="data" status="index">
+                    <g:each in="${dataset}" var="data" status="index">
                         <tr>
                             <td colspan="2" style="${index == 0 ? 'border-top: 0;' : ''}">
-                                ${data.dateOfApplication}
+                                ${data.date}
                             </td>
                         </tr>
                         <g:each in="${data.details}" var="detail">
                             <tr>
                                 <td style="vertical-align: middle;">
-                                    <g:link action="show" id="${detail.id}">
-                                        Por ${detail.userFullName} en ${detail.classroom}
-                                    </g:link>
+                                    <g:link action="show" id="${detail.id}">${detail.user} en ${detail.classroom}</g:link>
                                 </td>
                                 <td width="1">
                                     <g:form

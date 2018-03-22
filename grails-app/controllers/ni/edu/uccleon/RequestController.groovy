@@ -87,31 +87,25 @@ class RequestController {
     }
 
     def listOfPendingApplications() {
-        def requests = {
-            User user = userService.getCurrentUser()
-            List<String> schools = userService.getUserSchools(user.id)
-
-            if (user.role in ['coordinador', 'asistente']) {
-                return requestService.getPendingRequestsBySchools(schools)
-            }
-
+        User user = session.user
+        List<Request> requests = user.role in ['coordinador', 'asistente'] ?
+            requestService.getRequestsBySchools(session.schools) :
             requestService.getOwnRequests(user.id)
-        }()
 
-        List dataSet = requests.groupBy { it.dateOfApplication }.collect { a ->
+        List dataset = requests.groupBy { it.date }.collect {
             [
-                dateOfApplication: a.key,
-                details: a.value.collect { Map map ->
+                date: it.key,
+                details: it.value.collect { map ->
                     [
                         id: map.id,
-                        userFullName: map.user,
+                        user: map.user,
                         classroom: appService.getClassroomCodeOrName(map.classroom)
                     ]
                 }
             ]
-        }.sort { a, b -> b.dateOfApplication <=> a.dateOfApplication }
+        }.sort { a, b -> b.date <=> a.date }
 
-        [dataSet: dataSet]
+        [dataset: dataset]
     }
 
     def userStatistics() {

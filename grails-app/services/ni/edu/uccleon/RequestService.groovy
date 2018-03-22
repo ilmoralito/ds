@@ -256,23 +256,21 @@ class RequestService {
         data
     }
 
-    List<Map> getPendingRequestsBySchools(final List<String> schools) {
+    List<Map> getRequestsBySchools(final List<String> schools, final String status = 'pending') {
         Request.executeQuery("""
             SELECT
                 new map (
                     r.id AS id,
-                    r.school AS school,
-                    r.datashow AS datashow,
                     r.classroom AS classroom,
-                    DATE_FORMAT(r.dateOfApplication, '%Y-%m-%d') AS dateOfApplication,
+                    DATE_FORMAT(r.dateOfApplication, '%Y-%m-%d') AS date,
                     u.fullName AS user
                 )
             FROM
                 User u JOIN u.requests r
             WHERE
                 r.school IN (:schools)
-                    AND r.status = 'pending'""",
-            [schools: schools])
+                    AND r.status = :status""",
+            [schools: schools, status: status])
     }
 
     List<Map> getOwnRequests(final Serializable userId) {
