@@ -98,4 +98,9 @@ modules = {
         dependsOn 'app'
         resource url: 'js/cloneRequest.js'
     }
+
+    filter {
+        dependsOn 'app'
+        resource url: 'js/filterPendingRequest.js'
+    }
 }
