@@ -1,8 +1,8 @@
 dataSource {
     pooled                                      = true
     driverClassName                             = 'org.h2.Driver'
-    username                                    = 'sa'
-    password                                    = ''
+    username                                    = System.env.MYSQL_USERNAME
+    password                                    = System.env.MYSQL_PASSWORD
 }
 
 hibernate {
@@ -18,8 +18,6 @@ environments {
             dialect                             = org.hibernate.dialect.MySQL5InnoDBDialect
             driverClassName                     = 'com.mysql.jdbc.Driver'
             dbCreate                            = 'create-drop'
-            username                            = System.env.MYSQL_USERNAME
-            password                            = System.env.MYSQL_PASSWORD
             formatSql                           = true
             logSql                              = true
         }
@@ -37,11 +35,7 @@ environments {
             dbCreate                            = 'update'
             driverClassName                     = 'com.mysql.jdbc.Driver'
             dialect                             = org.hibernate.dialect.MySQL5InnoDBDialect
-            uri                                 = new URI(System.env.CLEARDB_DATABASE_URL)
-            url                                 = "jdbc:mysql://$uri.host$uri.path"
-            userInfo                            = uri.userInfo.split(':')
-            username                            = userInfo[0]
-            password                            = userInfo[1]
+            url                                 = System.env.DS_PRODUCTION_DATABASE_URL
             pooled                              = true
             properties {
                maxActive                        = -1
