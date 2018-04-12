@@ -29,14 +29,14 @@
                 <td>${user.role}</td>
             </tr>
 
-            <tr>
-                <td>Coordinaciones</td>
-                <td>
-                    <g:join in="${user.schools.tokenize(',')}"/>
-                </td>
-            </tr>
-
             <g:if test="${user.role != 'admin'}">
+                <tr>
+                    <td>Coordinaciones</td>
+                    <td>
+                        <g:join in="${user.schools.tokenize(',')}"/>
+                    </td>
+                </tr>
+
                 <tr>
                     <td>Aulas</td>
                     <td>
