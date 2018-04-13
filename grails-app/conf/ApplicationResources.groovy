@@ -64,6 +64,7 @@ modules = {
     buildRequest {
         dependsOn 'app'
         resource url: 'js/popover.js'
+        resource url: 'js/toggleCheckboxes.js'
         resource url: 'js/getUserClassroomsAndSchools.js'
     }
 
