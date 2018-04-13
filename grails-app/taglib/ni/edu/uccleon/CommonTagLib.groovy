@@ -286,7 +286,9 @@ class CommonTagLib {
                         }
 
                         th {
-                            mkp.yield datashow
+                            input(type: 'checkbox', class: 'toggleTrigger', style: 'margin-top: 0;')
+
+                            span datashow
 
                             if (this.hasHDMI(datashow)) {
                                 small(style: 'font-weight: normal; font-size: .6em;') {
