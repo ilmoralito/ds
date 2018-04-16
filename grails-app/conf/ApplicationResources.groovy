@@ -64,8 +64,10 @@ modules = {
     buildRequest {
         dependsOn 'app'
         resource url: 'js/popover.js'
+        resource url: 'js/hasWIFI.js'
+        resource url: 'js/selectDatashow.js'
         resource url: 'js/toggleCheckboxes.js'
-        resource url: 'js/getUserClassroomsAndSchools.js'
+        resource url: 'js/updateClassrooms.js'
     }
 
     roster {

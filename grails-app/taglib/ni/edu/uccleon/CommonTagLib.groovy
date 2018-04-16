@@ -194,14 +194,10 @@ class CommonTagLib {
 
                 delegate.select(id: 'user', name: 'user', class: 'form-control') {
                     userList.each { user ->
-                        if (userService.getCurrentUser().id == user.id) {
-                            parameters.selected = true
-                        } else {
-                            parameters.remove('selected')
-                        }
+                        List<String> classrooms = user.classrooms.tokenize(',')
+                        List<Map<String, String>> classroomList = groupClassroomByCode(classrooms)
 
-                        List<Map> classroomList = this.getClassrooms(user.classrooms.tokenize(','))
-
+                        userService.getCurrentUser().id == user.id ? parameters.selected = true : parameters.remove('selected')
                         parameters.value = user.id
                         parameters['data-classrooms'] = JsonOutput.toJson(classroomList)
 
@@ -524,6 +520,15 @@ class CommonTagLib {
         }
 
         result
+    }
+
+    private List groupClassroomByCode(final List classrooms) {
+        List classroomList = getClassrooms(classrooms)
+        List results = classroomList.groupBy { it.code[0] }.collect {
+            [code: it.key, classrooms: it.value]
+        }
+
+        results
     }
 
     private Boolean hasHDMI(Integer datashow) {

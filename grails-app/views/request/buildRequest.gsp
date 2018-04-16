@@ -38,7 +38,7 @@
                 <g:checkBox name="cpu" form="form" value="true" checked="false"/> Computadora
             </label>
 
-            <label class="checkbox">
+            <label class="checkbox hidden">
                 <g:checkBox id="internet" name="internet" form="form" value="true" checked="false"/> Internet
             </label>
         </div>
