@@ -377,83 +377,85 @@ class CommonTagLib {
                 mkp.yield " actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
             }
 
-            table(id: 'activity-table', class: 'table table-bordered fixed') {
-                thead {
-                    (1..datashows).eachWithIndex { datashow, index ->
-                        if (index == 0) {
-                            th(width: 15) {}
-                        }
-
-                        th(style: 'font-weight: normal; text-align: center;') {
-                            mkp.yield datashow
-                        }
-                    }
-                }
-
-                tbody {
-                    (0..6).eachWithIndex { block, idx ->
-                        tr {
-                            td(style: 'vertical-align: middle; text-align: center;') {
-                                if (idx == 3) {
-                                    i(class: 'fa fa-sun-o', 'aria-hidden': true)
-                                } else {
-                                    mkp.yield block + 1
-                                }
+            div(class: 'responsive-table') {
+                table(id: 'activity-table', class: 'table table-bordered fixed') {
+                    thead {
+                        (1..datashows).eachWithIndex { datashow, index ->
+                            if (index == 0) {
+                                th(width: 15) {}
                             }
 
-                            (1..datashows).each { datashow ->
-                                Map request = requests.find { it.datashow == datashow && block in it.blocks }
+                            th(style: 'font-weight: normal; text-align: center;') {
+                                mkp.yield datashow
+                            }
+                        }
+                    }
 
-                                if (request) {
-                                    Integer index = request.blocks.findIndexOf { hour -> hour == block }
+                    tbody {
+                        (0..6).eachWithIndex { block, idx ->
+                            tr {
+                                td(style: 'vertical-align: middle; text-align: center;') {
+                                    if (idx == 3) {
+                                        i(class: 'fa fa-sun-o', 'aria-hidden': true)
+                                    } else {
+                                        mkp.yield block + 1
+                                    }
+                                }
 
-                                    td(class: "block hasActivity animated ${animate(datashow, block, params.int('datashow'), params.list('blocks')*.toInteger())}", 'data-datashow': datashow, 'data-block': block) {
-                                        if (index == 0) {
-                                            if (attrs.layout == 'oneColumn') {
-                                                if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
-                                                    List<String> props = ['audio', 'screen', 'internet', 'pointer', 'cpu', 'description']
-                                                    Map<String, Object> properties = request.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
-                                                        accumulator["data-${currentValue.key}"] = currentValue.value
+                                (1..datashows).each { datashow ->
+                                    Map request = requests.find { it.datashow == datashow && block in it.blocks }
 
-                                                        accumulator
-                                                    }
+                                    if (request) {
+                                        Integer index = request.blocks.findIndexOf { hour -> hour == block }
 
-                                                    a(href: '#', class: 'show-modal', *:properties) {
-                                                        mkp.yield '+'
+                                        td(class: "block hasActivity animated ${animate(datashow, block, params.int('datashow'), params.list('blocks')*.toInteger())}", 'data-datashow': datashow, 'data-block': block) {
+                                            if (index == 0) {
+                                                if (attrs.layout == 'oneColumn') {
+                                                    if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
+                                                        List<String> props = ['audio', 'screen', 'internet', 'pointer', 'cpu', 'description']
+                                                        Map<String, Object> properties = request.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
+                                                            accumulator["data-${currentValue.key}"] = currentValue.value
+
+                                                            accumulator
+                                                        }
+
+                                                        a(href: '#', class: 'show-modal', *:properties) {
+                                                            mkp.yield '+'
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            if (currentUser?.role == 'admin') {
-                                                div(class: 'dropdown') {
-                                                    a(class: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#') {
-                                                        mkp.yield '+'
-                                                    }
-                                                    ul(class: 'dropdown-menu', role: 'menu', 'aria-labelledby': 'dLabel') {
-                                                        requestStatus.each { status ->
+                                                if (currentUser?.role == 'admin') {
+                                                    div(class: 'dropdown') {
+                                                        a(class: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#') {
+                                                            mkp.yield '+'
+                                                        }
+                                                        ul(class: 'dropdown-menu', role: 'menu', 'aria-labelledby': 'dLabel') {
+                                                            requestStatus.each { status ->
+                                                                li {
+                                                                    a(href: g.createLink(action: 'updateStatus', params: [id: request.id, status: status.english])) {
+                                                                        mkp.yield status.spanish
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            li(class: 'divider')
                                                             li {
-                                                                a(href: g.createLink(action: 'updateStatus', params: [id: request.id, status: status.english])) {
-                                                                    mkp.yield status.spanish
+                                                                a(href: g.createLink(action: 'show', params: [id: request.id])) {
+                                                                    mkp.yield 'Detalle'
                                                                 }
                                                             }
                                                         }
-
-                                                        li(class: 'divider')
-                                                        li {
-                                                            a(href: g.createLink(action: 'show', params: [id: request.id])) {
-                                                                mkp.yield 'Detalle'
-                                                            }
-                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            p request.fullName
-                                            p appService.getClassroomCodeOrName(request.classroom)
+                                                p request.fullName
+                                                p appService.getClassroomCodeOrName(request.classroom)
+                                            }
                                         }
+                                    } else {
+                                        td(class: 'block', 'data-datashow': datashow, 'data-block': block) {}
                                     }
-                                } else {
-                                    td(class: 'block', 'data-datashow': datashow, 'data-block': block) {}
                                 }
                             }
                         }
