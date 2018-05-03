@@ -55,5 +55,22 @@ class CommonFilters {
                 }
             }
         }
+
+        editFilter(controller: 'request', action: '(edit|update)') {
+            before = {
+                if (!(session.user.role in ['coordinador', 'asistente', 'administrativo'])) {
+                    response.sendError 403
+                    return false
+                }
+
+                Request requestInstance = Request.get(params.id)
+                List<String> currentUserSchools = userService.getUserSchools(session.user.id)
+
+                if (!(requestInstance.school in currentUserSchools)) {
+                    response.sendError 403
+                    return false
+                }
+            }
+        }
     }
 }
