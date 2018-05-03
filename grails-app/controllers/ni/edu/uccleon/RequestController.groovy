@@ -381,6 +381,7 @@ class RequestController {
                 fullName: request.fullName,
                 datashow: request.datashow,
                 classroom: request.classroom,
+                school: request.school,
                 audio: request.audio,
                 cpu: request.cpu,
                 internet: request.internet,

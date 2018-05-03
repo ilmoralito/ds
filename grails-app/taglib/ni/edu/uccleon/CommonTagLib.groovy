@@ -11,7 +11,7 @@ class CommonTagLib {
     AppService appService
     def grailsApplication
 
-    static namespace = "ds"
+    static namespace = 'ds'
 
     def flashMessage = {attrs, body ->
         if (flash.message) {
@@ -436,7 +436,17 @@ class CommonTagLib {
                                                     }
                                                 }
 
-                                                if (currentUser?.role == 'admin') {
+                                                if (attrs.layout == 'twoColumns') {
+                                                    List<String> currentUserSchools = userService.getUserSchools(currentUser.id)
+
+                                                    if (request.school in currentUserSchools) {
+                                                        a(href: createLink(controller: 'request', action: 'edit', id: request.id)) {
+                                                            mkp.yield 'Editar'
+                                                        }
+                                                    }
+                                                }
+
+                                                if (attrs.layout == 'threeColumns' && currentUser?.role == 'admin') {
                                                     div(class: 'dropdown') {
                                                         a(class: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#') {
                                                             mkp.yield '+'
