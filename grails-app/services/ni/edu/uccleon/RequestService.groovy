@@ -355,14 +355,6 @@ class RequestService {
         return (total == max) ? true : false
     }
 
-    def getInfoToAddHours(Date date) {
-        def requests = Request.requestFromTo(date, date).list()
-        def datashows = grailsApplication.config.ni.edu.uccleon.datashows.size()
-        def blocks = getDayOfWeekBlocks(date[Calendar.DAY_OF_WEEK])
-
-        [requests: requests, datashows: datashows, day: day, blocks: blocks]
-    }
-
     Integer getDayOfWeekBlocks(Integer dayOfWeek, String school = null) {
         ConfigObject config = grailsApplication.config.ni.edu.uccleon
         Boolean specialization = school in ['Especializacion', 'Educacion continua']
@@ -428,10 +420,6 @@ class RequestService {
         requests.findAll { request ->
             request.status == status
         }
-    }
-
-    Request getAdministrableRequest(Long id) {
-        Request.where { id == id && status == 'pending' && school in userService.getCurrentUserSchools() }.get()
     }
 
     List<Integer> getYearsOfApplications() {
