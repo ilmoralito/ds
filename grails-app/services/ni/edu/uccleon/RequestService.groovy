@@ -106,6 +106,39 @@ class RequestService {
         sql.execute query
     }
 
+    Request update(UpdateRequestCommand command) {
+        Request requestInstance = Request.get(command.id)
+        User user = User.get(command.user)
+
+        if (requestInstance) {
+            requestInstance.with {
+                classroom = command.classroom
+                audio = command.audio
+                screen = command.screen
+                pointer = command.pointer
+                cpu = command.cpu
+                internet = command.internet
+                description = command.description
+
+            }
+
+            requestInstance.user = user
+            requestInstance.save(flush: true)
+
+            requestInstance.hours.clear()
+
+            command.hours.each { Integer block ->
+                Hour hour = new Hour(block: block)
+
+                requestInstance.addToHours(hour)
+
+                hour.save()
+            }
+        }
+
+        requestInstance
+    }
+
     List<Map> getCurrentDateRequestList() {
         final session = sessionFactory.currentSession
         final String query = """

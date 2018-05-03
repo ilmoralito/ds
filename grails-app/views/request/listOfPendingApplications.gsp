@@ -15,6 +15,10 @@
             <input id="filter" placeholder="Filtrar...">
 
             <table class="table table-hover">
+                <col width="98%">
+                <col width="1%">
+                <col width="1%">
+
                 <tbody>
                     <g:each in="${dataset}" var="data" status="index">
                         <tr>
@@ -32,7 +36,12 @@
                                     style="vertical-align: middle;">
                                     <g:link action="show" id="${detail.id}">${detail.user} en ${detail.classroom}</g:link>
                                 </td>
-                                <td width="1">
+                                <td>
+                                    <g:link controller="request" action="edit" id="${detail.id}" class="btn btn-mini btn-link">
+                                        <i class="icon-pencil"></i>
+                                    </g:link>
+                                </td>
+                                <td>
                                     <g:form
                                         action="delete"
                                         style="margin: 0;"
@@ -40,7 +49,7 @@
                                         onSubmit="if (!confirm('¿Estás seguro?')) return false;">
                                         <g:hiddenField name="_method" value="DELETE"/>
 
-                                        <button type="submit" class="btn btn-link btn-small">
+                                        <button type="submit" class="btn btn-mini btn-link">
                                             <i class="icon-trash"></i>
                                         </button>
                                     </g:form>

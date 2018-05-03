@@ -69,23 +69,6 @@ class RequestController {
         }
     }
 
-    def edit(Long id) {
-        Request requestInstance = requestService.getAdministrableRequest(id)
-
-        if (!requestInstance || !(userService.getCurrentUser().role in ['coordinador', 'asistente', 'administrativo'])) {
-            response.sendError 404
-            return false
-        }
-
-        [
-            requestInstance: requestInstance,
-            blockWidget: createBlockWidget(
-                requestInstance.school,
-                requestInstance.dateOfApplication
-            )
-        ]
-    }
-
     def listOfPendingApplications() {
         User user = session.user
         List<Request> requests = user.role in ['coordinador', 'asistente'] ?
@@ -217,6 +200,50 @@ class RequestController {
         if (!requestInstance.user) response.sendError 404
 
         [requestInstance: requestInstance]
+    }
+
+    def edit(final Long id) {
+        Request requestInstance = Request.get(id)
+
+        if (!requestInstance) response.sendError 404
+
+        [
+            requestInstance: requestInstance,
+            blockWidget: createBlockWidget(requestInstance.school, requestInstance.dateOfApplication)
+        ]
+    }
+
+    def update(UpdateRequestCommand command) {
+        Request requestInstance = Request.get(command.id)
+
+        if (!requestInstance) response.sendError 404
+
+        if (command.hasErrors()) {
+            render view: 'edit', model: [
+                errors: command.errors,
+                requestInstance: requestInstance,
+                blockWidget: createBlockWidget(requestInstance.school, requestInstance.dateOfApplication)
+            ]
+
+            return
+        }
+
+        try {
+            Request object = requestService.update(command)
+
+            flash.message = 'Solicitud editada'
+            redirect action: 'activity', params: [
+                date: object.dateOfApplication.format('yyyy-MM-dd'),
+                datashow: object.datashow,
+                blocks: object.hours
+            ]
+        } catch(ValidationException e) {
+            render view: 'edit', model: [
+                errors: e.errors,
+                requestInstance: requestInstance,
+                blockWidget: createBlockWidget(requestInstance.school, requestInstance.dateOfApplication)
+            ]
+        }
     }
 
     def delete(final Long id) {
@@ -419,6 +446,10 @@ class StoreRequestCommand {
     static constraints = {
         hours nullable: false, min: 1
     }
+}
+
+class UpdateRequestCommand extends StoreRequestCommand {
+    Long id
 }
 
 class BlockWidget {

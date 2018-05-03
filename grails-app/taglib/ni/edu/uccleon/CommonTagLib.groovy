@@ -181,6 +181,7 @@ class CommonTagLib {
 
     def usersBySchool = { attrs ->
         List<Map> userList = userService.getUserListBySchool(attrs.school)
+        User selectedUser = attrs.user ?: userService.getCurrentUser()
         MarkupBuilder markupBuilder = new MarkupBuilder(out)
         Map<String, String> parameters = [:]
 
@@ -197,7 +198,7 @@ class CommonTagLib {
                         List<String> classrooms = user.classrooms.tokenize(',')
                         List<Map<String, String>> classroomList = groupClassroomByCode(classrooms)
 
-                        userService.getCurrentUser().id == user.id ? parameters.selected = true : parameters.remove('selected')
+                        selectedUser.id == user.id ? parameters.selected = true : parameters.remove('selected')
                         parameters.value = user.id
                         parameters['data-classrooms'] = JsonOutput.toJson(classroomList)
 
@@ -212,9 +213,9 @@ class CommonTagLib {
 
     def userClassrooms = { attrs ->
         MarkupBuilder markupBuilder = new MarkupBuilder(out)
-        List<String> currentUserClassroomList = getCurrentUserClassroomList()
-        List undefinedClassroomList = getUndefinedClassroomList(currentUserClassroomList)
-        List classroomList = getGroupedClassroomList(currentUserClassroomList)
+        List<String> userClassrooms = attrs.user ? userService.getUserClassrooms(attrs.user.id) : getCurrentUserClassroomList()
+        List undefinedClassroomList = getUndefinedClassroomList(userClassrooms)
+        List classroomList = getGroupedClassroomList(userClassrooms)
         String selected = attrs.selected
         Map parameters = [:]
 
@@ -269,6 +270,7 @@ class CommonTagLib {
         List<Integer> datashows = attrs.blockWidget.datashows
         List<Request> requests = attrs.blockWidget.requests
         Integer blocks = attrs.blockWidget.blocks
+        Request requestInstance = attrs.requestInstance
         Map<String, String> parameters = [:]
 
         markupBuilder.section {
@@ -319,12 +321,21 @@ class CommonTagLib {
                             }
 
                             datashows.each { datashow ->
-                                if (requests.find { it.datashow ==  datashow && block in it.hours.block }) {
+                                Request request = requests.find { Request object ->
+                                    object.datashow == datashow && block in object.hours.block
+                                }
+
+                                if (requestInstance && request == requestInstance) {
                                     parameters.checked = true
-                                    parameters.disabled = true
-                                } else {
-                                    parameters.remove('checked')
                                     parameters.remove('disabled')
+                                } else {
+                                    if (request) {
+                                        parameters.checked = true
+                                        parameters.disabled = true
+                                    } else {
+                                        parameters.remove('checked')
+                                        parameters.remove('disabled')
+                                    }
                                 }
 
                                 parameters.type = 'checkbox'
@@ -564,9 +575,10 @@ class CommonTagLib {
     }
 
     private List<Map> getGroupedClassroomList(final List<String >classrooms) {
-        classrooms.findAll { classroom -> classroom[0] in classroomCodes() && !(classroom in undefinedClassroomList())}
+        classrooms
+            .findAll { classroom -> classroom[0] in classroomCodes() && !(classroom in undefinedClassroomList())}
             .groupBy { it[0] }
-            .collect { [ code: it.key, classrooms: it.value ] }
+            .collect { [ code: it.key, classrooms: it.value.sort() ] }
     }
 
     private List<Map> getUndefinedClassroomList(final List<String> classrooms) {

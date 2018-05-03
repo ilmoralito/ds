@@ -9,13 +9,20 @@
             <g:link url="${request.getHeader('referer')}" class="btn">Regresar</g:link>
 
             <ds:isNotAdmin>
-                <a
-                    href="#"
-                    action="delete"
-                    class="btn btn-danger pull-right"
-                    onclick="if (confirm('Are you sure?')) document.querySelector('#deleteForm').submit();">
-                    Eliminar
-                </a>
+                <div class="clearfix pull-right">
+                    <g:link
+                        controller="request"
+                        action="edit"
+                        id="${requestInstance.id}"
+                        class="btn btn-primary">Editar</g:link>
+                    <a
+                        href="#"
+                        action="delete"
+                        class="btn btn-danger"
+                        onclick="if (confirm('Are you sure?')) document.querySelector('#deleteForm').submit();">
+                        Eliminar
+                    </a>
+                </div>
                 <g:form name="deleteForm" action="delete" id="${requestInstance.id}">
                     <g:hiddenField name="_method" value="DELETE"/>
                 </g:form>
