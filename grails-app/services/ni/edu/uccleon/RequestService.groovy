@@ -470,6 +470,53 @@ class RequestService {
         ''', [year: year])
     }
 
+    List<Map> getRequestStateInMonth(final List<String> schools) {
+        final session = sessionFactory.currentSession
+        final String query = '''
+            SELECT
+                u.full_name applicant,
+                r.school,
+                COUNT(r.id) count
+            FROM request r INNER JOIN user u ON r.user_id = u.id
+            WHERE
+                MONTH(r.date_of_application) = MONTH(curdate())
+                    and YEAR(r.date_of_application) = YEAR(curdate())
+                        and r.school IN (:schools)
+            GROUP BY applicant, school
+            ORDER BY count DESC'''
+        final sqlQuery = session.createSQLQuery(query)
+        final results = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setParameterList 'schools', schools
+
+            list()
+        }
+
+        List<Map> dataset = getRequestState(results)
+
+        dataset
+    }
+
+    List<Map> getRequestState(final List<Map> dataset) {
+        List<Map> result = dataset.groupBy { it.applicant }.collect {
+            [
+                applicant: it.key,
+                total: it.value.count.sum(),
+                requests: it.value.collect {
+                    [
+                        school: it.school,
+                        count: it.count
+                    ]
+                }
+            ]
+        }.sort { a, b ->
+            b.total <=> a.total
+        }
+
+        result
+    }
+
     void sendSummaryToManagers() {
         Date date = new Date()
         Integer year = date[YEAR]

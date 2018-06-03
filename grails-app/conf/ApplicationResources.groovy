@@ -104,6 +104,7 @@ modules = {
 
     filter {
         dependsOn 'app'
+        resource url: 'css/bar.css'
         resource url: 'js/filterPendingRequest.js'
     }
 }

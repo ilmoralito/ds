@@ -1,4 +1,4 @@
-<g:applyLayout name="twoColumns">
+<g:applyLayout name="${requestState.dataset ? 'threeColumns' : 'twoColumns'}">
     <head>
         <title>Lista de solicitudes pendientes</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, filter"/>
@@ -22,7 +22,7 @@
                 <tbody>
                     <g:each in="${dataset}" var="data" status="index">
                         <tr>
-                            <td colspan="2" style="${index == 0 ? 'border-top: 0;' : ''}">
+                            <td colspan="3" style="${index == 0 ? 'border-top: 0;' : ''}">
                                 ${data.date}
                             </td>
                         </tr>
@@ -63,5 +63,21 @@
         <g:else>
             <p>Sin datos que mostrar</p>
         </g:else>
+    </content>
+
+    <content tag="col1">
+        <g:if test="${requestState.dataset}">
+            <g:each in="${requestState.dataset}" var="dataset">
+                <p style="font-size: .9em;">${dataset.applicant}</p>
+                
+                <g:each in="${dataset.requests}" var="request">
+                    <div class="bar" style="width: ${request.count + 20}px;">
+                        ${request.count}
+                    </div>
+
+                    <div class="school">${request.school}</div>
+                </g:each>
+            </g:each>
+        </g:if>
     </content>
 </g:applyLayout>

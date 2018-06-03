@@ -88,7 +88,7 @@ class RequestController {
             ]
         }.sort { a, b -> b.date <=> a.date }
 
-        [dataset: dataset]
+        [dataset: dataset, requestState: createRequestStateInMonth()]
     }
 
     def userStatistics() {
@@ -392,6 +392,12 @@ class RequestController {
             ]
         }
     }
+
+    private RequestStateInMonth createRequestStateInMonth() {
+        new RequestStateInMonth(
+            dataset: requestService.getRequestStateInMonth(session.schools)
+        )
+    }
 }
 
 class BuildRequestCommand {
@@ -457,4 +463,8 @@ class BlockWidget {
     Integer blocks
     List<Integer> datashows
     List<Request> requests
+}
+
+class RequestStateInMonth {
+    List<Map> dataset
 }

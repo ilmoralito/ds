@@ -49,7 +49,7 @@ environments {
 }
 
 log4j = {
-    // trace 'org.hibernate.type.descriptor.sql.BasicBinder'
+    trace 'org.hibernate.type.descriptor.sql.BasicBinder'
 
     // debug 'org.hibernate.SQL', 'grails.app.controllers'
 
