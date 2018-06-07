@@ -1,3 +1,5 @@
+p.applicant { font-size: .9em; }
+
 .bar {
     font-size: 0.7em;
     padding: 0 5px;
@@ -14,6 +16,6 @@
     border-top: 1px solid #444;
     color: #444;
     margin: -10px 0 5px 0;
-    font-size: .5em;
+    font-size: .6em;
     padding: 0;
 }

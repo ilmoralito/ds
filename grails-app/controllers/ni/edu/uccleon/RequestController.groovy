@@ -395,7 +395,7 @@ class RequestController {
 
     private RequestStateInMonth createRequestStateInMonth() {
         new RequestStateInMonth(
-            dataset: requestService.getRequestStateInMonth(session.schools)
+            dataset: requestService.getRequestStateInMonth(session.user.id)
         )
     }
 }

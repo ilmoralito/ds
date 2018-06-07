@@ -1,3 +1,5 @@
+<%@ page import="groovy.json.*" %>
+
 <g:applyLayout name="${requestState.dataset ? 'threeColumns' : 'twoColumns'}">
     <head>
         <title>Lista de solicitudes pendientes</title>
@@ -67,17 +69,26 @@
 
     <content tag="col1">
         <g:if test="${requestState.dataset}">
-            <g:each in="${requestState.dataset}" var="dataset">
-                <p style="font-size: .9em;">${dataset.applicant}</p>
-                
-                <g:each in="${dataset.requests}" var="request">
-                    <div class="bar" style="width: ${request.count + 20}px;">
-                        ${request.count}
-                    </div>
+            <input id="filter-box" placeholder="Filtrar..." class="span2">
 
-                    <div class="school">${request.school}</div>
+            <div id="filter-list">
+                <g:each in="${requestState.dataset}" var="dataset">
+                    <div
+                        data-applicant="${dataset.applicant}"
+                        data-total="${dataset.total}"
+                        data-requests="${new JsonBuilder(dataset.requests)}">
+                        <p class="applicant">${dataset.applicant}</p>
+
+                        <g:each in="${dataset.requests}" var="request">
+                            <div class="bar" style="width: ${request.count + 20}px;">
+                                ${request.count}
+                            </div>
+
+                            <div class="school">${request.school}</div>
+                        </g:each>
+                    </div>
                 </g:each>
-            </g:each>
+            </div>
         </g:if>
     </content>
 </g:applyLayout>
