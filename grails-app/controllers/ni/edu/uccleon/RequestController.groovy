@@ -275,23 +275,36 @@ class RequestController {
         redirect uri: request.getHeader('referer')
     }
 
-    def activity(String date) {
+    def activity(final String date) {
         try {
-            Date dateOfApplication = date ? Date.parse('yyyy-MM-dd', date) : new Date()
-            List<Map> requestList = date ? requestService.getRequestListInDate(dateOfApplication) : requestService.getCurrentDateRequestList()
+            Date applicationDate = date ? Date.parse('yyyy-MM-dd', date) : new Date()
+            List<Map> requestList = date ?
+                requestService.getRequestListInDate(applicationDate) :
+                requestService.getCurrentDateRequestList()
 
             Closure layout = {
                 User currentUser = userService.getCurrentUser()
 
-                !currentUser ? 'oneColumn': currentUser.role != 'admin' ? 'twoColumns' : 'threeColumns'
+                if (!currentUser) {
+                    return 'oneColumn'
+                }
+
+                if (currentUser.role == 'admin') {
+                    return requestList ? 'threeColumns' : 'twoColumns'
+                }
+
+                if (currentUser.role in (grailsApplication.config.ni.edu.uccleon.roles - 'admin')) {
+                    return 'twoColumns'
+                }
             }
 
             [
                 layout: layout(),
-                dateOfApplication: dateOfApplication,
+                dateOfApplication: applicationDate,
                 requestList: tranformToRequestList(requestList),
                 statusList: helper.getStatusListExcept('pending'),
                 datashows: grailsApplication.config.ni.edu.uccleon.datashows.size(),
+                activitySummary: requestList && session?.user?.role == 'admin' ? createActivitySummary(applicationDate) : null,
             ]
         } catch(Exception e) {
             flash.message = 'Fecha no parseable. What are you trying to do? ;^)'
@@ -408,10 +421,16 @@ class RequestController {
             dataset: requestService.getRequestStateInMonth(session.user.id)
         )
     }
+
+    private ActivitySummary createActivitySummary(final Date applicationDate) {
+        new ActivitySummary (
+            applicationDateSummary: requestService.getApplicationDateSummary(applicationDate),
+            applicantSummary: requestService.getApplicantSummary(applicationDate)
+        )
+    }
 }
 
 class BuildRequestCommand {
-
     UserService userService
 
     String school
@@ -477,4 +496,9 @@ class BlockWidget {
 
 class RequestStateInMonth {
     List<Map> dataset
+}
+
+class ActivitySummary {
+    List<Map> applicationDateSummary
+    List<Map> applicantSummary
 }

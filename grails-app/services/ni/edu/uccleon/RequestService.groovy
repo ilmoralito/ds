@@ -580,6 +580,50 @@ class RequestService {
         Request.where { dateOfApplication == dateOfApplication && status == 'pending' }.updateAll(status: status)
     }
 
+    List<Map> getApplicationDateSummary(final Date applicationDate) {
+        Request.executeQuery('''
+            SELECT
+                new map (
+                    request.school AS school,
+                    COUNT(request.id) AS count
+                )
+            FROM
+                Request AS request
+            WHERE
+                request.dateOfApplication = :applicationDate
+                    AND
+                        request.status = 'pending'
+            GROUP BY school
+            ORDER BY 2 DESC''', [applicationDate: applicationDate.clearTime()])
+    }
+
+    List<Map> getApplicantSummary(final Date applicationDate) {
+        final session = sessionFactory.currentSession
+        final String query = '''
+            SELECT
+                u.full_name applicant,
+                COUNT(r.id) count
+            FROM
+                request r
+                    INNER JOIN
+                user u ON r.user_id = u.id
+            WHERE
+                r.date_of_application = :applicationDate
+                    AND r.status = 'pending'
+            GROUP BY applicant
+            ORDER BY applicant DESC'''
+        final sqlQuery = session.createSQLQuery(query)
+        final result = sqlQuery.with {
+            resultTransformer = AliasToEntityMapResultTransformer.INSTANCE
+
+            setDate('applicationDate', applicationDate)
+
+            list()
+        }
+
+        result
+    }
+
     List<Map<String, Object>> summaryByCoordination(final String school, final Integer month, final Integer year) {
         final session = sessionFactory.currentSession
         final String query

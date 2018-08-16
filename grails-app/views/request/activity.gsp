@@ -12,7 +12,11 @@
         </g:if>
     </head>
     <content tag="main">
-        <ds:activitiesTable requests="${requestList}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
+        <ds:activitiesTable
+            requests="${requestList}"
+            datashows="${datashows}"
+            dateOfApplication="${dateOfApplication}"
+            layout="${layout}"/>
 
         <ds:isAdmin>
             <g:if test="${requestList}">
@@ -42,24 +46,10 @@
     </content>
 
     <content tag="col1">
-        <ul class="nav nav-tabs">
-            <li class="${!params.tab ? 'active' : ''}">
-                <g:link action="activity" params="[date: dateOfApplication.format('yyyy-MM-dd') ?: '']">
-                    Filtro
-                </g:link>
-            </li>
-            <li class="${params.tab ? 'active' : ''}">
-                <g:link action="activity" params="[date: dateOfApplication.format('yyyy-MM-dd') ?: '', tab: 'resumen']">
-                    Resumen
-                </g:link>
-            </li>
-        </ul>
-
-        <g:if test="${!params.tab}">
-            Implementar filtro con parametros de las solicitudes listadas
+        <g:if test="${activitySummary}">
+            <ds:activitySummary
+                applicationDateSummary="${activitySummary.applicationDateSummary}"
+                applicantSummary="${activitySummary.applicantSummary}" />
         </g:if>
-        <g:else>
-            Implementar resumen de las solicitudes de la fecha
-        </g:else>
     </content>
 </g:applyLayout>

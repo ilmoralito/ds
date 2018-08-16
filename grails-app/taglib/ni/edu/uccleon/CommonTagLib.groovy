@@ -380,16 +380,16 @@ class CommonTagLib {
         List requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus.findAll { it.english != 'pending' }
 
         mb.section {
-            p {
-                span(id: 'activity-count') {
-                    mkp.yield requests.size()
-                }
-
-                mkp.yield " actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
-            }
-
             div(class: 'responsive-table') {
                 table(id: 'activity-table', class: 'table table-bordered fixed') {
+                    caption {
+                        span(id: 'activity-count') {
+                            mkp.yield requests.size()
+                        }
+
+                        mkp.yield " actividades el ${g.formatDate(format: 'yyyy-MM-dd', date: dateOfApplication)}"
+                    }
+
                     thead {
                         (1..datashows).eachWithIndex { datashow, index ->
                             if (index == 0) {
@@ -508,6 +508,46 @@ class CommonTagLib {
         }
 
         out << medias.join(', ')
+    }
+
+    def activitySummary = { attrs ->
+        MarkupBuilder markupBuilder = new MarkupBuilder(out)
+        List<Map> applicationDateSummary = attrs.applicationDateSummary
+        List<Map> applicantSummary = attrs.applicantSummary
+
+        markupBuilder.div {
+            table(class: 'table table-hover table-bordered') {
+                caption 'Coordinaciones'
+
+                col(width: '99%')
+                col(width: '1%')
+
+                tbody {
+                    applicationDateSummary.each { Map dataset ->
+                        tr {
+                            td dataset.school
+                            td dataset.count
+                        }
+                    }
+                }
+            }
+
+            table(class: 'table table-hover table-bordered') {
+                caption 'Solicitantes'
+
+                col(width: '99%')
+                col(width: '1%')
+
+                tbody {
+                    applicantSummary.each { Map dataset ->
+                        tr {
+                            td dataset.applicant
+                            td dataset.count
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private Boolean hasValidRole() {
