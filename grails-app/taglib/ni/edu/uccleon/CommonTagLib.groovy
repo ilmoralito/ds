@@ -374,7 +374,7 @@ class CommonTagLib {
     def activitiesTable = { attrs ->
         MarkupBuilder mb = new MarkupBuilder(out)
         Date dateOfApplication = attrs.dateOfApplication
-        List<Request> requests = attrs.requests
+        List<Map> requests = attrs.requests
         Integer datashows = attrs.datashows
         User currentUser = userService.getCurrentUser()
         List requestStatus = grailsApplication.config.ni.edu.uccleon.requestStatus.findAll { it.english != 'pending' }
@@ -437,7 +437,7 @@ class CommonTagLib {
                                                 }
 
                                                 if (attrs.layout == 'twoColumns') {
-                                                    List<String> currentUserSchools = userService.getUserSchools(currentUser.id)
+                                                    List<String> currentUserSchools = session.schools
 
                                                     if (request.school in currentUserSchools) {
                                                         a(href: createLink(controller: 'request', action: 'edit', id: request.id)) {
