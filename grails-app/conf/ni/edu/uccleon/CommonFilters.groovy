@@ -33,7 +33,7 @@ class CommonFilters {
             }
         }
 
-        requestAdministratorOnly(controller: 'request', action: '(list|filter|applyFilter|changeRequestsStatus|updateStatus)') {
+        requestAdministratorOnly(controller: 'request', action: '(list|filter|applyFilter|changeRequestsStatus|updateStatus|updateAllStatus)') {
             before = {
                 if (session.user.role != 'admin') {
                     response.sendError 403

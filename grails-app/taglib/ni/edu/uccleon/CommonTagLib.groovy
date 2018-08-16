@@ -36,7 +36,7 @@ class CommonTagLib {
     def isAdmin = {attrs, body ->
         User currentUser = userService.getCurrentUser()
 
-        if (currentUser.role == 'admin') {
+        if (currentUser?.role == 'admin') {
             out << body()
         }
     }

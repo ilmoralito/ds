@@ -14,6 +14,20 @@
     <content tag="main">
         <ds:activitiesTable requests="${requestList}" datashows="${datashows}" dateOfApplication="${dateOfApplication}" layout="${layout}"/>
 
+        <ds:isAdmin>
+            <g:if test="${requestList}">
+                <g:each in="${statusList}" var="status">
+                    <g:link
+                        action="updateAllStatus"
+                        params="[status: status.english, applicationDate: dateOfApplication.format('yyyy-MM-dd')]"
+                        class="btn"
+                        onclick="if (!confirm('¿Seguro de continuar?')) return false">
+                        ${status.spanish}
+                    </g:link>
+                </g:each>
+            </g:if>
+        </ds:isAdmin>
+
         <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

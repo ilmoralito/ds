@@ -574,6 +574,12 @@ class RequestService {
         }
     }
 
+    int updateRequestStatus(final String status, final String applicationDate) {
+        final Date dateOfApplication = Date.parse('yyyy-MM-dd', applicationDate)
+
+        Request.where { dateOfApplication == dateOfApplication && status == 'pending' }.updateAll(status: status)
+    }
+
     List<Map<String, Object>> summaryByCoordination(final String school, final Integer month, final Integer year) {
         final session = sessionFactory.currentSession
         final String query

@@ -11,6 +11,7 @@ class RequestController {
     UserService userService
     AppService appService
     def grailsApplication
+    Helper helper
 
     static defaultAction = 'list'
 
@@ -289,6 +290,7 @@ class RequestController {
                 layout: layout(),
                 dateOfApplication: dateOfApplication,
                 requestList: tranformToRequestList(requestList),
+                statusList: helper.getStatusListExcept('pending'),
                 datashows: grailsApplication.config.ni.edu.uccleon.datashows.size(),
             ]
         } catch(Exception e) {
@@ -297,6 +299,14 @@ class RequestController {
             redirect controller: 'request', action: 'activity'
             return
         }
+    }
+
+    def updateAllStatus(final String status, final String applicationDate) {
+        final Integer rowsAffected = requestService.updateRequestStatus(status, applicationDate)
+        final String statusInSpanish = helper.getStatusInSpanish(status)
+
+        flash.message = "$rowsAffected solicitudes actualizada a estado $statusInSpanish"
+        redirect action: 'activity', params: [dateOfApplication: applicationDate]
     }
 
     def createRequestFromActivity() {

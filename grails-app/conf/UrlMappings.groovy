@@ -1,8 +1,10 @@
 import ni.edu.uccleon.UserService
+import ni.edu.uccleon.Helper
 
 class UrlMappings {
 
     UserService userService
+    Helper helper
 
     static mappings = { ctx ->
         "/$controller/$action?/$id?"{
@@ -24,6 +26,15 @@ class UrlMappings {
             action = 'activity'
             constraints {
                 dateOfApplication nullable: true
+            }
+        }
+
+        "/requests/to/$status/at/$applicationDate" {
+            controller = 'request'
+            action = 'updateAllStatus'
+            constraints {
+                status inList: ['attended', 'absent', 'canceled'] // helper.getEnglishStatusList()
+                applicationDate nullable: false
             }
         }
 
