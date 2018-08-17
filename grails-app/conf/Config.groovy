@@ -68,17 +68,37 @@ log4j = {
 
 grails.mail.default.from=System.env.GMAIL_USERNAME
 
-grails {
-    mail {
-        host = 'smtp.gmail.com'
-        port = 465
-        username = System.env.GMAIL_USERNAME
-        password = System.env.GMAIL_PASSWORD
-        props = [
-            'mail.smtp.auth': 'true',
-            'mail.smtp.socketFactory.port': '465',
-            'mail.smtp.socketFactory.class': 'javax.net.ssl.SSLSocketFactory',
-            'mail.smtp.socketFactory.fallback': 'false'
-        ]
+environments {
+    development {
+        grails {
+            mail {
+                host = 'smtp.mailtrap.io'
+                port = 465
+                username = '94375eafff9b2e'
+                password = 'fc64205d93a980'
+                props = [
+                    'mail.smtp.auth': 'true',
+                    'mail.smtp.socketFactory.port': '465',
+                    'mail.smtp.socketFactory.fallback': 'false'
+                ]
+            }
+        }
+    }
+
+    production {
+        grails {
+            mail {
+                host = 'smtp.gmail.com'
+                port = 465
+                username = System.env.GMAIL_USERNAME
+                password = System.env.GMAIL_PASSWORD
+                props = [
+                    'mail.smtp.auth': 'true',
+                    'mail.smtp.socketFactory.port': '465',
+                    'mail.smtp.socketFactory.class': 'javax.net.ssl.SSLSocketFactory',
+                    'mail.smtp.socketFactory.fallback': 'false'
+                ]
+            }
+        }
     }
 }
