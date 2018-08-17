@@ -1,7 +1,11 @@
-<g:applyLayout name="threeColumns">
+<g:applyLayout name="twoColumns">
     <head>
         <title>${user?.fullName}</title>
         <r:require modules="bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, userShow"/>
+
+        <g:javascript>
+            window.ajaxURI = "${createLink(controller: 'user', action: 'updateUserEnabledProperty')}"
+        </g:javascript>
     </head>
 
     <content tag="main">
@@ -49,29 +53,17 @@
                 <td>Estado</td>
                 <td>
                     <g:hiddenField name="id" value="${user?.id}"/>
-                    <div class="checkbox">
-                        <label>
-                            <g:checkBox name="enabled" value="${user?.enabled}" checked="${user?.enabled}" data-id="${user.id}"/>
-                            Estado
-                        </label>
-                    </div>
+                    <g:checkBox name="enabled" value="${user?.enabled}" checked="${user?.enabled}" data-id="${user.id}"/>
                 </td>
             </tr>
         </table>
-    </content>
 
-    <content tag="col1">
-        <g:form action="notification" style="margin-bottom: 6px;">
+        <g:link action="edit" id="${user.id}" class="btn">Editar</g:link>
+        <g:link action="resetPassword" id="${user.id}" class="btn">Resetear clave</g:link>
+        <button type="submit" form="notificationForm" class="btn">Reenviar notificacion</button>
+
+        <g:form action="notification" name="notificationForm">
             <g:hiddenField name="id" value="${user.id}"/>
-            <button type="submit" class="btn btn-block">Enviar notificacion</button>
         </g:form>
-
-        <g:link action="resetPassword" id="${user.id}" class="btn btn-warning btn-block">Resetear clave</g:link>
-
-        <g:link action="edit" id="${user.id}" class="btn btn-primary btn-block">Editar</g:link>
-
-        <g:javascript>
-            window.ajaxURI = "${createLink(controller: 'user', action: 'updateUserEnabledProperty')}"
-        </g:javascript>
     </content>
 </g:applyLayout>

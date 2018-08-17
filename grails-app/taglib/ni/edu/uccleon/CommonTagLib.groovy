@@ -542,7 +542,9 @@ class CommonTagLib {
                     applicantSummary.each { Map dataset ->
                         tr {
                             td dataset.applicant
-                            td dataset.count
+                            td(style: 'vertical-align: middle') {
+                                mkp.yield dataset.count
+                            }
                         }
                     }
                 }

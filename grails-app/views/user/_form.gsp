@@ -7,7 +7,7 @@
     <g:textField name="fullName" value="${user?.fullName}" class="span8"/>
 
     <label for="email">${role == 'user' ? 'Correo' : 'Correo institucional'}</label>
-    <g:textField name="email" value="${user?.email}" class="span8"/>
+    <g:textField name="email" value="${user?.email}" placeholder="${role != 'user' ? 'nombre.apellido@ucc.edu.ni' : ''}" class="span8"/>
 </section>
 
 <section>

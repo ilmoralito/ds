@@ -21,7 +21,7 @@
                 <col width="99%">
                 <col width="1%">
 
-                <caption id="requestCount">${requestCount} resultado${requestCount > 1 ? 's' : ''}</caption>
+                <caption id="requestCount" style="caption-side: bottom; text-align: right;">${requestCount} resultado${requestCount > 1 ? 's' : ''}</caption>
 
                 <thead>
                     <tr>

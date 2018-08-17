@@ -16,8 +16,13 @@
 
                 <thead>
                     <tr>
-                        <th colspan="2">
+                        <th>
                             <input id="filter" placeholder="Filtrar">
+                        </th>
+                        <th>
+                            <g:link action="filter" class="btn btn-mini">
+                                <i class="icon-filter"></i>
+                            </g:link>
                         </th>
                     </tr>
                 </thead>
@@ -28,11 +33,11 @@
                             <td>
                                 <g:link action="show" id="${user.id}" class="target">${user.fullName}</g:link>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <g:link
                                     action="delete"
                                     id="${user.id}"
-                                    onclick="if (!confirm('Seguro?')) return false;">
+                                    onclick="if (!confirm('¿Seguro?')) return false;">
                                     <i class="icon-trash"></i>
                                 </g:link>
                             </td>
@@ -47,20 +52,19 @@
     </content>
 
     <content tag="col1">
-        <g:form action="create" method="GET" autocomplete="off">
-            <label for="role">Rol</label>
-            <g:select
-                name="role"
-                from="${roles}"
-                optionValue="${{ it == 'user' ? 'Profesor' : it.capitalize() }}"
-                noSelection="['': 'Selecciona un rol']"
-                class="span2"/>
+        <g:form action="create" method="GET" autocomplete="off" style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px;">
+                <label for="role">Selecciona un rol</label>
+                <g:each in="${roles}" var="role">
+                    <div class="radio">
+                        <label>
+                            <g:radio name="role" value="${role}" /> ${role.capitalize()}
+                        </label>
+                    </div>
+                </g:each>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-block">Agregar</button>
         </g:form>
-
-        <g:link action="filter" class="btn btn-default btn-block">
-            <i class="icon-filter"></i> Filtrar
-        </g:link>
     </content>
 </g:applyLayout>

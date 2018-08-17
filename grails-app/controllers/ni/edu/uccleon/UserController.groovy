@@ -240,8 +240,8 @@ class UserController {
         }
     }
 
-    def notification(Integer id) {
-        def user = User.get id
+    def notification(final Long id) {
+        User user = User.get(id)
 
         if (!user) response.sendError 404
 
