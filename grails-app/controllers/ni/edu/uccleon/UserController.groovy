@@ -1,11 +1,11 @@
 package ni.edu.uccleon
 
 import grails.validation.ValidationException
-import grails.util.Environment
 
 class UserController {
 
     UserService userService
+    def mailService
 
     static defaultAction = 'profile'
 
@@ -178,13 +178,12 @@ class UserController {
         try {
             User user = userService.save(command)
 
-            if (Environment.current == Environment.PRODUCTION) {
-                List<User> authorities = getAuthoritiesInSchools(command.schools)
-
-                sendNotification(authorities, user)
+            // user instance with role user equals profesor
+            if (user.role == 'user') {
+                sendNotification(user)
             }
 
-            flash.message = Environment.current == Environment.PRODUCTION ? 'Usuario creado y notificado' : 'Usuario creado'
+            flash.message = 'Usuario creado'
             redirect action: 'create', method: 'GET', params: ['role': command.role]
         } catch(ValidationException e) {
             render model: [errors: e.errors, userModel: makeUserModel(command.role)], view: 'create'
@@ -348,8 +347,9 @@ class UserController {
         grailsApplication.config.grails.serverURL
     }
 
-    private List<User> getAuthoritiesInSchools(List<String> schoolList) {
-        List<User> authorities = getAcademicAuthorities().inject([]) { accumulator, currentValue ->
+    private List<User> getAuthoritiesInSchools(final List<String> schoolList) {
+        List<User> academyAuthorities = getAcademicAuthorities()
+        List<User> authorities = academyAuthorities.inject([]) { accumulator, currentValue ->
             if (currentValue.schools.toList().any { school -> school in schoolList }) {
                 accumulator << currentValue
             }
@@ -364,16 +364,18 @@ class UserController {
         User.hasAcademyAuthority.list()
     }
 
-    private void sendNotification(final List<User> authorities, final User user) {
-        authorities.each { authority ->
-            sendMail {
+    private void sendNotification(final User user) {
+        final List<User> authorities = getAuthoritiesInSchools(user.schools.toList())
+
+        authorities.each { User authority ->
+            mailService.sendMail {
                 to authority.email
-                subject 'Notificacion de datashow'
+                subject 'UCC León. Notificacion de datashow'
                 html g.render (template: 'email', model: [
                     authority: authority.fullName,
                     fullName: user.fullName,
-                    schools: userService.getUserSchools(user.id),
-                    classrooms: userService.getUserClassrooms(user.id)
+                    schools: user.schools.sort(),
+                    classrooms: user.classrooms.sort()
                 ])
             }
         }
