@@ -254,19 +254,6 @@ class UserController {
         redirect action: 'show', id: id
     }
 
-    def delete(Integer id) {
-        def user = User.get(id)
-
-        if (!user) {
-            response.sendError 404
-        }
-
-        user.delete()
-
-        flash.message = "Usuario eliminado"
-        redirect action:"list"
-    }
-
     def profile() {
         User user = session.user
 

@@ -30,16 +30,8 @@
                 <tbody>
                     <g:each in="${users}" var="user">
                         <tr data-user-id="${user.id}" data-user-fullName="${user.fullName}">
-                            <td>
+                            <td colspan="2">
                                 <g:link action="show" id="${user.id}" class="target">${user.fullName}</g:link>
-                            </td>
-                            <td style="text-align: center;">
-                                <g:link
-                                    action="delete"
-                                    id="${user.id}"
-                                    onclick="if (!confirm('¿Seguro?')) return false;">
-                                    <i class="icon-trash"></i>
-                                </g:link>
                             </td>
                         </tr>
                     </g:each>
