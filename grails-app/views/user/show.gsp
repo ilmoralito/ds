@@ -37,14 +37,14 @@
                 <tr>
                     <td>Coordinaciones</td>
                     <td>
-                        <g:join in="${user.schools.tokenize(',')}"/>
+                        ${user?.schools?.tokenize(',')?.join(', ')}
                     </td>
                 </tr>
 
                 <tr>
                     <td>Aulas</td>
                     <td>
-                        <g:join in="${user.classrooms.tokenize(',')}"/>
+                        ${user?.classrooms?.tokenize(',')?.join(', ')}
                     </td>
                 </tr>
             </g:if>
