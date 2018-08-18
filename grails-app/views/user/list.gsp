@@ -5,10 +5,6 @@
     </head>
 
     <content tag="main">
-        <script>
-            serverURL = "${grailsApplication.config.grails.serverURL}"
-        </script>
-
         <g:if test="${users}">
             <table id="users" class="table table-hover">
                 <col width="99%">
@@ -32,6 +28,12 @@
                                     <li>
                                         <a href="#" data-status="inactive">Inactivos</a>
                                     </li>
+                                    <li class="divider"></li>
+                                    <g:each in="${roles}" var="role">
+                                        <li>
+                                            <a href="#" data-role="${role}">${role.capitalize()}</a>
+                                        </li>
+                                    </g:each>
                                     <li class="divider"></li>
                                     <li>
                                         <g:link action="filter">Filtrar</g:link>

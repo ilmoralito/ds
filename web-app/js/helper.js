@@ -14,6 +14,10 @@ function getUserUrl() {
     return `${host}/user`;
 }
 
+function highlightElement(element) {
+    element.classList.add('active');
+}
+
 function removeDropdownMenuActiveState() {
     document.querySelectorAll('ul.dropdown-menu li').forEach(li => li.classList.remove('active'));
 }

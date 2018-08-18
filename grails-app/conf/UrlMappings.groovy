@@ -62,6 +62,14 @@ class UrlMappings {
             }
         }
 
+        "/$role/users" {
+            controller = 'user'
+            action = 'getUsersByRole'
+            constraints {
+                role inList: grailsApplication.config.ni.edu.uccleon.roles
+            }
+        }
+
         '/normas'(view: '/normas')
 
         '500'(view: '/errors/500')

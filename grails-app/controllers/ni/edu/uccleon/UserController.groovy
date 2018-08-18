@@ -111,16 +111,7 @@ class UserController {
     }
 
     def list() {
-        final String query = """
-            SELECT
-                new map (u.id AS id, u.fullName AS fullName)
-            FROM
-                User u
-            WHERE
-                u.enabled = true
-            ORDER BY u.fullName"""
-
-        [users: User.executeQuery(query), roles: grailsApplication.config.ni.edu.uccleon.roles.sort()]
+        [users: userService.getUsersByStatus(), roles: grailsApplication.config.ni.edu.uccleon.roles.sort()]
     }
 
     def filter() {}
@@ -331,6 +322,14 @@ class UserController {
     def getUsersByStatus(final String status) {
         final Boolean enabled = status == 'active' ? true : false
         List<Map> users = userService.getUsersByStatus(enabled)
+
+        render(contentType: 'application/json') {
+            users = users
+        }
+    }
+
+    def getUsersByRole(final String role) {
+        List<Map> users = userService.getUsersByRole(role)
 
         render(contentType: 'application/json') {
             users = users

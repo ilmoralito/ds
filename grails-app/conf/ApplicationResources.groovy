@@ -61,6 +61,7 @@ modules = {
         resource url: 'js/helper.js'
         resource url: 'js/filter.js'
         resource url: 'js/swapUserStatus.js'
+        resource url: 'js/swapUserStatusByRole.js'
     }
 
     buildRequest {
