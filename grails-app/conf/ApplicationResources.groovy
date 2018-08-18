@@ -58,7 +58,9 @@ modules = {
 
     players {
         resource url: 'css/app.css'
+        resource url: 'js/helper.js'
         resource url: 'js/filter.js'
+        resource url: 'js/swapUserStatus.js'
     }
 
     buildRequest {

@@ -330,6 +330,15 @@ class UserController {
         redirect action:'show', id: id
     }
 
+    def getUsersByStatus(final String status) {
+        final Boolean enabled = status == 'active' ? true : false
+        List<Map> users = userService.getUsersByStatus(enabled)
+
+        render(contentType: 'application/json') {
+            users = users
+        }
+    }
+
     private String getServerURL() {
         grailsApplication.config.grails.serverURL
     }

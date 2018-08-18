@@ -1,51 +1,46 @@
 {
-  function getData() {
-    const nodeList = document.querySelectorAll('table#users tbody tr');
-    const dataset = Array.from(nodeList).map(node => Object.assign({}, node.dataset));
+    function getData() {
+        const nodeList = document.querySelectorAll('table#users tbody tr');
+        const dataset = Array.from(nodeList).map(node => Object.assign({}, node.dataset));
 
-    return dataset;
-  }
+        return dataset;
+    }
 
-  const data = getData();
+    const data = getData();
+    const filter = document.querySelector('#filter');
 
-  const filter = document.querySelector('#filter');
+    filter.addEventListener('keyup', applyFilter);
 
-  filter.addEventListener('keyup', applyFilter);
+    function applyFilter(event) {
+        removeDropdownMenuActiveState();
 
-  function applyFilter(event) {
-    const value = event.target.value;
-    const results = data.filter(info => {
-      const fullName = info.userFullname.toLowerCase();
+        const value = event.target.value;
+        const results = data.filter(info => {
+            const fullName = info.userFullname.toLowerCase();
 
-      return fullName.includes(value);
-    });
+            return fullName.includes(value);
+        });
 
-    render(results);
-  }
+        render(results);
+    }
 
-  function getView(results) {
-    const view = results.map(result => {
-      return `
-        <tr data-user-id="${result.userId}" data-user-fullName="${result.userFullname}">
-          <td>
-            <a href="${window.serverURL}/user/show/${result.userId}" class="target">${result.userFullname}</a>
-          </td>
+    function getView(results) {
+        const url = getUserUrl();
+        const view = results.map(result => {
+            return `
+                <tr data-user-id="${result.userId}" data-user-fullName="${result.userFullname}">
+                    <td colspan="2">
+                        <a href="${url}/show/${result.userId}" class="target">${result.userFullname}</a>
+                    </td>
+                </tr>`;
+        });
 
-          <td>
-            <a href="${window.serverURL}/user/delete/${result.userId}" onclick="if (!confirm('Seguro?')) return false;">
-                <i class="icon-trash"></i>
-            </a>
-          </td>
-        </tr>
-      `;
-    })
+        return view.join('');
+    }
 
-    return view.join('');
-  }
+    function render(results) {
+        const view = getView(results);
 
-  function render(results) {
-    const view = getView(results);
-
-    document.querySelector('#users tbody').innerHTML = view;
-  }
+        document.querySelector('#users tbody').innerHTML = view;
+    }
 }

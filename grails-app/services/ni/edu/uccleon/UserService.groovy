@@ -268,4 +268,14 @@ class UserService {
 
         allClassrooms ?: classrooms
     }
+
+    List<Map> getUsersByStatus(final Boolean enabled) {
+        User.executeQuery('''
+            SELECT
+                new map (id AS id, fullName AS fullName)
+            FROM
+                User u
+            WHERE
+                enabled = :enabled ORDER BY fullName''', [enabled: enabled])
+    }
 }

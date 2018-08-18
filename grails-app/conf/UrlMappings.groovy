@@ -54,6 +54,14 @@ class UrlMappings {
             }
         }
 
+        "/$status/users" {
+            controller = 'user'
+            action = 'getUsersByStatus'
+            constraints {
+                status inList: ['active', 'inactive']
+            }
+        }
+
         '/normas'(view: '/normas')
 
         '500'(view: '/errors/500')

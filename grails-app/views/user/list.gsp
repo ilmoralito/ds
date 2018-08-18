@@ -1,7 +1,7 @@
 <g:applyLayout name="threeColumns">
     <head>
         <title>Lista de usuarios</title>
-        <r:require modules = "bootstrap-css, bootstrap-responsive-css, jquery-ui, datepicker, players"/>
+        <r:require modules = "bootstrap-css, bootstrap-js, bootstrap-responsive-css, jquery-ui, datepicker, players"/>
     </head>
 
     <content tag="main">
@@ -20,9 +20,24 @@
                             <input id="filter" placeholder="Filtrar">
                         </th>
                         <th>
-                            <g:link action="filter" class="btn btn-mini">
-                                <i class="icon-filter"></i>
-                            </g:link>
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="icon-filter"></i>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#" data-status="active">Activos</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-status="inactive">Inactivos</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <g:link action="filter">Filtrar</g:link>
+                                    </li>
+                                </ul>
+                            </div>
                         </th>
                     </tr>
                 </thead>

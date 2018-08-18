@@ -7,11 +7,11 @@
     <content tag="main">
         <g:form action="applyFilter">
             <label>Estado</label>
-            <label class="checkbox inline">
+            <label class="checkbox">
                 <g:checkBox name="enabled" value="true" checked="${params.list('enabled').contains('true')}"/> Activos
             </label>
 
-            <label class="checkbox inline">
+            <label class="checkbox">
                 <g:checkBox name="enabled" value="false" checked="${params.list('enabled').contains('false')}"/> Inactivos
             </label>
 
