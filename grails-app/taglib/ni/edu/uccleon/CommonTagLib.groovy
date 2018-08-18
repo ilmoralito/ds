@@ -33,11 +33,17 @@ class CommonTagLib {
         out << appService.getClassroomCodeOrName(classroomCode)
     }
 
-    def isAdmin = {attrs, body ->
+    def isAdmin = { attrs, body ->
         User currentUser = userService.getCurrentUser()
 
         if (currentUser?.role == 'admin') {
             out << body()
+        }
+    }
+
+    def displayWhen = { attrs, body ->
+        if (attrs.role == 'user') {
+            out << body();
         }
     }
 

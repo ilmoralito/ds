@@ -60,10 +60,13 @@
 
         <g:link action="edit" id="${user.id}" class="btn">Editar</g:link>
         <g:link action="resetPassword" id="${user.id}" class="btn">Resetear clave</g:link>
-        <button type="submit" form="notificationForm" class="btn">Reenviar notificacion</button>
 
-        <g:form action="notification" name="notificationForm">
-            <g:hiddenField name="id" value="${user.id}"/>
-        </g:form>
+        <ds:displayWhen role="${user.role}">
+            <button type="submit" form="notificationForm" class="btn">Reenviar notificacion</button>
+
+            <g:form action="notification" name="notificationForm">
+                <g:hiddenField name="id" value="${user.id}"/>
+            </g:form>
+        </ds:displayWhen>
     </content>
 </g:applyLayout>

@@ -244,10 +244,8 @@ class UserController {
 
         if (!user) response.sendError 404
 
-        sendMail {
-            to user.email
-            subject 'Sobre solicitudes de datashow'
-            html g.render(template: 'email', model : [user: user, host: getServerURL()])
+        if (user.role == 'user') {
+            sendNotification(user)
         }
 
         flash.message = 'Notificacion enviada'
