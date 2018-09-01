@@ -9,12 +9,6 @@
             serverURL = "${grailsApplication.config.grails.serverURL}"
         </script>
 
-        <div class="clearfix">
-            <g:link action="filter" class="btn btn-default pull-right">
-                <i class="icon-filter"></i> Filtrar
-            </g:link>
-        </div>
-
         <g:if test="${results}">
             <table class="table table-hover">
                 <col width="1%">
@@ -30,6 +24,11 @@
                         </th>
                         <th>
                             <input id="filter" placeholder="Filtrar...">
+                        </th>
+                        <th>
+                            <g:link action="filter" class="btn btn-default pull-right">
+                                <i class="icon-filter"></i>
+                            </g:link>
                         </th>
                     </tr>
                 </thead>

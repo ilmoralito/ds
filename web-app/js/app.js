@@ -3,7 +3,7 @@ $('#dateOfApplication').datepicker({
     minDate: ($('#type').val() == 'common') ? +3 : 0
 });
 
-$('#dateSelected, #date, #requestFromDate, #requestToDate').datepicker({
+$('#dateSelected, #date, #requestFromDate, #requestToDate, #since, #till').datepicker({
     dateFormat: 'yy-mm-dd'
 });
 

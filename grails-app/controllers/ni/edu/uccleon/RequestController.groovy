@@ -156,10 +156,17 @@ class RequestController {
         ]
     }
 
-    def applyFilter() {
-        Date since = params.requestFromDate ? params.date('requestFromDate', 'yyyy-MM-dd') : new Date()
-        Date till = params.requestToDate ? params.date('requestToDate', 'yyyy-MM-dd') : new Date()
-        List<Map> requestList = requestService.getRequestListBetweenDates(since, till)
+    def applyFilter(FilterCommand command) {
+        if (command.hasErrors()) {
+            flash.message = 'Fechas invalidas'
+            render view: 'filter'
+
+            return
+        }
+        
+        List<Map> requestList = requestService.getRequestListBetweenDates(command.since, command.till)
+
+        flash.message = "Filtro entre ${command.since.format('yyyy-MM-dd')} y ${command.till.format('yyyy-MM-dd')}"
 
         render view: 'list', model: [
             requestCount: requestList.size(),
@@ -501,4 +508,14 @@ class RequestStateInMonth {
 class ActivitySummary {
     List<Map> applicationDateSummary
     List<Map> applicantSummary
+}
+
+class FilterCommand {
+    Date since
+    Date till
+
+    static constraints = {
+        since nullable: false
+        till nullable: false, validator: { till, object -> till >= object.since }
+    }
 }

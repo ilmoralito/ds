@@ -38,6 +38,10 @@ class UrlMappings {
             }
         }
 
+        '/requests/filter'(controller: 'request', action: 'filter')
+
+        '/requests/filtered'(controller: 'request', action: 'applyFilter')
+
         '/profile'(controller: 'user', action: 'profile')
 
         '/add/classroom'(controller: 'user', action: 'addClassroom', method: 'POST')
