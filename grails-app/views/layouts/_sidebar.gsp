@@ -16,7 +16,7 @@
         </li>
 
         <ds:isAdmin>
-            <li class="${controllerName == 'user' && !(actionName in ['profile', 'classrooms']) ? 'active' : 'no-active'}">
+            <li class="${controllerName == 'user' && !(actionName in ['profile', 'password', 'updatePassword', 'classrooms']) ? 'active' : 'no-active'}">
                 <g:link controller="user" action="list">
                     Usuarios
                 </g:link>
