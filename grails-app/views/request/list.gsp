@@ -36,7 +36,7 @@
                 <tbody id="tbody">
                     <g:each in="${results}" var="result">
                         <tr>
-                            <td colspan="3">
+                            <td colspan="3" data-block="${result.block}" style="cursor: pointer;">
                                 Bloque ${result.block}
                             </td>
                         </tr>
@@ -50,7 +50,13 @@
                                 data-request-blocks="${request.blocks}"
                                 class="filtrable">
                                 <td>
-                                    <g:checkBox name="requests" value="${request.id}" checked="false" class="requests" form="status"/>
+                                    <g:checkBox
+                                        name="requests"
+                                        value="${request.id}"
+                                        checked="false"
+                                        class="requests"
+                                        data-request-block="${result.block}"
+                                        form="status"/>
                                 </td>
                                 <td>
                                     <g:link action="show" id="${request.id}">

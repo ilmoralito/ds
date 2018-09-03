@@ -37,6 +37,7 @@ modules = {
     requestList {
         dependsOn 'app'
 
+        resource url: 'js/requestBlockToggler.js'
         resource url: 'js/requestListFilter.js'
         resource url: 'js/requestList.js'
     }

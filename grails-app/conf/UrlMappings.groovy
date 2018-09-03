@@ -13,6 +13,10 @@ class UrlMappings {
             }
         }
 
+        '/requests'(controller: 'request', action: 'list')
+
+        "/requests/$id/update/status"(controller: 'request', action: 'updateStatus')
+
         '/'(controller: 'request', action: 'activity')
 
         '/requests/pending'(controller: 'request', action: 'listOfPendingApplications')

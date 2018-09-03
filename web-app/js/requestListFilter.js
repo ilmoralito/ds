@@ -6,11 +6,15 @@ const data = getData();
 
 const filter = document.querySelector('#filter');
 
-filter.addEventListener('keyup', applyFilter);
-
 function applyFilter(event) {
-    const value = event.target.value;
+    const results = filterData(event.target.value);
 
+    updateRequestCount({count: results.length});
+
+    drawResult(results);
+}
+
+function filterData(value) {
     const results = data.filter(req => {
         const query = value.toLowerCase();
         const user = req.requestUser.toLowerCase();
@@ -21,11 +25,11 @@ function applyFilter(event) {
         return user.includes(query) || classroom.includes(query) || school.includes(query) || status.includes(query);
     });
 
-    const ordered = results.sort((a, b) => a.requestBlocks[0] > b.requestBlocks[0] ? 1 : -1);
+    return order(results);
+}
 
-    updateRequestCount({count: results.length});
-
-    drawResult(ordered);
+function order(results) {
+    return results.sort((a, b) => a.requestBlocks[0] > b.requestBlocks[0] ? 1 : -1);
 }
 
 function drawResult(results) {
@@ -49,6 +53,7 @@ function drawResult(results) {
             school: result.requestSchool,
             status: result.requestStatus,
             blocks: result.requestBlocks,
+            block: block,
         });
 
         rows.push(row);
@@ -67,11 +72,11 @@ function render(rows) {
 
 function createRowTitle({block}) {
     return `<tr>
-        <td colspan="3">Bloque ${block + 1}</td>
+        <td colspan="3" data-block="${block}" style="cursor: pointer;">Bloque ${block + 1}</td>
     </tr>`;
 }
 
-function createRow({id, user, school, classroom, status, blocks}) {
+function createRow({id, user, school, classroom, status, blocks, block}) {
     return `<tr
         class="filtrable"
         data-request-id="${id}"
@@ -82,7 +87,7 @@ function createRow({id, user, school, classroom, status, blocks}) {
         data-request-blocks="${blocks}">
 
         <td>
-          <input type="checkbox" name="requests" value="${id}" form="status" class="requests">
+          <input type="checkbox" name="requests" value="${id}" form="status" data-request-block="${block}" class="requests">
         </td>
 
         <td>
@@ -110,5 +115,7 @@ function translateStatus(status) {
 }
 
 function buildText({user, classroom, school}) {
-    return `Para ${user} de ${school} en ${classroom}`;
+    return `Por ${user} de ${school} en ${classroom}`;
 }
+
+filter.addEventListener('keyup', applyFilter);
