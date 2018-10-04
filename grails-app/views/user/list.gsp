@@ -31,7 +31,7 @@
                                     <li class="divider"></li>
                                     <g:each in="${roles}" var="role">
                                         <li>
-                                            <a href="#" data-role="${role}">${role.capitalize()}</a>
+                                            <a href="#" data-role="${role}">${role == 'user' ? 'Profesor' : role.capitalize()}</a>
                                         </li>
                                     </g:each>
                                     <li class="divider"></li>
