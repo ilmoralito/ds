@@ -54,6 +54,8 @@ class UrlMappings {
 
         '/password'(controller: 'user', action: 'password')
 
+        '/update/user/fullname'(controller: 'user', action: 'updateProfile')
+
         "/users/create/$role" {
             controller = 'user'
             action = 'create'

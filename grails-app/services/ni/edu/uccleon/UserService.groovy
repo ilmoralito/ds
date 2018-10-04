@@ -122,6 +122,10 @@ class UserService {
         results
     }
 
+    Number updateUserProfile(final Long id, final String fullName) {
+        User.executeUpdate('UPDATE User user SET user.fullName = :fullName WHERE user.id = :id', [fullName: fullName, id: id])
+    }
+
     User save(SaveUser command) {
         User user = new User()
 

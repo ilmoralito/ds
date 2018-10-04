@@ -112,4 +112,11 @@ modules = {
         resource url: 'js/filterRequestState.js'
         resource url: 'js/filterPendingRequest.js'
     }
+
+    updateProfile {
+        dependsOn 'app'
+        resource url: 'js/helper.js'
+        resource url: 'js/axios.min.js'
+        resource url: 'js/updateProfile.js'
+    }
 }

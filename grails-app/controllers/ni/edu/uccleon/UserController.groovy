@@ -13,7 +13,8 @@ class UserController {
         save: 'POST',
         notification: 'POST',
         updatePassword: 'POST',
-        profile: ['GET', 'POST'],
+        profile: 'GET',
+        updateProfile: 'POST',
     ]
 
     def admin() {
@@ -244,22 +245,17 @@ class UserController {
     }
 
     def profile() {
-        User user = session.user
+        [user: session.user, schools: session.schools ?: userService.getCurrentUserSchools()]
+    }
 
-        if (request.post) {
-            User.executeUpdate('''
-                UPDATE
-                    User
-                SET
-                    fullName = :fullName
-                WHERE
-                    id = :id''',
-                [fullName: params.fullName, id: user.id])
+    def updateProfile(final Long id, final String fullName) {
+        userService.updateUserProfile(id, fullName)
 
-            flash.message = 'Perfil actualizado. Reiniciar sesion para verificar cambio'
+        session?.user?.fullName = fullName
+
+        render(contentType: 'application/json') {
+            status = true
         }
-
-        [user: user, schools: session.schools ?: userService.getCurrentUserSchools()]
     }
 
     def classrooms() {

@@ -1,36 +1,34 @@
 <g:applyLayout name="twoColumns">
     <head>
         <title>Perfil</title>
-        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, app"/>
+        <r:require modules="bootstrap-css, bootstrap-responsive-css, bootstrap-dropdown, jquery-ui, datepicker, updateProfile"/>
     </head>
 
     <content tag="main">
         <g:render template="navbar"/>
 
-        <div class="row">
-            <div class="span5">
-                <g:form action="profile" autocomplete="off">
-                    <label for="fullName">Nombre y apellido</label>
-                    <g:textField
-                        name="fullName"
-                        value="${user?.fullName}"
-                        class="span5"
-                        placeholder="Nombre completo"/>
+        <table class="table table-hover">
+            <col width="25%" />
+            <col width="70%" />
+            <col width="5%" />
 
-                    <g:submitButton name="send" value="Confirmar" class="btn btn-primary"/>
-                </g:form>
-            </div>
-            <div class="span5">
-                <label for="email">Email</label>
-                <p>${user?.email}</p>
-
-                <label>Coordinaciones</label>
-                <ul>
-                    <g:each in="${schools}" var="coordination">
-                        <li>${coordination}</li>
-                    </g:each>
-                </ul>
-            </div>
-        </div>
+            <tbody>
+                <tr>
+                    <td style="border-top: 0;">Nombre y apellido</td>
+                    <td style="border-top: 0;" id="full-name" data-user-id="${user.id}">${user.fullName}</td>
+                    <td style="border-top: 0;">
+                        <button id="action-button" class="btn btn-small">Editar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Correo</td>
+                    <td colspan="2">${user.email}</td>
+                </tr>
+                <tr>
+                    <td>Coordinaciones</td>
+                    <td colspan="2">${schools?.join(', ')}</td>
+                </tr>
+            </tbody>
+        </table>
     </content>
 </g:applyLayout>
