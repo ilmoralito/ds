@@ -116,6 +116,7 @@ modules = {
     updateProfile {
         dependsOn 'app'
         resource url: 'js/helper.js'
+        resource url: 'js/dsAlert.js'
         resource url: 'js/axios.min.js'
         resource url: 'js/updateProfile.js'
     }

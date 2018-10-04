@@ -35,9 +35,9 @@ function post() {
     const url = getUrl();
 
     axios.post(url, params)
-        .then(() => alert('Dato actualizado'))
+        .then(() => dsAlert('Dato actualizado'))
         .catch(error => {
-            alert(`A ocurrido el error: ${error.message}`);
+            dsAlert(`A ocurrido el error: ${error.message}`);
         });
 }
 
