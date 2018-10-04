@@ -7,7 +7,7 @@
     <content tag="main">
         <g:render template="navbar"/>
 
-        <g:form action="updatePassword">
+        <g:form action="updatePassword" autocomplete="off">
             <g:hiddenField name="id" value="${session?.user?.id}"/>
 
             <label for="password">Clave actual</label>

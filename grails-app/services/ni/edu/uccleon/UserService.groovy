@@ -223,6 +223,13 @@ class UserService {
         sqlQuery.executeUpdate()
     }
 
+    Number updatePassword(UpdatePasswordCommand command) {
+        final Long id = command.id
+        final String password = command.npassword.encodeAsSHA1()
+
+        User.executeUpdate('UPDATE User SET password = :password WHERE id = :id', [password: password, id: id])
+    }
+
     def transformUserClassrooms(List userClassrooms) {
         def classrooms = grailsApplication.config.ni.edu.uccleon.cls
         def results = userClassrooms.collect { c ->

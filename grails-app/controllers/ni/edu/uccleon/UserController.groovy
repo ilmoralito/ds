@@ -282,23 +282,17 @@ class UserController {
 
     def password() {}
 
-    def updatePassword(UpdatePasswordCommand cmd) {
-        if (cmd.hasErrors()) {
-            render view: 'password', model: [errors: cmd.errors]
+    def updatePassword(UpdatePasswordCommand command) {
+        if (command.hasErrors()) {
+            render view: 'password', model: [errors: command.errors]
 
             return
         }
 
-        User.executeUpdate('''
-            UPDATE
-                User
-            SET
-                password = :password
-            WHERE
-                id = :id''', [password: cmd.npassword.encodeAsSHA1(), id: cmd.id])
+        userService.updatePassword(command)
 
         flash.message = 'Clave actualizada'
-        redirect action: 'password', params: [id: cmd.id]
+        redirect action: 'password'
     }
 
     def resetPassword(Integer id) {
