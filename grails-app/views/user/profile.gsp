@@ -14,8 +14,8 @@
 
             <tbody>
                 <tr>
-                    <td style="border-top: 0;">Nombre y apellido</td>
-                    <td style="border-top: 0;" id="full-name" data-user-id="${user.id}">${user.fullName}</td>
+                    <td style="border-top: 0; vertical-align: middle;">Nombre y apellido</td>
+                    <td style="border-top: 0; vertical-align: middle;" id="full-name" data-user-id="${user.id}">${user.fullName}</td>
                     <td style="border-top: 0;">
                         <button id="action-button" class="btn btn-small">Editar</button>
                     </td>
