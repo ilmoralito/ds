@@ -424,20 +424,18 @@ class CommonTagLib {
 
                                     if (request) {
                                         Integer index = request.blocks.findIndexOf { hour -> hour == block }
+                                        final Boolean hasDataset = hasDatasetProperties(request)
 
                                         td(class: "block hasActivity animated ${animate(datashow, block, params.int('datashow'), params.list('blocks')*.toInteger())}", 'data-datashow': datashow, 'data-block': block) {
                                             if (index == 0) {
                                                 if (attrs.layout == 'oneColumn') {
-                                                    if (request.audio || request.screen || request.internet || request.pointer || request.cpu || request.description) {
-                                                        List<String> props = ['audio', 'screen', 'internet', 'pointer', 'cpu', 'description']
-                                                        Map<String, Object> properties = request.subMap(props).findAll { it.value }.inject([:]) { accumulator, currentValue ->
-                                                            accumulator["data-${currentValue.key}"] = currentValue.value
+                                                    if (hasDataset) {
+                                                        Map<String, String> properties = getProperties(request)
 
-                                                            accumulator
-                                                        }
-
-                                                        a(href: '#', class: 'show-modal', *:properties) {
-                                                            mkp.yield '+'
+                                                        div(class: 'item') {
+                                                            a(href: '#', class: 'show-modal', *:properties) {
+                                                                mkp.yield '+'
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -651,5 +649,26 @@ class CommonTagLib {
 
     private List<String> classroomCodes() {
         ['B', 'C', 'D', 'E', 'K']
+    }
+
+    private Boolean hasDatasetProperties(final Map<String, String> request) {
+        Map<String, Object> properties = getDatasetProperties(request)
+
+        properties.any { !(it.value in [null, '']) }
+    }
+
+    private Map<String, String> getProperties(final Map request) {
+        Map<String, Object> properties = getDatasetProperties(request)
+        Map<String, Object> dataset = properties.findAll { it.value }.inject([:]) { accumulator, currentValue ->
+            accumulator["data-${currentValue.key}"] = currentValue.value
+
+            accumulator
+        }
+
+        dataset
+    }
+
+    private Map<String, Object> getDatasetProperties(final Map request) {
+        request.subMap(['audio', 'screen', 'internet', 'pointer', 'cpu', 'description'])
     }
 }
