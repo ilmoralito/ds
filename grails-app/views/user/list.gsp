@@ -67,7 +67,7 @@
                 <g:each in="${roles}" var="role">
                     <div class="radio">
                         <label>
-                            <g:radio name="role" value="${role}" /> ${role.capitalize()}
+                            <g:radio name="role" value="${role}" /> ${role == 'user' ? 'Profesor' : role.capitalize()}
                         </label>
                     </div>
                 </g:each>
