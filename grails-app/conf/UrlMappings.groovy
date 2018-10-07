@@ -37,7 +37,7 @@ class UrlMappings {
             controller = 'request'
             action = 'updateAllStatus'
             constraints {
-                status inList: ['attended', 'absent', 'canceled'] // helper.getEnglishStatusList()
+                status validator: { status -> status in ctx.helper.getEnglishStatusList() }
                 applicationDate nullable: false
             }
         }
