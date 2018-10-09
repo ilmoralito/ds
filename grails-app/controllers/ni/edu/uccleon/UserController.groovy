@@ -1,10 +1,12 @@
 package ni.edu.uccleon
 
 import grails.validation.ValidationException
+import ni.edu.uccleon.UserResumeUtility
 import ni.edu.uccleon.Helper
 
 class UserController {
 
+    UserResumeUtility userResumeUtility
     UserService userService
     def mailService
     Helper helper
@@ -301,15 +303,17 @@ class UserController {
     def recordsDetailSummary(final Long id, final String school, final Integer month) {
         List<Map> dataset = userService.getUserRecordsDetailSummary(id, school, month)
         List<Map> result = getTransformedDetailSummary(dataset)
+        Map resume = userResumeUtility.getResume(dataset)
 
-        [dataset: result]
+        [dataset: result, resume: resume]
     }
 
     def recordsDetailSummaryByYear(final Long id, final String school, final Integer month, final Integer year) {
         List<Map> dataset = userService.getUserRecordsDetailSummary(id, school, month, year)
         List<Map> result = getTransformedDetailSummary(dataset)
+        Map resume = userResumeUtility.getResume(dataset)
 
-        render view: 'recordsDetailSummary', model: [dataset: result]
+        render view: 'recordsDetailSummary', model: [dataset: result, resume: resume]
     }
 
     def removeClassroom(final Long userId, final String classroom) {

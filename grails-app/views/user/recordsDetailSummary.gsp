@@ -7,6 +7,30 @@
     <content tag="main">
         <g:render template="nav"/>
 
+        <div class="row">
+            <div class="span4">
+                <g:render template="resume" model="[dataset: resume.classrooms, label: 'Aula']"/>
+            </div>
+            <div class="span4">
+                <g:render template="resume" model="[dataset: resume.status, label: 'Estado']"/>
+            </div>
+            <div class="span2">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Horas en el mes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>${resume.hours}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <table class="table table-hover table-bordered">
             <col width="5%">
             <col width="5%">
