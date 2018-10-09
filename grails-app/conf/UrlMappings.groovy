@@ -1,3 +1,4 @@
+import org.springframework.web.context.request.RequestContextHolder
 import ni.edu.uccleon.UserService
 import ni.edu.uccleon.Helper
 
@@ -77,6 +78,71 @@ class UrlMappings {
             action = 'getUsersByRole'
             constraints {
                 role inList: grailsApplication.config.ni.edu.uccleon.roles
+            }
+        }
+
+        "/users/$id" {
+            controller = 'user'
+            action = 'show'
+            constraints {
+                id matches: /\d+/
+            }
+        }
+
+        "/users/$id/records" {
+            controller = 'user'
+            action = 'record'
+            constraints {
+                id matches: /\d+/
+            }
+        }
+
+        "/users/$id/records/$year" {
+            controller = 'user'
+            action = 'recordsByYear'
+            constraints {
+                id matches: /\d+/
+                year nullable: false
+            }
+        }
+
+        "/users/$id/records/$school/detail" {
+            controller = 'user'
+            action = 'recordsDetail'
+            constraints { context ->
+                id matches: /\d+/
+                school nullable: false
+            }
+        }
+
+        "/users/$id/records/$year/$school/detail" {
+            controller = 'user'
+            action = 'recordsDetailByYear'
+            constraints {
+                id matches: /\d+/
+                year nullable: false
+                school nullable: false
+            }
+        }
+
+        "/users/$id/records/$school/detail/$month/summary" {
+            controller = 'user'
+            action = 'recordsDetailSummary'
+            constraints {
+                id matches: /\d+/
+                month nullable: false
+                school nullable: false
+            }
+        }
+
+        "/users/$id/records/$school/detail/$month/summary/$year" {
+            controller = 'user'
+            action = 'recordsDetailSummaryByYear'
+            constraints {
+                id matches: /\d+/
+                year nullable: false
+                month nullable: false
+                school nullable: false
             }
         }
 

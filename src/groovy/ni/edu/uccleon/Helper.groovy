@@ -38,4 +38,8 @@ class Helper {
 
         statusList.find { it.english == status }.spanish
     }
+
+    public List<String> months() {
+        ['December', 'November', 'October', 'September', 'August', 'July', 'June', 'May', 'April', 'March', 'Febrary', 'January']
+    }
 }

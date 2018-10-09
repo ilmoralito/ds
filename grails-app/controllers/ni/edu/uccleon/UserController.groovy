@@ -1,11 +1,13 @@
 package ni.edu.uccleon
 
 import grails.validation.ValidationException
+import ni.edu.uccleon.Helper
 
 class UserController {
 
     UserService userService
     def mailService
+    Helper helper
 
     static defaultAction = 'profile'
 
@@ -274,6 +276,42 @@ class UserController {
         render(status: result ? 200 : 500, contentType: 'application/json')
     }
 
+    def record(final Long id) {
+        [dataset: userService.getUserRecordDataset(id), yearWidget: createYearWidget(id)]
+    }
+
+    def recordsByYear(final Long id, final Integer year) {
+        render view: 'record', model: [dataset: userService.getUserRecordDataset(id, year), yearWidget: createYearWidget(id)]
+    }
+
+    def recordsDetail(final Long id, final String school) {
+        List<Map> dataset = userService.getUserRecordsDetail(id, school)
+        List<Map> result = createRecordsDetail(dataset)
+
+        [dataset: result, yearWidget: createYearWidget(id)]
+    }
+
+    def recordsDetailByYear(final Long id, final String school, final Integer year) {
+        List<Map> dataset = userService.getUserRecordsDetail(id, school, year)
+        List<Map> result = createRecordsDetail(dataset)
+
+        render view: 'recordsDetail', model: [dataset: result, yearWidget: createYearWidget(id)]
+    }
+
+    def recordsDetailSummary(final Long id, final String school, final Integer month) {
+        List<Map> dataset = userService.getUserRecordsDetailSummary(id, school, month)
+        List<Map> result = getTransformedDetailSummary(dataset)
+
+        [dataset: result]
+    }
+
+    def recordsDetailSummaryByYear(final Long id, final String school, final Integer month, final Integer year) {
+        List<Map> dataset = userService.getUserRecordsDetailSummary(id, school, month, year)
+        List<Map> result = getTransformedDetailSummary(dataset)
+
+        render view: 'recordsDetailSummary', model: [dataset: result]
+    }
+
     def removeClassroom(final Long userId, final String classroom) {
         Number result = userService.deleteUserClassroom(userId, classroom)
 
@@ -393,6 +431,54 @@ class UserController {
             classrooms: classrooms
         )
     }
+
+    private List<Map> createRecordsDetail(List<Map> dataset) {
+        List<String> months = helper.months().reverse()
+        List<Map> result = (12..1).collect { final Integer month ->
+            if (month in dataset.month) {
+                dataset.find { Map data -> data.month == month }
+            } else {
+                [total: 0, canceled: 0, attended: 0, pending: 0, absent: 0, month: month, monthname: months[--month]]
+            }
+        }
+
+        result
+    }
+
+    private YearWidget createYearWidget(id) {
+        new YearWidget(years: userService.getUserYearsRecord(id))
+    }
+
+    private List<Map> getTransformedDetailSummary(List<Map> dataset) {
+        Map group = dataset.groupBy { it.dayofmonth }
+        List<Map> result = group.collect {[
+            dayOfMonth: it.key,
+            dataset: it.value.collect {
+                [
+                    id: it.id,
+                    classroom: it.classroom,
+                    requirements: getRequirements(it.requirements),
+                    description: it.description,
+                    status: it.status,
+                    blocks: getBlocks(it.blocks),
+                ]
+            }
+        ]}
+
+        result
+    }
+
+    private String getRequirements(final String requirements) {
+        List<String> tokens = requirements?.tokenize(' ')
+
+        tokens?.join(', ')
+    }
+
+    private String getBlocks(final String blocks) {
+        List<String> tokens = blocks?.tokenize(',')
+
+        tokens?.collect { ++it.toInteger() }?.join(', ')
+    }
 }
 
 class Role {
@@ -437,4 +523,8 @@ class SaveUser {
 
 class UpdateUser extends SaveUser {
     Long id
+}
+
+class YearWidget {
+    List<String> years
 }

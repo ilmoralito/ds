@@ -9,6 +9,8 @@
     </head>
 
     <content tag="main">
+        <g:render template="nav"/>
+
         <table class="table table-hover">
             <col width="25%">
             <col width="75%">
