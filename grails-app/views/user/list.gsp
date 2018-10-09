@@ -7,8 +7,8 @@
     <content tag="main">
         <g:if test="${users}">
             <table id="users" class="table table-hover">
-                <col width="99%">
-                <col width="1%">
+                <col width="95%">
+                <col width="5%">
 
                 <thead>
                     <tr>
@@ -47,8 +47,11 @@
                 <tbody>
                     <g:each in="${users}" var="user">
                         <tr data-user-id="${user.id}" data-user-fullName="${user.fullName}">
-                            <td colspan="2">
+                            <td>
                                 <g:link action="show" id="${user.id}" class="target">${user.fullName}</g:link>
+                            </td>
+                            <td>
+                                <g:link controller="user" action="record" id="${user.id}">Historial</g:link>
                             </td>
                         </tr>
                     </g:each>
