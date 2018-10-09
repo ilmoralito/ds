@@ -32,7 +32,7 @@ environments {
 
     production {
         dataSource {
-            dbCreate                             = 'update'
+            dbCreate                             = 'none'
             driverClassName                      = 'com.mysql.jdbc.Driver'
             dialect                              = org.hibernate.dialect.MySQL5InnoDBDialect
             url                                  = System.env.DS_PRODUCTION_DATABASE_URL
